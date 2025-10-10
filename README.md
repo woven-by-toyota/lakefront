@@ -1,4 +1,4 @@
-![main workflow](https://github.com/woven-planet/lakefront/actions/workflows/main.yml/badge.svg)
+![main workflow](https://github.com/woven-by-toyota/lakefront/actions/workflows/main.yml/badge.svg)
 [![npm version](https://badge.fury.io/js/%40woven-planet%2Flakefront.svg)](https://badge.fury.io/js/%40woven-planet%2Flakefront)
 
 # lakefront

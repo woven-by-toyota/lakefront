@@ -4,7 +4,7 @@
   "version": "6.16.0",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "homepage": "https://github.com/woven-planet/lakefront",
+  "homepage": "https://github.com/woven-by-toyota/lakefront",
   "license": "Apache-2.0",
   "licenses": [
     {
@@ -110,10 +110,10 @@
   "typings": "dist/index.cjs.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/woven-planet/lakefront.git"
+    "url": "git+https://github.com/woven-by-toyota/lakefront.git"
   },
   "bugs": {
-    "url": "https://github.com/woven-planet/lakefront/issues"
+    "url": "https://github.com/woven-by-toyota/lakefront/issues"
   },
   "keywords": [
     "components",

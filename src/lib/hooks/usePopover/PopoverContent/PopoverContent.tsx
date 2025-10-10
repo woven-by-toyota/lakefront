@@ -27,7 +27,7 @@ interface PopoverContentProps {
  * It is meant to handle the memoization of content to be rendered and logically
  * switch between rendering content within or outside a portal as needed. Under the hood,
  * all Lakefront popover components (Modal, Snackbar, et. al) utilize this component. View
- * the [PopoverContent stories source code](https://github.com/woven-planet/lakefront/blob/main/src/stories/PopoverContent/PopoverContent.stories.tsx)
+ * the [PopoverContent stories source code](https://github.com/woven-by-toyota/lakefront/blob/main/src/stories/PopoverContent/PopoverContent.stories.tsx)
  * for a more detailed look on how to implement.
  */
 const PopoverContent: FC<PopoverContentProps> = ({ portal, children, deps }) => {
