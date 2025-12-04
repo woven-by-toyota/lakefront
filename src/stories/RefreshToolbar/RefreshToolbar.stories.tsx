@@ -3,7 +3,7 @@ import { Meta, StoryFn } from '@storybook/react-webpack5';
 import RefreshToolbarComponent, { RefreshToolbarProps } from 'src/components/RefreshToolbar';
 import Button from 'src/components/Button/Button';
 import DocBlock from '.storybook/DocBlock';
-import { emerald } from 'src/styles/lakefrontColors';
+import { useTheme } from '@emotion/react';
 
 export default {
     title: 'Lakefront/RefreshToolbar',
@@ -15,10 +15,14 @@ export default {
     }
 } as Meta;
 
+const BANNER_HEIGHT = 60;
+
 const Template: StoryFn<RefreshToolbarProps & ComponentPropsWithoutRef<'div'>> = (args) => {
     const [count, setCount] = useState(0);
     const [showBanner, setShowBanner] = useState(false);
     const refreshToolbarRef = useRef(null);
+    const theme = useTheme();
+
     const handleRefresh = () => {
         setCount(count => count + 1);
     };
@@ -39,28 +43,43 @@ const Template: StoryFn<RefreshToolbarProps & ComponentPropsWithoutRef<'div'>> =
             clearTimeout(timer);
         };
     }, [count]);
+
+
     return (
-        <div ref={refreshToolbarRef}>
+        <div ref={refreshToolbarRef} style={{ width: '100%' }}>
+          {showBanner && (
             <div
-                style={{
-                    minHeight: 20,
-                    backgroundColor: showBanner && emerald,
-                    padding: 8,
-                    margin: '8px 0',
-                    textAlign: 'center',
-                    width: '100%'
-                }}
+              style={{
+                boxSizing: 'border-box',
+                height: BANNER_HEIGHT,
+                color: theme.foregrounds.success,
+                backgroundColor: theme.backgrounds.primary,
+                textAlign: 'center',
+                width: '100%',
+                border: `1px solid ${theme.foregrounds.success}`,
+                borderRadius: 4,
+                marginBottom: 16,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
             >
-                {showBanner && count > 0 && `Refresh clicked ${count} times.`}
-                {showBanner && count === 0 && `Refresh counter reset to 0`}
+              {count > 0 && `Refresh clicked ${count} times.`}
+              {count === 0 && `Refresh counter reset to 0`}
             </div>
-            <section style={{ display: 'inline-flex' }}>
+          )}
+          {showBanner || <div style={{ height: BANNER_HEIGHT + 16 }} />}
+            <section style={{ display: 'inline-flex', width: '100%', borderTop: `1px solid ${theme.borderColors.primary}` }}>
                 <RefreshToolbarComponent handleRefresh={handleRefresh} className={args.className}
                     standalone={args.standalone} isRefreshing={args.isRefreshing} lastUpdated={args.lastUpdated}
                     refreshProgressLabel={args.refreshProgressLabel}
-                    rightComp={args.rightComp} rightSideText={args.rightSideText} refreshButton={args.refreshButton} />
-                <Button color='secondary' onClick={resetCount} style={{ marginTop: '10px', marginLeft: '10px' }}>Reset</Button>
+                    rightComp={args.rightComp} rightSideText={args.rightSideText} refreshButton={args.refreshButton}
+                                         style={{ width: '100%' }}
+                />
             </section>
+          <div>
+            <Button color='secondary' onClick={resetCount} style={{ marginTop: 16 }}>Reset</Button>
+          </div>
         </div>
     );
 };
