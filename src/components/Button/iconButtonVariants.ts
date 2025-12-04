@@ -1,6 +1,6 @@
 import { css, Theme } from '@emotion/react';
 import { lightenDarkenColor } from 'src/styles/stylesUtil';
-import { ComponentStyles } from './buttonUtil';
+import { ComponentStyles, getTintedBackgroundColor } from './buttonUtil';
 
 const MAIN_STYLES = {
     border: 'none',
@@ -11,18 +11,18 @@ const MAIN_STYLES = {
 };
 
 interface GetIconStylesProps {
-    theme?: Theme;
+    theme: Theme;
     alternate?: boolean;
     disabled?: boolean;
 }
 
 
 export const getIconStyles = ({ alternate, disabled, theme }: GetIconStylesProps): ComponentStyles => {
-    const primaryBackground = lightenDarkenColor(alternate ? theme?.colors?.white : theme?.colors?.storm, -10);
-    const secondaryBackground = disabled ? 'transparent' : lightenDarkenColor(theme?.colors?.white, -10);
+    const primaryBackground = lightenDarkenColor(alternate ? theme.foregrounds.inverted : theme.foregrounds.primary, -10);
+    const secondaryBackground = disabled ? 'transparent' : lightenDarkenColor(theme.foregrounds.inverted, -10);
     const destructiveBackground = alternate ?
-        lightenDarkenColor(theme?.colors?.saturatedRed, -10) :
-        theme?.colors?.saturatedRed;
+        lightenDarkenColor(theme.backgrounds.error, -10) :
+        theme.backgrounds.error;
 
     return {
         primary: css({
@@ -47,11 +47,19 @@ export const getIconStyles = ({ alternate, disabled, theme }: GetIconStylesProps
                 ':hover': {
                     backgroundColor: destructiveBackground,
                     span: {
-                        color: theme?.colors?.white
+                        color: destructiveBackground
                     }
                 }
             }),
-            border: `1px solid ${theme?.colors?.saturatedRed}`
+            border: `1px solid ${theme.foregrounds.error}`
+        }),
+      link: css({
+        ...MAIN_STYLES,
+        ...(!disabled && {
+          ':hover': {
+            backgroundColor: getTintedBackgroundColor(theme, alternate)
+          }
         })
+      }),
     };
 };
