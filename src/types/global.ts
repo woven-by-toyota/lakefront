@@ -73,6 +73,9 @@ export interface LakefrontTheme {
         disabled: string;
         inverted: string;
         hover: string;
+        tinted: string;
+        error: string;
+        errorsInverted: string;
     };
     foregrounds: {
         primary: string;
@@ -84,6 +87,7 @@ export interface LakefrontTheme {
         inverted: string;
         success: string;
         hyperlink: string;
+        loading: string;
     };
     lettering: {
         primary: {
