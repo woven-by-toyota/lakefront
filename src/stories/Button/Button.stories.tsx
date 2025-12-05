@@ -47,7 +47,7 @@ export default {
 } as Meta;
 
 // All Buttons
-const AllTemplate: StoryFn = (args) => <ButtonsPage />;
+const AllTemplate: StoryFn = () => <ButtonsPage />;
 
 export const AllButtons = AllTemplate.bind({});
 
@@ -77,6 +77,13 @@ Destructive.args = {
     iconPosition: undefined
 };
 
+export const Link = Template.bind({});
+Link.args = {
+  children: 'Button',
+  color: 'link',
+  iconPosition: undefined
+};
+
 // Individual Buttons (With Icon)
 export const PrimaryDefaultIcon = Template.bind({});
 PrimaryDefaultIcon.args = {
@@ -95,6 +102,12 @@ export const DestructiveDefaultIcon = Template.bind({});
 DestructiveDefaultIcon.args = {
     ...Destructive.args,
     icon: true
+};
+
+export const LinkDefaultIcon = Template.bind({});
+LinkDefaultIcon.args = {
+  ...Link.args,
+  icon: true
 };
 
 // Icon Only Buttons
@@ -121,4 +134,12 @@ DestructiveIconButton.args = {
     color: 'destructive',
     icon: true,
     iconPosition: undefined
+};
+
+export const LinkIconButton = Template.bind({});
+LinkIconButton.args = {
+  children: undefined,
+  color: 'link',
+  icon: true,
+  iconPosition: undefined
 };

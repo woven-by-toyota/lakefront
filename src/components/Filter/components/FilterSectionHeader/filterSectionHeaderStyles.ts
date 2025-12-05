@@ -5,15 +5,15 @@ export const FilterValueChip = styled.div(({ theme }) => ({
     display: 'grid',
     alignItems: 'center',
     justifyContent: 'center',
-    border: `solid 2px ${theme?.colors?.mercury}`,
+    border: `solid 2px ${theme.borderColors.pronounced}`,
     padding: 2,
     borderRadius: 3,
-    backgroundColor: theme?.colors?.akoya,
+    backgroundColor: theme.backgrounds.secondary,
     flexGrow: 1,
     maxWidth: '45%',
     fontSize: 12,
     fontWeight: 600,
-    color: theme?.colors?.gunpowder,
+    color: theme.foregrounds.secondary,
     minHeight: 28,
     div: {
         maxWidth: '100%',
@@ -38,7 +38,7 @@ export const FilterValueChip = styled.div(({ theme }) => ({
 }));
 
 export const FilterLabels = styled.div(({ theme }) => ({
-    color: theme?.colors?.gunpowder,
+    color: theme.foregrounds.secondary,
     fontWeight: 400,
     width: 80,
     fontSize: 10
@@ -47,13 +47,13 @@ export const FilterLabels = styled.div(({ theme }) => ({
 export const ClearButton = styled(CloseLabel)(({ theme }) => ({
     marginRight: 8,
     'path:first-of-type': {
-        fill: theme?.colors?.akoya
+        fill: theme.backgrounds.secondary
     },
     'path:last-of-type': {
-        fill: theme?.colors?.mercury
+        fill: theme.borderColors.pronounced
     },
     text: {
-        fill: theme?.colors?.storm
+        fill: theme.foregrounds.primary
     }
 }));
 
@@ -72,8 +72,8 @@ export const FilterBadge = styled.div(({ theme }) => ({
     width: 24,
     height: 24,
     borderRadius: 14,
-    border: `solid 1px ${theme?.colors?.mercury}`,
-    backgroundColor: theme?.colors?.akoya,
+    border: `solid 1px ${theme.borderColors.pronounced}`,
+    backgroundColor: theme.backgrounds.secondary,
     minWidth: 24,
     minHeight: 24,
 }));

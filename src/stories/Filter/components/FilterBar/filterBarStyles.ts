@@ -4,14 +4,14 @@ export const FilterBarContainer = styled.div(({ theme }) => ({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
-    backgroundColor: theme.colors.white,
-    borderBottom: `1px solid ${theme.colors.selago}`,
+    backgroundColor: theme.backgrounds.primary,
+    borderBottom: `1px solid ${theme.borderColors.primary}`,
     padding: '0 1rem',
     '.filterItem': {
         borderRadius: 2,
-        border: `solid 1px ${theme.colors.selago}`,
-        backgroundColor: theme.colors.akoya,
-        color: theme.colors.gunpowder,
+        border: `solid 1px ${theme.borderColors.primary}`,
+        backgroundColor: theme.backgrounds.secondary,
+        color: theme.foregrounds.primary,
         padding: '4px 6px',
         display: 'inline-flex',
         marginRight: 8,
@@ -23,7 +23,7 @@ export const FilterBarContainer = styled.div(({ theme }) => ({
             whiteSpace: 'nowrap'
         },
         '.filterItemClose': {
-            borderLeft: `1px solid ${theme.colors.pavement}`,
+            borderLeft: `1px solid ${theme.borderColors.pronounced}`,
             marginLeft: 8,
             paddingLeft: 8,
             fontSize: 20,
@@ -31,7 +31,7 @@ export const FilterBarContainer = styled.div(({ theme }) => ({
         }
     },
     '.resetAll': {
-        color: theme.colors.saturatedBlue,
+        color: theme.foregrounds.hyperlink,
         cursor: 'pointer'
     }
 }));

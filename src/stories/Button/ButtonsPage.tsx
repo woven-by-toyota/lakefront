@@ -1,20 +1,21 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import Button from 'src/components/Button/Button';
 import styled from '@emotion/styled';
-import theme from 'src/styles/theme';
 
-const DefaultWrapper = styled.div({
-    backgroundColor: theme.colors.white,
-    fontFamily: '"Source Sans Pro", sans-serif',
-    padding: 32,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-});
+const DefaultWrapper = styled.div(({ theme }) => ({
+  backgroundColor: theme.backgrounds.primary,
+  fontFamily: '"Source Sans Pro", sans-serif',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  hr: {
+    width: '100%',
+  }
+}));
 
-const AlternateWrapper = styled(DefaultWrapper)({
-    backgroundColor: theme.colors.gunpowder
-});
+const AlternateWrapper = styled(DefaultWrapper)(({ theme }) => ({
+  backgroundColor: theme.backgrounds.inverted
+}));
 
 const Section = styled.div({
     alignItems: 'center',
@@ -25,14 +26,19 @@ const Section = styled.div({
     width: '40%'
 });
 
-const SectionLabel = styled.p({
-    margin: 32
-});
+const SectionLabel = styled.h2<{ alternate?: boolean }>(({ theme, alternate }) => ({
+  color: alternate ? theme.foregrounds.inverted : theme.foregrounds.primary,
+  margin: 32
+}));
+
+const DEFAULT_STATES_LABEL = 'Default States';
+const DISABLED_STATES_LABEL = 'Disabled States';
 
 const ButtonsPage: FC = () => {
     return (
         <div>
             <DefaultWrapper>
+                <SectionLabel>{DEFAULT_STATES_LABEL}</SectionLabel>
                 <Section>
                     <Button>Primary</Button>
                     <Button icon>Primary</Button>
@@ -47,7 +53,12 @@ const ButtonsPage: FC = () => {
                     <Button icon color="destructive">Destructive</Button>
                     <Button color="destructive" icon/>
                 </Section>
-                <SectionLabel>Disabled:</SectionLabel>
+                <Section>
+                  <Button color="link">Link</Button>
+                  <Button icon color="link">Link</Button>
+                  <Button color="link" icon/>
+                </Section>
+                <SectionLabel >{DISABLED_STATES_LABEL}</SectionLabel>
                 <Section>
                     <Button disabled>Primary</Button>
                     <Button icon disabled>Primary</Button>
@@ -62,8 +73,14 @@ const ButtonsPage: FC = () => {
                     <Button icon color="destructive" disabled>Destructive</Button>
                     <Button color="destructive" icon disabled/>
                 </Section>
+              <Section>
+                <Button color="link" disabled>Link</Button>
+                <Button icon color="link" disabled>Link</Button>
+                <Button color="link" icon disabled/>
+              </Section>
             </DefaultWrapper>
             <AlternateWrapper>
+                <SectionLabel alternate>Alternate {DEFAULT_STATES_LABEL}</SectionLabel>
                 <Section>
                     <Button alternate>Primary</Button>
                     <Button icon alternate>Primary</Button>
@@ -78,7 +95,12 @@ const ButtonsPage: FC = () => {
                     <Button icon color="destructive" alternate>Destructive</Button>
                     <Button color="destructive" icon alternate/>
                 </Section>
-                <SectionLabel style={{color: 'white'}}>Disabled:</SectionLabel>
+                <Section>
+                  <Button color="link" alternate>Link</Button>
+                  <Button icon color="link" alternate>Link</Button>
+                  <Button color="link" icon alternate/>
+                </Section>
+                <SectionLabel alternate>Alternate {DISABLED_STATES_LABEL}</SectionLabel>
                 <Section>
                     <Button alternate disabled>Primary</Button>
                     <Button icon alternate disabled>Primary</Button>
@@ -92,6 +114,11 @@ const ButtonsPage: FC = () => {
                     <Button color="destructive" alternate disabled>Destructive</Button>
                     <Button icon color="destructive" alternate disabled>Destructive</Button>
                     <Button color="destructive" icon alternate disabled/>
+                </Section>
+                <Section>
+                  <Button color="link" alternate disabled>Link</Button>
+                  <Button icon color="link" alternate disabled>Link</Button>
+                  <Button color="link" icon alternate disabled/>
                 </Section>
             </AlternateWrapper>
         </div>

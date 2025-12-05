@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, cleanup, within, getAllByText } from '@testing-library/react';
+import { fireEvent, cleanup, within, getAllByText } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import { Filter } from '../Filter';
 import { FILTERS, LOCATION } from './filter.data';
 import { useFilter } from '../util';

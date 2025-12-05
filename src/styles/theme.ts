@@ -35,7 +35,8 @@ const THEME: Theme = {
         primary: colors.selago,
         secondary: colors.storm,
         disabled: colors.akoya,
-        inverted: colors.dolphin
+        inverted: colors.dolphin,
+        pronounced: colors.mercury,
     },
     shadowColors: {
         boxShadow: colors.pavement,
@@ -48,6 +49,9 @@ const THEME: Theme = {
         disabled: colors.grey30,
         inverted: colors.storm,
         hover: colors.mercury,
+        tinted: colors.akoya,
+        error: colors.saturatedRed,
+        errorsInverted: colors.white
     },
     foregrounds: {
         primary: colors.storm,
@@ -58,7 +62,8 @@ const THEME: Theme = {
         warning: colors.saturatedOrange,
         inverted: colors.akoya,
         success: colors.saturatedGreen,
-        hyperlink: colors.saturatedBlue
+        hyperlink: colors.saturatedBlue,
+        loading: colors.pavement,
     },
     lettering: {
         primary: {
@@ -111,7 +116,8 @@ export const DARK_THEME: Theme = {
         primary: colors.dolphin,
         secondary: colors.mercury,
         disabled: lightenDarkenColor(colors.white, -40),
-        inverted: colors.selago
+        inverted: colors.selago,
+        pronounced: colors.mercury,
     },
     shadowColors: {
         boxShadow: "",
@@ -124,17 +130,21 @@ export const DARK_THEME: Theme = {
         disabled: lightenDarkenColor(colors.white, -40),
         inverted: colors.white,
         hover: lightenDarkenColor(colors.dolphin, 5),
+        tinted: colors.gunpowder,
+        error: colors.red,
+        errorsInverted: colors.gunpowder
     },
     foregrounds: {
         primary: colors.akoya,
         secondary: colors.mercury,
-        error: colors.saturatedRed,
+        error: colors.red,
         disabled: colors.mercury,
         info: colors.akoya,
         warning: colors.saturatedOrange,
         inverted: colors.storm,
-        success: colors.saturatedGreen,
-        hyperlink: colors.saturatedBlue
+        success: colors.green,
+        hyperlink: colors.saturatedBlue,
+        loading: colors.pavement
     },
     lettering: {
         primary: {

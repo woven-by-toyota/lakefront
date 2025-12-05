@@ -3,7 +3,7 @@ import Loading from 'src/components/Loading/Loading';
 
 export const ToolbarContainer = styled.div<any>(({ standalone, theme }) => ({
     alignItems: 'center',
-    backgroundColor: theme?.colors?.white,
+    backgroundColor: theme.backgrounds.primary,
     boxSizing: 'border-box',
     display: 'flex',
     height: '50px',
@@ -11,12 +11,12 @@ export const ToolbarContainer = styled.div<any>(({ standalone, theme }) => ({
     padding: '0 16px',
     ...(standalone) && {
         borderBottom: '1px solid',
-        borderColor: theme?.colors?.mercury
+        borderColor: theme.borderColors.primary
     }
 }));
 
 
-export const LogoLoadingSpinner = styled(Loading)(({ width, height, theme }) => ({
+export const LogoLoadingSpinner = styled(Loading)(({ width, height }) => ({
     'svg path': {
         fill: 'currentColor',
         width: width,
@@ -26,7 +26,7 @@ export const LogoLoadingSpinner = styled(Loading)(({ width, height, theme }) => 
 
 export const RefreshProgressContainer = styled.div<any>(({ theme }) => ({
     alignItems: 'center',
-    color: theme?.colors?.pavement,
+    color: theme.foregrounds.loading,
     display: 'inline-flex',
     fontSize: '13px',
     paddingTop: '3px',
@@ -65,18 +65,18 @@ export const ButtonContainer = styled.div<any>(({ theme }) => ({
         padding: 0,
         margin: '0 8px',
         'svg': {
-            color: theme?.colors?.dolphin,
+            color: theme.foregrounds.primary
         },
         '&:hover': {
-            backgroundColor: theme?.colors?.selago,
+            backgroundColor: theme.backgrounds.hover,
 
             'svg path': {
-                color: theme?.colors?.storm
+                color: theme.foregrounds.primary
             }
         },
         '&:disabled': {
             'svg': {
-                fill: theme?.colors?.mercury
+                fill: theme.foregrounds.disabled
             }
         }
     }
@@ -84,7 +84,7 @@ export const ButtonContainer = styled.div<any>(({ theme }) => ({
 
 export const RightSideContainer = styled.div<any>(({ theme }) => ({
     alignItems: 'center',
-    color: theme?.colors?.pavement,
+    color: theme.foregrounds.secondary,
     display: 'inline-flex',
     fontSize: '13px',
     paddingTop: '3px',

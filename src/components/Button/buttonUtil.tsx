@@ -1,5 +1,5 @@
 import React, { ComponentPropsWithoutRef, ElementType, ReactElement, ReactNode } from 'react';
-import { SerializedStyles } from '@emotion/react';
+import { SerializedStyles, Theme } from '@emotion/react';
 import { ReactComponent as Add } from './assets/add.svg';
 import { ReactComponent as Delete } from './assets/delete.svg';
 
@@ -10,19 +10,22 @@ export interface ComponentStyles {
 export const COLORS = {
     PRIMARY: 'primary',
     SECONDARY: 'secondary',
-    DESTRUCTIVE: 'destructive'
+    DESTRUCTIVE: 'destructive',
+    LINK: 'link'
 };
 
-export const ICON_BUTTON_COLOR: { [key: string]: 'secondary' | 'destructive' } = {
+export const ICON_BUTTON_COLOR: { [key: string]: 'secondary' | 'destructive' | 'link' } = {
     primary: 'secondary',
     secondary: 'secondary',
-    destructive: 'destructive'
+    destructive: 'destructive',
+    link: 'link',
 };
 
 export const ICON_SVGS = {
     primary: <Add />,
     secondary: <Add />,
-    destructive: <Delete />
+    destructive: <Delete />,
+    link: <Add />
 };
 
 export class InvalidButtonColorError extends Error {
@@ -35,9 +38,9 @@ export class InvalidButtonColorError extends Error {
 
 export interface ButtonProps {
     /**
-     * Determines the style of the button: primary, secondary, or destructive.
+     * Determines the style of the button: primary, secondary, destructive, or link.
      */
-    color?: 'primary' | 'secondary' | 'destructive';
+    color?: 'primary' | 'secondary' | 'destructive' | 'link';
     /**
      * Provides an alternate color theme for use on darker backgrounds.
      */
@@ -82,3 +85,11 @@ export type ButtonComponentProps = ButtonProps & IconComponentProps & ComponentP
 export const shouldUseMappedIcon = (icon: Icon): boolean => {
     return icon === true;
 };
+
+export const TINTED_BUTTON_OPACITY = '1A';
+
+export const getTintedBackgroundColor = (theme: Theme, alternate?: boolean) => {
+  const color = alternate ? theme.backgrounds.primary : theme.backgrounds.inverted;
+
+  return `${color}${TINTED_BUTTON_OPACITY}`
+}

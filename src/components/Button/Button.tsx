@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { ThemeProvider } from '@emotion/react';
 import ButtonVariants from './buttonVariants';
 import IconButton from './IconButton';
 import {
@@ -9,7 +8,6 @@ import {
   InvalidButtonColorError,
   shouldUseMappedIcon
 } from './buttonUtil';
-import theme from 'src/styles/theme';
 import { StyledDiv } from './buttonStyles';
 
 /**
@@ -54,7 +52,6 @@ const Button: FC<ButtonComponentProps> = ({
     if (iconLabel) {
       const { className, ...rest } = props;
       return (
-        <ThemeProvider theme={theme}>
           <StyledDiv className={className} disable={props.disabled ?? false}>
             <ButtonComponent
               alternate={alternate}
@@ -67,11 +64,9 @@ const Button: FC<ButtonComponentProps> = ({
             </ButtonComponent>
             <div className="icon-label">{iconLabel}</div>
           </StyledDiv>
-        </ThemeProvider>
       );
     }
     return (
-      <ThemeProvider theme={theme}>
         <ButtonComponent
           alternate={alternate}
           {...props}
@@ -81,18 +76,15 @@ const Button: FC<ButtonComponentProps> = ({
             {children}
           </IconButton>
         </ButtonComponent>
-      </ThemeProvider>
     );
   } else {
     // Like in the Icon version, we return a styled component based on the color type
     const ButtonComponent = ButtonVariants[color] || ButtonVariants.primary;
 
     return (
-      <ThemeProvider theme={theme}>
         <ButtonComponent alternate={alternate} {...props}>
           {children}
         </ButtonComponent>
-      </ThemeProvider>
     );
   }
 };
