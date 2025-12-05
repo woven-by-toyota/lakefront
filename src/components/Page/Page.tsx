@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { ComponentProps, FC, ReactNode } from 'react';
 import { StyledPage } from './pageStyles';
 
 export interface PageProps {
@@ -17,9 +17,9 @@ export interface PageProps {
  *
  * The Page Component can be used to render other child components.
  */
-const Page: FC<PageProps> = ({ children, className }) => {
+const Page: FC<PageProps & ComponentProps<'div'>> = ({ children, className, ...rest }) => {
   return (
-    <StyledPage className={className}>
+    <StyledPage className={className} {...rest}>
       {children}
     </StyledPage>
   );

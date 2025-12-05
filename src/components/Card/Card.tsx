@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { ComponentProps, FC, ReactNode } from 'react';
 import {
   CardContentContainer,
   StyledContentContainer,
@@ -46,7 +46,7 @@ export interface CardProps {
 /**
  *  The Card Component is used to render a single Card, or a collection of Cards.
  */
-const Card: FC<CardProps> = ({
+const Card: FC<CardProps & ComponentProps<'div'>> = ({
   title,
   onClick,
   description,
@@ -54,11 +54,12 @@ const Card: FC<CardProps> = ({
   children,
   content = children,
   topRightComponent,
-  disabled
+  disabled,
+  ...rest
 }) => {
 
   return (
-    <CardContentContainer className={className}>
+    <CardContentContainer className={className} {...rest}>
       <StyledH1Title>{title}</StyledH1Title>
       <StyledDescription>{description}</StyledDescription>
       <StyledContentContainer>

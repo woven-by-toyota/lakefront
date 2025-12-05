@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ComponentProps, FC } from 'react';
 import { TabBar, TabStyle } from './tabStyles';
 import { TabDef } from 'src/types/global';
 
@@ -27,27 +27,24 @@ export interface TabProps {
  * The Tab Component is used to render multiple tabs. The onChange event is called whenever the user clicks a different tab.
  * The value will set the selection of the tab by default.
  */
-const Tabs: FC<TabProps> = props => {
-  const {
-    options,
-    value,
-    onChange,
-    className
-  } = props;
-
-  return (
-    <TabBar className={className}>
-      {options.map(t =>
-        <TabStyle
-          key={t.key}
-          isSelected={t.key === value}
-          onClick={() => onChange(t.key)}
-        >
-          {t.caption}
-        </TabStyle>
-      )}
-    </TabBar>
-  );
-};
+const Tabs: FC<TabProps & ComponentProps<'div'>> = ({
+  options,
+  value,
+  onChange,
+  className,
+  ...rest
+}) => (
+  <TabBar className={className} {...rest}>
+    {options.map(t =>
+      <TabStyle
+        key={t.key}
+        isSelected={t.key === value}
+        onClick={() => onChange(t.key)}
+      >
+        {t.caption}
+      </TabStyle>
+    )}
+  </TabBar>
+);
 
 export default Tabs;
