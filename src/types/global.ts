@@ -57,6 +57,7 @@ export interface LakefrontTheme {
         secondary: string;
         disabled: string;
         inverted: string;
+        pronounced: string;
     };
     buttonColors: {
         primary: string;

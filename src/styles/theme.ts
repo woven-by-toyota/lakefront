@@ -35,7 +35,8 @@ const THEME: Theme = {
         primary: colors.selago,
         secondary: colors.storm,
         disabled: colors.akoya,
-        inverted: colors.dolphin
+        inverted: colors.dolphin,
+        pronounced: colors.mercury,
     },
     shadowColors: {
         boxShadow: colors.pavement,
@@ -115,7 +116,8 @@ export const DARK_THEME: Theme = {
         primary: colors.dolphin,
         secondary: colors.mercury,
         disabled: lightenDarkenColor(colors.white, -40),
-        inverted: colors.selago
+        inverted: colors.selago,
+        pronounced: colors.mercury,
     },
     shadowColors: {
         boxShadow: "",
