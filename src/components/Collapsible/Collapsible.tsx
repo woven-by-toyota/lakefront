@@ -4,12 +4,10 @@ import {
   ReactElement,
   useState
 } from 'react';
-import { ThemeProvider } from '@emotion/react';
 import { StyledCollapsible } from './collapsibleStyles';
 import Button from 'src/components/Button/Button';
 import { ReactComponent as ChevronUp } from './assets/chevron-up.svg';
 import { ReactComponent as ChevronDown } from './assets/chevron-down.svg';
-import theme from 'src/styles/theme';
 
 export interface CollapsibleProps {
   /**
@@ -22,8 +20,8 @@ export interface CollapsibleProps {
    */
   onChange?: () => void;
   /**
-  * This is an event which will trigger when the expand/collapse section is clicked.
-  */
+   * This is an event which will trigger when the expand/collapse section is clicked.
+   */
   onClick?: () => void;
   /**
    * Typically a string, this is the content to show at the top left of the component.
@@ -89,28 +87,26 @@ const Collapsible: FC<CollapsibleProps & Pick<ComponentPropsWithoutRef<'div'>, E
   };
 
   return (
-    <ThemeProvider theme={theme}>
-        <StyledCollapsible {...props} onClick={handleClick}>
-          <div className="topCollapsible">
-            {icon &&
-              <div className="iconWithTitle">
-                <div>{icon}</div>
-                <div className="title">{title}</div>
-              </div>
-            }
-            {!icon && <div className="title">{title}</div>}
-            <div className="subtitle">
-              {subtitle}
-              {collapsible && (<Button
-                onClick={handleChange}
-                icon={isExpanded ? <ChevronUp /> : <ChevronDown />}
-              />)}
-            </div>
+    <StyledCollapsible {...props} onClick={handleClick}>
+      <div className="topCollapsible">
+        {icon &&
+          <div className="iconWithTitle">
+            <div>{icon}</div>
+            <div className="title">{title}</div>
           </div>
-          {divider && <div className="divider" />}
-          <div className={`bottomCollapsible ${isExpanded ? 'expanded' : 'collapsed'}`}>{children}</div>
-        </StyledCollapsible>
-    </ThemeProvider>
+        }
+        {!icon && <div className="title">{title}</div>}
+        <div className="subtitle">
+          {subtitle}
+          {collapsible && (<Button
+            onClick={handleChange}
+            icon={isExpanded ? <ChevronUp /> : <ChevronDown />}
+          />)}
+        </div>
+      </div>
+      {divider && <div className="divider" />}
+      <div className={`bottomCollapsible ${isExpanded ? 'expanded' : 'collapsed'}`}>{children}</div>
+    </StyledCollapsible>
   );
 };
 
