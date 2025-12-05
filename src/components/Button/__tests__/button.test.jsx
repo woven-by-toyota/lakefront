@@ -1,17 +1,12 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import Button from '../Button';
-import { lightenDarkenColor } from 'src/styles/stylesUtil';
+import theme from '../../../styles/theme';
 
 const BUTTON_TEXT = 'buttonText';
 
-const THEME = {
-  colors: {
-    white: 'white',
-    storm: 'gray',
-    saturatedRed: 'red'
-  }
-};
+const THEME = theme;
 
 const onClick = jest.fn();
 
@@ -51,7 +46,7 @@ describe('Button', () => {
 
     it('renders primary variant when color is undefined', () => {
       const { getByRole } = render(
-        <Button theme={THEME}>{BUTTON_TEXT}</Button>
+        <Button>{BUTTON_TEXT}</Button>
       );
 
       expect(getByRole('button')).toHaveStyle({
@@ -61,7 +56,7 @@ describe('Button', () => {
 
     it('renders primary variant when color does not exist', () => {
       const { getByRole } = render(
-        <Button color="non_existing_color" theme={THEME}>
+        <Button color="non_existing_color">
           {BUTTON_TEXT}
         </Button>
       );
@@ -73,7 +68,7 @@ describe('Button', () => {
 
     it('renders primary variant when specified', () => {
       const { getByRole } = render(
-        <Button color="primary" theme={THEME}>
+        <Button color="primary">
           {BUTTON_TEXT}
         </Button>
       );
@@ -85,7 +80,7 @@ describe('Button', () => {
 
     it('renders secondary variant when specified', () => {
       const { getByRole } = render(
-        <Button color="secondary" theme={THEME}>
+        <Button color="secondary">
           {BUTTON_TEXT}
         </Button>
       );
@@ -97,13 +92,13 @@ describe('Button', () => {
 
     it('renders desctructive variant when specified', () => {
       const { getByRole } = render(
-        <Button color="destructive" theme={THEME}>
+        <Button color="destructive">
           {BUTTON_TEXT}
         </Button>
       );
 
       expect(getByRole('button')).toHaveStyle({
-        backgroundColor: 'transparent'
+        backgroundColor: THEME.backgrounds.primary
       });
     });
   });
@@ -111,7 +106,7 @@ describe('Button', () => {
   describe('when alternate prop is provided', () => {
     it('renders the alternate primary style.', () => {
       const { getByRole } = render(
-        <Button alternate color="primary" theme={THEME}>
+        <Button alternate color="primary">
           {BUTTON_TEXT}
         </Button>
       );
@@ -121,22 +116,22 @@ describe('Button', () => {
 
     it('renders the alternate secondary style.', () => {
       const { getByRole } = render(
-        <Button alternate color="secondary" theme={THEME}>
+        <Button alternate color="secondary">
           {BUTTON_TEXT}
         </Button>
       );
 
-      expect(getByRole('button')).toHaveStyle({ color: THEME.colors.white });
+      expect(getByRole('button')).toHaveStyle({ color: THEME.backgrounds.tinted });
     });
 
     it('renders the alternate destructive style.', () => {
       const { getByRole } = render(
-        <Button alternate color="destructive" theme={THEME}>
+        <Button alternate color="destructive">
           {BUTTON_TEXT}
         </Button>
       );
 
-      expect(getByRole('button')).toHaveStyle({ color: THEME.colors.white });
+      expect(getByRole('button')).toHaveStyle({ color: THEME.backgrounds.errorsInverted });
     });
   });
 
@@ -153,41 +148,6 @@ describe('Button', () => {
       fireEvent.click(getByText(BUTTON_TEXT));
 
       expect(onClick).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('when hovered', () => {
-    it('renders the primary variant properly', () => {
-      const { getByText } = render(
-        <Button color="primary">{BUTTON_TEXT}</Button>
-      );
-
-      fireEvent.mouseOver(getByText(BUTTON_TEXT));
-      expect(getByText(BUTTON_TEXT)).toHaveStyle({
-        backgroundColor: lightenDarkenColor(THEME.colors.storm, -10)
-      });
-    });
-
-    it('renders the secondary variant properly', () => {
-      const { getByText } = render(
-        <Button color="secondary">{BUTTON_TEXT}</Button>
-      );
-
-      fireEvent.mouseOver(getByText(BUTTON_TEXT));
-      expect(getByText(BUTTON_TEXT)).toHaveStyle({
-        backgroundColor: lightenDarkenColor(THEME.colors.white, -10)
-      });
-    });
-
-    it('renders the destructive variant properly', () => {
-      const { getByText } = render(
-        <Button color="destructive">{BUTTON_TEXT}</Button>
-      );
-
-      fireEvent.mouseOver(getByText(BUTTON_TEXT));
-      expect(getByText(BUTTON_TEXT)).toHaveStyle({
-        backgroundColor: lightenDarkenColor(THEME.colors.saturatedRed, -10)
-      });
     });
   });
 

@@ -1,4 +1,5 @@
-import { fireEvent, screen, waitFor, render } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import MinMaxInput from '../MinMaxInput';
 
 describe('<MinMaxInput />', () => {

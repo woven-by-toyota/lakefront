@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import AnchorCopy from '../AnchorCopy';
 
 const originalClipboard = { ...global.navigator.clipboard };
