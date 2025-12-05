@@ -4,7 +4,7 @@ import { InputProps } from './Input';
 export const INPUT_WIDTH = 300;
 
 export const StyledLabel = styled.label<InputProps>(({ error, theme }) => ({
-    color: theme?.colors?.cinder,
+    color: theme.foregrounds.primary,
     display: 'flex',
     flexDirection: 'column',
     fontSize: 12,
@@ -12,7 +12,7 @@ export const StyledLabel = styled.label<InputProps>(({ error, theme }) => ({
     span: {
         marginBottom: 4,
         '&.required-field':{
-            color: theme.colors.saturatedRed,
+            color: theme.foregrounds.error,
             marginLeft: 4
         }
     },
@@ -21,15 +21,16 @@ export const StyledLabel = styled.label<InputProps>(({ error, theme }) => ({
         minHeight: 14,
     },
     ...(error && {
-        color: theme?.colors?.red,
+        color: theme.foregrounds.error,
     })
 }));
 
 export const StyledInput = styled.input<InputProps>(({ error, theme, disabled }) => ({
-    border: `1px solid ${theme?.colors?.mercury}`,
+    border: `1px solid ${theme.borderColors.pronounced}`,
     borderRadius: 4,
     boxSizing: 'border-box',
-    color: theme?.colors?.cinder,
+    backgroundColor: theme.backgrounds.primary,
+    color: theme.foregrounds.primary,
     fontSize: 16,
     outline: 'none',
     paddingBottom: 0,
@@ -39,15 +40,15 @@ export const StyledInput = styled.input<InputProps>(({ error, theme, disabled })
     width: INPUT_WIDTH,
     cursor: disabled ? 'not-allowed' : undefined,
     ':focus': {
-        border: `1px solid ${theme?.colors?.cinder}`
+        border: `1px solid ${theme.foregrounds.primary}`
     },
     '::placeholder': {
-        color: theme?.colors?.mercury
+        color: theme.foregrounds.disabled
     },
     ...(error && {
-        border: `1px solid ${theme?.colors?.red}`,
+        border: `1px solid ${theme.foregrounds.error}`,
         ':focus': {
-            border: `1px solid ${theme?.colors?.red}`
+            border: `1px solid ${theme.foregrounds.error}`
         },
     })
 }));
