@@ -13,20 +13,21 @@ export const ButtonLabel = styled.div({
     padding: 0
 });
 
-export const ContextSwitchContainer = styled.div({
-    alignSelf: 'center'
-});
+export const ContextSwitchContainer = styled.div(({ theme }) => ({
+  alignSelf: 'center',
+  backgroundColor: theme.backgrounds.primary
+}));
 
 export const DropdownButton = styled(Button)(({ theme }) => ({
     width: 180,
     height: 36,
     paddingLeft: 13,
     padding: 0,
-    border: `0px solid ${theme.colors.white}`,
+    border: 'transparent',
     fontWeight: 400,
     justifyContent: 'space-between',
     ':hover': {
-        backgroundColor: theme.colors.white
+        backgroundColor: theme.backgrounds.primary
     },
     ':after': {
         transition: 'transform 0s, opacity 0s'
