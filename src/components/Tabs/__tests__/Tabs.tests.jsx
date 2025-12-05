@@ -1,5 +1,5 @@
-import { render, fireEvent, cleanup } from '@testing-library/react';
-
+import { fireEvent, cleanup } from '@testing-library/react';
+import { renderWithTheme as render } from '../../../lib/testing';
 import Tabs from '../Tabs';
 
 afterAll(cleanup);

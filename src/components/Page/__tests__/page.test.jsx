@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { renderWithTheme as render } from '../../../lib/testing';
 import Page from '../Page';
 
 describe('Page', () => {

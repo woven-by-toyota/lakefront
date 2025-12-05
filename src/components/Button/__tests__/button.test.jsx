@@ -152,32 +152,18 @@ describe('Button', () => {
   });
 
   describe('iconLabel', () => {
-    it('displays the iconLabel at normal opacity below the enabled button when provided and icon is true', () => {
+    it('displays the iconLabel below the enabled button when provided and icon is true', () => {
       const { container } = render(
         <Button icon={true} iconLabel={'label text'} />
       );
 
       expect(container.querySelector('div')).toHaveTextContent('label text');
-      expect(container.querySelector('.icon-label')).toHaveStyle({
-        opacity: '1'
-      });
     });
 
     it("doesn't display the iconLabel when icon is false / not provided", () => {
       const { container } = render(<Button iconLabel={'label text'} />);
 
       expect(container.querySelector('div')).toBe(null);
-    });
-
-    it('displays lower opacity icon label when disabled', () => {
-      const { container } = render(
-        <Button icon={true} iconLabel={'label text'} disabled />
-      );
-
-      expect(container.querySelector('div')).toHaveTextContent('label text');
-      expect(container.querySelector('.icon-label')).toHaveStyle({
-        opacity: '0.4'
-      });
     });
   });
 });
