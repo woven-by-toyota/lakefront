@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
 import Button from 'src/components/Button/Button';
-import colors from 'src/styles/lakefrontColors';
 
-export const CardContentContainer = styled.div(() => ({
+export const CardContentContainer = styled.div(({ theme }) => ({
     display: 'inline-grid',
     gridTemplateColumns: '1fr auto',
     gridTemplateRows: '55px auto auto',
     width: 250,
     height: 'auto',
-    border: `1px solid ${colors.alto}`,
+    border: `1px solid ${theme.borderColors.primary}`,
     borderRadius: 3,
     padding: 10
 }));
