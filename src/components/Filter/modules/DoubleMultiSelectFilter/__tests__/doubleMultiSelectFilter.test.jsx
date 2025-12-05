@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, within } from '@testing-library/react';
+import { within } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import DoubleMultiSelectFilter from '../DoubleMultiSelectFilter';
 
 export const DOUBLE_MULTI_SELECT_FILTER_OPTIONS = {

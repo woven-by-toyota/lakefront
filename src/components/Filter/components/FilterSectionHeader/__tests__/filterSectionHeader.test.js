@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import FilterSectionHeader from '../FilterSectionHeader';
 import { BASE_FILTER } from 'src/components/Filter/__tests__/filter.data';
 
