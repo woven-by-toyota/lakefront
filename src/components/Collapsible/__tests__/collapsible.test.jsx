@@ -1,5 +1,6 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { renderWithTheme as render } from '../../../lib/testing';
 import Collapsible from '../Collapsible';
 
 const TEXT_CONTENT = 'textContent';
@@ -16,7 +17,7 @@ describe('Collapsible', () => {
 
         getByText(PROPS.title);
         getByText(PROPS.subtitle);
-        getByText(TEXT_CONTENT);;
+        getByText(TEXT_CONTENT);
         expect(container.querySelector('div.divider')).toBeInTheDocument();
     });
 

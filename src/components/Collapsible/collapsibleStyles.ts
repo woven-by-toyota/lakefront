@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { CollapsibleProps } from './Collapsible';
 
 export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
-    color: theme?.colors?.storm,
+    color: theme.foregrounds.primary,
     display: 'flex',
     flexDirection: 'column',
     '.topCollapsible': {
@@ -33,7 +33,7 @@ export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
     },
     '.divider': {
         height: 1,
-        backgroundColor: theme?.colors?.selago
+        backgroundColor: theme.borderColors.primary
     },
     '.expanded': {
         height: 'auto',
