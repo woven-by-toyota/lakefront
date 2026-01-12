@@ -46,7 +46,7 @@ const THEME: Theme = {
         secondary: colors.akoya,
         tertiary: colors.akoya,
         widget: colors.gunpowder,
-        disabled: colors.grey30,
+        disabled: colors.akoya,
         inverted: colors.storm,
         hover: colors.mercury,
         tinted: colors.akoya,
