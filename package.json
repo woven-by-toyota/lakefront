@@ -17,6 +17,7 @@
     "build-storybook": "storybook build -o docs-build",
     "build-copy": "npm run build && copyfiles -u 1 \"dist/**/*\" $npm_config_target",
     "build-watch": "rollup -c -w",
+    "local-pack": "npm run build && npm pack",
     "lint": "eslint --ext .jsx,.js,.ts,.tsx src",
     "lint:fix": "eslint --ext .jsx,.js,.ts,.tsx src --fix",
     "start": "npm run storybook",
