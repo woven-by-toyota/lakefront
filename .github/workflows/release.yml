@@ -19,7 +19,6 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
-          node-auth-type: 'oidc'
       - run: npm ci
       - run: npm run build
       - run: npm publish --access public
