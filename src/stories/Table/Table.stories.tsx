@@ -20,59 +20,71 @@ export default {
 
 const columns = [
     {
-        Header: 'TITLE',
-        accessor: 'title',
-        Cell: ({ cell: { value } }) => value
+        header: 'TITLE',
+        accessorKey: 'title',
+        cell: ({ getValue }) => getValue()
     },
     {
-        Header: 'VALUE',
-        accessor: 'value'
+        header: 'VALUE',
+        accessorKey: 'value'
     },
     {
-        Header: 'PERCENTAGE',
-        accessor: 'percentage'
+        header: 'PERCENTAGE',
+        accessorKey: 'percentage'
     },
     {
-        Header: 'PERCENTAGE CHANGE',
-        accessor: 'percentage_change',
-        Cell: ({ cell: { value } }) => value?.toFixed(4) || ''
+        header: 'PERCENTAGE CHANGE',
+        accessorKey: 'percentage_change',
+        cell: ({ getValue }) => {
+            const value = getValue() as number;
+            return value?.toFixed(4) || '';
+        }
     },
     {
-        Header: 'TOTAL/100',
-        accessor: 'total',
-        Cell: ({ cell: { value } }) => value?.toFixed(4) || ''
+        header: 'TOTAL/100',
+        accessorKey: 'total',
+        cell: ({ getValue }) => {
+            const value = getValue() as number;
+            return value?.toFixed(4) || '';
+        }
     }
 ];
 
 const columnsWithWidth = [
     {
-        Header: 'TITLE',
-        accessor: 'title',
-        width: 100,
-        Cell: ({ cell: { value } }) => value
+        header: 'TITLE',
+        accessorKey: 'title',
+        size: 100,
+        cell: ({ getValue }) => getValue()
     },
     {
-        Header: 'VALUE',
-        accessor: 'value',
-        width: 100
+        header: 'VALUE',
+        accessorKey: 'value',
+        size: 100
     },
     {
-        Header: 'PERCENTAGE',
-        accessor: 'percentage',
-        width: 100
+        header: 'PERCENTAGE',
+        accessorKey: 'percentage',
+        size: 100
     },
     {
-        Header: 'PERCENTAGE CHANGE',
-        accessor: 'percentage_change',
-        width: 140,
-        Cell: ({ cell: { value } }) => value?.toFixed(4) || ''
+        header: 'PERCENTAGE CHANGE',
+        accessorKey: 'percentage_change',
+        size: 140,
+        cell: ({ getValue }) => {
+            const value = getValue() as number;
+            return value?.toFixed(4) || '';
+        }
     },
     {
-        Header: 'TOTAL/100',
-        accessor: 'total',
-        width: 50,
-        disableSortBy: true,
-        Cell: ({ cell: { value } }) => value?.toFixed(4) || ''
+        header: 'TOTAL/100',
+        accessorKey: 'total',
+        size: 50,
+        enableSorting: false,
+        cell: ({ getValue }) => {
+            const value = getValue() as number;
+            return value?.toFixed(4) || '';
+        }
     }
 ];
 
@@ -87,13 +99,13 @@ const ChevronContainer = styled.div({
 const columnsWithWidthAndExpander = [
     ...columnsWithWidth,
     {
-        Header: '',
+        header: '',
         id: 'expander',
-        disableSortBy: true,
-        Cell: ({ row }) => {
+        enableSorting: false,
+        cell: ({ row }) => {
             return (
-                <ChevronContainer {...row.getToggleRowExpandedProps()}>
-                    {row.isExpanded ? <ChevronUp /> : <ChevronDown />}
+                <ChevronContainer onClick={row.getToggleExpandedHandler()}>
+                    {row.getIsExpanded() ? <ChevronUp /> : <ChevronDown />}
                 </ChevronContainer>
             );
         }
@@ -174,10 +186,10 @@ const renderRowSubComponent = ({ row }) => {
         ...columnsWithWidthAndExpander
             .slice(0, columnsWithWidthAndExpander.length - 1),
         {
-            Header: '',
+            header: '',
             id: 'hiddenExpander',
-            disableSortBy: true,
-            Cell: () => <div>&nbsp;</div>
+            enableSorting: false,
+            cell: () => <div>&nbsp;</div>
         }
     ];
 
@@ -220,7 +232,7 @@ const Template: StoryFn<TableProps & ComponentPropsWithoutRef<'div'>> = (args) =
     const handleSort = (_, sortedBy) => {
         const newMsg = 'Sorting is applied on column name(s): ';
         const columnNamesAndSortDirection = sortedBy.map((sortedColumn) => {
-            const colName = columns.find(col => col.accessor === sortedColumn.id).Header;
+            const colName = columns.find(col => col.accessorKey === sortedColumn.id)?.header || sortedColumn.id;
             const sortDirection = sortedColumn.desc ? '(Descending Order)' : '(Ascending Order)';
             return ` ${colName} ${sortDirection}`;
         });

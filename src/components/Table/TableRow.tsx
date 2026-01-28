@@ -1,4 +1,5 @@
 import { FC, Fragment, ReactNode, useState } from 'react';
+import { flexRender } from '@tanstack/react-table';
 import ContextMenu from '../ContextMenu';
 import { RowHoverContext } from './RowHoverContext';
 import { ContextMenuConfig, MoreActionsConfig } from './Table';
@@ -17,18 +18,11 @@ const TableRow: FC<TableRowProps> = ({ row, rowProps, renderRowSubComponent, con
     // Get the menu items for this specific row
     const menuItems = contextMenuConfig?.getRowMenuItems(row) ?? [];
 
-    // Determine the correct wrapper component for the row
-    const RowWrapper = menuItems.length > 0 ? ContextMenu : 'tr';
-
     const hoverActionStyle = moreActionsConfig?.visibleOnHover
         ? { height: '75px', width: '75px' }
         : {};
 
-    // Define the props for the wrapper. If it's the ContextMenu,
-    // we need to pass the 'wrapper' prop to it.
-    const wrapperProps = {
-        ...(menuItems.length > 0 && { menuItems, wrapper: 'tr' }),
-        ...row.getRowProps(rowProps),
+    const commonProps = {
         style: {
             ...(rowProps as any)?.style,
             ...hoverActionStyle,
@@ -37,15 +31,25 @@ const TableRow: FC<TableRowProps> = ({ row, rowProps, renderRowSubComponent, con
         onMouseLeave: () => setIsHovered(false),
     };
 
+    const cells = row.getVisibleCells().map((cell: any) => (
+        <td key={cell.id}>
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </td>
+    ));
+
     return (
         <RowHoverContext.Provider value={isHovered}>
             <Fragment key={row.id}>
-                <RowWrapper {...wrapperProps}>
-                    {row.cells.map((cell: any) => (
-                        <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    ))}
-                </RowWrapper>
-                {row.isExpanded && renderRowSubComponent ? renderRowSubComponent({ row }) : null}
+                {menuItems.length > 0 ? (
+                    <ContextMenu {...commonProps} menuItems={menuItems} wrapper='tr'>
+                        {cells}
+                    </ContextMenu>
+                ) : (
+                    <tr {...commonProps}>
+                        {cells}
+                    </tr>
+                )}
+                {row.getIsExpanded() && renderRowSubComponent ? renderRowSubComponent({ row }) : null}
             </Fragment>
         </RowHoverContext.Provider>
     );
