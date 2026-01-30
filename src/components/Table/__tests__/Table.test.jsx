@@ -1,32 +1,39 @@
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Table from '../Table';
 
 afterAll(cleanup);
 
 const columns = [
     {
-        Header: 'TITLE',
-        accessor: 'title',
-        width: 100,
-        Cell: ({ cell: { value } }) => value
+        header: 'TITLE',
+        accessorKey: 'title',
+        size: 100,
+        cell: ({ getValue }) => getValue()
     },
     {
-        Header: 'VALUE',
-        accessor: 'value'
+        header: 'VALUE',
+        accessorKey: 'value'
     },
     {
-        Header: 'PERCENTAGE',
-        accessor: 'percentage'
+        header: 'PERCENTAGE',
+        accessorKey: 'percentage'
     },
     {
-        Header: 'PERCENTAGE CHANGE',
-        accessor: 'percentage_change',
-        Cell: ({ cell: { value } }) => value?.toFixed(4) || ''
+        header: 'PERCENTAGE CHANGE',
+        accessorKey: 'percentage_change',
+        cell: ({ getValue }) => {
+            const value = getValue();
+            return value?.toFixed(4) || '';
+        }
     },
     {
-        Header: 'TOTAL/100',
-        accessor: 'total',
-        Cell: ({ cell: { value } }) => value?.toFixed(4) || ''
+        header: 'TOTAL/100',
+        accessorKey: 'total',
+        cell: ({ getValue }) => {
+            const value = getValue();
+            return value?.toFixed(4) || '';
+        }
     }
 ];
 const customData = [{ title: 'r2204_1_0', value: 24, percentage: 166.992, percentage_change: 6.9579999999, total: 0.14371985 },
@@ -38,13 +45,13 @@ const customData = [{ title: 'r2204_1_0', value: 24, percentage: 166.992, percen
 const columnsWithExpander = [
     ...columns,
     {
-        Header: '',
+        header: '',
         id: 'expander',
-        disableSortBy: true,
-        Cell: ({ row }) => {
+        enableSorting: false,
+        cell: ({ row }) => {
             return (
-                <div {...row.getToggleRowExpandedProps()}>
-                    {row.isExpanded ? '- collapse' : '+ expand'}
+                <div onClick={row.getToggleExpandedHandler()}>
+                    {row.getIsExpanded() ? '- collapse' : '+ expand'}
                 </div>
             );
         }
@@ -76,14 +83,14 @@ describe('<Table>', () => {
         expect(getAllByRole('cell')[23].textContent).toBe('5.7166');
         expect(getAllByRole('cell')[28].textContent).toBe('6.9580');
 
-        // sorting is applied on percentage change column on click event
+        // sorting is applied on percentage change column on click event (descending first in v8)
         fireEvent.click(percentageChange);
-        expect(getAllByRole('cell')[3].textContent).toBe('5.1360');
-        expect(getAllByRole('cell')[8].textContent).toBe('5.7166');
+        expect(getAllByRole('cell')[3].textContent).toBe('15.8140');
+        expect(getAllByRole('cell')[8].textContent).toBe('6.9580');
         expect(getAllByRole('cell')[13].textContent).toBe('5.7166');
         expect(getAllByRole('cell')[18].textContent).toBe('5.7166');
-        expect(getAllByRole('cell')[23].textContent).toBe('6.9580');
-        expect(getAllByRole('cell')[28].textContent).toBe('15.8140');
+        expect(getAllByRole('cell')[23].textContent).toBe('5.7166');
+        expect(getAllByRole('cell')[28].textContent).toBe('5.1360');
 
     });
 
@@ -155,8 +162,9 @@ describe('<Table>', () => {
             );
         };
 
-        it('renders the sub-row when row.expanded is true', () => {
-            const { queryByText, queryAllByText } = render(
+        it('renders the sub-row when row.expanded is true', async () => {
+            const user = userEvent.setup();
+            const { queryByText, queryAllByText, debug } = render(
                 <Table
                     columns={columnsWithExpander}
                     data={customData}
@@ -164,12 +172,22 @@ describe('<Table>', () => {
                 />
             );
 
-            fireEvent.click(queryAllByText('+ expand')[0]);
+            // Check initial state
+            expect(queryAllByText('+ expand').length).toBeGreaterThan(0);
 
+            await user.click(queryAllByText('+ expand')[0]);
+
+            // Check if button text changed (state update indicator)
+            await waitFor(() => {
+                expect(queryAllByText('- collapse').length).toBeGreaterThan(0);
+            });
+
+            // Check if sub-component rendered
             expect(queryByText(`Value is ${customData[0].value}`)).toBeInTheDocument();
         });
 
-        it('does not render the sub-row when row.expanded is false', () => {
+        it('does not render the sub-row when row.expanded is false', async () => {
+            const user = userEvent.setup();
             const { queryByText, queryAllByText } = render(
                 <Table
                     columns={columnsWithExpander}
@@ -178,11 +196,15 @@ describe('<Table>', () => {
                 />
             );
 
-            fireEvent.click(queryAllByText('+ expand')[0]);
-            expect(queryByText(`Value is ${customData[0].value}`)).toBeInTheDocument();
+            await user.click(queryAllByText('+ expand')[0]);
+            await waitFor(() => {
+                expect(queryByText(`Value is ${customData[0].value}`)).toBeInTheDocument();
+            });
 
-            fireEvent.click(queryAllByText('- collapse')[0]);
-            expect(queryByText(`Value is ${customData[0].value}`)).not.toBeInTheDocument();
+            await user.click(queryAllByText('- collapse')[0]);
+            await waitFor(() => {
+                expect(queryByText(`Value is ${customData[0].value}`)).not.toBeInTheDocument();
+            });
         });
     });
 });

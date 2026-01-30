@@ -1,5 +1,5 @@
-import { Column } from 'react-table';
+import { ColumnDef } from '@tanstack/react-table';
 import Table, { TableProps, TableSortByOptions } from './Table';
 
-export { TableProps, TableSortByOptions, Column as TableColumn };
+export { TableProps, TableSortByOptions, ColumnDef as TableColumn };
 export default Table;

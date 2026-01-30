@@ -1,5 +1,14 @@
 import React, { useEffect, useMemo } from 'react';
-import { useTable, useSortBy, useExpanded, TableState, Column, TableSortByToggleProps } from 'react-table';
+import {
+    useReactTable,
+    getCoreRowModel,
+    getSortedRowModel,
+    getExpandedRowModel,
+    flexRender,
+    SortingState,
+    ColumnDef,
+    ExpandedState
+} from '@tanstack/react-table';
 import { HideableTHead, StyledHeader, StyledHeaderContent, TableStyle } from './tableStyles';
 import { getSortBySVG, getTitleForMultiSort } from './tableUtil';
 import { MenuItem } from '../ContextMenu';
@@ -30,7 +39,7 @@ export interface TableProps <T = any> {
     /**
      * This is to set the columns of the table.
      */
-    columns: Array<Column>;
+    columns: Array<ColumnDef<T, any>>;
     /**
      * This is to set the additional properties on the table like disableSortRemove,
      * autoResetSortBy, disableMultiSort, etc.
@@ -83,13 +92,11 @@ export interface TableProps <T = any> {
     moreActionsConfig?: MoreActionsConfig;
 }
 
-type CustomTableOptions = TableState<object> & { sortBy: TableSortByOptions[] }
-
 /**
  *  The Table Component is used to render table with specified columns and data.
  *  The no data meesage can be set when the data is not present.
  *  You can set initial sorting on the table. OnChangeSort is triggered everytime the sorting is changed on the table.
- *  For more information about react-table please check the link https://react-table.tanstack.com/docs/api/useTable
+ *  For more information about react-table please check the link https://tanstack.com/table/latest
  */
 const Table: React.FC<TableProps> = ({ className,
     columns,
@@ -105,16 +112,17 @@ const Table: React.FC<TableProps> = ({ className,
     contextMenuConfig,
     moreActionsConfig
 }) => {
-        /** initalSortBy must be memoized
-         * https://react-table-v7.tanstack.com/docs/api/useSortBy#table-options
-         */
-        const initialSortByData = useMemo(
+        /** initialSortBy must be memoized */
+        const initialSortByData: SortingState = useMemo(
             () =>
                 initialSortBy
-                    ? { initialState: { sortBy: Array.isArray(initialSortBy) ? initialSortBy : [initialSortBy] } }
-                    : {},
+                    ? (Array.isArray(initialSortBy) ? initialSortBy : [initialSortBy])
+                    : [],
             [initialSortBy]
         );
+
+        const [sorting, setSorting] = React.useState<SortingState>(initialSortByData);
+        const [expanded, setExpanded] = React.useState<ExpandedState>({});
 
     const memoizedColumns = useMemo(() => {
         if (moreActionsConfig) {
@@ -122,9 +130,9 @@ const Table: React.FC<TableProps> = ({ className,
                 ...columns,
                 {
                     id: 'more-actions',
-                    Header: '',
-                    disableSortBy: true,
-                    Cell: ({ row }: { row: any }) => {
+                    header: '',
+                    enableSorting: false,
+                    cell: ({ row }: { row: any }) => {
                         // hook to get the hover state for this specific row
                         const isHovered = useRowHover();
                         // Determine if the button should be visible
@@ -135,66 +143,82 @@ const Table: React.FC<TableProps> = ({ className,
                         }
                         return isButtonVisible ? <MoreActionsButton items={actionItems} /> : <div style={{width: 75}}/>;
                     },
-                    width: moreActionsConfig?.width
-                },
+                    size: moreActionsConfig?.width
+                } as ColumnDef<any, any>,
             ];
         }
         return columns;
     }, [columns, moreActionsConfig]);
 
-        // Use the state and functions returned from useTable to build your UI
-        const tableHookOptions = {
-            ...options,
+        // Use the state and functions returned from useReactTable to build your UI
+        const table = useReactTable({
+            data: data ?? [],
             columns: memoizedColumns,
-            data,
-            ...initialSortByData
-        };
-        const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, ...rest } = useTable(
-            tableHookOptions,
-            useSortBy,
-            useExpanded
-        );
-
-        const { sortBy } = state as CustomTableOptions;
+            state: {
+                sorting,
+                expanded
+            },
+            onSortingChange: setSorting,
+            onExpandedChange: setExpanded,
+            getCoreRowModel: getCoreRowModel(),
+            getSortedRowModel: getSortedRowModel(),
+            getExpandedRowModel: getExpandedRowModel(),
+            enableMultiSort: !options.disableMultiSort,
+            enableSortingRemoval: !options.disableSortRemove,
+            enableExpanding: true,
+            getRowCanExpand: () => true,
+            autoResetExpanded: options.autoResetExpanded ?? true,
+        });
 
         useEffect(() => {
-            if (onChangeSort && sortBy.length) {
-                onChangeSort(sortBy[0], sortBy);
+            if (onChangeSort && sorting.length) {
+                onChangeSort(sorting[0], sorting);
             }
-        }, [sortBy]);
+        }, [sorting, onChangeSort]);
 
         // Render the UI for your table
         return (
-            <TableStyle {...getTableProps()} className={className} style={style}>
+            <TableStyle className={className} style={style}>
                 <HideableTHead hide={hideHeaders}>
-                    {headerGroups.map((headerGroup: any) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column: any) => (
+                    {table.getHeaderGroups().map((headerGroup: any) => (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map((header: any) => {
+                                const columnSize = header.column.columnDef.size ?? header.getSize();
+                                return (
                                 <th
-                                    {...column.getHeaderProps(
-                                        column.getSortByToggleProps((props: TableSortByToggleProps) => ({
-                                            ...props,
-                                            title: getTitleForMultiSort(
-                                                tableHookOptions.disableMultiSort,
-                                                props.title,
-                                                column.disableSortBy
-                                            ),
-                                            width: column.width
-                                        }))
+                                    key={header.id}
+                                    {...({ width: columnSize } as any)}
+                                    style={{ width: columnSize }}
+                                    onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
+                                    title={getTitleForMultiSort(
+                                        options.disableMultiSort,
+                                        header.column.getCanSort() ? 'Toggle sorting' : '',
+                                        !header.column.getCanSort()
                                     )}
                                 >
                                     <StyledHeader>
-                                        <StyledHeaderContent>{column.render('Header')}</StyledHeaderContent>
-                                        <StyledHeaderContent>{getSortBySVG(column)}</StyledHeaderContent>
+                                        <StyledHeaderContent>
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                        </StyledHeaderContent>
+                                        <StyledHeaderContent>{getSortBySVG({
+                                            disableSortBy: !header.column.getCanSort(),
+                                            isSorted: header.column.getIsSorted() !== false,
+                                            isSortedDesc: header.column.getIsSorted() === 'desc'
+                                        })}</StyledHeaderContent>
                                     </StyledHeader>
                                 </th>
-                            ))}
+                                );
+                            })}
                         </tr>
                     ))}
                 </HideableTHead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map((row: any) => {
-                        prepareRow(row);
+                <tbody>
+                    {table.getRowModel().rows.map((row: any) => {
                         return (
                             <TableRow
                                 key={row.id}
@@ -206,7 +230,7 @@ const Table: React.FC<TableProps> = ({ className,
                             />
                         );
                     })}
-                    {rows.length === 0 && (
+                    {table.getRowModel().rows.length === 0 && (
                         <tr>
                             <td colSpan={memoizedColumns.length}>{noDataMessage}</td>
                         </tr>
