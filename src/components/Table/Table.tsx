@@ -1,13 +1,15 @@
 import React, { useEffect, useMemo } from 'react';
 import {
-    useReactTable,
-    getCoreRowModel,
-    getSortedRowModel,
-    getExpandedRowModel,
-    flexRender,
-    SortingState,
-    ColumnDef,
-    ExpandedState
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  getExpandedRowModel,
+  flexRender,
+  SortingState,
+  ColumnDef,
+  ColumnSort,
+  ExpandedState,
+  TableOptions
 } from '@tanstack/react-table';
 import { HideableTHead, StyledHeader, StyledHeaderContent, TableStyle } from './tableStyles';
 import { getSortBySVG, getTitleForMultiSort } from './tableUtil';
@@ -44,7 +46,7 @@ export interface TableProps <T = any> {
      * This is to set the additional properties on the table like disableSortRemove,
      * autoResetSortBy, disableMultiSort, etc.
      */
-    options?: any;
+    options?: Partial<TableOptions<any>>;
     /**
      * This is to set the row properties.
      */
@@ -62,10 +64,10 @@ export interface TableProps <T = any> {
      */
     className?: string;
     /**
-    * This is to set the initial sorting on the table.
+    * Note: MUST BE MEMOIZED. This is to set the initial sorting on the table.
     * When an array of items is provided, the order dictates the priority of sorting. Example: value --> title --> percentage.
     */
-    initialSortBy?: { id: string, desc: boolean}[] | { id: string, desc: boolean};
+    initialSortBy?: SortingState | ColumnSort;
 
     /**
      * This event is triggered when the sorting is changed on the table.
@@ -94,7 +96,7 @@ export interface TableProps <T = any> {
 
 /**
  *  The Table Component is used to render table with specified columns and data.
- *  The no data meesage can be set when the data is not present.
+ *  The no data message can be set when the data is not present.
  *  You can set initial sorting on the table. OnChangeSort is triggered everytime the sorting is changed on the table.
  *  For more information about react-table please check the link https://tanstack.com/table/latest
  */
@@ -163,11 +165,10 @@ const Table: React.FC<TableProps> = ({ className,
             getCoreRowModel: getCoreRowModel(),
             getSortedRowModel: getSortedRowModel(),
             getExpandedRowModel: getExpandedRowModel(),
-            enableMultiSort: !options.disableMultiSort,
-            enableSortingRemoval: !options.disableSortRemove,
             enableExpanding: true,
             getRowCanExpand: () => true,
-            autoResetExpanded: options.autoResetExpanded ?? true,
+            autoResetExpanded: true,
+            ...options,
         });
 
         useEffect(() => {
@@ -191,7 +192,7 @@ const Table: React.FC<TableProps> = ({ className,
                                     style={{ width: columnSize }}
                                     onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
                                     title={getTitleForMultiSort(
-                                        options.disableMultiSort,
+                                        !options.enableMultiSort,
                                         header.column.getCanSort() ? 'Toggle sorting' : '',
                                         !header.column.getCanSort()
                                     )}
