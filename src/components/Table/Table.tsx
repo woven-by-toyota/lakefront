@@ -153,6 +153,7 @@ const Table: React.FC<TableProps> = ({ className,
     }, [columns, moreActionsConfig]);
 
         // Use the state and functions returned from useReactTable to build your UI
+        const enableMultiSort = options.enableMultiSort ?? true;
         const table = useReactTable({
             data: data ?? [],
             columns: memoizedColumns,
@@ -168,6 +169,7 @@ const Table: React.FC<TableProps> = ({ className,
             enableExpanding: true,
             getRowCanExpand: () => true,
             autoResetExpanded: true,
+            enableMultiSort,
             ...options,
         });
 
@@ -192,7 +194,7 @@ const Table: React.FC<TableProps> = ({ className,
                                     style={{ width: columnSize }}
                                     onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
                                     title={getTitleForMultiSort(
-                                        !options.enableMultiSort,
+                                        !enableMultiSort,
                                         header.column.getCanSort() ? 'Toggle sorting' : '',
                                         !header.column.getCanSort()
                                     )}
