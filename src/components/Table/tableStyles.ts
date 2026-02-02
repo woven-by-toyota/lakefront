@@ -86,8 +86,18 @@ export const StyledUnsorted = styled(Unsorted)({
 
 interface HideableTHeadProps {
     hide: boolean;
+    sticky?: boolean;
 }
 
-export const HideableTHead = styled.thead<HideableTHeadProps>(({ hide }) => ({
-    visibility: hide ? 'collapse' : 'visible'
+export const HideableTHead = styled.thead<HideableTHeadProps>(({ hide, sticky, theme }) => ({
+    visibility: hide ? 'collapse' : 'visible',
+    ...(sticky && {
+        position: 'sticky',
+        top: 0,
+        zIndex: 10,
+        '& th': {
+            backgroundColor: theme.backgrounds.primary,
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
+        }
+    })
 }));

@@ -317,3 +317,75 @@ TableWithExpandableRows.args = {
     noDataMessage: 'No data found',
     renderRowSubComponent
 };
+
+const InfiniteScrollTemplate: StoryFn<TableProps> = (args) => {
+    const [data, setData] = useState(customData.slice(0, 5));
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
+
+    const loadMore = async () => {
+        setIsLoading(true);
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        const nextPageData = customData.slice(page * 5, (page + 1) * 5);
+
+        if (nextPageData.length > 0) {
+            setData(prevData => [...prevData, ...nextPageData]);
+            setPage(prevPage => prevPage + 1);
+        }
+
+        // Check if we've loaded all data
+        if ((page + 1) * 5 >= customData.length) {
+            setHasMore(false);
+        }
+
+        setIsLoading(false);
+    };
+
+    return (
+        <div style={{ height: '400px', overflow: 'auto' }}>
+            <TableComponent
+                {...args}
+                data={data}
+                infiniteScroll={{
+                    onLoadMore: loadMore,
+                    isLoading,
+                    hasMore,
+                    threshold: 100
+                }}
+            />
+        </div>
+    );
+};
+
+export const TableWithInfiniteScroll = InfiniteScrollTemplate.bind({});
+TableWithInfiniteScroll.args = {
+    columns: columns,
+    noDataMessage: 'No data found'
+};
+
+const StickyHeadersTemplate: StoryFn<TableProps> = (args) => {
+    return (
+        <div style={{ height: '300px', overflow: 'auto', border: '1px solid #ddd' }}>
+            <TableComponent {...args} />
+        </div>
+    );
+};
+
+export const TableWithStickyHeaders = StickyHeadersTemplate.bind({});
+TableWithStickyHeaders.args = {
+    columns: columns,
+    data: customData,
+    stickyHeaders: true,
+    noDataMessage: 'No data found'
+};
+
+export const TableWithInfiniteScrollNoStickyHeaders = InfiniteScrollTemplate.bind({});
+TableWithInfiniteScrollNoStickyHeaders.args = {
+    columns: columns,
+    noDataMessage: 'No data found',
+    stickyHeaders: false
+};
+
