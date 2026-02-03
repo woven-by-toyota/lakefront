@@ -112,7 +112,7 @@ const columnsWithWidthAndExpander = [
     }
 ];
 
-const customData = [{
+const CUSTOM_DATA = [{
     title: 'r2204_1_0',
     value: 24,
     percentage: 166.992,
@@ -130,7 +130,7 @@ const customData = [{
     { title: 'r1112_1_0', value: 22, percentage: 113.747, percentage_change: 5.7166473529, total: 0.193415712 },
     { title: 'r2110_1_0', value: 80, percentage: 304.77, percentage_change: 3.80969996, total: 0.2625626 }];
 
-const initialSortByCustomData = [
+const INITIAL_SORT_BY_DATA = [
     { title: 'car', value: 24, percentage: 166.992, percentage_change: 6.9579999999, total: 0.14371985 },
     { title: 'truck', value: 22, percentage: 304.77, percentage_change: 15.814, total: 0.063491 },
     { title: 'boat', value: 5, percentage: 25.68, percentage_change: 5.136, total: 0.1947675 },
@@ -143,6 +143,17 @@ const initialSortByCustomData = [
     { title: 'car', value: 22, percentage: 113.747, percentage_change: 5.7166473529, total: 0.193415712 },
     { title: 'boat', value: 22, percentage: 47.442, percentage_change: 3.80969996, total: 0.2625626 }
 ];
+
+const INFINITE_SCROLL_DATA = [
+  ...CUSTOM_DATA,
+  ...Array.from({ length: 50 }, (_, index) => ({
+    title: `r${index + 1}02_1_0`,
+    value: Math.floor(Math.random() * 100),
+    percentage: parseFloat((Math.random() * 300).toFixed(3)),
+    percentage_change: parseFloat((Math.random() * 20).toFixed(6)),
+    total: parseFloat((Math.random()).toFixed(8))
+  }))
+]
 
 const SubComponentTr = styled.tr({
     'td.table-wrapper-td': {
@@ -224,7 +235,7 @@ const Template: StoryFn<TableProps & ComponentPropsWithoutRef<'div'>> = (args) =
     const [sortMsg, setSortMsg] = useState('');
 
     const resetData = () => {
-        const newData = dataToggle ? customData : [];
+        const newData = dataToggle ? CUSTOM_DATA : [];
         setData(newData);
         setDataToggle(dataToggle => !dataToggle);
     };
@@ -244,7 +255,7 @@ const Template: StoryFn<TableProps & ComponentPropsWithoutRef<'div'>> = (args) =
 
     return (
         <>
-            <div style={{ marginTop: '10px', marginLeft: '10px' }}>
+            <div style={{ marginTop: 10, marginLeft: 10 }}>
                 <Button color='secondary' onClick={resetData}>
                     {dataToggle ? 'Load Data' : 'Clear Data'}</Button><br /><br />
                 {!dataToggle && <b>{sortMsg}</b>
@@ -259,7 +270,7 @@ const Template: StoryFn<TableProps & ComponentPropsWithoutRef<'div'>> = (args) =
 export const Table = Template.bind({});
 Table.args = {
     columns: columns,
-    data: customData,
+    data: CUSTOM_DATA,
     initialSortBy: { id: 'title', desc: false },
     noDataMessage: 'No data found',
     options: {
@@ -274,7 +285,7 @@ Table.args = {
 export const TableWithInitialSortByArray = Template.bind({});
 TableWithInitialSortByArray.args = {
     columns: columns,
-    data: initialSortByCustomData,
+    data: INITIAL_SORT_BY_DATA,
     initialSortBy: [
         { id: 'value', desc: false },
         { id: 'title', desc: true },
@@ -291,7 +302,7 @@ TableWithInitialSortByArray.args = {
 export const TableWithMultiSortDisabled = Template.bind({});
 TableWithMultiSortDisabled.args = {
     columns: columns,
-    data: customData,
+    data: CUSTOM_DATA,
     initialSortBy: { id: 'title', desc: false },
     noDataMessage: 'No data found',
     options: {
@@ -302,7 +313,7 @@ TableWithMultiSortDisabled.args = {
 export const TableWithCustomWidth = Template.bind({});
 TableWithCustomWidth.args = {
     columns: columnsWithWidth,
-    data: customData,
+    data: CUSTOM_DATA,
     initialSortBy: { id: 'title', desc: false },
     noDataMessage: 'No data found',
     options: {
@@ -313,13 +324,13 @@ TableWithCustomWidth.args = {
 export const TableWithExpandableRows = Template.bind({});
 TableWithExpandableRows.args = {
     columns: columnsWithWidthAndExpander,
-    data: initialSortByCustomData,
+    data: INITIAL_SORT_BY_DATA,
     noDataMessage: 'No data found',
     renderRowSubComponent
 };
 
 const InfiniteScrollTemplate: StoryFn<TableProps> = (args) => {
-    const [data, setData] = useState(customData.slice(0, 5));
+    const [data, setData] = useState(INFINITE_SCROLL_DATA.slice(0, 5));
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
@@ -329,7 +340,7 @@ const InfiniteScrollTemplate: StoryFn<TableProps> = (args) => {
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        const nextPageData = customData.slice(page * 5, (page + 1) * 5);
+        const nextPageData = INFINITE_SCROLL_DATA.slice(page * 5, (page + 1) * 5);
 
         if (nextPageData.length > 0) {
             setData(prevData => [...prevData, ...nextPageData]);
@@ -337,7 +348,7 @@ const InfiniteScrollTemplate: StoryFn<TableProps> = (args) => {
         }
 
         // Check if we've loaded all data
-        if ((page + 1) * 5 >= customData.length) {
+        if ((page + 1) * 5 >= INFINITE_SCROLL_DATA.length) {
             setHasMore(false);
         }
 
@@ -345,7 +356,7 @@ const InfiniteScrollTemplate: StoryFn<TableProps> = (args) => {
     };
 
     return (
-        <div style={{ height: '400px', overflow: 'auto' }}>
+        <div style={{ height: 400, overflow: 'auto' }}>
             <TableComponent
                 {...args}
                 data={data}
@@ -368,7 +379,7 @@ TableWithInfiniteScroll.args = {
 
 const StickyHeadersTemplate: StoryFn<TableProps> = (args) => {
     return (
-        <div style={{ height: '300px', overflow: 'auto', border: '1px solid #ddd' }}>
+        <div style={{ height: 300, overflow: 'auto' }}>
             <TableComponent {...args} />
         </div>
     );
@@ -377,7 +388,7 @@ const StickyHeadersTemplate: StoryFn<TableProps> = (args) => {
 export const TableWithStickyHeaders = StickyHeadersTemplate.bind({});
 TableWithStickyHeaders.args = {
     columns: columns,
-    data: customData,
+    data: CUSTOM_DATA,
     stickyHeaders: true,
     noDataMessage: 'No data found'
 };
