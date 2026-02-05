@@ -70,10 +70,20 @@ export interface InfiniteScrollConfig {
 
 export interface TableSettingsConfig {
   /**
-   * Enable column hiding feature.
-   * When true, users can toggle column visibility through the settings panel.
+   * Configuration for table settings panel.
    */
-  enableColumnHiding?: boolean;
+  columnConfig?: {
+    /**
+     * Enable column hiding feature.
+     * When true, users can toggle column visibility through the settings panel.
+     */
+    enableColumnHiding: boolean;
+    /**
+     * Function to transform column IDs into user-friendly labels
+     * @param columnId
+     */
+    columnLabelTransform?: (columnId: string) => string;
+  };
 }
 
 export interface TableProps<T = any> {
@@ -375,26 +385,24 @@ const Table: React.FC<TableProps> = ({
   );
 
   // Render table only
-  if (!tableSettings?.enableColumnHiding) {
+  if (!tableSettings) {
     return tableComponent;
   }
 
   // Render table with settings panel
   return (
     <TableWrapper>
-      {tableSettings?.enableColumnHiding && (
-        <TableSettings
-          enableColumnHiding={tableSettings.enableColumnHiding}
-          columns={table.getAllLeafColumns()}
-          onColumnVisibilityChange={(columnId, visible) => {
-            setColumnVisibility((prev) => ({
-              ...prev,
-              [columnId]: visible
-            }));
-          }}
-          getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
-        />
-      )}
+      <TableSettings
+        {...tableSettings}
+        columns={table.getAllLeafColumns()}
+        onColumnVisibilityChange={(columnId, visible) => {
+          setColumnVisibility((prev) => ({
+            ...prev,
+            [columnId]: visible
+          }));
+        }}
+        getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
+      />
       {tableComponent}
     </TableWrapper>
   );

@@ -24,7 +24,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   columns,
   onColumnVisibilityChange,
   getColumnVisibility,
-  enableColumnHiding
+  columnConfig
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -73,7 +73,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
               />
             </SettingsHeader>
             <SettingsContent>
-              {enableColumnHiding && (
+              {columnConfig?.enableColumnHiding && (
                 <>
                   <h5>Columns</h5>
                   <ColumnCheckboxList>
@@ -83,12 +83,15 @@ const TableSettings: React.FC<TableSettingsProps> = ({
                         ? column.id
                         : column.columnDef.header;
 
+                      const { columnLabelTransform = label => label } = columnConfig;
+                      const label = columnLabelTransform(columnHeader as string);
+
                       return (
                         <Checkbox
                           key={column.id}
                           checked={isVisible}
                           onChange={() => onColumnVisibilityChange(column.id, !isVisible)}
-                          label={columnHeader as string}
+                          label={label}
                         />
                       );
                     })}

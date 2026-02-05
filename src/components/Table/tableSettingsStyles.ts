@@ -1,37 +1,46 @@
 import styled from '@emotion/styled';
 
 export const SettingsRowContainer = styled.div(({ theme }) => ({
+  position: 'relative',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  padding: '1em 0.5em',
   '.button-container': {
+    button: {
+      borderRadius: 4,
+      border: `1px solid ${theme.borderColors.primary}`,
+      width: 36,
+      height: 36,
+      boxShadow: '0 1px 1px rgba(0, 0, 0, 0.15)'
+    },
     width: '100%',
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     svg: {
       fill: theme.foregrounds.secondary
-    }
+    },
   },
-  overflow: 'hidden'
 }));
 
-export const SettingsOpenBackgroundContainer = styled.div({
+export const SettingsOpenBackgroundContainer = styled.div(({ theme }) => ({
   position: 'absolute',
-  height: '100%',
+  top: 0,
+  height: '80vh',
   width: '100%',
   backgroundColor: 'transparent',
   cursor: 'pointer'
-});
+}));
 
 export const SettingsOpenForegroundContainer = styled.div(({ theme }) => ({
   position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  zIndex: theme.zIndex.modal,
+  top: '3em',
+  left: '3em',
   backgroundColor: theme.backgrounds.primary,
   color: theme.foregrounds.primary,
   borderRadius: 4,
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+  boxShadow: '0 1px 8px rgba(0, 0, 0, 0.15)',
   minWidth: 400,
   maxWidth: '90vw',
   maxHeight: '80vh',
