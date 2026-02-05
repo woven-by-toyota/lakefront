@@ -392,9 +392,7 @@ const Table: React.FC<TableProps> = ({
               [columnId]: visible
             }));
           }}
-          getColumnVisibility={(columnId) => {
-            return columnVisibility[columnId] !== false;
-          }}
+          getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
         />
       )}
       {tableComponent}
