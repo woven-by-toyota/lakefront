@@ -400,3 +400,45 @@ TableWithInfiniteScrollNoStickyHeaders.args = {
     stickyHeaders: false
 };
 
+const TableSettingsTemplate: StoryFn<TableProps> = (args) => {
+    return (
+        <div style={{ padding: '20px' }}>
+            <h2>Table with Column Hiding Settings</h2>
+            <p>Click the settings icon in the top-right corner to show/hide columns.</p>
+            <TableComponent {...args} />
+        </div>
+    );
+};
+
+export const TableWithSettings = TableSettingsTemplate.bind({});
+TableWithSettings.args = {
+    columns: columns,
+    data: CUSTOM_DATA,
+    tableSettings: {
+        enableColumnHiding: true
+    },
+    noDataMessage: 'No data found'
+};
+
+export const TableWithSettingsAndMoreActions = TableSettingsTemplate.bind({});
+TableWithSettingsAndMoreActions.args = {
+    columns: columns,
+    data: CUSTOM_DATA,
+    tableSettings: {
+        enableColumnHiding: true
+    },
+    moreActionsConfig: {
+        getRowActionItems: (row) => [
+            {
+                label: 'Edit',
+                onClick: () => alert(`Edit row: ${row.original.title}`)
+            },
+            {
+                label: 'Delete',
+                onClick: () => alert(`Delete row: ${row.original.title}`)
+            }
+        ]
+    },
+    noDataMessage: 'No data found'
+};
+
