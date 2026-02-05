@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { Column } from '@tanstack/react-table';
 import Checkbox from '../Checkbox/Checkbox';
 import { ReactComponent as SettingsIcon } from './assets/settings.svg';
+import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
 import {
-  SettingsOverlay,
-  SettingsContainer,
+  SettingsOpenBackgroundContainer,
+  SettingsOpenForegroundContainer,
   SettingsHeader,
   SettingsContent,
-  SettingsCloseButton,
   ColumnCheckboxList,
   SettingsRowContainer
 } from './tableSettingsStyles';
 import Button from 'src/components/Button';
+import { TableSettingsConfig } from 'src/components/Table/Table';
 
-export interface TableSettingsProps<T = any> {
+export interface TableSettingsProps<T = any> extends TableSettingsConfig {
   columns: Column<T, any>[];
   onColumnVisibilityChange: (columnId: string, visible: boolean) => void;
   getColumnVisibility: (columnId: string) => boolean;
@@ -22,7 +23,8 @@ export interface TableSettingsProps<T = any> {
 const TableSettings: React.FC<TableSettingsProps> = ({
   columns,
   onColumnVisibilityChange,
-  getColumnVisibility
+  getColumnVisibility,
+  enableColumnHiding
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,53 +43,59 @@ const TableSettings: React.FC<TableSettingsProps> = ({
     if (!column.id || !columnDef.header) return false;
     // Skip special columns like actions
     if (column.id === 'more-actions') return false;
-    // Skip columns that have enableHiding set to false
-    if (columnDef.enableHiding === false) return false;
-    return true;
+    // Include/Skip columns based on enableHiding flag
+    return columnDef.enableHiding !== false;
+
   });
 
   return (
     <SettingsRowContainer>
-     <div className='button-container'>
-       <Button
-         icon={<SettingsIcon />}
-         onClick={handleToggle}
-         aria-label="Table settings"
-         title="Table settings"
-       />
-     </div>
-
+      <div className="button-container">
+        <Button
+          icon={<SettingsIcon />}
+          onClick={handleToggle}
+          className="settings-icon"
+          aria-label="Table settings"
+          title="Table settings"
+        />
+      </div>
       {isOpen && (
         <>
-          <SettingsOverlay onClick={handleClose} />
-          <SettingsContainer>
+          <SettingsOpenBackgroundContainer onClick={handleClose} />
+          <SettingsOpenForegroundContainer>
             <SettingsHeader>
-              <h3>Table Settings</h3>
-              <SettingsCloseButton onClick={handleClose} aria-label="Close">
-                ×
-              </SettingsCloseButton>
+              <h4>Table Settings</h4>
+              <Button
+                icon={<CloseIcon />}
+                onClick={handleClose}
+                className="close-icon"
+                aria-label="Close"
+              />
             </SettingsHeader>
             <SettingsContent>
-              <h4>Show/Hide Columns</h4>
-              <ColumnCheckboxList>
-                {configurableColumns.map((column) => {
-                  const isVisible = getColumnVisibility(column.id);
-                  const columnHeader = typeof column.columnDef.header === 'function'
-                    ? column.id
-                    : column.columnDef.header;
+              {enableColumnHiding && (
+                <>
+                  <h5>Columns</h5>
+                  <ColumnCheckboxList>
+                    {configurableColumns.map((column) => {
+                      const isVisible = getColumnVisibility(column.id);
+                      const columnHeader = typeof column.columnDef.header === 'function'
+                        ? column.id
+                        : column.columnDef.header;
 
-                  return (
-                    <Checkbox
-                      key={column.id}
-                      checked={isVisible}
-                      onChange={() => onColumnVisibilityChange(column.id, !isVisible)}
-                      label={columnHeader as string}
-                    />
-                  );
-                })}
-              </ColumnCheckboxList>
+                      return (
+                        <Checkbox
+                          key={column.id}
+                          checked={isVisible}
+                          onChange={() => onColumnVisibilityChange(column.id, !isVisible)}
+                          label={columnHeader as string}
+                        />
+                      );
+                    })}
+                  </ColumnCheckboxList></>
+              )}
             </SettingsContent>
-          </SettingsContainer>
+          </SettingsOpenForegroundContainer>
         </>
       )}
     </SettingsRowContainer>

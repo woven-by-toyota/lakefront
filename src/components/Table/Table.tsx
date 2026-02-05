@@ -384,6 +384,7 @@ const Table: React.FC<TableProps> = ({
     <TableWrapper>
       {tableSettings?.enableColumnHiding && (
         <TableSettings
+          enableColumnHiding={tableSettings.enableColumnHiding}
           columns={table.getAllLeafColumns()}
           onColumnVisibilityChange={(columnId, visible) => {
             setColumnVisibility((prev) => ({
