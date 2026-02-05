@@ -1,33 +1,16 @@
 import styled from '@emotion/styled';
 import colors from 'src/styles/lakefrontColors';
 
-export const SettingsButton = styled.button(({ theme }) => ({
-  position: 'absolute',
-  top: '-40px',
-  right: 0,
-  background: 'transparent',
-  border: 'none',
-  cursor: 'pointer',
-  padding: '8px',
+export const SettingsRowContainer = styled.div(({ theme }) => ({
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '4px',
-  transition: 'background-color 0.2s ease',
-
-  '&:hover': {
-    backgroundColor: theme?.backgrounds?.hover || colors.selago,
-  },
-
-  '&:focus': {
-    outline: `2px solid ${theme?.colors?.primary || colors.blueberry}`,
-    outlineOffset: '2px',
-  },
-
-  svg: {
-    width: '24px',
-    height: '24px',
-    fill: theme?.colors?.arsenic || colors.arsenic,
+  justifyContent: 'space-between',
+  '.button-container': {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    svg: {
+      fill: theme.foregrounds.secondary
+    }
   }
 }));
 
@@ -116,5 +99,4 @@ export const ColumnCheckboxList = styled.div({
 
 export const TableWrapper = styled.div({
   position: 'relative',
-  paddingTop: '40px'
 });

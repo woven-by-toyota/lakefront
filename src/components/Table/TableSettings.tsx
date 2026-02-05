@@ -3,14 +3,15 @@ import { Column } from '@tanstack/react-table';
 import Checkbox from '../Checkbox/Checkbox';
 import { ReactComponent as SettingsIcon } from './assets/settings.svg';
 import {
-  SettingsButton,
   SettingsOverlay,
   SettingsContainer,
   SettingsHeader,
   SettingsContent,
   SettingsCloseButton,
-  ColumnCheckboxList
+  ColumnCheckboxList,
+  SettingsRowContainer
 } from './tableSettingsStyles';
+import Button from 'src/components/Button';
 
 export interface TableSettingsProps<T = any> {
   columns: Column<T, any>[];
@@ -46,14 +47,15 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   });
 
   return (
-    <>
-      <SettingsButton
-        onClick={handleToggle}
-        aria-label="Table settings"
-        title="Table settings"
-      >
-        <SettingsIcon />
-      </SettingsButton>
+    <SettingsRowContainer>
+     <div className='button-container'>
+       <Button
+         icon={<SettingsIcon />}
+         onClick={handleToggle}
+         aria-label="Table settings"
+         title="Table settings"
+       />
+     </div>
 
       {isOpen && (
         <>
@@ -88,7 +90,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
           </SettingsContainer>
         </>
       )}
-    </>
+    </SettingsRowContainer>
   );
 };
 
