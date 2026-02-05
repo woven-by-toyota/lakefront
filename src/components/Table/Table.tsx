@@ -303,24 +303,8 @@ const Table: React.FC<TableProps> = ({
     };
   }, [infiniteScroll]);
 
-  // Render the UI for your table
-  return (
-    <TableWrapper>
-      {tableSettings?.enableColumnHiding && (
-        <TableSettings
-          columns={table.getAllLeafColumns()}
-          onColumnVisibilityChange={(columnId, visible) => {
-            setColumnVisibility((prev) => ({
-              ...prev,
-              [columnId]: visible
-            }));
-          }}
-          getColumnVisibility={(columnId) => {
-            return columnVisibility[columnId] !== false;
-          }}
-        />
-      )}
-      <TableStyle className={className} style={style}>
+  const tableComponent = (
+    <TableStyle className={className} style={style}>
       <HideableTHead hide={hideHeaders} sticky={shouldUseStickyHeaders}>
         {table.getHeaderGroups().map((headerGroup: any) => (
           <tr key={headerGroup.id}>
@@ -388,6 +372,31 @@ const Table: React.FC<TableProps> = ({
       )}
       </tbody>
     </TableStyle>
+  );
+
+  // Render table only
+  if (!tableSettings?.enableColumnHiding) {
+    return tableComponent;
+  }
+
+  // Render table with settings panel
+  return (
+    <TableWrapper>
+      {tableSettings?.enableColumnHiding && (
+        <TableSettings
+          columns={table.getAllLeafColumns()}
+          onColumnVisibilityChange={(columnId, visible) => {
+            setColumnVisibility((prev) => ({
+              ...prev,
+              [columnId]: visible
+            }));
+          }}
+          getColumnVisibility={(columnId) => {
+            return columnVisibility[columnId] !== false;
+          }}
+        />
+      )}
+      {tableComponent}
     </TableWrapper>
   );
 };
