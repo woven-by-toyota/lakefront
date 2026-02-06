@@ -465,12 +465,12 @@ TableWithInitialColumnVisibility.args = {
   data: CUSTOM_DATA,
   tableSettings: {
     columnConfig: {
-      enableColumnHiding: true
+      enableColumnHiding: true,
+      initialColumnVisibility: {
+        percentage: false,
+        percentage_change: false
+      }
     },
-    initialColumnVisibility: {
-      percentage: false,
-      percentage_change: false
-    }
   } as TableProps['tableSettings'],
   noDataMessage: 'No data found',
   // story props

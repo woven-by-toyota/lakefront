@@ -88,13 +88,13 @@ export interface TableSettingsConfig {
      * @param updatedVisibility
      */
     columnChangeSubscriber?: (updatedVisibility: VisibilityState) => void;
+    /**
+     * Initial column visibility state.
+     * Object mapping column IDs to boolean values (true = visible, false = hidden).
+     * This only sets the initial state and won't affect subsequent visibility updates.
+     */
+    initialColumnVisibility?: VisibilityState;
   };
-  /**
-   * Initial column visibility state.
-   * Object mapping column IDs to boolean values (true = visible, false = hidden).
-   * This only sets the initial state and won't affect subsequent visibility updates.
-   */
-  initialColumnVisibility?: VisibilityState;
 }
 
 export interface TableProps<T = any> {
@@ -214,7 +214,7 @@ const Table: React.FC<TableProps> = ({
   const [sorting, setSorting] = React.useState<SortingState>(initialSortByData);
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-    tableSettings?.initialColumnVisibility ?? {}
+    tableSettings?.columnConfig?.initialColumnVisibility ?? {}
   );
 
   // Check if any table settings have been modified
