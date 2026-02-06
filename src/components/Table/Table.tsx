@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { ComponentPropsWithoutRef, useEffect, useMemo, useRef, useState } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -176,6 +176,10 @@ export interface TableProps<T = any> {
    * Provides options like column hiding, filtering, etc.
    */
   tableSettings?: TableSettingsConfig;
+  /**
+   * Additional props for the table wrapper when tableSettings is enabled.
+   */
+  wrapperProps?: ComponentPropsWithoutRef<'div'>;
 }
 
 /**
@@ -200,7 +204,8 @@ const Table: React.FC<TableProps> = ({
   moreActionsConfig,
   infiniteScroll,
   stickyHeaders,
-  tableSettings
+  tableSettings,
+  wrapperProps
 }) => {
   /** initialSortBy must be memoized */
   const initialSortByData: SortingState = useMemo(
@@ -420,7 +425,7 @@ const Table: React.FC<TableProps> = ({
 
   // Render table with settings panel
   return (
-    <TableWrapper hasSettings={Boolean(tableSettings)} stickyHeaders={shouldUseStickyHeaders}>
+    <TableWrapper hasSettings={Boolean(tableSettings)} stickyHeaders={shouldUseStickyHeaders} {...wrapperProps}>
       <TableSettings
         {...tableSettings}
         columns={table.getAllLeafColumns()}
