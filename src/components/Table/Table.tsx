@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { ComponentPropsWithoutRef, useEffect, useMemo, useRef, useState } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -9,7 +9,8 @@ import {
   ColumnDef,
   ColumnSort,
   ExpandedState,
-  TableOptions
+  TableOptions,
+  VisibilityState
 } from '@tanstack/react-table';
 import { HideableTHead, StyledHeader, StyledHeaderContent, TableStyle } from './tableStyles';
 import { getSortBySVG, getTitleForMultiSort } from './tableUtil';
@@ -18,6 +19,8 @@ import TableRow from './TableRow';
 import { MoreActionsButton } from '../../index';
 import { useRowHover } from './RowHoverContext';
 import Loading from '../Loading/Loading';
+import TableSettings from './TableSettings';
+import { TableWrapper } from './tableSettingsStyles';
 
 export interface TableSortByOptions {
   id: string;
@@ -63,6 +66,35 @@ export interface InfiniteScrollConfig {
    * Default is true when infinite scroll is enabled.
    */
   stickyHeaders?: boolean;
+}
+
+export interface TableSettingsConfig {
+  /**
+   * Configuration for table settings panel.
+   */
+  columnConfig?: {
+    /**
+     * Enable column hiding feature.
+     * When true, users can toggle column visibility through the settings panel.
+     */
+    enableColumnHiding: boolean;
+    /**
+     * Function to transform column IDs into user-friendly labels
+     * @param columnId
+     */
+    columnLabelTransform?: (columnId: string) => string;
+    /**
+     * Watch for column visibility change events.
+     * @param updatedVisibility
+     */
+    columnChangeSubscriber?: (updatedVisibility: VisibilityState) => void;
+    /**
+     * Initial column visibility state.
+     * Object mapping column IDs to boolean values (true = visible, false = hidden).
+     * This only sets the initial state and won't affect subsequent visibility updates.
+     */
+    initialColumnVisibility?: VisibilityState;
+  };
 }
 
 export interface TableProps<T = any> {
@@ -138,6 +170,16 @@ export interface TableProps<T = any> {
    * When infiniteScroll is provided, this defaults to true. Otherwise defaults to false.
    */
   stickyHeaders?: boolean;
+
+  /**
+   * Configuration for table settings panel.
+   * Provides options like column hiding, filtering, etc.
+   */
+  tableSettings?: TableSettingsConfig;
+  /**
+   * Additional props for the table wrapper when tableSettings is enabled.
+   */
+  wrapperProps?: ComponentPropsWithoutRef<'div'>;
 }
 
 /**
@@ -161,7 +203,9 @@ const Table: React.FC<TableProps> = ({
   contextMenuConfig,
   moreActionsConfig,
   infiniteScroll,
-  stickyHeaders
+  stickyHeaders,
+  tableSettings,
+  wrapperProps
 }) => {
   /** initialSortBy must be memoized */
   const initialSortByData: SortingState = useMemo(
@@ -174,6 +218,14 @@ const Table: React.FC<TableProps> = ({
 
   const [sorting, setSorting] = React.useState<SortingState>(initialSortByData);
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    tableSettings?.columnConfig?.initialColumnVisibility ?? {}
+  );
+
+  // Check if any table settings have been modified
+  const hasModifiedSettings = useMemo(() => {
+    return Object.values(columnVisibility).some(visible => visible === false);
+  }, [columnVisibility]);
 
   // Determine if sticky headers should be enabled
   // Default to true if infiniteScroll is enabled, unless explicitly overridden
@@ -224,10 +276,12 @@ const Table: React.FC<TableProps> = ({
     columns: memoizedColumns,
     state: {
       sorting,
-      expanded
+      expanded,
+      columnVisibility
     },
     onSortingChange: setSorting,
     onExpandedChange: setExpanded,
+    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
@@ -282,10 +336,20 @@ const Table: React.FC<TableProps> = ({
     };
   }, [infiniteScroll]);
 
-  // Render the UI for your table
-  return (
+  // Column visibility change subscriber effect
+  useEffect(() => {
+    if (tableSettings?.columnConfig?.columnChangeSubscriber) {
+      tableSettings.columnConfig.columnChangeSubscriber(columnVisibility);
+    }
+  }, [columnVisibility, tableSettings]);
+
+  const tableComponent = (
     <TableStyle className={className} style={style}>
-      <HideableTHead hide={hideHeaders} sticky={shouldUseStickyHeaders}>
+      <HideableTHead
+        hide={hideHeaders}
+        sticky={shouldUseStickyHeaders}
+        hasSettings={Boolean(tableSettings) && shouldUseStickyHeaders}
+      >
         {table.getHeaderGroups().map((headerGroup: any) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header: any) => {
@@ -352,6 +416,31 @@ const Table: React.FC<TableProps> = ({
       )}
       </tbody>
     </TableStyle>
+  );
+
+  // Render table only
+  if (!tableSettings) {
+    return tableComponent;
+  }
+
+  // Render table with settings panel
+  return (
+    <TableWrapper hasSettings={Boolean(tableSettings)} stickyHeaders={shouldUseStickyHeaders} {...wrapperProps}>
+      <TableSettings
+        {...tableSettings}
+        columns={table.getAllLeafColumns()}
+        onColumnVisibilityChange={(columnId, visible) => {
+          setColumnVisibility((prev) => ({
+            ...prev,
+            [columnId]: visible
+          }));
+        }}
+        getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
+        stickyHeaders={shouldUseStickyHeaders}
+        hasModifiedSettings={hasModifiedSettings}
+      />
+      {tableComponent}
+    </TableWrapper>
   );
 };
 
