@@ -83,6 +83,11 @@ export interface TableSettingsConfig {
      * @param columnId
      */
     columnLabelTransform?: (columnId: string) => string;
+    /**
+     * Watch for column visibility change events.
+     * @param updatedVisibility
+     */
+    columnChangeSubscriber?: (updatedVisibility: VisibilityState) => void;
   };
   /**
    * Initial column visibility state.
@@ -325,6 +330,13 @@ const Table: React.FC<TableProps> = ({
       }
     };
   }, [infiniteScroll]);
+
+  // Column visibility change subscriber effect
+  useEffect(() => {
+    if (tableSettings?.columnConfig?.columnChangeSubscriber) {
+      tableSettings.columnConfig.columnChangeSubscriber(columnVisibility);
+    }
+  }, [columnVisibility, tableSettings]);
 
   const tableComponent = (
     <TableStyle className={className} style={style}>
