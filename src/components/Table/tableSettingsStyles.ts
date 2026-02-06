@@ -105,7 +105,13 @@ export const SettingsContent = styled.div(({ theme }) => ({
     margin:0,
     textTransform: 'uppercase',
     letterSpacing: '0.5px'
-  }
+  },
+}));
+
+export const SettingsContentSection = styled(SettingsContent)(({ theme }) => ({
+  border: `1px solid ${theme.borderColors.primary}`,
+  borderRadius: 4,
+  flex: 1
 }));
 
 export const ColumnCheckboxList = styled.div({

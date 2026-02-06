@@ -9,7 +9,8 @@ import {
   SettingsHeader,
   SettingsContent,
   ColumnCheckboxList,
-  SettingsRowContainer
+  SettingsRowContainer,
+  SettingsContentSection
 } from './tableSettingsStyles';
 import Button from 'src/components/Button';
 import { TableSettingsConfig } from 'src/components/Table/Table';
@@ -115,20 +116,22 @@ const TableSettings: React.FC<TableSettingsProps> = ({
               />
             </SettingsHeader>
             <SettingsContent>
-              {columnConfig?.enableColumnHiding && (
-                <>
-                  <h5>Columns</h5>
-                  <ColumnCheckboxList>
-                    <CheckboxGroup
-                      name="table-columns"
-                      options={checkboxOptions}
-                      selected={selectedColumns}
-                      onHandleChange={handleCheckboxGroupChange}
-                      allLabel="Show/Hide All"
-                    />
-                  </ColumnCheckboxList>
-                </>
-              )}
+              <SettingsContentSection>
+                {columnConfig?.enableColumnHiding && (
+                  <>
+                    <h5>Columns</h5>
+                    <ColumnCheckboxList>
+                      <CheckboxGroup
+                        name="table-columns"
+                        options={checkboxOptions}
+                        selected={selectedColumns}
+                        onHandleChange={handleCheckboxGroupChange}
+                        allLabel="Show/Hide All"
+                      />
+                    </ColumnCheckboxList>
+                  </>
+                )}
+              </SettingsContentSection>
             </SettingsContent>
           </SettingsOpenForegroundContainer>
         </>
