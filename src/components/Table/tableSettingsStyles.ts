@@ -1,4 +1,14 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+
+const pulseBorderGlow = keyframes`
+  0%, 100% {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+  50% {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 4px 1px rgba(0, 123, 255, 0.4);
+  }
+`;
 
 interface SettingsRowContainerProps {
   sticky?: boolean;
@@ -23,7 +33,10 @@ export const SettingsRowContainer = styled.div<SettingsRowContainerProps>(({ the
       border: `1px solid ${hasModifiedSettings ? theme.foregrounds.hyperlink : theme.borderColors.primary}`,
       width: 36,
       height: 36,
-      boxShadow: '0 1px 1px rgba(0, 0, 0, 0.15)'
+      boxShadow: '0 1px 1px rgba(0, 0, 0, 0.15)',
+      ...(hasModifiedSettings && {
+        animation: `${pulseBorderGlow} 2s ease-in-out infinite`
+      })
     },
     width: '100%',
     display: 'flex',
