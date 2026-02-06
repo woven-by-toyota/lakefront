@@ -315,7 +315,11 @@ const Table: React.FC<TableProps> = ({
 
   const tableComponent = (
     <TableStyle className={className} style={style}>
-      <HideableTHead hide={hideHeaders} sticky={shouldUseStickyHeaders}>
+      <HideableTHead
+        hide={hideHeaders}
+        sticky={shouldUseStickyHeaders}
+        hasSettings={Boolean(tableSettings) && shouldUseStickyHeaders}
+      >
         {table.getHeaderGroups().map((headerGroup: any) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header: any) => {
@@ -391,7 +395,7 @@ const Table: React.FC<TableProps> = ({
 
   // Render table with settings panel
   return (
-    <TableWrapper>
+    <TableWrapper hasSettings={Boolean(tableSettings)} stickyHeaders={shouldUseStickyHeaders}>
       <TableSettings
         {...tableSettings}
         columns={table.getAllLeafColumns()}
@@ -402,6 +406,7 @@ const Table: React.FC<TableProps> = ({
           }));
         }}
         getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
+        stickyHeaders={shouldUseStickyHeaders}
       />
       {tableComponent}
     </TableWrapper>

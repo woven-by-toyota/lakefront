@@ -329,7 +329,7 @@ TableWithExpandableRows.args = {
   renderRowSubComponent
 };
 
-const InfiniteScrollTemplate: StoryFn<TableProps> = (args) => {
+const InfiniteScrollTemplate: StoryFn<TableProps & { storyTitle?: string; storyDescription?: string; }> = (args) => {
   const [data, setData] = useState(INFINITE_SCROLL_DATA.slice(0, 5));
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -356,17 +356,22 @@ const InfiniteScrollTemplate: StoryFn<TableProps> = (args) => {
   };
 
   return (
-    <div style={{ height: 400, overflow: 'auto' }}>
-      <TableComponent
-        {...args}
-        data={data}
-        infiniteScroll={{
-          onLoadMore: loadMore,
-          isLoading,
-          hasMore,
-          threshold: 100
-        }}
-      />
+    <div style={{ height: 400 }}>
+      <h2>{args.storyTitle || ''}</h2>
+      <p>{args.storyDescription || ''}</p>
+      <div style={{ height: '100%', overflow: 'auto' }}>
+        <div style={{ position: 'relative' }}>
+          <TableComponent
+            {...args}
+            data={data}
+            infiniteScroll={{
+              onLoadMore: loadMore,
+              isLoading,
+              hasMore,
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -374,12 +379,17 @@ const InfiniteScrollTemplate: StoryFn<TableProps> = (args) => {
 export const TableWithInfiniteScroll = InfiniteScrollTemplate.bind({});
 TableWithInfiniteScroll.args = {
   columns: columns,
-  noDataMessage: 'No data found'
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Infinite Scroll',
+  storyDescription: 'Scroll down to load more data.'
 };
 
-const StickyHeadersTemplate: StoryFn<TableProps> = (args) => {
+const StickyHeadersTemplate: StoryFn<TableProps & { storyTitle?: string; storyDescription?: string; }> = (args) => {
   return (
     <div style={{ height: 300, overflow: 'auto' }}>
+      <h2>{args.storyTitle || ''}</h2>
+      <p>{args.storyDescription || ''}</p>
       <TableComponent {...args} />
     </div>
   );
@@ -390,27 +400,23 @@ TableWithStickyHeaders.args = {
   columns: columns,
   data: CUSTOM_DATA,
   stickyHeaders: true,
-  noDataMessage: 'No data found'
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Sticky Headers',
+  storyDescription: 'Scroll down to see more data. Table headers will stick to the top.'
 };
 
 export const TableWithInfiniteScrollNoStickyHeaders = InfiniteScrollTemplate.bind({});
 TableWithInfiniteScrollNoStickyHeaders.args = {
   columns: columns,
   noDataMessage: 'No data found',
-  stickyHeaders: false
+  stickyHeaders: false,
+  // story props
+  storyTitle: 'Table with Infinite Scroll and No Sticky Headers',
+  storyDescription: 'Scroll down to load more data. Table headers will not stick to the top.'
 };
 
-const TableSettingsTemplate: StoryFn<TableProps> = (args) => {
-  return (
-    <div style={{ padding: '20px' }}>
-      <h2>Table with Column Hiding Settings</h2>
-      <p>Click the settings icon in the top-right corner to show/hide columns.</p>
-      <TableComponent {...args} />
-    </div>
-  );
-};
-
-export const TableWithSettings = TableSettingsTemplate.bind({});
+export const TableWithSettings = InfiniteScrollTemplate.bind({});
 TableWithSettings.args = {
   columns: columns,
   data: CUSTOM_DATA,
@@ -419,13 +425,17 @@ TableWithSettings.args = {
       enableColumnHiding: true
     }
   } as TableProps['tableSettings'],
-  noDataMessage: 'No data found'
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Settings',
+  storyDescription: 'Click the settings icon in the top-left corner to show/hide columns.'
 };
 
-export const TableWithSettingsAndMoreActions = TableSettingsTemplate.bind({});
+export const TableWithSettingsAndMoreActions = InfiniteScrollTemplate.bind({});
 TableWithSettingsAndMoreActions.args = {
   columns: columns,
   data: CUSTOM_DATA,
+  stickyHeaders: true,
   tableSettings: {
     columnConfig: {
       enableColumnHiding: true
@@ -443,6 +453,9 @@ TableWithSettingsAndMoreActions.args = {
       }
     ]
   },
-  noDataMessage: 'No data found'
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Settings and More Actions',
+  storyDescription: 'Click the ellipsis at the far right to reveal row actions.'
 };
 

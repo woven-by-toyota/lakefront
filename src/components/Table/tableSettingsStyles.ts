@@ -1,7 +1,17 @@
 import styled from '@emotion/styled';
 
-export const SettingsRowContainer = styled.div(({ theme }) => ({
+interface SettingsRowContainerProps {
+  sticky?: boolean;
+}
+
+export const SettingsRowContainer = styled.div<SettingsRowContainerProps>(({ theme, sticky }) => ({
   position: 'relative',
+  ...(sticky && {
+    position: 'sticky',
+    top: 0,
+    zIndex: theme.zIndex.tableHeader + 1, // ensure it appears above the table header
+    backgroundColor: theme.backgrounds.primary,
+  }),
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -89,6 +99,14 @@ export const ColumnCheckboxList = styled.div({
   flexDirection: 'column',
 });
 
-export const TableWrapper = styled.div({
+interface TableWrapperProps {
+  hasSettings?: boolean;
+  stickyHeaders?: boolean;
+}
+
+export const TableWrapper = styled.div<TableWrapperProps>(({ hasSettings, stickyHeaders }) => ({
   position: 'relative',
-});
+  ...(hasSettings && stickyHeaders && {
+    '--settings-row-height': '56px' // approximate height of settings row, must be a string with px here
+  })
+}));
