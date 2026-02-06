@@ -104,8 +104,8 @@ const TableSettings: React.FC<TableSettingsProps> = ({
       </div>
       {isOpen && (
         <>
-          <SettingsOpenBackgroundContainer onClick={handleClose} />
-          <SettingsOpenForegroundContainer>
+          <SettingsOpenBackgroundContainer onClick={handleClose} aria-label='table settings background' />
+          <SettingsOpenForegroundContainer aria-label='table settings foreground'>
             <SettingsHeader>
               <h4>Table Settings</h4>
               <Button

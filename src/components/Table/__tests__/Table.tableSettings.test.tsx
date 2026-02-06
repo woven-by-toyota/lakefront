@@ -1,12 +1,14 @@
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import Table from '../Table';
+import { renderWithTheme as render } from 'src/lib/testing';
+import { humanize } from 'src/lib/format.js';
 
 const columns = [
   {
     header: 'TITLE',
     accessorKey: 'title',
     size: 100,
-    cell: ({ getValue }) => getValue()
+    cell: ({ getValue }: any) => getValue()
   },
   {
     header: 'VALUE',
@@ -30,7 +32,7 @@ describe('<Table> with tableSettings', () => {
       <Table
         columns={columns}
         data={customData}
-        tableSettings={{ enableColumnHiding: true }}
+        tableSettings={{ columnConfig: { enableColumnHiding: true } }}
       />
     );
 
@@ -52,32 +54,32 @@ describe('<Table> with tableSettings', () => {
       <Table
         columns={columns}
         data={customData}
-        tableSettings={{ enableColumnHiding: true }}
+        tableSettings={{ columnConfig: { enableColumnHiding: true } }}
       />
     );
 
     const settingsButton = container.querySelector('button[aria-label="Table settings"]');
-    fireEvent.click(settingsButton);
+    fireEvent.click(settingsButton as Element);
 
     expect(screen.getByText('Table Settings')).toBeInTheDocument();
-    expect(screen.getByText('Show/Hide Columns')).toBeInTheDocument();
+    expect(screen.getByText('Columns')).toBeInTheDocument();
   });
 
-  it('displays all hideable columns in settings overlay', () => {
+  it('displays all hideable columns (with label transform) in settings overlay', () => {
     render(
       <Table
         columns={columns}
         data={customData}
-        tableSettings={{ enableColumnHiding: true }}
+        tableSettings={{ columnConfig: { enableColumnHiding: true, columnLabelTransform: humanize } }}
       />
     );
 
     const settingsButton = screen.getByLabelText('Table settings');
     fireEvent.click(settingsButton);
 
-    expect(screen.getByText('TITLE')).toBeInTheDocument();
-    expect(screen.getByText('VALUE')).toBeInTheDocument();
-    expect(screen.getByText('PERCENTAGE')).toBeInTheDocument();
+    expect(screen.getByText('Title')).toBeInTheDocument();
+    expect(screen.getByText('Value')).toBeInTheDocument();
+    expect(screen.getByText('Percentage')).toBeInTheDocument();
   });
 
   it('hides column when checkbox is unchecked', async () => {
@@ -85,7 +87,7 @@ describe('<Table> with tableSettings', () => {
       <Table
         columns={columns}
         data={customData}
-        tableSettings={{ enableColumnHiding: true }}
+        tableSettings={{ columnConfig: { enableColumnHiding: true, columnLabelTransform: humanize } }}
       />
     );
 
@@ -99,13 +101,13 @@ describe('<Table> with tableSettings', () => {
     fireEvent.click(settingsButton);
 
     // Find the VALUE checkbox (using the label)
-    const valueCheckboxLabel = screen.getAllByText('VALUE').find(
+    const valueCheckboxLabel = screen.getAllByText('Value').find(
       (el) => el.tagName === 'SPAN'
-    );
-    const valueCheckbox = valueCheckboxLabel.closest('label').querySelector('input[type="checkbox"]');
+    ) as Element;
+    const valueCheckbox = (valueCheckboxLabel.closest('label') as Element).querySelector('input[type="checkbox"]');
 
     // Uncheck the VALUE column
-    fireEvent.click(valueCheckbox);
+    fireEvent.click(valueCheckbox as Element);
 
     // Close settings
     const closeButton = screen.getByLabelText('Close');
@@ -124,7 +126,7 @@ describe('<Table> with tableSettings', () => {
       <Table
         columns={columns}
         data={customData}
-        tableSettings={{ enableColumnHiding: true }}
+        tableSettings={{ columnConfig: { enableColumnHiding: true } }}
       />
     );
 
@@ -142,11 +144,11 @@ describe('<Table> with tableSettings', () => {
   });
 
   it('closes settings overlay when overlay backdrop is clicked', () => {
-    const { container } = render(
+    render(
       <Table
         columns={columns}
         data={customData}
-        tableSettings={{ enableColumnHiding: true }}
+        tableSettings={{ columnConfig: { enableColumnHiding: true } }}
       />
     );
 
@@ -157,8 +159,8 @@ describe('<Table> with tableSettings', () => {
     expect(screen.getByText('Table Settings')).toBeInTheDocument();
 
     // Click backdrop
-    const overlay = container.querySelector('[style*="position: fixed"]');
-    fireEvent.click(overlay);
+    const overlay = screen.getByLabelText('table settings background');
+    fireEvent.click(overlay as Element);
 
     expect(screen.queryByText('Table Settings')).not.toBeInTheDocument();
   });
@@ -178,7 +180,7 @@ describe('<Table> with tableSettings', () => {
       <Table
         columns={columnsWithMoreActions}
         data={customData}
-        tableSettings={{ enableColumnHiding: true }}
+        tableSettings={{ columnConfig: { enableColumnHiding: true, columnLabelTransform: humanize } }}
         moreActionsConfig={{
           getRowActionItems: () => []
         }}
@@ -194,9 +196,9 @@ describe('<Table> with tableSettings', () => {
     expect(screen.getByText('VALUE')).toBeInTheDocument();
     expect(screen.getByText('PERCENTAGE')).toBeInTheDocument();
 
-    // Should not show more-actions in the list (there should only be 3 checkboxes)
+    // Should not show more-actions in the list (there should only be 3 checkboxes + 1 show all checkbox)
     const checkboxes = screen.getAllByRole('checkbox');
-    expect(checkboxes).toHaveLength(3);
+    expect(checkboxes).toHaveLength(4);
   });
 
   it('respects enableHiding: false on column definition', () => {
@@ -216,7 +218,7 @@ describe('<Table> with tableSettings', () => {
       <Table
         columns={columnsWithNonHideable}
         data={customData}
-        tableSettings={{ enableColumnHiding: true }}
+        tableSettings={{ columnConfig: { enableColumnHiding: true, columnLabelTransform: humanize } }}
       />
     );
 
@@ -224,11 +226,11 @@ describe('<Table> with tableSettings', () => {
     const settingsButton = screen.getByLabelText('Table settings');
     fireEvent.click(settingsButton);
 
-    // Should only show VALUE column (TITLE has enableHiding: false)
-    expect(screen.queryByText('TITLE')).not.toBeInTheDocument();
-    expect(screen.getByText('VALUE')).toBeInTheDocument();
+    // Should only show Value column (Title has enableHiding: false)
+    expect(screen.queryByText('Title')).not.toBeInTheDocument();
+    expect(screen.getByText('Value')).toBeInTheDocument();
 
     const checkboxes = screen.getAllByRole('checkbox');
-    expect(checkboxes).toHaveLength(1);
+    expect(checkboxes).toHaveLength(2); // 1 for Value + 1 show all checkbox
   });
 });
