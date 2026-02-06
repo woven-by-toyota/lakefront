@@ -19,6 +19,7 @@ export interface TableSettingsProps<T = any> extends TableSettingsConfig {
   onColumnVisibilityChange: (columnId: string, visible: boolean) => void;
   getColumnVisibility: (columnId: string) => boolean;
   stickyHeaders?: boolean;
+  hasModifiedSettings?: boolean;
 }
 
 const TableSettings: React.FC<TableSettingsProps> = ({
@@ -26,7 +27,8 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   onColumnVisibilityChange,
   getColumnVisibility,
   columnConfig,
-  stickyHeaders = false
+  stickyHeaders = false,
+  hasModifiedSettings = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -51,7 +53,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   });
 
   return (
-    <SettingsRowContainer sticky={stickyHeaders}>
+    <SettingsRowContainer sticky={stickyHeaders} hasModifiedSettings={hasModifiedSettings}>
       <div className="button-container">
         <Button
           icon={<SettingsIcon />}

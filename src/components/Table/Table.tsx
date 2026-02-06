@@ -208,9 +208,32 @@ const Table: React.FC<TableProps> = ({
 
   const [sorting, setSorting] = React.useState<SortingState>(initialSortByData);
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-    tableSettings?.initialColumnVisibility ?? {}
+  const initialColumnVisibility = useMemo(
+    () => tableSettings?.initialColumnVisibility ?? {},
+    []
   );
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    initialColumnVisibility
+  );
+
+  // Check if any settings have been modified from their initial state
+  const hasModifiedSettings = useMemo(() => {
+    // Check if column visibility has been modified
+    const allColumnIds = new Set([
+      ...Object.keys(columnVisibility),
+      ...Object.keys(initialColumnVisibility)
+    ]);
+
+    for (const columnId of allColumnIds) {
+      const currentVisible = columnVisibility[columnId] !== false;
+      const initialVisible = initialColumnVisibility[columnId] !== false;
+      if (currentVisible !== initialVisible) {
+        return true;
+      }
+    }
+
+    return false;
+  }, [columnVisibility, initialColumnVisibility]);
 
   // Determine if sticky headers should be enabled
   // Default to true if infiniteScroll is enabled, unless explicitly overridden
@@ -415,6 +438,7 @@ const Table: React.FC<TableProps> = ({
         }}
         getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
         stickyHeaders={shouldUseStickyHeaders}
+        hasModifiedSettings={hasModifiedSettings}
       />
       {tableComponent}
     </TableWrapper>

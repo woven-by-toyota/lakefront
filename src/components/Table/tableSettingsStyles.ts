@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 
 interface SettingsRowContainerProps {
   sticky?: boolean;
+  hasModifiedSettings?: boolean;
 }
 
-export const SettingsRowContainer = styled.div<SettingsRowContainerProps>(({ theme, sticky }) => ({
+export const SettingsRowContainer = styled.div<SettingsRowContainerProps>(({ theme, sticky, hasModifiedSettings }) => ({
   position: 'relative',
   ...(sticky && {
     position: 'sticky',
@@ -19,7 +20,7 @@ export const SettingsRowContainer = styled.div<SettingsRowContainerProps>(({ the
   '.button-container': {
     button: {
       borderRadius: 4,
-      border: `1px solid ${theme.borderColors.primary}`,
+      border: `1px solid ${hasModifiedSettings ? theme.foregrounds.hyperlink : theme.borderColors.primary}`,
       width: 36,
       height: 36,
       boxShadow: '0 1px 1px rgba(0, 0, 0, 0.15)'
@@ -28,7 +29,7 @@ export const SettingsRowContainer = styled.div<SettingsRowContainerProps>(({ the
     display: 'flex',
     justifyContent: 'flex-start',
     svg: {
-      fill: theme.foregrounds.secondary
+      fill: hasModifiedSettings ? theme.foregrounds.hyperlink : theme.foregrounds.secondary
     },
   },
 }));
