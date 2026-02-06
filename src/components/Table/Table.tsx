@@ -84,6 +84,12 @@ export interface TableSettingsConfig {
      */
     columnLabelTransform?: (columnId: string) => string;
   };
+  /**
+   * Initial column visibility state.
+   * Object mapping column IDs to boolean values (true = visible, false = hidden).
+   * This only sets the initial state and won't affect subsequent visibility updates.
+   */
+  initialColumnVisibility?: VisibilityState;
 }
 
 export interface TableProps<T = any> {
@@ -202,7 +208,9 @@ const Table: React.FC<TableProps> = ({
 
   const [sorting, setSorting] = React.useState<SortingState>(initialSortByData);
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    tableSettings?.initialColumnVisibility ?? {}
+  );
 
   // Determine if sticky headers should be enabled
   // Default to true if infiniteScroll is enabled, unless explicitly overridden

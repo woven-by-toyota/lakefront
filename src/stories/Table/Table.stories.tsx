@@ -459,3 +459,22 @@ TableWithSettingsAndMoreActions.args = {
   storyDescription: 'Click the ellipsis at the far right to reveal row actions.'
 };
 
+export const TableWithInitialColumnVisibility = InfiniteScrollTemplate.bind({});
+TableWithInitialColumnVisibility.args = {
+  columns: columns,
+  data: CUSTOM_DATA,
+  tableSettings: {
+    columnConfig: {
+      enableColumnHiding: true
+    },
+    initialColumnVisibility: {
+      percentage: false,
+      percentage_change: false
+    }
+  } as TableProps['tableSettings'],
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Initial Column Visibility',
+  storyDescription: 'Some columns are hidden by default. Use the settings icon to show/hide columns.'
+};
+
