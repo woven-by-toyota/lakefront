@@ -12,6 +12,7 @@ const SelectOverlay: FC<SelectProps> = ({
     options,
     onChange,
     value,
+    multiValue: multiValueOverride,
     isMulti,
     multiDefaultValue = [],
     asyncConfig,
@@ -22,13 +23,14 @@ const SelectOverlay: FC<SelectProps> = ({
 
     const { currentValue, defaultValue, selectId } = useMemo(
         () => {
+            const multiSelectValue = multiValueOverride || multiValues;
             return {
-                currentValue: !isMulti ? options.find((option: { value: any; }) => option.value === value) : multiValues,
+                currentValue: !isMulti ? options.find((option: { value: any; }) => option.value === value) : multiSelectValue,
                 defaultValue: options[0],
                 selectId: id ? `select-overlay-${id}` : undefined
             };
         },
-        [options, value, multiValues]
+        [options, value, multiValues, multiValueOverride]
     );
 
 

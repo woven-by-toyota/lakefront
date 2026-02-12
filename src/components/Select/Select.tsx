@@ -66,6 +66,10 @@ export interface SelectProps extends ReactSelectProps {
      */
     value?: any[] | string | number;
     /**
+     * A value of the multi-select component (if you want to control externally).
+     */
+    multiValue?: SelectOption[];
+    /**
      * A value to initially set the multi-select component to.
      */
     multiDefaultValue?: SelectOption[];
