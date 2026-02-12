@@ -42,7 +42,13 @@ export const useFilter = <T extends FilterPostBody>(
     // update the filter values in the state, and update the browser url
     const updateFilterValues = (values: FilterValues) => {
         setFilterValues(values);
-        const nonFilterQueryParams = getCurrentBrowserQueryParams(location, Object.keys(filters));
+        // capture splitQueryParams if exists to clear those as well
+        const splitFilters = Object
+          .values(filters)
+          .filter(filter => filter.splitQueryParams)
+          .map(filter => filter.splitQueryParams)
+          .flat() as string[];
+        const nonFilterQueryParams = getCurrentBrowserQueryParams(location, [...Object.keys(filters), ...splitFilters]);
         const filterQueryParams = getFilterBrowserQueryParams(filters, values);
         const newQueryParams = { ...nonFilterQueryParams, ...filterQueryParams };
         updateHistory({ search: queryString.stringify(newQueryParams) });

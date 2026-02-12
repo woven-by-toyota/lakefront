@@ -79,7 +79,7 @@ export interface FilterModule<T> {
     /**
      * Parses filter value from browser url query param value(s) and pre-populates the filter value on init.
      */
-    parseInitialFilterValue(browserQueryUrlValue?: string | string[] | null | undefined): T | null | undefined;
+    parseInitialFilterValue(browserQueryUrlValue?: string | string[] | null | undefined | any): T | null | undefined;
     /**
      * Renders the filter input controls in the left filter drawer.
      */
@@ -99,6 +99,10 @@ export interface FilterModule<T> {
      * Partially clear a filter when a filter has multiple selected options.
      */
     clearPartialSingleFilter?(originalValue: T, value: string): T | null | undefined;
+    /**
+     * Support for filters that use multiple query param keys to store their value(s).
+     */
+    splitQueryParams?: string[];
 }
 
 /**
@@ -212,7 +216,7 @@ export interface Location {
  */
 export interface UrlParameters {
     [key: string]: string[] | string | null;
-};
+}
 
 /**
  * UpdateHistory is the structure of a history update callback.

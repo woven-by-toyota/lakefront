@@ -32,14 +32,30 @@ export const getApiPostBody = <T extends FilterPostBody = {}>(filters: FilterSet
  * Parse filter values from browser url query param values to
  * pre-populate filter values on init.
  */
-export const parseInitialFilterValues = (location: Location, filters: FilterSet, presetValues?: { [key: string]: any; }): FilterValues => {
-    const urlParams = queryString.parse(location.search) as UrlParameters;
-    const initialFilterValues: FilterValues = {};
-    Object.keys(filters).forEach((key) => {
-        const filter = filters[key];       
-        initialFilterValues[key] = filter.parseInitialFilterValue(urlParams[key]);
-    });
-    return {...initialFilterValues, ...presetValues};
+export const parseInitialFilterValues = (location: Location, filters: FilterSet, presetValues?: {
+  [key: string]: any;
+}): FilterValues => {
+  const urlParams = queryString.parse(location.search) as UrlParameters;
+  const initialFilterValues: FilterValues = {};
+
+  Object.keys(filters).forEach((key) => {
+    const filter = filters[key];
+
+    // special case for filters that use multiple query params to save their value, such as the date range filter
+    if (filter?.splitQueryParams) {
+      const incomingParamValues = filter.splitQueryParams.reduce((acc, paramKey) => {
+        acc[paramKey] = urlParams[paramKey];
+        return acc;
+      }, {} as Record<string, string | string[] | null>);
+
+      initialFilterValues[key] = filter.parseInitialFilterValue(incomingParamValues);
+      return;
+    }
+
+    initialFilterValues[key] = filter.parseInitialFilterValue(urlParams[key]);
+  });
+
+  return { ...initialFilterValues, ...presetValues };
 };
 
 /**
