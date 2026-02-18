@@ -50,7 +50,7 @@ const Template: StoryFn<ModalProps & ComponentPropsWithoutRef<'div'> & { additio
     };
 
     return (
-        <div>
+        <div style={{ minHeight: 600 }}>
             <Button onClick={updateModalVisibility}>Open {args.headerText}</Button>
             <ModalComponent
                 {...args}

@@ -22,22 +22,24 @@ export const ConfirmationDiv = styled.div({
     }
 });
 
-export const ConfirmationTitle = styled.div({
-    fontWeight: 700,
-    fontSize: 18,
-    marginLeft: '0.5em'
-});
+export const ConfirmationTitle = styled.div(({ theme }) => ({
+  ...theme.lettering.h5,
+  marginLeft: '0.5em'
+}));
 
-export const ConfirmationTitleDiv = styled.div({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '0.5em',
-    svg: {
-        height: '2.5em',
-        width: '2.5em'
-    }
-});
+export const ConfirmationTitleDiv = styled.div(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: '0.5em',
+  svg: {
+    height: '2.5em',
+    width: '2.5em'
+  },
+  'svg.error-icon': {
+    fill: theme.foregrounds.alert
+  }
+}));
 
 export const ConfirmationContentSpan = styled.span({
     margin: '23px 0 33px 0',
