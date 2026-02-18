@@ -1,5 +1,6 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import ConfirmationModal from '../ConfirmationModal';
+import { renderWithTheme as render } from 'src/lib/testing';
 
 describe('ConfirmationModal', () => {
     it('calls onNo when clicking "no"', () => {
