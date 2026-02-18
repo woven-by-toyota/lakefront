@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import colors from 'src/styles/lakefrontColors';
 import { ReactComponent as ArrowUp } from './assets/arrow_drop_up.svg';
 import { ReactComponent as ArrowDown } from './assets/arrow_drop_down.svg';
 import { ReactComponent as Unsorted } from './assets/unsorted.svg';
@@ -9,8 +8,10 @@ export const TableStyle = styled.table(({ theme }) => ({
   margin: 0,
   borderSpacing: 0,
   width: '100%',
+  color: theme.foregrounds.primary,
+  ...theme.lettering.primary,
   'tr': {
-    color: theme?.colors?.arsenic,
+    color: theme.foregrounds.primary,
     ':last-child': {
       'td': {
         borderBottom: 0
@@ -18,21 +19,22 @@ export const TableStyle = styled.table(({ theme }) => ({
     }
   },
   'th': {
-    color: theme?.colors?.pavement,
+    color: theme.foregrounds.tableHeading,
     position: 'relative',
     textAlign: 'left',
     'svg': {
       marginTop: 2,
       position: 'absolute',
       top: 6,
-      fill: colors.pavement
+      fill: theme.foregrounds.tableHeading
     }
   },
   'th,td': {
     margin: 0,
     padding: '0.8rem',
     borderBottom: '1px solid',
-    borderBottomColor: theme?.colors?.selago,
+    borderBottomColor: theme.borderColors.primary,
+    backgroundColor: theme.backgrounds.primary,
 
     '&.noBorder': {
       borderBottom: 0,
@@ -43,7 +45,7 @@ export const TableStyle = styled.table(({ theme }) => ({
       marginBottom: 5
     },
     svg: {
-      fill: colors.pavement
+      fill: theme.foregrounds.tableHeading
     }
   }
 }));
@@ -57,16 +59,16 @@ export const StyledHeader = styled.div({
   }
 });
 
-export const StyledHeaderContent = styled.div({
+export const StyledHeaderContent = styled.div(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-start',
   'svg.sort-icon': {
     marginTop: 0,
     position: 'static',
-    fill: colors.pavement
+    fill: theme.foregrounds.tableHeading
   }
-});
+}));
 
 export const StyledArrowDown = styled(ArrowDown)({
   paddingLeft: 5,

@@ -82,6 +82,7 @@ export interface LakefrontTheme {
         primary: string;
         secondary: string;
         error: string;
+        alert: string;
         disabled: string;
         info: string;
         warning: string;
@@ -89,6 +90,7 @@ export interface LakefrontTheme {
         success: string;
         hyperlink: string;
         loading: string;
+        tableHeading: string;
     };
     lettering: {
         primary: {

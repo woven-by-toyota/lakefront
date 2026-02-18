@@ -26,7 +26,9 @@ export const Dialog = styled.div<Pick<ModalProps, 'dialogWidth'>>(({ dialogWidth
     maxWidth: dialogWidth ? DIALOG_WIDTHS[dialogWidth] : undefined,
     maxHeight: '90%',
     padding: '2em',
-    backgroundColor: theme?.colors?.white,
+    backgroundColor: theme.backgrounds.primary,
+    color: theme.foregrounds.primary,
+    ...theme.lettering.primary,
     position: 'relative',
     boxShadow: '0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%)',
     borderRadius: 4
@@ -42,20 +44,20 @@ export const DialogTitleContainer = styled.div(({ theme }) => ({
         top: '1em',
         right: '1em',
         svg: {
-            fill: theme?.colors?.pavement
+            fill: theme.foregrounds.secondary
         }
     }
 }));
 
 export const DialogSubHeader = styled.div(({ theme }) => ({
-    color: theme?.colors?.dolphin,
+    color: theme.foregrounds.secondary,
     fontSize: 16,
     margin: 0,
     padding: 0
 }));
 
 export const DialogDivider = styled.div(({ theme }) => ({
-    borderBottom: `1px solid ${theme?.colors?.mercury}`,
+    borderBottom: `1px solid ${theme.borderColors.primary}`,
     margin: '1em 0'
 }));
 

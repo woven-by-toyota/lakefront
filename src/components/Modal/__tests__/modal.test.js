@@ -1,6 +1,7 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import Modal, { CANCEL_BUTTON_TEXT } from '../Modal';
+import { renderWithTheme as render } from 'src/lib/testing';
 
 const MODAL_PROPS = {
     headerText: 'Small Basic Modal',

@@ -60,7 +60,7 @@ const Template: StoryFn<ConfirmationModalProps & ComponentPropsWithoutRef<'div'>
     };
 
     return (
-        <div>
+        <div style={{ minHeight: 400 }}>
             <Button onClick={updateConfirmationModalVisibility}>Open {args.buttonLabel}</Button>
             <ConfirmationModalComponent
                 {...args}

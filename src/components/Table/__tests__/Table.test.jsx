@@ -1,6 +1,7 @@
-import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import { fireEvent, cleanup, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Table from '../Table';
+import { renderWithTheme as render } from 'src/lib/testing';
 
 afterAll(cleanup);
 
