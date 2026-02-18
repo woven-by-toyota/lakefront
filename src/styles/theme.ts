@@ -57,6 +57,7 @@ const THEME: Theme = {
         primary: colors.storm,
         secondary: colors.dolphin,
         error: colors.saturatedRed,
+        alert: colors.watermelon,
         disabled: colors.mercury,
         info: colors.akoya,
         warning: colors.saturatedOrange,
@@ -64,16 +65,17 @@ const THEME: Theme = {
         success: colors.saturatedGreen,
         hyperlink: colors.saturatedBlue,
         loading: colors.pavement,
+        tableHeading: colors.pavement
     },
     lettering: {
         primary: {
-            fontSize: 14,
-            fontFamily: "Times New Roman (Serif)",
+            fontSize: 16,
+            fontFamily: "Arial, sans-serif",
             fontWeight: 400,
         },
         secondary: {
-            fontSize: 12,
-            fontFamily: "Arial (Sans-serif)",
+            fontSize: 14,
+            fontFamily: "Arial, sans-serif",
             fontWeight: 400,
         },
         h1: { fontSize: 32, fontFamily: "Arial, sans-serif", fontWeight: 700 },
@@ -138,23 +140,25 @@ export const DARK_THEME: Theme = {
         primary: colors.akoya,
         secondary: colors.mercury,
         error: colors.red,
+        alert: colors.watermelon,
         disabled: colors.mercury,
         info: colors.akoya,
         warning: colors.saturatedOrange,
         inverted: colors.storm,
         success: colors.green,
         hyperlink: colors.saturatedBlue,
-        loading: colors.pavement
+        loading: colors.pavement,
+        tableHeading: colors.pavement
     },
     lettering: {
         primary: {
-            fontSize: 12,
-            fontFamily: "Times New Roman (Serif)",
+            fontSize: 16,
+            fontFamily: "Arial, sans-serif",
             fontWeight: 400,
         },
         secondary: {
-            fontSize: 12,
-            fontFamily: "Arial (Sans-serif)",
+            fontSize: 14,
+            fontFamily: "Arial, sans-serif",
             fontWeight: 400,
         },
         h1: { fontSize: 32, fontFamily: "Arial, sans-serif", fontWeight: 700 },
