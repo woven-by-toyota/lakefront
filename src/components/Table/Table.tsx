@@ -12,7 +12,7 @@ import {
   TableOptions,
   VisibilityState
 } from '@tanstack/react-table';
-import { HideableTHead, StyledHeader, StyledHeaderContent, TableStyle } from './tableStyles';
+import { ErrorMessage, HideableTHead, StyledHeader, StyledHeaderContent, TableStyle } from './tableStyles';
 import { getSortBySVG, getTitleForMultiSort } from './tableUtil';
 import { MenuItem } from '../ContextMenu';
 import TableRow from './TableRow';
@@ -120,6 +120,10 @@ export interface TableProps<T = any> {
    */
   noDataMessage?: string;
   /**
+   * This is to set the display message when there is an error rendering the table.
+   */
+  errorMessage?: string;
+  /**
    * This is to set some additional style on the table.
    */
   style?: any;
@@ -194,6 +198,7 @@ const Table: React.FC<TableProps> = ({
   data,
   options = {},
   noDataMessage = 'No data available',
+  errorMessage = 'Error: Data provided to the table was invalid.',
   style,
   onChangeSort,
   initialSortBy,
@@ -221,6 +226,7 @@ const Table: React.FC<TableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     tableSettings?.columnConfig?.initialColumnVisibility ?? {}
   );
+  const [hasRenderError, setHasRenderError] = useState(false);
 
   // Check if any table settings have been modified
   const hasModifiedSettings = useMemo(() => {
@@ -388,7 +394,7 @@ const Table: React.FC<TableProps> = ({
         ))}
       </HideableTHead>
       <tbody>
-      {table.getRowModel().rows.map((row: any) => {
+      {!hasRenderError && table.getRowModel().rows.map((row: any) => {
         return (
           <TableRow
             key={row.id}
@@ -397,15 +403,21 @@ const Table: React.FC<TableProps> = ({
             renderRowSubComponent={renderRowSubComponent}
             contextMenuConfig={contextMenuConfig}
             moreActionsConfig={moreActionsConfig}
+            onRenderError={() => setHasRenderError(true)}
           />
         );
       })}
-      {table.getRowModel().rows.length === 0 && (
+      {hasRenderError && (
+        <tr>
+          <ErrorMessage colSpan={memoizedColumns.length}>{errorMessage}</ErrorMessage>
+        </tr>
+      )}
+      {!hasRenderError && table.getRowModel().rows.length === 0 && (
         <tr>
           <td colSpan={memoizedColumns.length}>{noDataMessage}</td>
         </tr>
       )}
-      {infiniteScroll && infiniteScroll.hasMore && (
+      {!hasRenderError && infiniteScroll && infiniteScroll.hasMore && (
         <tr ref={loadMoreRef}>
           <td colSpan={memoizedColumns.length} style={{ textAlign: 'center', padding: '1rem' }}>
             {infiniteScroll.isLoading && (
