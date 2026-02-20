@@ -3,11 +3,12 @@ import { Meta, StoryFn } from '@storybook/react-webpack5';
 import Button from 'src/components/Button/Button';
 import TableComponent, { TableProps } from 'src/components/Table';
 import DocBlock from '.storybook/DocBlock';
-import { CUSTOM_DATA, INFINITE_SCROLL_DATA, INITIAL_SORT_BY_DATA } from './tableStoryData';
+import { CUSTOM_DATA, FAULTY_DATA, INFINITE_SCROLL_DATA, INITIAL_SORT_BY_DATA } from './tableStoryData';
 import {
   COLUMNS,
   COLUMNS_WITH_WIDTH,
   COLUMNS_WITH_WIDTH_AND_EXPANDER,
+  FAULTY_COLUMNS,
   renderRowSubComponent
 } from './tableStoryUtil';
 import { StyledTableComponent } from './tableStoryStyles';
@@ -269,5 +270,15 @@ TableWithInitialColumnVisibility.args = {
   // story props
   storyTitle: 'Table with Initial Column Visibility',
   storyDescription: 'Some columns are hidden by default. Use the settings icon to show/hide columns.'
+};
+
+export const TableWithErrorHandling = InfiniteScrollTemplate.bind({});
+TableWithErrorHandling.args = {
+  columns: FAULTY_COLUMNS,
+  data: FAULTY_DATA,
+  errorMessage: 'An error occurred when loading table with invalid data.',
+  // story props
+  storyTitle: 'Table with Faulty Data and Error Handling',
+  storyDescription: 'Incomplete data has been provided to table.'
 };
 

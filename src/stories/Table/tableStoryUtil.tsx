@@ -35,6 +35,17 @@ export const COLUMNS = [
   }
 ];
 
+export const FAULTY_COLUMNS = [
+  ...COLUMNS,
+  {
+    header: 'CREATION',
+    accessorKey: 'metadata',
+    cell: ({ getValue }) => {
+      return getValue().created;
+    }
+  },
+];
+
 export const COLUMNS_WITH_WIDTH = [
   {
     header: 'TITLE',
