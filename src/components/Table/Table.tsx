@@ -120,6 +120,10 @@ export interface TableProps<T = any> {
    */
   noDataMessage?: string;
   /**
+   * This is to set the display message when there is an error rendering the table.
+   */
+  errorMessage?: string;
+  /**
    * This is to set some additional style on the table.
    */
   style?: any;
@@ -194,6 +198,7 @@ const Table: React.FC<TableProps> = ({
   data,
   options = {},
   noDataMessage = 'No data available',
+  errorMessage = 'An error occurred while rendering the table',
   style,
   onChangeSort,
   initialSortBy,
@@ -221,6 +226,7 @@ const Table: React.FC<TableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     tableSettings?.columnConfig?.initialColumnVisibility ?? {}
   );
+  const [hasRenderError, setHasRenderError] = useState(false);
 
   // Check if any table settings have been modified
   const hasModifiedSettings = useMemo(() => {
@@ -388,7 +394,7 @@ const Table: React.FC<TableProps> = ({
         ))}
       </HideableTHead>
       <tbody>
-      {table.getRowModel().rows.map((row: any) => {
+      {!hasRenderError && table.getRowModel().rows.map((row: any) => {
         return (
           <TableRow
             key={row.id}
@@ -397,15 +403,21 @@ const Table: React.FC<TableProps> = ({
             renderRowSubComponent={renderRowSubComponent}
             contextMenuConfig={contextMenuConfig}
             moreActionsConfig={moreActionsConfig}
+            onRenderError={() => setHasRenderError(true)}
           />
         );
       })}
-      {table.getRowModel().rows.length === 0 && (
+      {hasRenderError && (
+        <tr>
+          <td colSpan={memoizedColumns.length}>{errorMessage}</td>
+        </tr>
+      )}
+      {!hasRenderError && table.getRowModel().rows.length === 0 && (
         <tr>
           <td colSpan={memoizedColumns.length}>{noDataMessage}</td>
         </tr>
       )}
-      {infiniteScroll && infiniteScroll.hasMore && (
+      {!hasRenderError && infiniteScroll && infiniteScroll.hasMore && (
         <tr ref={loadMoreRef}>
           <td colSpan={memoizedColumns.length} style={{ textAlign: 'center', padding: '1rem' }}>
             {infiniteScroll.isLoading && (

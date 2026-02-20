@@ -165,7 +165,7 @@ describe('<Table>', () => {
 
         it('renders the sub-row when row.expanded is true', async () => {
             const user = userEvent.setup();
-            const { queryByText, queryAllByText, debug } = render(
+            const { queryByText, queryAllByText } = render(
                 <Table
                     columns={columnsWithExpander}
                     data={customData}
@@ -206,6 +206,69 @@ describe('<Table>', () => {
             await waitFor(() => {
                 expect(queryByText(`Value is ${customData[0].value}`)).not.toBeInTheDocument();
             });
+        });
+    });
+
+    describe('error handling', () => {
+        let consoleErrorSpy;
+        beforeEach(() => {
+            consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            consoleErrorSpy.mockRestore();
+        });
+
+        it('displays error message when cell render function throws an error', () => {
+            const faultyColumns = [
+                ...columns,
+                {
+                    header: 'METADATA',
+                    accessorKey: 'metadata',
+                    cell: ({ getValue }) => {
+                        // This will throw an error when metadata is null
+                        return getValue().created;
+                    }
+                }
+            ];
+
+            const faultyData = [
+                ...customData,
+                { title: 'faulty', value: 1, percentage: 100, percentage_change: 1, total: 1, metadata: null }
+            ];
+
+            const { container, queryByText } = render(
+                <Table
+                    columns={faultyColumns}
+                    data={faultyData}
+                    errorMessage="An error occurred while rendering the table"
+                />
+            );
+
+            expect(queryByText('An error occurred while rendering the table')).toBeInTheDocument();
+
+            expect(container.querySelectorAll('tbody tr').length).toBe(1); // Only the error message row
+        });
+
+        it('uses default error message when errorMessage prop is not provided', () => {
+            const faultyColumns = [
+                {
+                    header: 'BROKEN',
+                    accessorKey: 'broken',
+                    cell: ({ getValue }) => getValue().nonExistent.property
+                }
+            ];
+
+            const faultyData = [{ broken: null }];
+
+            const { queryByText } = render(
+                <Table
+                    columns={faultyColumns}
+                    data={faultyData}
+                />
+            );
+
+            expect(queryByText('An error occurred while rendering the table')).toBeInTheDocument();
         });
     });
 });
