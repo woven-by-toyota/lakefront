@@ -12,7 +12,7 @@ import {
   TableOptions,
   VisibilityState
 } from '@tanstack/react-table';
-import { HideableTHead, StyledHeader, StyledHeaderContent, TableStyle } from './tableStyles';
+import { ErrorMessage, HideableTHead, StyledHeader, StyledHeaderContent, TableStyle } from './tableStyles';
 import { getSortBySVG, getTitleForMultiSort } from './tableUtil';
 import { MenuItem } from '../ContextMenu';
 import TableRow from './TableRow';
@@ -198,7 +198,7 @@ const Table: React.FC<TableProps> = ({
   data,
   options = {},
   noDataMessage = 'No data available',
-  errorMessage = 'An error occurred while rendering the table',
+  errorMessage = 'Error: Data provided to the table was invalid.',
   style,
   onChangeSort,
   initialSortBy,
@@ -409,7 +409,7 @@ const Table: React.FC<TableProps> = ({
       })}
       {hasRenderError && (
         <tr>
-          <td colSpan={memoizedColumns.length}>{errorMessage}</td>
+          <ErrorMessage colSpan={memoizedColumns.length}>{errorMessage}</ErrorMessage>
         </tr>
       )}
       {!hasRenderError && table.getRowModel().rows.length === 0 && (

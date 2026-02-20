@@ -107,3 +107,7 @@ export const HideableTHead = styled.thead<HideableTHeadProps>(({ hide, sticky, t
     top: 'var(--settings-row-height, 0px)'
   })
 }));
+
+export const ErrorMessage = styled.td(({ theme }) => ({
+  color: theme.foregrounds.error,
+}));

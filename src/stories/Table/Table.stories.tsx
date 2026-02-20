@@ -276,7 +276,6 @@ export const TableWithErrorHandling = InfiniteScrollTemplate.bind({});
 TableWithErrorHandling.args = {
   columns: FAULTY_COLUMNS,
   data: FAULTY_DATA,
-  errorMessage: 'An error occurred when loading table with invalid data.',
   // story props
   storyTitle: 'Table with Faulty Data and Error Handling',
   storyDescription: 'Incomplete data has been provided to table.'

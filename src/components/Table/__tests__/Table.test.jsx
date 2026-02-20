@@ -268,7 +268,7 @@ describe('<Table>', () => {
                 />
             );
 
-            expect(queryByText('An error occurred while rendering the table')).toBeInTheDocument();
+            expect(queryByText('Error: Data provided to the table was invalid.')).toBeInTheDocument();
         });
     });
 });
