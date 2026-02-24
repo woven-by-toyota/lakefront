@@ -118,11 +118,11 @@ describe('<Table>', () => {
         const { getAllByRole } = render(<Table columns={columns} data={customData}
             initialSortBy={{ id: 'title', desc: false }} />);
 
-        expect(getAllByRole('columnheader')[0].width).toBe('100');
-        expect(getAllByRole('columnheader')[1].width).toBe('150');
-        expect(getAllByRole('columnheader')[2].width).toBe('150');
-        expect(getAllByRole('columnheader')[3].width).toBe('150');
-        expect(getAllByRole('columnheader')[4].width).toBe('150');
+        expect(getAllByRole('columnheader')[0]).toHaveStyle({ width: '100px' });
+        expect(getAllByRole('columnheader')[1]).toHaveStyle({ width: '150px' });
+        expect(getAllByRole('columnheader')[2]).toHaveStyle({ width: '150px' });
+        expect(getAllByRole('columnheader')[3]).toHaveStyle({ width: '150px' });
+        expect(getAllByRole('columnheader')[4]).toHaveStyle({ width: '150px' });
     });
 
     it('calls the mockHandleSort function', () => {
