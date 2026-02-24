@@ -10,9 +10,17 @@ import {
   ColumnSort,
   ExpandedState,
   TableOptions,
-  VisibilityState
+  VisibilityState,
+  ColumnSizingState
 } from '@tanstack/react-table';
-import { ErrorMessage, HideableTHead, StyledHeader, StyledHeaderContent, TableStyle } from './tableStyles';
+import {
+  ColumnResizeHandle,
+  ErrorMessage,
+  HideableTHead,
+  StyledHeader,
+  StyledHeaderContent,
+  TableStyle
+} from './tableStyles';
 import { getSortBySVG, getTitleForMultiSort } from './tableUtil';
 import { MenuItem } from '../ContextMenu';
 import TableRow from './TableRow';
@@ -226,6 +234,7 @@ const Table: React.FC<TableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     tableSettings?.columnConfig?.initialColumnVisibility ?? {}
   );
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
   const [hasRenderError, setHasRenderError] = useState(false);
 
   // Check if any table settings have been modified
@@ -283,11 +292,13 @@ const Table: React.FC<TableProps> = ({
     state: {
       sorting,
       expanded,
-      columnVisibility
+      columnVisibility,
+      columnSizing
     },
     onSortingChange: setSorting,
     onExpandedChange: setExpanded,
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnSizingChange: setColumnSizing,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
@@ -295,6 +306,7 @@ const Table: React.FC<TableProps> = ({
     getRowCanExpand: () => true,
     autoResetExpanded: true,
     enableMultiSort,
+    columnResizeMode: 'onChange',
     ...options
   });
 
@@ -359,12 +371,13 @@ const Table: React.FC<TableProps> = ({
         {table.getHeaderGroups().map((headerGroup: any) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header: any) => {
-              const columnSize = header.column.columnDef.size ?? header.getSize();
               return (
                 <th
                   key={header.id}
-                  {...({ width: columnSize } as any)}
-                  style={{ width: columnSize }}
+                  style={{
+                    width: header.getSize(),
+                    position: 'relative'
+                  }}
                   onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
                   title={getTitleForMultiSort(
                     !enableMultiSort,
@@ -387,6 +400,13 @@ const Table: React.FC<TableProps> = ({
                       isSortedDesc: header.column.getIsSorted() === 'desc'
                     })}</StyledHeaderContent>
                   </StyledHeader>
+                  {header.column.getCanResize() && (
+                    <ColumnResizeHandle
+                      onMouseDown={header.getResizeHandler()}
+                      onTouchStart={header.getResizeHandler()}
+                      className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
+                    />
+                  )}
                 </th>
               );
             })}

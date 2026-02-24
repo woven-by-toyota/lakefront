@@ -70,6 +70,17 @@ export const StyledHeaderContent = styled.div(({ theme }) => ({
   }
 }));
 
+export const ColumnResizeHandle = styled.div({
+  position: 'absolute',
+  right: 0,
+  top: 0,
+  height: '100%',
+  width: 5,
+  cursor: 'col-resize',
+  userSelect: 'none',
+  touchAction: 'none'
+});
+
 export const StyledArrowDown = styled(ArrowDown)({
   paddingLeft: 5,
   paddingTop: 3

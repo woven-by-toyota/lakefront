@@ -84,6 +84,55 @@ export const COLUMNS_WITH_WIDTH = [
   }
 ];
 
+export const COLUMNS_WITH_RESIZING = [
+  {
+    header: 'TITLE',
+    accessorKey: 'title',
+    size: 150,
+    minSize: 100,
+    maxSize: 300,
+    enableResizing: true,
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'VALUE',
+    accessorKey: 'value',
+    size: 10,
+    minSize: 10,
+    maxSize: 200,
+    enableResizing: true
+  },
+  {
+    header: 'PERCENTAGE',
+    accessorKey: 'percentage',
+    size: 40,
+    minSize: 40,
+    enableResizing: true
+  },
+  {
+    header: 'PERCENTAGE CHANGE',
+    accessorKey: 'percentage_change',
+    size: 40,
+    minSize: 40,
+    maxSize: 250,
+    enableResizing: true,
+    cell: ({ getValue }) => {
+      const value = getValue() as number;
+      return value?.toFixed(4) || '';
+    }
+  },
+  {
+    header: 'TOTAL/100',
+    accessorKey: 'total',
+    size: 120,
+    enableResizing: false, // This column cannot be resized
+    cell: ({ getValue }) => {
+      const value = getValue() as number;
+      return value?.toFixed(4) || '';
+    }
+  }
+];
+
 export const COLUMNS_WITH_WIDTH_AND_EXPANDER = [
   ...COLUMNS_WITH_WIDTH,
   {

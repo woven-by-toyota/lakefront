@@ -8,6 +8,7 @@ import {
   COLUMNS,
   COLUMNS_WITH_WIDTH,
   COLUMNS_WITH_WIDTH_AND_EXPANDER,
+  COLUMNS_WITH_RESIZING,
   FAULTY_COLUMNS,
   renderRowSubComponent
 } from './tableStoryUtil';
@@ -279,5 +280,15 @@ TableWithErrorHandling.args = {
   // story props
   storyTitle: 'Table with Faulty Data and Error Handling',
   storyDescription: 'Incomplete data has been provided to table.'
+};
+
+export const TableWithResizableColumns = InfiniteScrollTemplate.bind({});
+TableWithResizableColumns.args = {
+  columns: COLUMNS_WITH_RESIZING,
+  data: CUSTOM_DATA,
+  initialSortBy: { id: 'title', desc: false },
+  // story props
+  storyTitle: 'Table with Resizable Columns',
+  storyDescription: 'Drag the edges of the column headers to resize columns. Resize handles are visible on hover or when a column is actively being resized. In this example, all columns except the last one can be resized.'
 };
 
