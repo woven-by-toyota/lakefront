@@ -81,7 +81,7 @@ export const ColumnResizeHandle = styled.div({
   right: 0,
   top: 0,
   height: '100%',
-  width: 5,
+  width: 16,
   cursor: 'col-resize',
   userSelect: 'none',
   touchAction: 'none'
