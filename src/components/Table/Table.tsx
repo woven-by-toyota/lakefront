@@ -16,6 +16,7 @@ import {
 import {
   ColumnResizeHandle,
   ErrorMessage,
+  HeaderCell,
   HideableTHead,
   StyledHeader,
   StyledHeaderContent,
@@ -372,12 +373,13 @@ const Table: React.FC<TableProps> = ({
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header: any) => {
               return (
-                <th
+                <HeaderCell
                   key={header.id}
                   style={{
                     width: header.getSize(),
                     position: 'relative'
                   }}
+                  headerWidth={header.getSize()}
                   onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
                   title={getTitleForMultiSort(
                     !enableMultiSort,
@@ -385,7 +387,7 @@ const Table: React.FC<TableProps> = ({
                     !header.column.getCanSort()
                   )}
                 >
-                  <StyledHeader>
+                  <StyledHeader className='header-content-wrapper'>
                     <StyledHeaderContent>
                       {header.isPlaceholder
                         ? null
@@ -407,7 +409,7 @@ const Table: React.FC<TableProps> = ({
                       className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
                     />
                   )}
-                </th>
+                </HeaderCell>
               );
             })}
           </tr>

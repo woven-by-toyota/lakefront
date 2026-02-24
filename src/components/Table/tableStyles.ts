@@ -50,6 +50,12 @@ export const TableStyle = styled.table(({ theme }) => ({
   }
 }));
 
+export const HeaderCell = styled.th<{ headerWidth?: number }>(({ headerWidth }) => ({
+  '.header-content-wrapper': {
+    ...(headerWidth && { width: headerWidth })
+  }
+}));
+
 export const StyledHeader = styled.div({
   display: 'flex',
   alignItems: 'center',

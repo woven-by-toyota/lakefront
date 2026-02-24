@@ -84,37 +84,37 @@ export const COLUMNS_WITH_WIDTH = [
   }
 ];
 
+const SMALLEST_COL_WIDTH = 20;
+
 export const COLUMNS_WITH_RESIZING = [
   {
     header: 'TITLE',
     accessorKey: 'title',
-    size: 150,
-    minSize: 100,
-    maxSize: 300,
+    size: 250,
+    minSize: 30,
     enableResizing: true,
     cell: ({ getValue }) => getValue()
   },
   {
     header: 'VALUE',
     accessorKey: 'value',
-    size: 10,
+    size: SMALLEST_COL_WIDTH,
     minSize: 10,
-    maxSize: 200,
+    maxSize: SMALLEST_COL_WIDTH * 2,
     enableResizing: true
   },
   {
     header: 'PERCENTAGE',
     accessorKey: 'percentage',
-    size: 40,
-    minSize: 40,
+    size: SMALLEST_COL_WIDTH,
+    minSize: SMALLEST_COL_WIDTH,
     enableResizing: true
   },
   {
     header: 'PERCENTAGE CHANGE',
     accessorKey: 'percentage_change',
-    size: 40,
-    minSize: 40,
-    maxSize: 250,
+    size: SMALLEST_COL_WIDTH,
+    minSize: SMALLEST_COL_WIDTH,
     enableResizing: true,
     cell: ({ getValue }) => {
       const value = getValue() as number;
@@ -124,8 +124,9 @@ export const COLUMNS_WITH_RESIZING = [
   {
     header: 'TOTAL/100',
     accessorKey: 'total',
-    size: 120,
-    enableResizing: false, // This column cannot be resized
+    size: SMALLEST_COL_WIDTH,
+    minSize: SMALLEST_COL_WIDTH,
+    enableResizing: false,
     cell: ({ getValue }) => {
       const value = getValue() as number;
       return value?.toFixed(4) || '';
