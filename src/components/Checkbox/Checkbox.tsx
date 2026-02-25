@@ -77,7 +77,6 @@ const Checkbox: FC<CheckboxProps & ComponentPropsWithoutRef<'input'>> = ({
   };
 
   return (
-    <ThemeProvider theme={theme}>
       <StyledLabel
         disabled={disabled}
         indeterminate={indeterminate}
@@ -96,7 +95,6 @@ const Checkbox: FC<CheckboxProps & ComponentPropsWithoutRef<'input'>> = ({
         {description && label && <div>{label}</div>}
         {description && <div>{description}</div>}
       </StyledLabel>
-    </ThemeProvider>
   );
 };
 

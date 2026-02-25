@@ -48,7 +48,7 @@ export const StyledLabel = styled.label<StyledLabelProps>(
 export const StyledCheckbox = styled.input<CheckboxProps>(
   ({ theme, checked, indeterminate, disabled, color }) => {
     const backgroundColor =
-      indeterminate || checked ? theme.backgrounds.secondary : theme.backgrounds.primary;
+      indeterminate || checked ? theme.backgrounds.inverted : theme.backgrounds.primary;
     const disabledBackgroundColor = indeterminate
       ? theme.backgrounds.disabled
       : theme.backgrounds.primary;
