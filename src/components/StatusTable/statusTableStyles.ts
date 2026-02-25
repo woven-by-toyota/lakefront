@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ReactComponent as UnfoldMoreIcon } from './__assets__/UnfoldMoreIcon.svg';
 interface StatusTableStyleProps {
     cards?: boolean;
 }
@@ -186,4 +187,8 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
     }
     )
 
+}));
+
+export const SortIcon = styled(UnfoldMoreIcon)(({ theme }) => ({
+    fill: theme.foregrounds.primary
 }));

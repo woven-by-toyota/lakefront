@@ -1,9 +1,7 @@
 import { FC, ReactNode } from 'react';
-import { StatusTableStyle } from './statusTableStyles';
+import {SortIcon, StatusTableStyle} from './statusTableStyles';
 import { ReactComponent as UnfoldMoreIcon } from './__assets__/UnfoldMoreIcon.svg';
 import { v4 as uuid } from 'uuid';
-import { ThemeProvider } from '@emotion/react';
-import theme from 'src/styles/theme';
 
 export interface StatusTableHeader {
     /** 
@@ -86,7 +84,7 @@ const StatusTable: FC<StatusTableProps> = (
                                         >
                                             {name}
                                             {
-                                                sortable && <UnfoldMoreIcon />
+                                                sortable && <SortIcon />
                                             }
                                         </div>
                                     </th>
