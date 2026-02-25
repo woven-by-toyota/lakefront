@@ -4,6 +4,23 @@ import { ButtonComponentProps, ComponentStyles, getTintedBackgroundColor } from 
 import { css, Theme } from '@emotion/react';
 import { getIconStyles } from './iconButtonVariants';
 
+// Helper function to determine if a color is light or dark
+const isLightColor = (hexColor: string): boolean => {
+  // Remove # if present
+  const hex = hexColor.replace('#', '');
+
+  // Convert to RGB
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+
+  // Calculate brightness using standard formula
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+  // Return true if light (brightness > 128)
+  return brightness > 128;
+};
+
 const DARKEN_MOST = -40;
 const DARKEN = -25;
 const DARKEN_LEAST = -10;
@@ -155,7 +172,14 @@ interface hoverProps {
 
 // Return an object that contains the CSS for each button's hover styles
 const getHoverStyles = ({ alternate = false, theme }: hoverProps): ComponentStyles => {
-  const primaryBackground = lightenDarkenColor(alternate ? theme.backgrounds.primary : theme.backgrounds.inverted, DARKEN_LEAST);
+  // Get the base color for primary button
+  const primaryBackgroundBase = alternate ? theme.backgrounds.primary : theme.backgrounds.inverted;
+
+  // Use color brightness detection to determine hover behavior
+  const primaryBackground = isLightColor(primaryBackgroundBase)
+    ? lightenDarkenColor(primaryBackgroundBase, DARKEN) // Dark colors for light backgrounds
+    : lightenDarkenColor(primaryBackgroundBase, 15); // Lighten dark colors for better visibility
+
   const secondaryBackground = lightenDarkenColor(theme.backgrounds.primary, DARKEN_LEAST);
   const destructiveBackground = alternate ?
     lightenDarkenColor(theme.foregrounds.error, DARKEN_LEAST) :
