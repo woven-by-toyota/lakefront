@@ -28,27 +28,27 @@ export const SELECT_OVERLAY_STYLES: SelectOverlayStyles = {
         ...defaultStyles,
         flexWrap: undefined,
         display: 'flex',
-        color: state.theme.foregrounds.primary,
+        color: theme.foregrounds.primary,
         backgroundColor: state.selectProps.isDisabled ?
-            state.theme.backgrounds.disabled :
-            state.theme.backgrounds.primary,
+            theme.backgrounds.disabled :
+            theme.backgrounds.primary,
         cursor: state.selectProps.isDisabled ? 'not-allowed' : 'pointer',
         alignItems: 'center',
         minWidth: 160,
         height: 36,
         padding: '0px 6px',
         borderRadius: 4,
-        border: `1px solid ${state.theme.borderColors.primary}`,
-        ...state.theme.lettering.primary,
+        border: `1px solid ${theme.borderColors.primary}`,
+        ...theme.lettering.primary,
         justifyContent: 'space-between',
         boxShadow: 'inset 0 1px 2px 0 rgb(0 0 0 / 20%), inset 0 0 0 1px rgb(0 0 0 / 20%)',
         ...(state.isFocused && {
-            border: `1px solid ${state.theme.borderColors.pronounced}`,
+            border: `1px solid ${theme.borderColors.pronounced}`,
             outline: 0
         }),
         ':hover': {
-            backgroundColor: state.theme.backgrounds.hover,
-            border: `1px solid ${state.theme.borderColors.pronounced}`,
+            backgroundColor: theme.backgrounds.hover,
+            border: `1px solid ${theme.borderColors.pronounced}`,
             outline: 0
         }
     }),
@@ -58,8 +58,8 @@ export const SELECT_OVERLAY_STYLES: SelectOverlayStyles = {
     }),
     menu: (defaultStyles: SelectState, state: SelectState) => ({
         ...defaultStyles,
-        backgroundColor: state.theme.backgrounds.primary,
-        border: `1px solid ${state.theme.borderColors.secondary}`,
+        backgroundColor: theme.backgrounds.primary,
+        border: `1px solid ${theme.borderColors.secondary}`,
         borderRadius: 4,
         display: 'flex',
         flexDirection: 'column',
@@ -76,26 +76,26 @@ export const SELECT_OVERLAY_STYLES: SelectOverlayStyles = {
         ...defaultStyles,
         alignItems: 'center',
         color: state.selectProps.isDisabled ?
-            state.theme.foregrounds.disabled :
-            state.theme.foregrounds.primary,
+            theme.foregrounds.disabled :
+            theme.foregrounds.primary,
         cursor: 'pointer',
         display: 'flex',
-        ...state.theme.lettering.primary,
+        ...theme.lettering.primary,
         height: 40,
         minWidth: 160,
         padding: '0 12px',
         userSelect: 'none',
         ...(state.isSelected && {
-            backgroundColor: state.theme.backgrounds.primary,
+            backgroundColor: theme.backgrounds.primary,
             ':hover': {
                 backgroundColor: state.selectProps.isDisabled ?
-                    state.theme.backgrounds.primary :
-                    state.theme.backgrounds.hover,
+                    theme.backgrounds.primary :
+                    theme.backgrounds.hover,
                 cursor: state.selectProps.isDisabled ? 'not-allowed' : undefined
             }
         }),
         ...(state.isFocused && {
-            backgroundColor: state.theme.backgrounds.hover
+            backgroundColor: theme.backgrounds.hover
         })
     })
 };

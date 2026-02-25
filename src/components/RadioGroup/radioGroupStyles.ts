@@ -7,7 +7,7 @@ interface StyledLabelProps {
 
 export const StyledLabel = styled.label<StyledLabelProps>(
   ({ theme, disabled }) => ({
-      color: disabled ? theme?.colors?.mercury : theme?.colors?.cinder,
+      color: disabled ? theme.foregrounds.disabled : theme.foregrounds.primary,
       display: 'flex',
       flexDirection: 'row',
       fontSize: 16,
@@ -19,10 +19,10 @@ export const StyledLabel = styled.label<StyledLabelProps>(
         fontSize: 16
       },
       svg: {
-        color: disabled ? theme?.colors?.mercury : theme?.colors?.white,
+        color: disabled ? theme.foregrounds.disabled : theme.foregrounds.inverted,
         marginLeft: 2,
         'path:nth-of-type(2)': {
-          fill: disabled ? theme?.colors?.mercury : undefined
+          fill: disabled ? theme.foregrounds.disabled : undefined
         }
       },
       cursor: disabled ? 'not-allowed' : 'auto',

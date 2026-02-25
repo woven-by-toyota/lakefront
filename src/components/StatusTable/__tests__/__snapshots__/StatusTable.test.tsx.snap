@@ -3,7 +3,7 @@
 exports[`<StatusTable /> should render properly 1`] = `
 <div>
   <div
-    class="css-6en7p3"
+    class="css-13hhypz"
   >
     <table>
       <thead>
@@ -11,7 +11,9 @@ exports[`<StatusTable /> should render properly 1`] = `
           <th>
             <div>
               First
-              <svg />
+              <svg
+                class="css-w5d5t5"
+              />
             </div>
           </th>
           <th>
@@ -23,49 +25,49 @@ exports[`<StatusTable /> should render properly 1`] = `
       </thead>
       <tbody>
         <tr
-          class="css-1gwwktf"
+          class="css-b58vhv"
         >
           <td>
             First
           </td>
           <td>
             <div
-              class="css-1rl6b37"
+              class="css-1bpl63v"
             >
               Running
             </div>
           </td>
         </tr>
         <tr
-          class="css-1fd9476"
+          class="css-16d2224"
         >
           <td>
             First
           </td>
           <td>
             <div
-              class="css-mdik6a"
+              class="css-a0vmaa"
             >
               Enqueued
             </div>
           </td>
         </tr>
         <tr
-          class="css-x8c9an"
+          class="css-a2fjum"
         >
           <td>
             First
           </td>
           <td>
             <div
-              class="css-va5d7x"
+              class="css-1ciqbm0"
             >
               Failed
             </div>
           </td>
         </tr>
         <tr
-          class="css-dhzdu5"
+          class="css-h4k0zu"
         >
           <td>
             First
@@ -79,7 +81,7 @@ exports[`<StatusTable /> should render properly 1`] = `
           </td>
         </tr>
         <tr
-          class="css-dhzdu5"
+          class="css-h4k0zu"
         >
           <td>
             First

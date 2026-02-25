@@ -1,6 +1,4 @@
 import { Bar, Icon, IconWrapper, Label, ToggleWrapper } from './toggleStyles';
-import theme from 'src/styles/theme';
-import { ThemeProvider } from '@emotion/react';
 import { SelectOption } from 'src/types/global';
 
 export interface ToggleProps<T> {
@@ -64,15 +62,13 @@ const Toggle = <T, >({
     }
 
     return (
-        <ThemeProvider theme={theme}>
-            <ToggleWrapper className={className}>
-                <Label disabled={disabled} style={{ order: labelOrder }} onClick={handleToggleClick}>{label}</Label>
-                <IconWrapper disabled={disabled} position={position} onClick={handleToggleClick}>
-                    <Bar disabled={disabled} options={options} value={value} />
-                    <Icon disabled={disabled} style={{ left: iconPosition }} />
-                </IconWrapper>
-            </ToggleWrapper>
-        </ThemeProvider>
+        <ToggleWrapper className={className}>
+            <Label disabled={disabled} style={{ order: labelOrder }} onClick={handleToggleClick}>{label}</Label>
+            <IconWrapper disabled={disabled} position={position} onClick={handleToggleClick}>
+                <Bar disabled={disabled} options={options} value={value} />
+                <Icon disabled={disabled} style={{ left: iconPosition }} />
+            </IconWrapper>
+        </ToggleWrapper>
     );
 };
 

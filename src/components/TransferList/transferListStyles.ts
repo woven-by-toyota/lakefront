@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import colors from 'src/styles/lakefrontColors';
 import Button from '../Button/Button';
 
 export const Panel = styled.div({
@@ -24,10 +23,10 @@ export const GridContainer = styled.div({
   width: '100%'
 });
 
-export const CheckBoxContainer = styled(Panel)({
-  backgroundColor: colors.white,
+export const CheckBoxContainer = styled(Panel)(({ theme }) => ({
+  backgroundColor: theme.backgrounds.primary,
   width: '100%'
-});
+}));
 
 export const ButtonColumnContainer = styled.div({
   display: 'flex',

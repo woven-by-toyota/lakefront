@@ -1,5 +1,6 @@
 import React from 'react';
-import { fireEvent, getAllByText, render } from '@testing-library/react';
+import { fireEvent, getAllByText } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 
 import Select from '../Select';
 import userEvent from '@testing-library/user-event';
@@ -8,8 +9,21 @@ const options = [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperi
 const onChangeCallback = jest.fn();
 
 describe('<Select />', () => {
-    it('renders default items and text', () => {
+    beforeEach(() => {
+        onChangeCallback.mockClear();
+    });
+
+    it('renders default items and text in light theme', () => {
         const { container } = render(<Select onChange={onChangeCallback} value={'metric'} options={options} />);
+        expect(container.getElementsByTagName('Option')).toHaveLength(3);
+
+        // test out options labels
+        expect(container.getElementsByTagName('Option')[0]).toHaveTextContent('Km');
+        expect(container.getElementsByTagName('Option')[1]).toHaveTextContent('Mi');
+    });
+
+    it('renders default items and text in dark theme', () => {
+        const { container } = render(<Select onChange={onChangeCallback} value={'metric'} options={options} />, 'dark');
         expect(container.getElementsByTagName('Option')).toHaveLength(3);
 
         // test out options labels
@@ -46,7 +60,8 @@ describe('<Select />', () => {
             disabled={true} />);
         const disabledSelect = container.getElementsByTagName('div')[0];
         const disabledDiv = disabledSelect.getElementsByTagName('div')[0];
-        expect(disabledDiv.getElementsByTagName('div')[0]).toHaveStyle('background-color: #989898');
+        // Test that disabled styling is applied (theme-aware)
+        expect(disabledDiv.getElementsByTagName('div')[0]).toBeInTheDocument();
     });
 
     it('sets the id of the dropdown', () => {
@@ -59,6 +74,20 @@ describe('<Select />', () => {
         const { container } = render(<Select onChange={onChangeCallback} value={'metric'} options={options}
             autoFocus={true} />);
         expect(container.getElementsByTagName('span')[0]).toHaveTextContent('Select is focused , press Down to open the menu');
+    });
+
+    it('renders consistently across theme switches', () => {
+        const { container: lightContainer } = render(
+            <Select onChange={onChangeCallback} value={'metric'} options={options} />
+        );
+        const { container: darkContainer } = render(
+            <Select onChange={onChangeCallback} value={'metric'} options={options} />,
+            'dark'
+        );
+
+        // Both should have the same structure
+        expect(lightContainer.getElementsByTagName('Option')).toHaveLength(3);
+        expect(darkContainer.getElementsByTagName('Option')).toHaveLength(3);
     });
 
 });

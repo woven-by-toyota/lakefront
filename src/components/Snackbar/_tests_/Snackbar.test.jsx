@@ -142,4 +142,149 @@ describe('<Snackbar>', () => {
 
         expect(onCloseMock).toHaveBeenCalledTimes(1);
     });
+
+    describe('theme support', () => {
+        beforeEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it('renders correctly in light theme', () => {
+            const { container } = renderWithTheme(<Snackbar {...snackbarPropsOpen} />);
+            expect(container).toBeDefined();
+            expect(container.getElementsByClassName('snackbarOpen').length).toBe(1);
+        });
+
+        it('renders correctly in dark theme', () => {
+            const { container } = renderWithTheme(<Snackbar {...snackbarPropsOpen} />, 'dark');
+            expect(container).toBeDefined();
+            expect(container.getElementsByClassName('snackbarOpen').length).toBe(1);
+        });
+
+        it('renders snackbar content consistently across themes', () => {
+            const { getByText: lightGetByText, container: lightContainer } = renderWithTheme(
+                <Snackbar {...snackbarPropsOpen} />
+            );
+
+            const { getByText: darkGetByText, container: darkContainer } = renderWithTheme(
+                <Snackbar {...snackbarPropsOpen} />,
+                'dark'
+            );
+
+            // Both should render the message
+            lightGetByText('File transfer initiated.');
+            darkGetByText('File transfer initiated.');
+
+            // Both should have the same structure
+            expect(lightContainer.getElementsByClassName('snackbarContent').length).toBe(1);
+            expect(darkContainer.getElementsByClassName('snackbarContent').length).toBe(1);
+
+            expect(lightContainer.getElementsByClassName('snackbarMessage').length).toBe(1);
+            expect(darkContainer.getElementsByClassName('snackbarMessage').length).toBe(1);
+
+            expect(lightContainer.getElementsByClassName('snackbarIcon').length).toBe(1);
+            expect(darkContainer.getElementsByClassName('snackbarIcon').length).toBe(1);
+        });
+
+        it('handles button interactions consistently across themes', async () => {
+            const lightHandleClick = jest.fn();
+            const darkHandleClick = jest.fn();
+
+            const lightButton = (
+                <button
+                    alternate="true"
+                    className="closeIcon"
+                    key="close"
+                    aria-label="Close"
+                    onClick={lightHandleClick}
+                    icon={<CloseIcon />}
+                />
+            );
+
+            const darkButton = (
+                <button
+                    alternate="true"
+                    className="closeIcon"
+                    key="close"
+                    aria-label="Close"
+                    onClick={darkHandleClick}
+                    icon={<CloseIcon />}
+                />
+            );
+
+            const { getByRole: lightGetByRole } = renderWithTheme(
+                <Snackbar {...snackbarPropsOpen} action={lightButton} />
+            );
+
+            const { getByRole: darkGetByRole } = renderWithTheme(
+                <Snackbar {...snackbarPropsOpen} action={darkButton} />,
+                'dark'
+            );
+
+            fireEvent.click(lightGetByRole('button'));
+            fireEvent.click(darkGetByRole('button'));
+
+            expect(lightHandleClick).toHaveBeenCalledTimes(1);
+            expect(darkHandleClick).toHaveBeenCalledTimes(1);
+        });
+
+        it('handles auto-hide functionality consistently across themes', () => {
+            const lightOnClose = jest.fn();
+            const darkOnClose = jest.fn();
+
+            const { container: lightContainer } = renderWithTheme(
+                <Snackbar {...snackbarPropsOpen} onClose={lightOnClose} />
+            );
+
+            const { container: darkContainer } = renderWithTheme(
+                <Snackbar {...snackbarPropsOpen} onClose={darkOnClose} />,
+                'dark'
+            );
+
+            // Both should be open initially
+            expect(lightContainer.getElementsByClassName('snackbarOpen').length).toBe(1);
+            expect(darkContainer.getElementsByClassName('snackbarOpen').length).toBe(1);
+
+            // After timeout, both should close
+            jest.advanceTimersByTime(4000);
+
+            expect(lightContainer.getElementsByClassName('snackbarClosed').length).toBe(1);
+            expect(darkContainer.getElementsByClassName('snackbarClosed').length).toBe(1);
+
+            expect(lightOnClose).toHaveBeenCalledWith('timeout');
+            expect(darkOnClose).toHaveBeenCalledWith('timeout');
+        });
+
+        it('handles different message types consistently across themes', () => {
+            const successProps = { ...snackbarPropsOpen, type: MESSAGE_TYPES.SUCCESS };
+            const errorProps = { ...snackbarPropsOpen, type: MESSAGE_TYPES.ERROR };
+
+            const { container: lightSuccessContainer } = renderWithTheme(<Snackbar {...successProps} />);
+            const { container: darkSuccessContainer } = renderWithTheme(<Snackbar {...successProps} />, 'dark');
+
+            const { container: lightErrorContainer } = renderWithTheme(<Snackbar {...errorProps} />);
+            const { container: darkErrorContainer } = renderWithTheme(<Snackbar {...errorProps} />, 'dark');
+
+            // All should render with icons
+            expect(lightSuccessContainer.getElementsByClassName('snackbarIcon').length).toBe(1);
+            expect(darkSuccessContainer.getElementsByClassName('snackbarIcon').length).toBe(1);
+            expect(lightErrorContainer.getElementsByClassName('snackbarIcon').length).toBe(1);
+            expect(darkErrorContainer.getElementsByClassName('snackbarIcon').length).toBe(1);
+        });
+
+        it('handles open/closed states consistently across themes', () => {
+            // Test closed state
+            const { container: lightClosedContainer } = renderWithTheme(<Snackbar {...snackbarPropsClosed} />);
+            const { container: darkClosedContainer } = renderWithTheme(<Snackbar {...snackbarPropsClosed} />, 'dark');
+
+            expect(lightClosedContainer.getElementsByClassName('snackbarOpen').length).toBe(0);
+            expect(darkClosedContainer.getElementsByClassName('snackbarOpen').length).toBe(0);
+
+            // Test open state
+            const { container: lightOpenContainer } = renderWithTheme(<Snackbar {...snackbarPropsOpen} />);
+            const { container: darkOpenContainer } = renderWithTheme(<Snackbar {...snackbarPropsOpen} />, 'dark');
+
+            expect(lightOpenContainer.getElementsByClassName('snackbarOpen').length).toBe(1);
+            expect(darkOpenContainer.getElementsByClassName('snackbarOpen').length).toBe(1);
+        });
+    });
 });

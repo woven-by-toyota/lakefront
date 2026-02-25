@@ -1,7 +1,5 @@
 import { ElementType, FC, ReactElement } from 'react';
 import { StyledLoadingContainer } from './loadingStyles';
-import { ThemeProvider } from '@emotion/react';
-import theme from 'src/styles/theme';
 import { displayIcon, iconOptions } from './loadingUtil';
 
 export interface LoadingProps {
@@ -60,20 +58,18 @@ const Loading: FC<LoadingProps> = (
     const ariaDetails = iconVariant === 'secondary' ? iconOptions.secondary['aria-details'] : iconOptions.primary['aria-details'];
 
     return (
-        <ThemeProvider theme={theme}>
-            <StyledLoadingContainer
-                className={className}
-                animated={animated}
-                spinDirection={spinDirection}
-                labelPosition={labelPosition}
-            >
-                <Svg height={height} aria-label='loading' aria-details={svg ? undefined : ariaDetails}
-                     width={width} {...logoProps} />
-                {
-                    label && <div>{label}</div>
-                }
-            </StyledLoadingContainer>
-        </ThemeProvider>
+        <StyledLoadingContainer
+            className={className}
+            animated={animated}
+            spinDirection={spinDirection}
+            labelPosition={labelPosition}
+        >
+            <Svg height={height} aria-label='loading' aria-details={svg ? undefined : ariaDetails}
+                 width={width} {...logoProps} />
+            {
+                label && <div>{label}</div>
+            }
+        </StyledLoadingContainer>
     );
 };
 

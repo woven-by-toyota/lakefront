@@ -1,4 +1,5 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, waitFor } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import TypeaheadSearch from '../TypeaheadSearch';
 
 jest.useFakeTimers();
@@ -164,6 +165,73 @@ describe('TypeaheadSearch', () => {
             fireEvent.click(queryByText('Lak'));
 
             expect(onResultSelect).toHaveBeenCalled();
+        });
+    });
+
+    describe('theme support', () => {
+        it('renders correctly in light theme', () => {
+            const { getByRole, container } = render(<TypeaheadSearch />);
+
+            getByRole('textbox');
+            expect(container.querySelector('svg.typeaheadSearchIcon')).toBeInTheDocument();
+        });
+
+        it('renders correctly in dark theme', () => {
+            const { getByRole, container } = render(<TypeaheadSearch />, 'dark');
+
+            getByRole('textbox');
+            expect(container.querySelector('svg.typeaheadSearchIcon')).toBeInTheDocument();
+        });
+
+        it('renders results popover consistently across themes', async () => {
+            const { container: lightContainer } = render(
+                <TypeaheadSearch fetchResults={fetchResults} />
+            );
+
+            const { container: darkContainer } = render(
+                <TypeaheadSearch fetchResults={fetchResults} />,
+                'dark'
+            );
+
+            // Both should render the input element
+            expect(lightContainer.querySelector('input')).toBeInTheDocument();
+            expect(darkContainer.querySelector('input')).toBeInTheDocument();
+        });
+
+        it('handles search results popover in both themes', async () => {
+            const { container: lightContainer, queryByText: lightQueryByText } = render(
+                <TypeaheadSearch fetchResults={fetchResults} onResultSelect={() => null} />
+            );
+
+            fireEvent.change(lightContainer.querySelector('input'), { target: { value: 'L' } });
+
+            act(() => {
+                jest.advanceTimersByTime(250);
+            });
+
+            expect(lightContainer.querySelector('div.searchResultsPopoverBackground')).toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(lightQueryByText('Lak')).toBeInTheDocument();
+            });
+
+            // Test dark theme
+            const { container: darkContainer, queryByText: darkQueryByText } = render(
+                <TypeaheadSearch fetchResults={fetchResults} onResultSelect={() => null} />,
+                'dark'
+            );
+
+            fireEvent.change(darkContainer.querySelector('input'), { target: { value: 'L' } });
+
+            act(() => {
+                jest.advanceTimersByTime(250);
+            });
+
+            expect(darkContainer.querySelector('div.searchResultsPopoverBackground')).toBeInTheDocument();
+
+            await waitFor(() => {
+                expect(darkQueryByText('Lak')).toBeInTheDocument();
+            });
         });
     });
 });

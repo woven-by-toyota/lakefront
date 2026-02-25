@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import colors from 'src/styles/lakefrontColors';
 import Button from 'src/components/Button/Button';
 import { generateAnchorOrigin, SnackbarOrigin } from './Snackbar.util';
 
@@ -53,10 +52,10 @@ export const StyledSnackbarCloseButton = styled(Button)(({theme}) => ({
     }
 }));
 
-export const StyledSnackbarButton = styled.span(() => ({
+export const StyledSnackbarButton = styled.span(({ theme }) => ({
     display: 'inline-flex',
-    backgroundColor: colors.black,
-    color: colors.white,
+    backgroundColor: theme.backgrounds.inverted,
+    color: theme.foregrounds.inverted,
     borderRadius: 5,
     padding: 5
 }));
