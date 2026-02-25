@@ -1,6 +1,5 @@
 import { FC, ReactNode } from 'react';
 import {SortIcon, StatusTableStyle} from './statusTableStyles';
-import { ReactComponent as UnfoldMoreIcon } from './__assets__/UnfoldMoreIcon.svg';
 import { v4 as uuid } from 'uuid';
 
 export interface StatusTableHeader {
