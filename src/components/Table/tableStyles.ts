@@ -50,6 +50,12 @@ export const TableStyle = styled.table(({ theme }) => ({
   }
 }));
 
+export const HeaderCell = styled.th<{ headerWidth?: number }>(({ headerWidth }) => ({
+  '.header-content-wrapper': {
+    ...(headerWidth && { width: headerWidth })
+  }
+}));
+
 export const StyledHeader = styled.div({
   display: 'flex',
   alignItems: 'center',
@@ -69,6 +75,17 @@ export const StyledHeaderContent = styled.div(({ theme }) => ({
     fill: theme.foregrounds.tableHeading
   }
 }));
+
+export const ColumnResizeHandle = styled.div({
+  position: 'absolute',
+  right: 0,
+  top: 0,
+  height: '100%',
+  width: 16,
+  cursor: 'col-resize',
+  userSelect: 'none',
+  touchAction: 'none'
+});
 
 export const StyledArrowDown = styled(ArrowDown)({
   paddingLeft: 5,
