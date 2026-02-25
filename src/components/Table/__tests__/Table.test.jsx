@@ -118,11 +118,11 @@ describe('<Table>', () => {
         const { getAllByRole } = render(<Table columns={columns} data={customData}
             initialSortBy={{ id: 'title', desc: false }} />);
 
-        expect(getAllByRole('columnheader')[0].width).toBe('100');
-        expect(getAllByRole('columnheader')[1].width).toBe('150');
-        expect(getAllByRole('columnheader')[2].width).toBe('150');
-        expect(getAllByRole('columnheader')[3].width).toBe('150');
-        expect(getAllByRole('columnheader')[4].width).toBe('150');
+        expect(getAllByRole('columnheader')[0]).toHaveStyle({ width: '100px' });
+        expect(getAllByRole('columnheader')[1]).toHaveStyle({ width: '150px' });
+        expect(getAllByRole('columnheader')[2]).toHaveStyle({ width: '150px' });
+        expect(getAllByRole('columnheader')[3]).toHaveStyle({ width: '150px' });
+        expect(getAllByRole('columnheader')[4]).toHaveStyle({ width: '150px' });
     });
 
     it('calls the mockHandleSort function', () => {
@@ -165,7 +165,7 @@ describe('<Table>', () => {
 
         it('renders the sub-row when row.expanded is true', async () => {
             const user = userEvent.setup();
-            const { queryByText, queryAllByText, debug } = render(
+            const { queryByText, queryAllByText } = render(
                 <Table
                     columns={columnsWithExpander}
                     data={customData}
@@ -206,6 +206,69 @@ describe('<Table>', () => {
             await waitFor(() => {
                 expect(queryByText(`Value is ${customData[0].value}`)).not.toBeInTheDocument();
             });
+        });
+    });
+
+    describe('error handling', () => {
+        let consoleErrorSpy;
+        beforeEach(() => {
+            consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            consoleErrorSpy.mockRestore();
+        });
+
+        it('displays error message when cell render function throws an error', () => {
+            const faultyColumns = [
+                ...columns,
+                {
+                    header: 'METADATA',
+                    accessorKey: 'metadata',
+                    cell: ({ getValue }) => {
+                        // This will throw an error when metadata is null
+                        return getValue().created;
+                    }
+                }
+            ];
+
+            const faultyData = [
+                ...customData,
+                { title: 'faulty', value: 1, percentage: 100, percentage_change: 1, total: 1, metadata: null }
+            ];
+
+            const { container, queryByText } = render(
+                <Table
+                    columns={faultyColumns}
+                    data={faultyData}
+                    errorMessage="An error occurred while rendering the table"
+                />
+            );
+
+            expect(queryByText('An error occurred while rendering the table')).toBeInTheDocument();
+
+            expect(container.querySelectorAll('tbody tr').length).toBe(1); // Only the error message row
+        });
+
+        it('uses default error message when errorMessage prop is not provided', () => {
+            const faultyColumns = [
+                {
+                    header: 'BROKEN',
+                    accessorKey: 'broken',
+                    cell: ({ getValue }) => getValue().nonExistent.property
+                }
+            ];
+
+            const faultyData = [{ broken: null }];
+
+            const { queryByText } = render(
+                <Table
+                    columns={faultyColumns}
+                    data={faultyData}
+                />
+            );
+
+            expect(queryByText('Error: Data provided to the table was invalid.')).toBeInTheDocument();
         });
     });
 });
