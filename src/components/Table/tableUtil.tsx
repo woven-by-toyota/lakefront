@@ -28,3 +28,20 @@ export const MULTI_SORT_TITLE = 'Hold shift & click the column to add to multi-s
 export const getTitleForColumn = (disableSortBy: boolean): string => {
     return disableSortBy ? '' : MULTI_SORT_TITLE;
 };
+
+export const isLastHeader = (
+    header: any,
+    idx: number,
+    totalHeaders: number,
+    hasMoreActions: boolean
+): boolean => {
+    if (header.id === 'more-actions') {
+        return true;
+    }
+
+    if (hasMoreActions) {
+        return idx === totalHeaders - 2;
+    }
+
+    return idx === totalHeaders - 1;
+};
