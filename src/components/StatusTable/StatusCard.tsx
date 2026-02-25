@@ -23,11 +23,11 @@ export interface StatusCardProps {
  */
 const StatusCard: FC<StatusCardProps> = ({ statusRow, bottomRow, className }) => {
     return (
-        <ThemeProvider theme={theme}>
+        <>
             {statusRow}
             <tr className={className}>{bottomRow}</tr>
             <DividerRow />
-        </ThemeProvider>
+        </>
     );
 };
 

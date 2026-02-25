@@ -61,7 +61,6 @@ const StatusTable: FC<StatusTableProps> = (
     }) => {
     if (cards) {
         return (
-            <ThemeProvider theme={theme}>
                 <StatusTableStyle className={className} cards>
                     <table>
                         <tbody>
@@ -69,12 +68,10 @@ const StatusTable: FC<StatusTableProps> = (
                         </tbody>
                     </table>
                 </StatusTableStyle>
-            </ThemeProvider>
         );
     }
 
     return (
-        <ThemeProvider theme={theme}>
             <StatusTableStyle className={className} cards>
                 <table>
                     <thead>
@@ -102,7 +99,6 @@ const StatusTable: FC<StatusTableProps> = (
                     </tbody>
                 </table>
             </StatusTableStyle>
-        </ThemeProvider>
     );
 };
 
