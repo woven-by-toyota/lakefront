@@ -103,7 +103,6 @@ const DeviceProgressBar: FC<DeviceProgressProps> = ({
     const capacityText = `${capacity}${subTextWithSpace}`;
 
     return (
-        <ThemeProvider theme={customTheme}>
             <ProgressBarContainer className={className}>
                 <>
                     <TopText className='progress-bar-top-text'>
@@ -132,7 +131,6 @@ const DeviceProgressBar: FC<DeviceProgressProps> = ({
                     )}
                 </>
             </ProgressBarContainer>
-        </ThemeProvider>
     );
 };
 

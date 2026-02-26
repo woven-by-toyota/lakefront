@@ -12,7 +12,7 @@ export const PlaybackStyle = styled.div({
 
 export const PlaySlider = styled.div(({ theme }) => ({
     ...theme.lettering.secondary,
-    color: theme.foregrounds.inverted,
+    color: theme.foregrounds.primary,
     display: 'grid',
     gridTemplateColumns: '100px auto 100px',
     gridRowGap: '0.5rem'
@@ -37,7 +37,7 @@ export const SliderContainer = styled.div({
 export const SliderBar = styled.div(({ theme }) => ({
     position: 'relative',
     borderRadius: '6px',
-    background: theme.backgrounds.secondary,
+    background: theme.backgrounds.inverted,
     height: '8px',
     margin: '3px 0'
 }));

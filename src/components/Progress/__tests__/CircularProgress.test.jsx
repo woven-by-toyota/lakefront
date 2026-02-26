@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import CircularProgress from '../CircularProgress';
 import { pie as d3pie } from 'd3-shape';
 import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';

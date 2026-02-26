@@ -17,8 +17,8 @@ export const CircularProgressStyle = styled.div<any>(({ width, theme }) => ({
         textAlign: 'center',
         padding: '4px 8px',
         fontSize: '12px',
-        color: theme?.colors?.akoya,
-        background: theme?.colors?.storm,
+        color: theme.foregrounds.inverted,
+        background: theme.backgrounds.inverted,
         border: 0,
         borderRadius: '8px',
         pointerEvents: 'none'
@@ -27,6 +27,6 @@ export const CircularProgressStyle = styled.div<any>(({ width, theme }) => ({
 
 export const CenterTextStyle = styled.span(({ theme }) => ({
     fontSize: '24px',
-    color: theme?.colors?.dolphin,
+    color: theme.foregrounds.secondary,
     textAlign: 'center'
 }));
