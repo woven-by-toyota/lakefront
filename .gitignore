@@ -112,8 +112,29 @@ dist
 # Storybook build
 storybook-static
 
-# Claude
+# Claude & AI Assistant Files
 CLAUDE.md
 .claude/
 .specify/
 specs/
+spec.md
+plan.md
+tasks.md
+constitution.md
+checklist.md
+*.claude.md
+*_claude.md
+claude_*
+.claude_*
+# Speckit generated files
+*.spec.md
+*.plan.md
+*.tasks.md
+*.constitution.md
+*.checklist.md
+# Claude project memory and context
+.claude/**/*.jsonl
+claude-session*.jsonl
+# Temporary Claude files
+.claude-*
+claude-temp*
