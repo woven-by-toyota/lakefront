@@ -4,11 +4,7 @@ import {
     FC,
     ReactElement
   } from 'react';
-  import { ThemeProvider } from '@emotion/react';
-  import { StyledRadioGroup, StyledLabel } from './radioGroupStyles';
-  import { ReactComponent as Checked } from './assets/radioChecked.svg';
-  import { ReactComponent as Unchecked } from './assets/radioUnchecked.svg';
-  import theme from 'src/styles/theme';
+  import { StyledRadioGroup, StyledLabel, StyledCheckedIcon, StyledUncheckedIcon } from './radioGroupStyles';
 
   export interface RadioGroupProps {
     /**
@@ -70,13 +66,15 @@ import {
     };
 
     return (
-      <ThemeProvider theme={theme}>
+      <>
       {
         options.map((option) => {
 
-          const icon = value === option.value ? <Checked /> : <Unchecked />;
           const checked = value === option.value;
           const disableOption = disabled || option.disabled;
+          const icon = value === option.value ?
+            <StyledCheckedIcon disabled={disableOption} /> :
+            <StyledUncheckedIcon disabled={disableOption} />;
 
           return (
             <StyledLabel disabled={disableOption} className={labelClassName}>
@@ -96,7 +94,7 @@ import {
           );
         })
       }
-      </ThemeProvider>
+      </>
     );
   };
 

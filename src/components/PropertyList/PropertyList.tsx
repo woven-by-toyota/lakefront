@@ -41,7 +41,6 @@ const PropertyList: React.FC<PropertyListProps> = (props) => {
     }
 
     return (
-        <ThemeProvider theme={theme}>
             <AttributeGrid>
                 {attributes.map(a => (
                     <React.Fragment key={a.caption}>
@@ -50,7 +49,6 @@ const PropertyList: React.FC<PropertyListProps> = (props) => {
                     </React.Fragment>
                 ))}
             </AttributeGrid>
-        </ThemeProvider>
     );
 };
 
@@ -60,7 +58,6 @@ export const PropertyListVariable: React.FC<BaseProps> = props => {
     const { attributes, data, className } = props;
 
     return (
-        <ThemeProvider theme={theme}>
             <AttributeList className={className}>
                 {attributes.map(a => (
                     <div key={a.caption}>
@@ -69,6 +66,5 @@ export const PropertyListVariable: React.FC<BaseProps> = props => {
                     </div>
                 ))}
             </AttributeList>
-        </ThemeProvider>
     );
 };
