@@ -41,11 +41,12 @@ export const StyledButton = styled(Button)({
   minWidth: 40
 });
 
-export const StyledH4 = styled.h4({
+export const StyledH4 = styled.h4(({ theme }) => ({
   marginLeft: 0,
   marginBottom: '1rem',
-  fontFamily: '"Source Sans Pro", sans-serif'
-});
+  fontFamily: '"Source Sans Pro", sans-serif',
+  color: theme.foregrounds.primary
+}));
 
 export const PanelContainer = styled.div({
   display: 'flex',

@@ -8,8 +8,6 @@ import {
   StyledButton,
   StyledH4
 } from './transferListStyles';
-import { ThemeProvider } from '@emotion/react';
-import theme from 'src/styles/theme';
 
 export interface ListItem {
   label: string;
@@ -108,66 +106,64 @@ const TransferList: FC<TransferListProps> = ({
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <GridContainer className={className}>
-        <PanelContainer>
-          <StyledH4>{leftListName}</StyledH4>
-          <CheckBoxContainer>
-            <CheckboxGroupComponent
-              options={leftListData}
-              name={'listOne'}
-              selected={listOneValue}
-              onHandleChange={handleListOneClick}
-            />
-          </CheckBoxContainer>
-        </PanelContainer>
-        <ButtonColumnContainer>
-          <StyledButton
-            color="secondary"
-            disabled={leftListData.length === 0}
-            onClick={handleAllRight}
-            type={'button'}
-          >
-            ≫
-          </StyledButton>
-          <StyledButton
-            color="secondary"
-            disabled={listOneValue.size === 0}
-            onClick={handleMoveLeftToRight}
-            type={'button'}
-          >
-            &gt;
-          </StyledButton>
-          <StyledButton
-            color="secondary"
-            disabled={listTwoValue.size === 0}
-            onClick={handleMoveRightToLeft}
-            type={'button'}
-          >
-            &lt;
-          </StyledButton>
-          <StyledButton
-            color="secondary"
-            disabled={rightListData.length === 0}
-            onClick={handleAllLeft}
-            type={'button'}
-          >
-            ≪
-          </StyledButton>
-        </ButtonColumnContainer>
-        <PanelContainer>
-          <StyledH4>{rightListName}</StyledH4>
-          <CheckBoxContainer>
-            <CheckboxGroupComponent
-              options={rightListData}
-              name={'listTwo'}
-              selected={listTwoValue}
-              onHandleChange={handleListTwoClick}
-            />
-          </CheckBoxContainer>
-        </PanelContainer>
-      </GridContainer>
-    </ThemeProvider>
+    <GridContainer className={className}>
+      <PanelContainer>
+        <StyledH4>{leftListName}</StyledH4>
+        <CheckBoxContainer>
+          <CheckboxGroupComponent
+            options={leftListData}
+            name={'listOne'}
+            selected={listOneValue}
+            onHandleChange={handleListOneClick}
+          />
+        </CheckBoxContainer>
+      </PanelContainer>
+      <ButtonColumnContainer>
+        <StyledButton
+          color="secondary"
+          disabled={leftListData.length === 0}
+          onClick={handleAllRight}
+          type={'button'}
+        >
+          ≫
+        </StyledButton>
+        <StyledButton
+          color="secondary"
+          disabled={listOneValue.size === 0}
+          onClick={handleMoveLeftToRight}
+          type={'button'}
+        >
+          &gt;
+        </StyledButton>
+        <StyledButton
+          color="secondary"
+          disabled={listTwoValue.size === 0}
+          onClick={handleMoveRightToLeft}
+          type={'button'}
+        >
+          &lt;
+        </StyledButton>
+        <StyledButton
+          color="secondary"
+          disabled={rightListData.length === 0}
+          onClick={handleAllLeft}
+          type={'button'}
+        >
+          ≪
+        </StyledButton>
+      </ButtonColumnContainer>
+      <PanelContainer>
+        <StyledH4>{rightListName}</StyledH4>
+        <CheckBoxContainer>
+          <CheckboxGroupComponent
+            options={rightListData}
+            name={'listTwo'}
+            selected={listTwoValue}
+            onHandleChange={handleListTwoClick}
+          />
+        </CheckBoxContainer>
+      </PanelContainer>
+    </GridContainer>
   );
 };
 
