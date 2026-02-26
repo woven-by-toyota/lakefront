@@ -2,12 +2,12 @@ import styled from '@emotion/styled';
 import { MultiSelectOption } from './MultiSelect';
 import { lightenDarkenColor } from 'src/styles/stylesUtil';
 import TextArea from 'src/components/TextArea/TextArea';
-import theme from 'src/styles/theme';
 import { GetStyles, GroupBase } from 'react-select/dist/declarations/src/types';
+import { Theme } from '@emotion/react';
 
 const DARKEN_LEAST = -10;
 
-export const MULTI_SELECT_STYLES: Partial<GetStyles<MultiSelectOption, true, GroupBase<MultiSelectOption>>> = {
+export const getMultiSelectStyles = (theme: Theme): Partial<GetStyles<MultiSelectOption, true, GroupBase<MultiSelectOption>>> => ({
     control: (styles: any, state: { isFocused: any; }) => ({
         ...styles,
         backgroundColor: theme.backgrounds.primary,
@@ -27,15 +27,32 @@ export const MULTI_SELECT_STYLES: Partial<GetStyles<MultiSelectOption, true, Gro
     multiValue: (styles: any) => ({
         ...styles,
         backgroundColor: theme.backgrounds.secondary,
+        color: theme.foregrounds.primary,
         ':hover': {
             backgroundColor: theme.backgrounds.hover
+        }
+    }),
+    multiValueLabel: (styles: any) => ({
+        ...styles,
+        color: theme.foregrounds.primary
+    }),
+    multiValueRemove: (styles: any) => ({
+        ...styles,
+        color: theme.foregrounds.primary,
+        ':hover': {
+            backgroundColor: theme.backgrounds.hover,
+            color: theme.foregrounds.primary
         }
     }),
     option: (styles: any, state: { isFocused: any; }) => ({
         ...styles,
         backgroundColor: state.isFocused ? theme.backgrounds.hover : theme.backgrounds.primary
     })
-};
+});
+
+// Keep legacy export for backward compatibility during migration
+// Note: This won't work anymore since it needs theme parameter
+// export const MULTI_SELECT_STYLES = getMultiSelectStyles;
 
 export const MultiValueInputContainer = styled.div({
     'textarea + div': {

@@ -3,10 +3,9 @@ import { Component } from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { SelectOption } from 'src/types/global';
-import { MULTI_SELECT_STYLES } from './multiSelectStyles';
+import { getMultiSelectStyles } from './multiSelectStyles';
 import { createUniqueOptions, getUniqueOptions, parseItems } from './multiSelectUtil';
-import { ThemeProvider } from '@emotion/react';
-import theme from 'src/styles/theme';
+import { withTheme, Theme } from '@emotion/react';
 import MultiValueInput from './MultiValueInput';
 import { GroupBase, OnChangeValue } from 'react-select/dist/declarations/src/types';
 import { SelectComponents } from 'react-select/dist/declarations/src/components';
@@ -28,6 +27,7 @@ interface MultiSelectProps {
     disableMenu?: boolean;
     autoFocus?: boolean;
     delimiter?: string;
+    theme?: Theme;
 }
 
 /**
@@ -95,7 +95,8 @@ export class MultiSelect extends Component<MultiSelectProps, MultiSelectState> {
             creatable,
             disableMenu = false,
             autoFocus = true,
-            delimiter
+            delimiter,
+            theme
         } = this.props;
 
         const disabledMenuComponents = disableMenu
@@ -113,59 +114,61 @@ export class MultiSelect extends Component<MultiSelectProps, MultiSelectState> {
             }
             : {};
 
-        return (
-            <ThemeProvider theme={theme}>
-                {creatable ? (
-                    <CreatableSelect
-                        components={{
-                            ...disabledMenuComponents,
-                            ...parseMultiValueComponents
-                        }}
-                        autoFocus={autoFocus}
-                        value={value}
-                        isMulti
-                        name={title}
-                        placeholder={placeholder}
-                        onChange={(value) => this.handleChange(value as MultiSelectOption[])}
-                        onCreateOption={this.handleCreate}
-                        options={this.state.items}
-                        styles={MULTI_SELECT_STYLES}
-                        theme={(defaultTheme) => ({
-                            ...defaultTheme,
-                            colors: {
-                                ...defaultTheme.colors,
-                                ...theme.colors,
-                                primary: theme.colors.white,
-                                primary25: theme.colors.mercury,
-                                neutral0: theme.colors.white
-                            }
-                        })}
-                    />
-                ) : (
-                    <Select
-                        autoFocus={autoFocus}
-                        value={value}
-                        isMulti
-                        name={title}
-                        placeholder={placeholder}
-                        onChange={this.handleChange}
-                        options={items}
-                        styles={MULTI_SELECT_STYLES}
-                        theme={(defaultTheme) => ({
-                            ...defaultTheme,
-                            colors: {
-                                ...defaultTheme.colors,
-                                ...theme.colors,
-                                primary: theme.colors.white,
-                                primary25: theme.colors.mercury,
-                                neutral0: theme.colors.white
-                            }
-                        })}
-                    />
-                )}
-            </ThemeProvider>
+        if (!theme) return null;
+
+        return creatable ? (
+            <CreatableSelect
+                components={{
+                    ...disabledMenuComponents,
+                    ...parseMultiValueComponents
+                }}
+                autoFocus={autoFocus}
+                value={value}
+                isMulti
+                name={title}
+                placeholder={placeholder}
+                onChange={(value) => this.handleChange(value as MultiSelectOption[])}
+                onCreateOption={this.handleCreate}
+                options={this.state.items}
+                styles={getMultiSelectStyles(theme)}
+                theme={(defaultTheme) => ({
+                    ...defaultTheme,
+                    colors: {
+                        ...defaultTheme.colors,
+                        primary: theme.backgrounds.primary,
+                        primary25: theme.backgrounds.hover,
+                        neutral0: theme.backgrounds.primary,
+                        neutral80: theme.foregrounds.primary,    // Main text color
+                        neutral20: theme.foregrounds.secondary,  // Secondary text
+                        neutral10: theme.backgrounds.secondary   // Chip background
+                    }
+                })}
+            />
+        ) : (
+            <Select
+                autoFocus={autoFocus}
+                value={value}
+                isMulti
+                name={title}
+                placeholder={placeholder}
+                onChange={this.handleChange}
+                options={items}
+                styles={getMultiSelectStyles(theme)}
+                theme={(defaultTheme) => ({
+                    ...defaultTheme,
+                    colors: {
+                        ...defaultTheme.colors,
+                        primary: theme.backgrounds.primary,
+                        primary25: theme.backgrounds.hover,
+                        neutral0: theme.backgrounds.primary,
+                        neutral80: theme.foregrounds.primary,    // Main text color
+                        neutral20: theme.foregrounds.secondary,  // Secondary text
+                        neutral10: theme.backgrounds.secondary   // Chip background
+                    }
+                })}
+            />
         );
     }
 }
 
-export default MultiSelect;
+export default withTheme(MultiSelect);

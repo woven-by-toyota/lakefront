@@ -30,11 +30,9 @@ const ItemResults: React.FC<ItemResultsProps> = ({ dataLength, totalItems, class
     const total = digitGroupSeparator(totalItems);
 
     return (
-        <ThemeProvider theme={theme}>
             <ItemStyleContainer className={className}>
                 {dataLength > 0 && totalItems > 0 ? `1 - ${current} of ${total}` : '0 results'}
             </ItemStyleContainer>
-        </ThemeProvider>
     );
 };
 

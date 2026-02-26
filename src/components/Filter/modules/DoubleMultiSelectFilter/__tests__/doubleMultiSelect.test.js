@@ -1,4 +1,5 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import DoubleMultiSelect from '../DoubleMultiSelect';
 
 describe('DoubleMultiSelect', () => {

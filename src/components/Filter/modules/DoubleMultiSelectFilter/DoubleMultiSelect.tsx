@@ -12,12 +12,12 @@ const FilterTitle = styled.div({
 });
 
 const FilterLabel = styled.label({
-    color: theme.foregrounds.inverted,
+    color: theme.foregrounds.secondary,
     fontSize: 16
 });
 
 const FilterClear = styled.div({
-    color: theme.foregrounds.inverted,
+    color: theme.foregrounds.secondary,
     cursor: 'pointer',
     fontSize: 16,
     fontWeight: 600

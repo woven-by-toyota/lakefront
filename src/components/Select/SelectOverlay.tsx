@@ -60,15 +60,6 @@ const SelectOverlay: FC<SelectProps> = ({
         options: options,
         onChange: handleChange,
         styles: { ...SELECT_OVERLAY_STYLES, ...styles },
-        // theme: (defaultTheme: any) => ({
-        //     ...defaultTheme,
-        //     colors: {
-        //         ...defaultTheme.colors,
-        //         ...theme.colors,
-        //         primary: theme.colors.white,
-        //         primary25: disabled ? theme.colors.white : theme.colors.mercury
-        //     }
-        // }),
         isSearchable: isSearchable,
         isMulti: isMulti
     };
