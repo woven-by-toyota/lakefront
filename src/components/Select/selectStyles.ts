@@ -3,7 +3,6 @@ import { lightenDarkenColor } from 'src/styles/stylesUtil';
 import { Theme } from '@emotion/react';
 import { SelectOption } from 'src/types/global';
 import { ReactComponent as baselineExpandSvg } from './baseline-expand_more-24px.svg';
-import theme from 'src/styles/theme';
 import { GetStyles, GroupBase } from 'react-select/dist/declarations/src/types';
 
 export const SelectStyles = styled.div({
@@ -23,7 +22,7 @@ interface SelectState {
 
 export type SelectOverlayStyles = Partial<GetStyles<SelectOption<any>, true, GroupBase<SelectOption<any>>>>;
 
-export const SELECT_OVERLAY_STYLES: SelectOverlayStyles = {
+export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
     control: (defaultStyles: SelectState, state: SelectState) => ({
         ...defaultStyles,
         flexWrap: undefined,
@@ -98,7 +97,7 @@ export const SELECT_OVERLAY_STYLES: SelectOverlayStyles = {
             backgroundColor: theme.backgrounds.hover
         })
     })
-};
+});
 
 export const SelectStyledComponent = styled.select(({ theme }) => ({
     overflow: 'hidden',

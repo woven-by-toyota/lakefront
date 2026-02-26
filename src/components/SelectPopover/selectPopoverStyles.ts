@@ -9,8 +9,8 @@ export const StyledSelectPopoverWrapper = styled.div({
 });
 
 export const StyledSelectPopover = styled.div(({ theme }) => ({
-    backgroundColor: theme?.colors?.white,
-    border: `1px solid ${theme?.colors?.cinder}`,
+    backgroundColor: theme.backgrounds.primary,
+    border: `1px solid ${theme.borderColors.primary}`,
     borderRadius: 4,
     display: 'flex',
     flexDirection: 'column',
@@ -28,8 +28,8 @@ interface SelectPopoverItemProps {
 
 export const SelectPopoverItem = styled.div<SelectPopoverItemProps>(({ theme, disabled }) => ({
     alignItems: 'center',
-    backgroundColor: theme?.colors?.white,
-    color: disabled ? lightenDarkenColor(theme?.colors?.white, DARKEN_MOST): theme?.colors?.storm,
+    backgroundColor: theme.backgrounds.primary,
+    color: disabled ? theme.foregrounds.disabled : theme.foregrounds.primary,
     cursor: 'pointer',
     display: 'flex',
     fontSize: 16,
@@ -39,7 +39,7 @@ export const SelectPopoverItem = styled.div<SelectPopoverItemProps>(({ theme, di
     userSelect: 'none',
     zIndex: 2,
     ':hover': {
-        backgroundColor: disabled ? theme?.colors?.white : theme?.colors?.mercury,
+        backgroundColor: disabled ? theme.backgrounds.primary : theme.backgrounds.hover,
         cursor: disabled ? 'not-allowed' : undefined
     }
 }));

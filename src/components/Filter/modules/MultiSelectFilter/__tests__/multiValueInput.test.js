@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import MultiValueInput from '../MultiValueInput';
 
 describe('MultiValueInput', () => {
