@@ -138,3 +138,5 @@ claude-session*.jsonl
 # Temporary Claude files
 .claude-*
 claude-temp*
+# Documentation files
+semantic-token-mapping-guide.md
