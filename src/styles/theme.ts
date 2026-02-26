@@ -37,6 +37,7 @@ const THEME: Theme = {
         disabled: colors.akoya,
         inverted: colors.dolphin,
         pronounced: colors.mercury,
+        alert: colors.watermelon
     },
     shadowColors: {
         boxShadow: colors.pavement,
@@ -121,6 +122,7 @@ export const DARK_THEME: Theme = {
         disabled: lightenDarkenColor(colors.white, -40),
         inverted: colors.selago,
         pronounced: colors.mercury,
+        alert: colors.watermelon
     },
     shadowColors: {
         boxShadow: "",

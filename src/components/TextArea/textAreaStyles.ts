@@ -15,7 +15,7 @@ export const StyledLabel = styled.label<TextAreaProps>(({ error, theme }) => ({
         minHeight: 14,
     },
     ...(error && {
-        color: theme.foregrounds.danger,
+        color: theme.foregrounds.alert,
     })
 }));
 
@@ -38,9 +38,9 @@ export const StyledTextArea = styled.textarea<TextAreaProps>(({ error, theme, di
     },
     cursor: disabled ? 'not-allowed' : undefined,
     ...(error && {
-        border: `1px solid ${theme.borderColors.danger}`,
+        border: `1px solid ${theme.borderColors.alert}`,
         ':focus': {
-            border: `1px solid ${theme.borderColors.danger}`
+            border: `1px solid ${theme.borderColors.alert}`
         },
     })
 }));
