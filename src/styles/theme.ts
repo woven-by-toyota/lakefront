@@ -51,6 +51,7 @@ const THEME: Theme = {
         hover: colors.mercury,
         tinted: colors.akoya,
         error: colors.saturatedRed,
+        warning: colors.saturatedOrange,
         errorsInverted: colors.white
     },
     foregrounds: {
@@ -134,6 +135,7 @@ export const DARK_THEME: Theme = {
         hover: lightenDarkenColor(colors.dolphin, 5),
         tinted: colors.gunpowder,
         error: colors.red,
+        warning: colors.orange,
         errorsInverted: colors.gunpowder
     },
     foregrounds: {

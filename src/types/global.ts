@@ -76,6 +76,7 @@ export interface LakefrontTheme {
         hover: string;
         tinted: string;
         error: string;
+        warning: string;
         errorsInverted: string;
     };
     foregrounds: {

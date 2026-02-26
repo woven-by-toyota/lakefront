@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import StackBannerRow from '../StackBannerRow';
 
 const CONTENT = 'content';

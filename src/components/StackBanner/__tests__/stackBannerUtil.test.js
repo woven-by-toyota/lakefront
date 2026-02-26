@@ -11,32 +11,27 @@ import {
 } from '../stackBannerUtil';
 
 const THEME = {
-  colors: {
-    white: 'white',
-    orange: 'orange',
-    red: 'red',
-    default: DEFAULT_BACKGROUND_COLOR,
+  backgrounds: {
+    primary: 'white',
+    warning: 'orange',
+    error: 'red',
   },
 };
 
 describe('getSeverityColor', () => {
   it('returns the proper severity color when severity is defined.', () => {
-    expect(getSeverityColor(NORMAL_SEVERITY, THEME)).toBe(THEME.colors.white);
-    expect(getSeverityColor(WARNING_SEVERITY, THEME)).toBe(THEME.colors.orange);
-    expect(getSeverityColor(ERROR_SEVERITY, THEME)).toBe(
-      THEME.colors.red
-    );
-    expect(getSeverityColor(DEFAULT_SEVERITY, THEME)).toBe(
-      THEME.colors.default
-    );
+    expect(getSeverityColor(NORMAL_SEVERITY, THEME)).toBe(THEME.backgrounds.primary);
+    expect(getSeverityColor(WARNING_SEVERITY, THEME)).toBe(THEME.backgrounds.warning);
+    expect(getSeverityColor(ERROR_SEVERITY, THEME)).toBe(THEME.backgrounds.error);
+    expect(getSeverityColor(DEFAULT_SEVERITY, THEME)).toBe(DEFAULT_BACKGROUND_COLOR);
   });
 
   it('returns the proper default color when severity is undefined.', () => {
-    expect(getSeverityColor(undefined, THEME)).toBe(THEME.colors.default);
+    expect(getSeverityColor(undefined, THEME)).toBe(DEFAULT_BACKGROUND_COLOR);
   });
 
   it('returns the proper default color when severity is invalid.', () => {
-    expect(getSeverityColor('doesNotExist', THEME)).toBe(THEME.colors.default);
+    expect(getSeverityColor('doesNotExist', THEME)).toBe(DEFAULT_BACKGROUND_COLOR);
   });
 });
 

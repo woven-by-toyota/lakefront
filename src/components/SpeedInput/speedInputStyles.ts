@@ -6,10 +6,10 @@ export const RadioGroupWrapper = styled.div(({ theme }) => ({
         display: 'flex',
         alignItems: 'center',
         'input[type=radio]:not(:checked) + svg + div': {
-            color: theme?.colors?.pavement
+            color: theme.foregrounds.secondary
         },
         'input[type=radio]:checked + svg': {
-            fill: theme?.colors?.gunpowder
+            fill: theme.foregrounds.primary
         }
     },
     svg: {

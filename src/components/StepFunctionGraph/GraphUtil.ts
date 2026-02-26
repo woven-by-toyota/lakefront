@@ -339,7 +339,8 @@ export const redrawNode = (
     ctx: CanvasRenderingContext2D,
     drawn: Map<number, NodeDimensions>,
     graph: Digraph,
-    highlighted: number[]
+    highlighted: number[],
+    theme?: any
 ) => {
     const dimensions = drawn.get(vertex);
     const node = graph.getDataByVertex(vertex);
@@ -352,13 +353,13 @@ export const redrawNode = (
 
         switch (Type) {
             case WorkFlowType.CHOICE:
-                drawStepNode({ ctx, x, y, text: key, highlight });
+                drawStepNode({ ctx, x, y, text: key, highlight, theme });
                 break;
             case WorkFlowType.TASK:
-                drawStepNode({ ctx, x, y, text: key, highlight });
+                drawStepNode({ ctx, x, y, text: key, highlight, theme });
                 break;
             case WorkFlowType.CATCH:
-                drawCatchNode({ ctx, x, y, text: key, highlight, node });
+                drawCatchNode({ ctx, x, y, text: key, highlight, node, theme });
                 break;
             case WorkFlowType.PARALLEL:
                 break;
@@ -369,7 +370,7 @@ export const redrawNode = (
             case WorkFlowType.END:
                 break;
             default:
-                drawStepNode({ ctx, x, y, text: key, highlight });
+                drawStepNode({ ctx, x, y, text: key, highlight, theme });
                 break;
         }
     }

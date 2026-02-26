@@ -41,7 +41,8 @@ export const handleMap = (
     graph: Digraph,
     drawn: Map<number, NodeDimensions>,
     highlight: boolean,
-    highlighted: number[]
+    highlighted: number[],
+    theme?: any
 ) => {
     const MAP_PADDING = 20;
     const MAP_TOP_OFFSET = 17;
@@ -135,7 +136,8 @@ export const handleMap = (
         y: (topLeftPos.y - bottomRightPos.height),
         width: widestNode + (MAP_PADDING * 2),
         height: -(topLeftPos.y - bottomRightPos.y) + bottomRightPos.height + (MAP_PADDING * 1.5),
-        highlight
+        highlight,
+        theme
     };
 
     drawMap(mapArgs);
@@ -143,7 +145,7 @@ export const handleMap = (
     // Redraw nodes inside a Map since they get covered up by the Map's fill
     const flattenedMatrix = ([] as number[]).concat(...mapNodeMatrix);
     flattenedMatrix.forEach((vertex) => {
-        redrawNode(vertex, ctx, drawn, graph, highlighted);
+        redrawNode(vertex, ctx, drawn, graph, highlighted, theme);
     });
 
     const nodeData = {
@@ -175,7 +177,8 @@ export const handleParallel = (
     vertex: number,
     endVertex: number,
     drawn: Map<number, NodeDimensions>,
-    highlight: boolean
+    highlight: boolean,
+    theme?: any
 ) => {
     const PARALLEL_PADDING = 20;
     const parallelNode = graph.getDataByVertex(vertex);
@@ -246,7 +249,8 @@ export const handleParallel = (
         y: (topLeftPos.y - bottomRightPos.height - PARALLEL_PADDING) - 1,
         width: range + PARALLEL_PADDING,
         height: -(topLeftPos.y - bottomRightPos.y) + bottomRightPos.height + (PARALLEL_PADDING * 3),
-        highlight
+        highlight,
+        theme
     };
 
     drawParallel(parallelArgs);
@@ -474,7 +478,8 @@ export function renderVertex(
     depthIndex: number,
     highlighted: number[],
     ctx: CanvasRenderingContext2D,
-    delayed: any[]
+    delayed: any[],
+    theme?: any
 ) {
     const previousVertex = depthWithoutParallel[index - 1];
     const previous = drawn.get(previousVertex);
@@ -517,26 +522,26 @@ export function renderVertex(
     if (x) {
         switch (Type) {
             case WorkFlowType.START:
-                drawTerminalNode({ ctx, x, y, text: key });
+                drawTerminalNode({ ctx, x, y, text: key, theme });
                 break;
             case WorkFlowType.END:
-                drawTerminalNode({ ctx, x, y, text: key });
+                drawTerminalNode({ ctx, x, y, text: key, theme });
                 break;
             case WorkFlowType.TASK:
-                drawStepNode({ ctx, x, y, text: key, highlight });
+                drawStepNode({ ctx, x, y, text: key, highlight, theme });
                 break;
             case WorkFlowType.CHOICE:
-                drawStepNode({ ctx, x, y, text: key, highlight });
+                drawStepNode({ ctx, x, y, text: key, highlight, theme });
                 break;
             case WorkFlowType.CATCH:
-                drawCatchNode({ ctx, x, y, text: key, highlight, node });
+                drawCatchNode({ ctx, x, y, text: key, highlight, node, theme });
                 break;
             case WorkFlowType.MAP:
                 break;
             case WorkFlowType.PARALLEL:
                 break;
             default:
-                drawStepNode({ctx, x, y, text: key, highlight});
+                drawStepNode({ctx, x, y, text: key, highlight, theme});
                 break;
         }
     }
@@ -595,7 +600,8 @@ export const drawGraph = (
     scale: number,
     height: number,
     width: number,
-    highlighted: number[] = []
+    highlighted: number[] = [],
+    theme: any
 ) => {
     // The transform values help place the center of the canvas with scaling in mind
     const xTransform = -(scale - 1) * width / 2;
@@ -654,7 +660,8 @@ export const drawGraph = (
                 depthIndex,
                 highlighted,
                 ctx,
-                delayed
+                delayed,
+                theme
             );
         });
     });
@@ -671,9 +678,9 @@ export const drawGraph = (
 
         // Just double-check that it's a Parallel type before drawing it
         if (Type === WorkFlowType.PARALLEL) {
-            handleParallel(ctx, graph, vertex, endVertex, drawn, highlight);
+            handleParallel(ctx, graph, vertex, endVertex, drawn, highlight, theme);
         } else if (Type === WorkFlowType.MAP) {
-            handleMap(ctx, vertex, endVertex, graph, drawn, highlight, highlighted);
+            handleMap(ctx, vertex, endVertex, graph, drawn, highlight, highlighted, theme);
         }
     });
 
@@ -705,7 +712,8 @@ export const drawGraph = (
             depthIndex,
             highlighted,
             ctx,
-            delayed
+            delayed,
+            theme
         );
     });
 
@@ -740,7 +748,9 @@ export const drawGraph = (
                         5,
                         false,
                         false,
-                        nextEnd
+                        nextEnd,
+                        0,
+                        theme
                     );
 
                     drawnArrowPairs.push([node.vertex, nextNode.vertex]);
@@ -753,7 +763,9 @@ export const drawGraph = (
                         5,
                         false,
                         false,
-                        true
+                        true,
+                        0,
+                        theme
                     );
                     drawnArrowPairs.push([node.vertex, nextNode.vertex]);
                 } else {
@@ -782,7 +794,8 @@ export const drawGraph = (
                             hideArrow,
                             offsetArrowStart,
                             nextEnd,
-                            endOffset
+                            endOffset,
+                            theme
                         );
                         drawnArrowPairs.push([node.vertex, nextNode.vertex]);
                     } else {
@@ -795,7 +808,8 @@ export const drawGraph = (
                             hideArrow,
                             offsetArrowStart,
                             nextEnd,
-                            endOffset
+                            endOffset,
+                            theme
                         );
                         drawnArrowPairs.push([node.vertex, nextNode.vertex]);
                     }

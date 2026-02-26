@@ -23,10 +23,12 @@ interface SeverityColors {
 }
 
 export const getSeverityColor = (severity: string | undefined, theme?: Theme) => {
+  if (!theme) return DEFAULT_BACKGROUND_COLOR;
+
   const SEVERITY_COLORS: SeverityColors = {
-    normal: theme?.colors?.white,
-    warning: theme?.colors?.orange,
-    error: theme?.colors?.red,
+    normal: theme.backgrounds.primary,
+    warning: theme.backgrounds.warning,
+    error: theme.backgrounds.error,
     default: DEFAULT_BACKGROUND_COLOR
   };
 

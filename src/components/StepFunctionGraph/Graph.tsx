@@ -1,9 +1,7 @@
 import { FC, MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { useTheme } from '@emotion/react';
 
 import { generateStepFunctionGraph, WorkFlowType } from './StepFunctionUtil';
-import { ReactComponent as GpsFixedIcon } from './assets/navigation.svg';
-import { ReactComponent as AddIcon } from './assets/plus.svg';
-import { ReactComponent as RemoveIcon } from './assets/minus.svg';
 import Digraph from './Digraph';
 import DigraphDFS from './DigraphDFS';
 import { drawGraph } from './GraphRenderer';
@@ -11,9 +9,7 @@ import resizeObserver from 'src/lib/hooks/resizeObserver.js';
 import throttled from 'src/lib/hooks/throttle.js';
 import { NodeDimensions } from './GraphUtil';
 import { collides } from './canvasUtil';
-import { GraphControls, GraphContainer, StyledCanvas } from './graphStyles';
-import theme from 'src/styles/theme';
-import { ThemeProvider } from '@emotion/react';
+import { GraphControls, GraphContainer, StyledCanvas, StyledGpsFixedIcon, StyledAddIcon, StyledRemoveIcon } from './graphStyles';
 
 export interface GraphProps {
     /**
@@ -66,6 +62,7 @@ export const StepFunctionGraph: FC<GraphProps> = ({
     json,
     className
 }) => {
+    const theme = useTheme();
     const globalOffset = useMemo(
         () => ({
             scale: 1,
@@ -290,7 +287,8 @@ export const StepFunctionGraph: FC<GraphProps> = ({
                             zoom,
                             height,
                             width,
-                            highlightedArray
+                            highlightedArray,
+                            theme
                         );
 
                         // Set the node data in the state since we don't have access to the drawn map from outside this function
@@ -443,22 +441,20 @@ export const StepFunctionGraph: FC<GraphProps> = ({
     }, []);
 
     return (
-        <ThemeProvider theme={theme}>
-            <GraphContainer ref={graphRef} className={className}>
-                <StyledCanvas ref={canvasContainer} />
-                <GraphControls>
-                    <div onClick={handleRecenter}>
-                        <GpsFixedIcon />
-                    </div>
-                    <div onClick={handleZoomIn}>
-                        <AddIcon />
-                    </div>
-                    <div onClick={handleZoomOut}>
-                        <RemoveIcon />
-                    </div>
-                </GraphControls>
-            </GraphContainer>
-        </ThemeProvider>
+        <GraphContainer ref={graphRef} className={className}>
+            <StyledCanvas ref={canvasContainer} />
+            <GraphControls>
+                <div onClick={handleRecenter}>
+                    <StyledGpsFixedIcon />
+                </div>
+                <div onClick={handleZoomIn}>
+                    <StyledAddIcon />
+                </div>
+                <div onClick={handleZoomOut}>
+                    <StyledRemoveIcon />
+                </div>
+            </GraphControls>
+        </GraphContainer>
     );
 };
 
