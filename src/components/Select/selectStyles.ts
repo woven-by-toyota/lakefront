@@ -96,6 +96,26 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
         ...(state.isFocused && {
             backgroundColor: theme.backgrounds.hover
         })
+    }),
+    multiValue: (defaultStyles: any) => ({
+        ...defaultStyles,
+        backgroundColor: theme.backgrounds.secondary,
+        color: theme.foregrounds.primary,
+        ':hover': {
+            backgroundColor: theme.backgrounds.hover
+        }
+    }),
+    multiValueLabel: (defaultStyles: any) => ({
+        ...defaultStyles,
+        color: theme.foregrounds.primary
+    }),
+    multiValueRemove: (defaultStyles: any) => ({
+        ...defaultStyles,
+        color: theme.foregrounds.primary,
+        ':hover': {
+            backgroundColor: theme.backgrounds.hover,
+            color: theme.foregrounds.primary
+        }
     })
 });
 

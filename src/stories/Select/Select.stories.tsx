@@ -28,7 +28,7 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
             return value !== undefined;
         }
         else {
-            return value != undefined && value.length > 0;
+            return value != undefined && Array.isArray(value) && value.length > 0;
         }
     };
 
@@ -45,7 +45,7 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
                 }}
             >
                 {areValuesSelected() && !args.isMulti && `The selected value is ${value}`}
-                {areValuesSelected() && value.length > 0 && args.isMulti && `The selected values are: ${value.map(v => ` ${v}`)}`}
+                {areValuesSelected() && Array.isArray(value) && value.length > 0 && args.isMulti && `The selected values are: ${value.map((v: any) => ` ${v}`)}`}
             </div>
             <section style={{ display: 'inline-flex', height: '150px' }}>
                 <SelectComponent
@@ -53,8 +53,8 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
                   onChange={handleOnChange}
                   styles={{
                     ...getSelectOverlayStyles(theme),
-                    control: (baseStyles, state) => ({
-                      ...getSelectOverlayStyles(theme).control(baseStyles, state),
+                    control: (baseStyles: any, state: any) => ({
+                      ...getSelectOverlayStyles(theme).control?.(baseStyles, state),
                       minWidth: 300
                     })
                   }}
