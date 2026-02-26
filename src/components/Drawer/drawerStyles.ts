@@ -6,7 +6,7 @@ interface DrawerContainerProps {
 }
 
 export const DrawerContainer = styled.div<DrawerContainerProps>(({ theme, width, open }) => ({
-    backgroundColor: theme?.colors?.storm,
+    backgroundColor: theme.backgrounds.inverted,
     height: 'auto',
     transition: 'all .3s ease-in-out',
     overflow: 'auto',

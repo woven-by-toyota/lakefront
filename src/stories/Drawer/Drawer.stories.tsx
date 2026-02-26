@@ -1,10 +1,18 @@
 import { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react-webpack5';
+import styled from '@emotion/styled';
 
 import DrawerComponent, { DrawerProps } from 'src/components/Drawer';
 import DocBlock from '.storybook/DocBlock';
 import Button from 'src/components/Button/Button';
 import { emerald } from 'src/styles/lakefrontColors';
+
+const DrawerContent = styled.div(({ theme }) => ({
+    minWidth: 40,
+    minHeight: 40,
+    color: theme.foregrounds.inverted,
+    textAlign: 'center'
+}));
 
 export default {
     title: 'Lakefront/Drawer',
@@ -62,9 +70,9 @@ const Template: StoryFn<DrawerProps & ComponentPropsWithoutRef<'div'>> = (args) 
             <div style={{ display: 'flex', position: 'relative', marginTop: 8 }}>
                 <div style={{ flex: 1 }} />
                 <DrawerComponent {...args} open={isOpen} onClose={handleOnClose} width={isOpen ? '100%' : '50%'}>
-                    <div style={{ minWidth: 40, minHeight: 40, color: 'white', textAlign: 'center' }}>
+                    <DrawerContent>
                         Drawer content can be added here.
-                    </div>
+                    </DrawerContent>
                 </DrawerComponent>
             </div>
         </div>
