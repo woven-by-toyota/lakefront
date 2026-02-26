@@ -1,4 +1,5 @@
-import { renderWithTheme as render, fireEvent } from 'src/lib/testing';
+import { renderWithTheme as render } from 'src/lib/testing';
+import { fireEvent } from '@testing-library/react';
 import SpeedInput, { SPEED_UNITS, Mode } from '../SpeedInput';
 
 const options = [

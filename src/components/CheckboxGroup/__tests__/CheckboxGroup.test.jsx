@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CheckboxGroup from '../CheckboxGroup';
-import { render } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 
 const JOB_TYPES = [
     { label: 'Finished', value: 'finished' },
