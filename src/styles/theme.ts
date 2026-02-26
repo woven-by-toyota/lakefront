@@ -147,7 +147,7 @@ export const DARK_THEME: Theme = {
         inverted: colors.storm,
         success: colors.green,
         hyperlink: colors.saturatedBlue,
-        loading: colors.pavement,
+        loading: colors.akoya,
         tableHeading: colors.pavement
     },
     lettering: {

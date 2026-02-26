@@ -65,7 +65,6 @@ const ModeSelector: FC<ModeSelectorProps> = ({
     };
 
     return (
-        <ThemeProvider theme={theme}>
             <ModeSelectorContainer className={className}>
                 <h3>{title}</h3>
 
@@ -88,7 +87,6 @@ const ModeSelector: FC<ModeSelectorProps> = ({
                     </div>
                 )}
             </ModeSelectorContainer>
-        </ThemeProvider>
     );
 };
 
