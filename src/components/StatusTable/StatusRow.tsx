@@ -43,11 +43,9 @@ const StatusRow: FC<StatusRowProps> = ({ children, status = Status.NONE, classNa
     };
 
     return (
-        <ThemeProvider theme={theme}>
             <StatusRowStyle className={className} status={status} rowClick={Boolean(onRowClick)} onClick={handleOnClick}>
                 {children}
             </StatusRowStyle>
-        </ThemeProvider>
     );
 };
 

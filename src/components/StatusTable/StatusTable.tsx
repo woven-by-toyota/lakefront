@@ -1,9 +1,6 @@
 import { FC, ReactNode } from 'react';
-import { StatusTableStyle } from './statusTableStyles';
-import { ReactComponent as UnfoldMoreIcon } from './__assets__/UnfoldMoreIcon.svg';
+import {SortIcon, StatusTableStyle} from './statusTableStyles';
 import { v4 as uuid } from 'uuid';
-import { ThemeProvider } from '@emotion/react';
-import theme from 'src/styles/theme';
 
 export interface StatusTableHeader {
     /** 
@@ -61,7 +58,6 @@ const StatusTable: FC<StatusTableProps> = (
     }) => {
     if (cards) {
         return (
-            <ThemeProvider theme={theme}>
                 <StatusTableStyle className={className} cards>
                     <table>
                         <tbody>
@@ -69,12 +65,10 @@ const StatusTable: FC<StatusTableProps> = (
                         </tbody>
                     </table>
                 </StatusTableStyle>
-            </ThemeProvider>
         );
     }
 
     return (
-        <ThemeProvider theme={theme}>
             <StatusTableStyle className={className} cards>
                 <table>
                     <thead>
@@ -89,7 +83,7 @@ const StatusTable: FC<StatusTableProps> = (
                                         >
                                             {name}
                                             {
-                                                sortable && <UnfoldMoreIcon />
+                                                sortable && <SortIcon />
                                             }
                                         </div>
                                     </th>
@@ -102,7 +96,6 @@ const StatusTable: FC<StatusTableProps> = (
                     </tbody>
                 </table>
             </StatusTableStyle>
-        </ThemeProvider>
     );
 };
 

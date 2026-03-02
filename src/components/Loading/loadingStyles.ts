@@ -18,11 +18,11 @@ export const StyledLoadingContainer = styled.div<LoadingProps>(
             marginLeft: 5,
             marginRight: 10,
             path: {
-                ...(!svg && { fill: theme?.colors?.pavement })
+                ...(!svg && { fill: theme.foregrounds.loading })
             }
         },
         div: {
-            color: theme?.colors?.pavement,
+            color: theme.foregrounds.loading,
             paddingTop: labelPosition === 'BOTTOM' ? 8 : 0,
         }
     })

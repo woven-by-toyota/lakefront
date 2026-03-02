@@ -1,4 +1,5 @@
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { fireEvent, cleanup } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import PlaybackBar from '../Playbackbar';
 
 afterAll(cleanup);

@@ -1,9 +1,9 @@
 import { FC, useMemo, useState } from 'react';
+import { useTheme } from '@emotion/react';
 import { SelectProps } from './Select';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
-import { SELECT_OVERLAY_STYLES } from './selectStyles';
-import theme from 'src/styles/theme';
+import { getSelectOverlayStyles } from './selectStyles';
 
 const SelectOverlay: FC<SelectProps> = ({
     isSearchable = false,
@@ -19,6 +19,7 @@ const SelectOverlay: FC<SelectProps> = ({
     styles,
     ...rest
 }) => {
+    const theme = useTheme();
     const [multiValues, setMultiValues] = useState(multiDefaultValue);
 
     const { currentValue, defaultValue, selectId } = useMemo(
@@ -59,14 +60,17 @@ const SelectOverlay: FC<SelectProps> = ({
         value: currentValue,
         options: options,
         onChange: handleChange,
-        styles: { ...SELECT_OVERLAY_STYLES, ...styles },
+        styles: { ...getSelectOverlayStyles(theme), ...styles },
         theme: (defaultTheme: any) => ({
             ...defaultTheme,
             colors: {
                 ...defaultTheme.colors,
-                ...theme.colors,
-                primary: theme.colors.white,
-                primary25: disabled ? theme.colors.white : theme.colors.mercury
+                primary: theme.backgrounds.primary,
+                primary25: theme.backgrounds.hover,
+                neutral0: theme.backgrounds.primary,
+                neutral80: theme.foregrounds.primary,    // Main text color
+                neutral20: theme.foregrounds.secondary,  // Secondary text
+                neutral10: theme.backgrounds.secondary   // Chip background
             }
         }),
         isSearchable: isSearchable,

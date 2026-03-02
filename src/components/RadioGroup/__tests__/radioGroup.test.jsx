@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import RadioGroup from '../RadioGroup';
 
 const name = 'Alphabet';

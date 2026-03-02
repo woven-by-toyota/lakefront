@@ -1,5 +1,6 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import ItemResult from '../ItemResults';
 
 afterAll(cleanup);

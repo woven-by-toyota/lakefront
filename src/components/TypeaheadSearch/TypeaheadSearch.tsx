@@ -13,8 +13,6 @@ import { ReactComponent as SearchIcon } from './assets/search.svg';
 import useDebounce from 'src/lib/hooks/useDebounce';
 import Input from 'src/components/Input/Input';
 import { SearchResultsPopover, TypeaheadSearchContainer } from './typeaheadSearchStyles';
-import theme from 'src/styles/theme';
-import { ThemeProvider } from '@emotion/react';
 import TypeaheadResults, { TypeaheadResultItem } from './TypeaheadResults';
 import usePopover, { PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
 
@@ -228,49 +226,47 @@ const TypeaheadSearch: FC<TypeaheadSearchProps & ComponentPropsWithoutRef<'input
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <TypeaheadSearchContainer
-                ref={searchInputContainerRef}
-                placement={placement}
-                resultOpen={resultsOpen}
-                className={className}
-            >
-                <form onSubmit={handleSearchSubmit}>
-                    <div className="inputWrapper" ref={popoverNodeMounted}>
-                        <Input
-                            {...restInputProps}
-                            type="text"
-                            placeholder={placeholder}
-                            autoComplete="off"
-                            onChange={handleInputChange}
-                            value={inputValue}
-                            autoFocus={autoFocus}
-                            className="typeaheadInput"
-                        />
-                        <PopoverContent
-                            portal={portal}
-                            deps={[children, resultsOpen, debouncedSearchText, popoverElement, placement]}
-                        >
-                            {resultsOpen && (
-                                <SearchResultsPopover className='searchResultsPopover' placement={placement}>
-                                    {debouncedSearchText && children && children({
-                                        searchText: debouncedSearchText,
-                                        fetchResults,
-                                        onResultSelect: handleResultSelect
-                                    })}
-                                    {debouncedSearchText && !children && (<TypeaheadResults
-                                            debouncedText={debouncedSearchText}
-                                            fetchResults={fetchResults}
-                                            onResultSelect={handleResultSelect}
-                                        />)}
-                                </SearchResultsPopover>)}
-                        </PopoverContent>
-                    </div>
-                </form>
-                <SearchIcon className="typeaheadSearchIcon" />
-                {resultsOpen && <div className="searchResultsPopoverBackground" onClick={closeResultsPopover} />}
-            </TypeaheadSearchContainer>
-        </ThemeProvider>
+        <TypeaheadSearchContainer
+            ref={searchInputContainerRef}
+            placement={placement}
+            resultOpen={resultsOpen}
+            className={className}
+        >
+            <form onSubmit={handleSearchSubmit}>
+                <div className="inputWrapper" ref={popoverNodeMounted}>
+                    <Input
+                        {...restInputProps}
+                        type="text"
+                        placeholder={placeholder}
+                        autoComplete="off"
+                        onChange={handleInputChange}
+                        value={inputValue}
+                        autoFocus={autoFocus}
+                        className="typeaheadInput"
+                    />
+                    <PopoverContent
+                        portal={portal}
+                        deps={[children, resultsOpen, debouncedSearchText, popoverElement, placement]}
+                    >
+                        {resultsOpen && (
+                            <SearchResultsPopover className='searchResultsPopover' placement={placement}>
+                                {debouncedSearchText && children && children({
+                                    searchText: debouncedSearchText,
+                                    fetchResults,
+                                    onResultSelect: handleResultSelect
+                                })}
+                                {debouncedSearchText && !children && (<TypeaheadResults
+                                        debouncedText={debouncedSearchText}
+                                        fetchResults={fetchResults}
+                                        onResultSelect={handleResultSelect}
+                                    />)}
+                            </SearchResultsPopover>)}
+                    </PopoverContent>
+                </div>
+            </form>
+            <SearchIcon className="typeaheadSearchIcon" />
+            {resultsOpen && <div className="searchResultsPopoverBackground" onClick={closeResultsPopover} />}
+        </TypeaheadSearchContainer>
     );
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import SelectPopover from '../SelectPopover';
 import Button from 'src/components/Button/Button';
 

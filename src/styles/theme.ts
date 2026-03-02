@@ -37,6 +37,7 @@ const THEME: Theme = {
         disabled: colors.akoya,
         inverted: colors.dolphin,
         pronounced: colors.mercury,
+        alert: colors.watermelon
     },
     shadowColors: {
         boxShadow: colors.pavement,
@@ -51,6 +52,7 @@ const THEME: Theme = {
         hover: colors.mercury,
         tinted: colors.akoya,
         error: colors.saturatedRed,
+        warning: colors.saturatedOrange,
         errorsInverted: colors.white
     },
     foregrounds: {
@@ -120,6 +122,7 @@ export const DARK_THEME: Theme = {
         disabled: lightenDarkenColor(colors.white, -40),
         inverted: colors.selago,
         pronounced: colors.mercury,
+        alert: colors.watermelon
     },
     shadowColors: {
         boxShadow: "",
@@ -134,6 +137,7 @@ export const DARK_THEME: Theme = {
         hover: lightenDarkenColor(colors.dolphin, 5),
         tinted: colors.gunpowder,
         error: colors.red,
+        warning: colors.orange,
         errorsInverted: colors.gunpowder
     },
     foregrounds: {
@@ -147,7 +151,7 @@ export const DARK_THEME: Theme = {
         inverted: colors.storm,
         success: colors.green,
         hyperlink: colors.saturatedBlue,
-        loading: colors.pavement,
+        loading: colors.akoya,
         tableHeading: colors.pavement
     },
     lettering: {

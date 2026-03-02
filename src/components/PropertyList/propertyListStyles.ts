@@ -16,7 +16,7 @@ export const AttributeGrid = styled.div({
 export const Caption = styled.span<any>(({ theme }) => ({
     gridColumnStart: 1,
     gridColumnEnd: 2,
-    color: theme?.colors?.dolphin,
+    color: theme.foregrounds.secondary,
     textAlign: 'right',
     '&::after': {
         content: '": "'
@@ -34,7 +34,7 @@ export const AttributeList = styled.span(({ theme }) => ({
         marginBottom: 6
     },
     'span:nth-child(1)': {
-        color: theme?.colors?.pavement,
+        color: theme.foregrounds.secondary,
         textAlign: 'right',
         marginRight: '2px',
         '&::after': {
@@ -42,6 +42,6 @@ export const AttributeList = styled.span(({ theme }) => ({
         }
     },
     'span:nth-child(2)': {
-        color: theme?.colors?.cinder
+        color: theme.foregrounds.primary
     }
 }));

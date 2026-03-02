@@ -54,7 +54,6 @@ const PlaybackBar: FC<PlaybackBarProps> = ({ currentDuration,
 }) => {
 
     return (
-        <ThemeProvider theme={theme}>
             <PlaybackStyle className={className}>
                 <PlaySlider>
                     <span>{currentDuration}</span>
@@ -67,7 +66,6 @@ const PlaybackBar: FC<PlaybackBarProps> = ({ currentDuration,
                     <span>{endDuration}</span>
                 </PlaySlider>
             </PlaybackStyle>
-        </ThemeProvider>
     );
 };
 

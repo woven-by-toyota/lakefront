@@ -27,8 +27,8 @@ export const ProgressBar = styled.div(({ theme }) => ({
     height: '32px',
     borderRadius: '4px',
     border: '1px solid',
-    borderColor: theme?.colors.mercury,
-    background: theme?.colors.akoya
+    borderColor: theme.borderColors.secondary,
+    background: theme.backgrounds.secondary
 }));
 
 export const Filler = styled.div<any>(({ width, backgroundColor, theme }) => ({

@@ -1,6 +1,7 @@
 import { ComponentPropsWithoutRef, useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react-webpack5';
-import SelectComponent, { SELECT_OVERLAY_STYLES, SelectProps } from 'src/components/Select';
+import { useTheme } from '@emotion/react';
+import SelectComponent, { getSelectOverlayStyles, SelectProps } from 'src/components/Select';
 import DocBlock from '.storybook/DocBlock';
 import { emerald } from 'src/styles/lakefrontColors';
 import { SelectOption } from 'src/components/Select/Select';
@@ -16,6 +17,7 @@ export default {
 } as Meta;
 
 const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) => {
+    const theme = useTheme();
     const [value, setValue] = useState(args.value);
     const handleOnChange = (event) => {
         setValue(event.target.value);
@@ -26,7 +28,7 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
             return value !== undefined;
         }
         else {
-            return value != undefined && value.length > 0;
+            return value != undefined && Array.isArray(value) && value.length > 0;
         }
     };
 
@@ -43,16 +45,16 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
                 }}
             >
                 {areValuesSelected() && !args.isMulti && `The selected value is ${value}`}
-                {areValuesSelected() && value.length > 0 && args.isMulti && `The selected values are: ${value.map(v => ` ${v}`)}`}
+                {areValuesSelected() && Array.isArray(value) && value.length > 0 && args.isMulti && `The selected values are: ${value.map((v: any) => ` ${v}`)}`}
             </div>
             <section style={{ display: 'inline-flex', height: '150px' }}>
                 <SelectComponent
                   value={value}
                   onChange={handleOnChange}
                   styles={{
-                    ...SELECT_OVERLAY_STYLES,
-                    control: (baseStyles, state) => ({
-                      ...SELECT_OVERLAY_STYLES.control(baseStyles, state),
+                    ...getSelectOverlayStyles(theme),
+                    control: (baseStyles: any, state: any) => ({
+                      ...getSelectOverlayStyles(theme).control?.(baseStyles, state),
                       minWidth: 300
                     })
                   }}

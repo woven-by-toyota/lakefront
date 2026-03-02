@@ -3,14 +3,17 @@ import { Y_OFFSET } from './GraphRenderer';
 
 export const NODE_HEIGHT = 38;
 const TEXT_WIDTH_MULTIPLIER = 12;
-const OUTLINE_STROKE_COLOR = '#16191f';
-const WHITE_COLOR = '#ffffff';
 const DEBUG_RED_COLOR = '#ff0000';
 const CATCH_RED_COLOR = '#cc0000';
 const HIGHLIGHT_BACKGROUND = '#d9e9fd';
 const HIGHLIGHT_COLOR = '#378fee';
 const HIGHLIGHTED_WIDTH = 2;
 const NORMAL_WIDTH = 1;
+
+// Helper functions to get theme-aware colors
+const getOutlineStrokeColor = (theme: any) => theme?.foregrounds?.primary || '#16191f';
+const getWhiteColor = (theme: any) => theme?.backgrounds?.primary || '#ffffff';
+const getTerminalColor = (theme: any) => theme?.backgrounds?.warning || '#ffda75';
 
 interface BaseDrawArgs {
     ctx: CanvasRenderingContext2D;
@@ -26,6 +29,7 @@ interface DimensionDrawArgs extends BaseDrawArgs {
 interface FunctionalDrawArgs extends BaseDrawArgs {
     text: string;
     highlight?: boolean;
+    theme?: any;
 }
 
 type Point = { x: number, y: number };
@@ -46,7 +50,7 @@ export const getNodeDimensions = (text: string, ctx?: CanvasRenderingContext2D, 
 };
 
 export const drawStepNode = (
-    { ctx, x, y, text, highlight = false }: FunctionalDrawArgs
+    { ctx, x, y, text, highlight = false, theme }: FunctionalDrawArgs
 ) => {
     const TEXT_Y_OFFSET = 22;
 
@@ -56,24 +60,24 @@ export const drawStepNode = (
     const rectYPos = y - TEXT_Y_OFFSET;
 
     // draw the white or blue rectangle
-    ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : WHITE_COLOR;
+    ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : getWhiteColor(theme);
     ctx.fillRect(rectXPos, rectYPos, rectWidth, NODE_HEIGHT - 4);
 
     // draw the outline of the white rectangle
     ctx.setLineDash([5, 2]);
-    ctx.strokeStyle = highlight ? HIGHLIGHT_COLOR : OUTLINE_STROKE_COLOR;
+    ctx.strokeStyle = highlight ? HIGHLIGHT_COLOR : getOutlineStrokeColor(theme);
     ctx.lineWidth = highlight ? HIGHLIGHTED_WIDTH : NORMAL_WIDTH;
     ctx.strokeRect(rectXPos, rectYPos, rectWidth, NODE_HEIGHT - 4);
 
     // draw the text
-    ctx.fillStyle = highlight ? HIGHLIGHT_COLOR : OUTLINE_STROKE_COLOR;
+    ctx.fillStyle = highlight ? HIGHLIGHT_COLOR : getOutlineStrokeColor(theme);
     ctx.font = '14px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(text, x, y);
 };
 
 export const drawCatchNode = (
-    { ctx, x, y, text, highlight = false, node }: FunctionalDrawArgs & { node: any }
+    { ctx, x, y, text, highlight = false, node, theme }: FunctionalDrawArgs & { node: any }
 ) => {
     const TEXT_Y_OFFSET = 33;
     const SUBTEXT_Y_OFFSET = 17;
@@ -89,7 +93,7 @@ export const drawCatchNode = (
     const rectYPos = y - TEXT_Y_OFFSET;
 
     // draw the white or blue rectangle
-    ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : WHITE_COLOR;
+    ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : getWhiteColor(theme);
     ctx.fillRect(rectXPos, rectYPos, rectWidth, NODE_HEIGHT * 1.5);
 
     // draw the outline of the white rectangle
@@ -99,7 +103,7 @@ export const drawCatchNode = (
     ctx.strokeRect(rectXPos, rectYPos, rectWidth, NODE_HEIGHT * 1.5);
 
     // draw the text
-    ctx.fillStyle = highlight ? HIGHLIGHT_COLOR : OUTLINE_STROKE_COLOR;
+    ctx.fillStyle = highlight ? HIGHLIGHT_COLOR : getOutlineStrokeColor(theme);
     ctx.font = '14px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(text, x, y);
@@ -113,7 +117,7 @@ export const drawCatchNode = (
 };
 
 export const drawParallel = (
-    { ctx, x, y, width, height, highlight = false }: Omit<FunctionalDrawArgs & DimensionDrawArgs, 'text'>
+    { ctx, x, y, width, height, highlight = false, theme }: Omit<FunctionalDrawArgs & DimensionDrawArgs, 'text'>
 ) => {
     const LINE_WIDTH = 2;
     // set the dimensions of the rectangle
@@ -123,17 +127,17 @@ export const drawParallel = (
 
     // draw the outline of the white rectangle
     ctx.setLineDash([5, LINE_WIDTH]);
-    ctx.strokeStyle = highlight ? HIGHLIGHT_COLOR : OUTLINE_STROKE_COLOR;
+    ctx.strokeStyle = highlight ? HIGHLIGHT_COLOR : getOutlineStrokeColor(theme);
     ctx.lineWidth = highlight ? HIGHLIGHTED_WIDTH : NORMAL_WIDTH;
     ctx.strokeRect(rectXPos, rectYPos, rectWidth, height);
     ctx.globalCompositeOperation = 'destination-over';
-    ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : WHITE_COLOR;
+    ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : getWhiteColor(theme);
     ctx.fillRect(rectXPos + LINE_WIDTH, rectYPos, rectWidth - (LINE_WIDTH * 2), height);
     ctx.globalCompositeOperation = 'source-over';
 };
 
 export const drawMap = (
-    { ctx, x, y, width, height, highlight = false }: Omit<FunctionalDrawArgs & DimensionDrawArgs, 'text'>
+    { ctx, x, y, width, height, highlight = false, theme }: Omit<FunctionalDrawArgs & DimensionDrawArgs, 'text'>
 ) => {
     // set the dimensions of the rectangle
     const rectWidth = width;
@@ -143,8 +147,8 @@ export const drawMap = (
 
     // draw the outline of the white rectangle
     ctx.setLineDash([5, 2]);
-    ctx.strokeStyle = highlight ? HIGHLIGHT_COLOR : OUTLINE_STROKE_COLOR;
-    ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : WHITE_COLOR;
+    ctx.strokeStyle = highlight ? HIGHLIGHT_COLOR : getOutlineStrokeColor(theme);
+    ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : getWhiteColor(theme);
     ctx.lineWidth = highlight ? HIGHLIGHTED_WIDTH : NORMAL_WIDTH;
 
     ctx.strokeRect(rectXPos - (offset * 2), rectYPos - (offset * 2), rectWidth, height);
@@ -157,20 +161,20 @@ export const drawMap = (
 };
 
 export const drawTerminalNode = (
-    { ctx, x, y, text }: FunctionalDrawArgs
+    { ctx, x, y, text, theme }: FunctionalDrawArgs
 ) => {
     const RADIUS = 26;
     const TEXT_Y_OFFSET = 4;
 
     // draw the circle
-    ctx.fillStyle = '#ffda75';
+    ctx.fillStyle = getTerminalColor(theme);
     ctx.beginPath();
     ctx.arc(x, y, RADIUS, 0, 360, false);
     ctx.fill();
 
     // draw the text
     const yPos = y + TEXT_Y_OFFSET;
-    ctx.fillStyle = OUTLINE_STROKE_COLOR;
+    ctx.fillStyle = getOutlineStrokeColor(theme);
     ctx.font = '14px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(text, x, yPos);
@@ -245,7 +249,8 @@ export const drawArrow = (
     skipArrowHead = false,
     offsetStart = false,
     endArrow = false,
-    endOffset = 0
+    endOffset = 0,
+    theme?: any
 ) => {
     to.y += endOffset;
 
@@ -260,8 +265,8 @@ export const drawArrow = (
     let y;
 
     ctx.lineWidth = 1;
-    ctx.fillStyle = OUTLINE_STROKE_COLOR;
-    ctx.strokeStyle = OUTLINE_STROKE_COLOR;
+    ctx.fillStyle = getOutlineStrokeColor(theme);
+    ctx.strokeStyle = getOutlineStrokeColor(theme);
 
     // Sets line to be solid
     ctx.setLineDash([]);

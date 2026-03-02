@@ -1,7 +1,7 @@
 import StatusTable from '../StatusTable';
 import StatusRow, { Status } from '../StatusRow';
 import StatusCellBadge from '../StatusCellBadge';
-import { render } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 
 const mockTableHeaders = [
     {

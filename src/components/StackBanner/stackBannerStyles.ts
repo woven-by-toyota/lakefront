@@ -20,12 +20,12 @@ export const StackBannerRowDiv = styled.div<StackBannerRowDiv>(
       alignItems: 'center',
       justifyContent: 'flex-start',
       fontSize: 16,
-      color: theme?.colors?.storm,
+      color: theme.foregrounds.primary,
       backgroundColor: getSeverityColor(severity, theme),
       border:
-        severity === 'normal' ? `2px solid ${theme?.colors?.green}` : undefined,
+        severity === 'normal' ? `2px solid ${theme.foregrounds.success}` : undefined,
       svg: {
-        color: theme?.colors?.storm,
+        color: theme.foregrounds.primary,
         margin: '0 10px 0 5px',
       },
     };

@@ -1,4 +1,5 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, waitFor } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import TypeaheadSearch from '../TypeaheadSearch';
 
 jest.useFakeTimers();

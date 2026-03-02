@@ -2,8 +2,6 @@ import { FC, useState, ChangeEvent } from 'react';
 import RadioGroup from 'src/components/RadioGroup/RadioGroup';
 import MinMaxInput from 'src/components/Filter/modules/DurationFilter/MinMaxInput';
 import { RadioGroupWrapper } from 'src/components/SpeedInput/speedInputStyles';
-import { ThemeProvider } from '@emotion/react';
-import theme from 'src/styles/theme';
 
 export enum Mode {
     minmax = 'minmax',
@@ -106,7 +104,7 @@ const SpeedInput: FC<SpeedInputProps> = ({ value, onChange, unitConversionRequir
     };
 
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <MinMaxInput value={value} onChange={submitSearch} allowNegativeInput={allowNegativeInput} />
             {unitConversionRequired && (
                 <>
@@ -122,7 +120,7 @@ const SpeedInput: FC<SpeedInputProps> = ({ value, onChange, unitConversionRequir
                     </RadioGroupWrapper>
                 </>
             )}
-        </ThemeProvider>
+        </>
     );
 };
 export default SpeedInput;

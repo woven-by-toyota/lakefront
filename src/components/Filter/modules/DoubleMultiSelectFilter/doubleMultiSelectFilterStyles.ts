@@ -4,7 +4,7 @@ export const FilterCount = styled.div(({ theme }) => ({
     alignItems: 'center',
     display: 'flex',
     span: {
-        color: theme?.colors?.dolphin
+        color: theme.foregrounds.inverted
     }
 }));
 

@@ -58,6 +58,7 @@ export interface LakefrontTheme {
         disabled: string;
         inverted: string;
         pronounced: string;
+        alert: string;
     };
     buttonColors: {
         primary: string;
@@ -76,6 +77,7 @@ export interface LakefrontTheme {
         hover: string;
         tinted: string;
         error: string;
+        warning: string;
         errorsInverted: string;
     };
     foregrounds: {

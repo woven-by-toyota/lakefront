@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 
 export const ModeSelectorContainer = styled.div(({ theme }) => ({
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.backgrounds.primary,
     borderRadius: 2,
     boxShadow: '0 2px 4px 0 rgb(0 0 0 / 50%)',
     padding: '12px 16px',
     height: '100%',
 
     h3: {
-        color: theme.colors.dolphin,
+        color: theme.foregrounds.secondary,
         fontSize: 14,
         fontWeight: 'normal',
         marginBottom: '1em',

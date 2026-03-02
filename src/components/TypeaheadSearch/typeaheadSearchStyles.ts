@@ -16,25 +16,25 @@ export const SearchResultsPopover = styled.div<TypeaheadSearchContainerProps>(
             position: 'absolute',
             marginTop: '-1em',
             ...horizontalOffset,
-            border: theme?.borders?.popover,
+            border: `1px solid ${theme.borderColors.secondary}`,
             borderRadius: 4,
             boxShadow: '0 2px 5px 1px rgb(0 0 0 / 20%)',
             padding: '1em',
             width: POPOVER_WIDTH,
-            backgroundColor: theme?.colors?.white,
-            zIndex: theme?.zIndex.popover
+            backgroundColor: theme.backgrounds.primary,
+            zIndex: theme.zIndex.popover
         };
     }
 );
 
 export const TypeaheadError = styled.div(({ theme }) => ({
-    color: theme?.colors?.red
+    color: theme.foregrounds.error
 }));
 
 export const TypeaheadResultsContainer = styled.div(({ theme }) => ({
     padding: 2,
     'div.resultsHeader': {
-        color: theme?.colors?.pavement,
+        color: theme.foregrounds.secondary,
         textTransform: 'uppercase'
     },
     'ul.resultsList': {
@@ -52,7 +52,7 @@ export const TypeaheadResultsContainer = styled.div(({ theme }) => ({
             padding: '2px 4px',
             display: 'block',
             ':hover': {
-                backgroundColor: theme?.colors?.mercury,
+                backgroundColor: theme.backgrounds.hover,
                 cursor: 'pointer'
             }
         }
@@ -63,19 +63,19 @@ export const TypeaheadSearchContainer = styled.div<TypeaheadSearchContainerProps
     height: 40,
     'input.typeaheadInput': {
         paddingLeft: 50,
-        ...(resultOpen && { zIndex: theme?.zIndex.popover - 1 })
+        ...(resultOpen && { zIndex: theme.zIndex.popover - 1 })
     },
     'svg.typeaheadSearchIcon': {
         position: 'relative',
         top: -50,
         left: 15,
-        ...(resultOpen && { zIndex: theme?.zIndex.popover - 1 })
+        ...(resultOpen && { zIndex: theme.zIndex.popover - 1 })
     },
     'div.inputWrapper': {
         position: 'relative'
     },
     'div.searchResultsPopoverBackground': {
-        zIndex: theme?.zIndex.popover - 2,
+        zIndex: theme.zIndex.popover - 2,
         position: 'fixed',
         top: 0,
         left: 0,

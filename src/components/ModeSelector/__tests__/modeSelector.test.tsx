@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import ModeSelector from '../ModeSelector';
 import * as Select from 'src/components/Select/Select';
 import lakefrontColors from 'src/styles/lakefrontColors';

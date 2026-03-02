@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ReactComponent as UnfoldMoreIcon } from './__assets__/UnfoldMoreIcon.svg';
 interface StatusTableStyleProps {
     cards?: boolean;
 }
@@ -17,9 +18,8 @@ export const StatusTableStyle = styled.div<StatusTableStyleProps>(({ cards, them
     },
 
     'th': {
-        color: theme?.colors?.storm,
-        fontSize: '14px',
-        fontWeight: 400,
+        color: theme.foregrounds.tableHeading,
+        ...theme.lettering.secondary,
         padding: '12px 12px 8px 12px',
         position: 'sticky',
         textAlign: 'left',
@@ -47,32 +47,32 @@ export const StatusTableStyle = styled.div<StatusTableStyleProps>(({ cards, them
         '&:first-of-type': {
             'tr': {
                 '&:hover': {
-                    backgroundColor: theme?.colors?.white
+                    backgroundColor: theme.backgrounds.primary
                 }
             }
         },
 
         'td': {
             borderBottom: '1px solid',
-            borderBottomColor: theme?.colors?.mercury,
+            borderBottomColor: theme.borderColors.primary,
 
             '&:first-of-type': {
                 borderLeft: '1px solid',
-                borderBottomColor: theme?.colors?.mercury
+                borderBottomColor: theme.borderColors.primary
             },
 
             '&:last-of-type': {
                 borderRight: '1px solid',
-                borderBottomColor: theme?.colors?.mercury
+                borderBottomColor: theme.borderColors.primary
             }
         },
 
         'h5': {
             marginBlockStart: '0px',
             marginBlockEnd: '5px',
-            color: theme?.colors?.black,
-            fontSize: '14px',
-            fontWeight: '600'
+            color: theme.foregrounds.primary,
+            ...theme.lettering.secondary,
+            fontWeight: 600
         }
 
     })
@@ -98,44 +98,44 @@ export const StatusCellBadgeStyle = styled.div<StatusProps>(({ status, theme }) 
 
     ...((status === 'Running') && {
         '&:before': {
-            backgroundColor: theme?.colors?.teal
+            backgroundColor: theme.foregrounds.success
         }
     }),
 
     ...((status === 'Enqueued') && {
         '&:before': {
-            backgroundColor: theme?.colors?.mercury
+            backgroundColor: theme.backgrounds.disabled
         }
     }),
 
     ...(((status === 'Failed') || (status === 'Error')) && {
         '&:before': {
-            backgroundColor: theme?.colors?.red
+            backgroundColor: theme.foregrounds.error
         }
     })
 }));
 
 export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowClick, theme }) => ({
-    backgroundColor: theme?.colors?.white,
+    backgroundColor: theme.backgrounds.primary,
 
     '&:hover': {
-        backgroundColor: theme?.colors?.akoya,
+        backgroundColor: theme.backgrounds.hover,
     },
 
     '&:last-of-type': {
         'td': {
             borderBottom: '1px solid',
-            borderBottomColor: theme?.colors?.mercury
+            borderBottomColor: theme.borderColors.primary
         }
     },
 
     'td': {
         borderTop: '1px solid',
-        borderTopColor: theme?.colors?.mercury,
+        borderTopColor: theme.borderColors.primary,
 
         '&:first-of-type': {
             borderLeft: '1px solid',
-            borderLeftColor: theme?.colors?.mercury,
+            borderLeftColor: theme.borderColors.primary,
             paddingLeft: '20px',
 
             '&:before': {
@@ -150,10 +150,10 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
 
         '&:last-of-type': {
             borderRight: '1px solid',
-            borderRightColor: theme?.colors?.mercury
+            borderRightColor: theme.borderColors.primary
         },
 
-        color: theme?.colors?.grey30,
+        color: theme.foregrounds.secondary,
         padding: '12px',
         position: 'relative'
     },
@@ -161,7 +161,7 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
     ...((status === 'Running') && {
         'td:first-of-type': {
             '&:before': {
-                backgroundColor: theme?.colors?.teal
+                backgroundColor: theme.foregrounds.success
             }
         }
     }),
@@ -169,7 +169,7 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
     ...((status === 'Enqueued') && {
         'td:first-of-type': {
             '&:before': {
-                backgroundColor: theme?.colors?.mercury
+                backgroundColor: theme.backgrounds.disabled
             }
         }
     }),
@@ -177,7 +177,7 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
     ...(((status === 'Failed') || (status === 'Error')) && {
         'td:first-of-type': {
             '&:before': {
-                backgroundColor: theme?.colors?.red
+                backgroundColor: theme.foregrounds.error
             }
         }
     }),
@@ -187,4 +187,8 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
     }
     )
 
+}));
+
+export const SortIcon = styled(UnfoldMoreIcon)(({ theme }) => ({
+    fill: theme.foregrounds.primary
 }));

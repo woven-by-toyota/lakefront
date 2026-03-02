@@ -1,40 +1,51 @@
 import styled from '@emotion/styled';
 import { MultiSelectOption } from './MultiSelect';
-import { lightenDarkenColor } from 'src/styles/stylesUtil';
 import TextArea from 'src/components/TextArea/TextArea';
 import { GetStyles, GroupBase } from 'react-select/dist/declarations/src/types';
+import { Theme } from '@emotion/react';
 
-const DARKEN_LEAST = -10;
-
-export const MULTI_SELECT_STYLES: Partial<GetStyles<MultiSelectOption, true, GroupBase<MultiSelectOption>>> = {
-    control: (styles: any, state: { theme: { colors: { mercury: any; storm: any; white: string | undefined; }; }; isFocused: any; }) => ({
+export const getMultiSelectStyles = (theme: Theme): Partial<GetStyles<MultiSelectOption, true, GroupBase<MultiSelectOption>>> => ({
+    control: (styles: any, state: { isFocused: any; }) => ({
         ...styles,
-        backgroundColor: '#ffffff',
+        backgroundColor: theme.backgrounds.primary,
         borderRadius: 4,
-        border: `1px solid ${state.theme.colors.mercury}`,
+        border: `1px solid ${theme.borderColors.primary}`,
         boxShadow: 'inset 0 1px 2px 0 rgb(0 0 0 / 20%), inset 0 0 0 1px rgb(0 0 0 / 20%)',
         ...(state.isFocused && {
-            border: `1px solid ${state.theme.colors.storm}`,
+            border: `1px solid ${theme.borderColors.pronounced}`,
             outline: 0
         }),
         ':hover': {
-            backgroundColor: lightenDarkenColor(state.theme?.colors?.white, DARKEN_LEAST),
-            border: `1px solid ${state.theme.colors.storm}`,
+            backgroundColor: theme.backgrounds.hover,
+            border: `1px solid ${theme.borderColors.pronounced}`,
             outline: 0
         }
     }),
-    multiValue: (styles: any, state: { theme: { colors: { selago: string | undefined; }; }; }) => ({
+    multiValue: (styles: any) => ({
         ...styles,
-        backgroundColor: state.theme.colors.selago,
+        backgroundColor: theme.backgrounds.secondary,
+        color: theme.foregrounds.primary,
         ':hover': {
-            backgroundColor: lightenDarkenColor(state.theme.colors.selago, DARKEN_LEAST)
+            backgroundColor: theme.backgrounds.hover
         }
     }),
-    option: (styles: any, state: { isFocused: any; theme: { colors: { selago: any; }; }; }) => ({
+    multiValueLabel: (styles: any) => ({
         ...styles,
-        backgroundColor: state.isFocused ? state.theme.colors.selago : '#ffffff'
+        color: theme.foregrounds.primary
+    }),
+    multiValueRemove: (styles: any) => ({
+        ...styles,
+        color: theme.foregrounds.primary,
+        ':hover': {
+            backgroundColor: theme.backgrounds.hover,
+            color: theme.foregrounds.primary
+        }
+    }),
+    option: (styles: any, state: { isFocused: any; }) => ({
+        ...styles,
+        backgroundColor: state.isFocused ? theme.backgrounds.hover : theme.backgrounds.primary
     })
-};
+});
 
 export const MultiValueInputContainer = styled.div({
     'textarea + div': {

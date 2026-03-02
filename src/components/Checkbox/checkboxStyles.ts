@@ -9,11 +9,11 @@ interface StyledLabelProps {
 export const StyledLabel = styled.label<StyledLabelProps>(
   ({ theme, disabled, indeterminate }) => {
     const disabledSvgColor = indeterminate
-      ? theme?.colors?.white
-      : theme?.colors?.mercury;
+      ? theme.foregrounds.inverted
+      : theme.foregrounds.disabled;
 
     return {
-      color: disabled ? theme?.colors?.mercury : theme?.colors?.cinder,
+      color: disabled ? theme.foregrounds.disabled : theme.foregrounds.primary,
       display: 'inline-grid',
       gridTemplateColumns: '32px auto',
       gridTemplateRows: 'auto',
@@ -37,7 +37,7 @@ export const StyledLabel = styled.label<StyledLabelProps>(
       svg: {
         gridColumn: '1 / span 1',
         gridRow: '1 / span 1',
-        color: disabled ? disabledSvgColor : theme?.colors?.white,
+        color: disabled ? disabledSvgColor : theme.foregrounds.inverted,
         marginLeft: 2
       },
       cursor: disabled ? 'not-allowed' : 'auto'
@@ -48,14 +48,14 @@ export const StyledLabel = styled.label<StyledLabelProps>(
 export const StyledCheckbox = styled.input<CheckboxProps>(
   ({ theme, checked, indeterminate, disabled, color }) => {
     const backgroundColor =
-      indeterminate || checked ? theme?.colors?.storm : theme?.colors?.white;
+      indeterminate || checked ? theme.backgrounds.inverted : theme.backgrounds.primary;
     const disabledBackgroundColor = indeterminate
-      ? theme?.colors?.mercury
-      : theme?.colors?.white;
+      ? theme.backgrounds.disabled
+      : theme.backgrounds.primary;
 
     return {
       border: `2px solid ${
-        color || (disabled ? theme?.colors?.mercury : theme?.colors?.storm)
+        color || (disabled ? theme.borderColors.disabled : theme.borderColors.primary)
       }`,
       borderRadius: 2,
       WebkitAppearance: 'none',

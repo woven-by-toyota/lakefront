@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import ProgressBar from '../ProgressBar';
 import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';
 const items = [

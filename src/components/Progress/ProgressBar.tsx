@@ -1,6 +1,4 @@
 import { ProgressStyle, ProgressSpan } from './progressBarStyles';
-import { ThemeProvider } from '@emotion/react';
-import customTheme from 'src/styles/theme';
 
 export interface ProgressBarProps {
     /** 
@@ -44,30 +42,28 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ data, theme, total, width, cl
     let leftPosition = 0;
 
     return (
-        <ThemeProvider theme={customTheme}>
-            <ProgressStyle width={width} className={className}>
-                {data.map(({ label, value }) => {
-                    if (label === 'pending' || value === 0) {
-                        return null;
-                    }
+        <ProgressStyle width={width} className={className}>
+            {data.map(({ label, value }) => {
+                if (label === 'pending' || value === 0) {
+                    return null;
+                }
 
-                    // compute the width of the bar, and increment the left position
-                    const barWidth = total > 0 ? (value / total) * width : 0;
-                    leftPosition += barWidth;
-                    const color = theme[label] ? theme[label].bgColor : '#e1e1e8';
+                // compute the width of the bar, and increment the left position
+                const barWidth = total > 0 ? (value / total) * width : 0;
+                leftPosition += barWidth;
+                const color = theme[label] ? theme[label].bgColor : '#e1e1e8';
 
-                    return (
-                        <ProgressSpan
-                            key={label}
-                            title={`${label}: ${value}`}
-                            left={leftPosition - barWidth}
-                            backgroundColor={color}
-                            width={barWidth}
-                        />
-                    );
-                })}
-            </ProgressStyle>
-        </ThemeProvider>
+                return (
+                    <ProgressSpan
+                        key={label}
+                        title={`${label}: ${value}`}
+                        left={leftPosition - barWidth}
+                        backgroundColor={color}
+                        width={barWidth}
+                    />
+                );
+            })}
+        </ProgressStyle>
     );
 };
 

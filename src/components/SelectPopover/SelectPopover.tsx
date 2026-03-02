@@ -1,7 +1,5 @@
 import { FC, ReactElement, ReactNode, useMemo, useState } from 'react';
 import { SelectPopoverItem, StyledSelectPopover, StyledSelectPopoverWrapper } from './selectPopoverStyles';
-import theme from 'src/styles/theme';
-import { ThemeProvider } from '@emotion/react';
 import usePopover, { PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
 
 export interface SelectPopoverOption {
@@ -96,22 +94,22 @@ const SelectPopover: FC<SelectPopoverProps> = (
         setPopoverElement(node);
     };
 
-    return (<ThemeProvider theme={theme}>
-            <StyledSelectPopoverWrapper ref={popoverNodeMounted} className={className}>
-                {children}
-                <PopoverContent portal={portal} deps={[children, options]}>
-                    {visible && options.length > 0 && (<StyledSelectPopover>
-                            {options.map(({ name, value, key, disabled }) => (<SelectPopoverItem
-                                    key={key ?? name.toString()}
-                                    onClick={() => !disabled && handleClick(value)}
-                                    disabled={disabled}
-                                >
-                                    {name}
-                                </SelectPopoverItem>))}
-                        </StyledSelectPopover>)}
-                </PopoverContent>
-            </StyledSelectPopoverWrapper>
-        </ThemeProvider>);
+    return (
+        <StyledSelectPopoverWrapper ref={popoverNodeMounted} className={className}>
+            {children}
+            <PopoverContent portal={portal} deps={[children, options]}>
+                {visible && options.length > 0 && (<StyledSelectPopover>
+                        {options.map(({ name, value, key, disabled }) => (<SelectPopoverItem
+                                key={key ?? name.toString()}
+                                onClick={() => !disabled && handleClick(value)}
+                                disabled={disabled}
+                            >
+                                {name}
+                            </SelectPopoverItem>))}
+                    </StyledSelectPopover>)}
+            </PopoverContent>
+        </StyledSelectPopoverWrapper>
+    );
 };
 
 export default SelectPopover;

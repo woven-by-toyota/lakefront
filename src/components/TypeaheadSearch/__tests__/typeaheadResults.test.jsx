@@ -1,4 +1,5 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, waitFor } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import TypeaheadResults, { ERROR_MESSAGE, HEADER_MESSAGE, LOADING_MESSAGE, NO_RESULTS_MESSAGE } from '../TypeaheadResults';
 
 jest.useFakeTimers();

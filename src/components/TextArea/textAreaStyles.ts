@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { TextAreaProps } from './TextArea';
 
 export const StyledLabel = styled.label<TextAreaProps>(({ error, theme }) => ({
-    color: theme?.colors?.cinder,
+    color: theme.foregrounds.primary,
     display: 'flex',
     flexDirection: 'column',
     fontSize: 12,
@@ -15,31 +15,32 @@ export const StyledLabel = styled.label<TextAreaProps>(({ error, theme }) => ({
         minHeight: 14,
     },
     ...(error && {
-        color: theme?.colors?.red,
+        color: theme.foregrounds.alert,
     })
 }));
 
 export const StyledTextArea = styled.textarea<TextAreaProps>(({ error, theme, disabled }) => ({
-    border: `1px solid ${theme?.colors?.mercury}`,
+    border: `1px solid ${theme.borderColors.secondary}`,
     borderRadius: 4,
     boxSizing: 'border-box',
-    color: theme?.colors?.cinder,
+    backgroundColor: theme.backgrounds.primary,
+    color: theme.foregrounds.primary,
     fontSize: 16,
     outline: 'none',
     padding: 12,
     height: 200,
     width: 300,
     ':focus': {
-        border: `1px solid ${theme?.colors?.cinder}`
+        border: `1px solid ${theme.borderColors.primary}`
     },
     '::placeholder': {
-        color: theme?.colors?.mercury
+        color: theme.foregrounds.secondary
     },
     cursor: disabled ? 'not-allowed' : undefined,
     ...(error && {
-        border: `1px solid ${theme?.colors?.red}`,
+        border: `1px solid ${theme.borderColors.alert}`,
         ':focus': {
-            border: `1px solid ${theme?.colors?.red}`
+            border: `1px solid ${theme.borderColors.alert}`
         },
     })
 }));

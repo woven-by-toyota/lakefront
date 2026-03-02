@@ -1,7 +1,5 @@
 import { ComponentPropsWithRef, FC, forwardRef } from 'react';
-import { ThemeProvider } from '@emotion/react';
 import { StyledTextArea, StyledLabel } from './textAreaStyles';
-import theme from 'src/styles/theme';
 
 export interface TextAreaProps {
     /**
@@ -31,13 +29,11 @@ export interface TextAreaProps {
  */
 const TextArea: FC<TextAreaProps & ComponentPropsWithRef<'textarea'>> = forwardRef(({ label, error = '', labelClassName, ...props }, ref) => {
     return (
-        <ThemeProvider theme={theme}>
-            <StyledLabel error={error} className={labelClassName}>
-                {label && <span>{label}</span>}
-                <StyledTextArea ref={ref} error={error} {...props} />
-                <div>{error}</div>
-            </StyledLabel>
-        </ThemeProvider>
+        <StyledLabel error={error} className={labelClassName}>
+            {label && <span>{label}</span>}
+            <StyledTextArea ref={ref} error={error} {...props} />
+            <div>{error}</div>
+        </StyledLabel>
     );
 });
 
