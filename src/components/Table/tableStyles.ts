@@ -76,15 +76,25 @@ export const StyledHeaderContent = styled.div(({ theme }) => ({
   }
 }));
 
-export const ColumnResizeHandle = styled.div({
+export const ColumnResizeHandle = styled.div<{ showHandle?: boolean }>(({ theme, showHandle = true })=> ({
+  width: 2,
+  height: 16,
+  backgroundColor: showHandle ? `${theme.borderColors.primary}E6` : 'transparent',
+  marginLeft: 16
+}));
+
+export const ResizerContainer = styled.div({
   position: 'absolute',
   right: 0,
   top: 0,
   height: '100%',
-  width: 16,
-  cursor: 'col-resize',
+  width: 20,
+  cursor: 'ew-resize',
   userSelect: 'none',
-  touchAction: 'none'
+  touchAction: 'none',
+  display: 'inline-flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 export const StyledArrowDown = styled(ArrowDown)({
@@ -117,7 +127,7 @@ export const HideableTHead = styled.thead<HideableTHeadProps>(({ hide, sticky, t
     zIndex: theme.zIndex.tableHeader,
     '& th': {
       backgroundColor: theme.backgrounds.primary,
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
+      boxShadow: '0 2px 0px rgba(0, 0, 0, 0.05)'
     }
   }),
   ...(hasSettings && {
