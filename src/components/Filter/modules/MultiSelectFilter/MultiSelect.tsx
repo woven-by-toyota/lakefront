@@ -7,6 +7,7 @@ import { getMultiSelectStyles } from './multiSelectStyles';
 import { createUniqueOptions, getUniqueOptions, parseItems } from './multiSelectUtil';
 import { useTheme } from '@emotion/react';
 import MultiValueInput from './MultiValueInput';
+import ThemeErrorFallback from 'src/components/shared/ThemeErrorFallback';
 import { GroupBase, OnChangeValue } from 'react-select/dist/declarations/src/types';
 import { SelectComponents } from 'react-select/dist/declarations/src/components';
 
@@ -90,7 +91,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
         }
         : {};
 
-    if (!theme) return null;
+    if (!theme) return <ThemeErrorFallback componentName="MultiSelect" />;
 
     return creatable ? (
         <CreatableSelect

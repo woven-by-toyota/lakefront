@@ -3,6 +3,7 @@ import { useTheme, Theme } from '@emotion/react';
 import { arc as d3arc, pie as d3pie } from 'd3-shape';
 import { select } from 'd3-selection';
 import { CircularProgressStyle, CenterTextStyle } from './circularProgressStyles';
+import ThemeErrorFallback from 'src/components/shared/ThemeErrorFallback';
 
 export interface CircularProgressProps {
     /**
@@ -114,7 +115,7 @@ const CircularProgress: FC<CircularProgressProps> = ({ width, text, data, theme:
         drawCircularProgress();
     });
 
-    if (!emotionTheme) return null;
+    if (!emotionTheme) return <ThemeErrorFallback componentName="CircularProgress" />;
 
     return (
         <CircularProgressStyle width={width} ref={htmlRef} className={className}>
