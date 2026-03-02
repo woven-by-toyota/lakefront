@@ -1,11 +1,8 @@
 import styled from '@emotion/styled';
 import { MultiSelectOption } from './MultiSelect';
-import { lightenDarkenColor } from 'src/styles/stylesUtil';
 import TextArea from 'src/components/TextArea/TextArea';
 import { GetStyles, GroupBase } from 'react-select/dist/declarations/src/types';
 import { Theme } from '@emotion/react';
-
-const DARKEN_LEAST = -10;
 
 export const getMultiSelectStyles = (theme: Theme): Partial<GetStyles<MultiSelectOption, true, GroupBase<MultiSelectOption>>> => ({
     control: (styles: any, state: { isFocused: any; }) => ({
@@ -49,10 +46,6 @@ export const getMultiSelectStyles = (theme: Theme): Partial<GetStyles<MultiSelec
         backgroundColor: state.isFocused ? theme.backgrounds.hover : theme.backgrounds.primary
     })
 });
-
-// Keep legacy export for backward compatibility during migration
-// Note: This won't work anymore since it needs theme parameter
-// export const MULTI_SELECT_STYLES = getMultiSelectStyles;
 
 export const MultiValueInputContainer = styled.div({
     'textarea + div': {
