@@ -66,31 +66,33 @@ import {
     };
 
     return (
-        options.map((option) => {
+        <>
+          {options.map((option) => {
 
-          const checked = value === option.value;
-          const disableOption = disabled || option.disabled;
-          const icon = value === option.value ?
-            <StyledCheckedIcon disabled={disableOption} /> :
-            <StyledUncheckedIcon disabled={disableOption} />;
+            const checked = value === option.value;
+            const disableOption = disabled || option.disabled;
+            const icon = value === option.value ?
+              <StyledCheckedIcon disabled={disableOption} /> :
+              <StyledUncheckedIcon disabled={disableOption} />;
 
-          return (
-            <StyledLabel disabled={disableOption} className={labelClassName}>
-              <StyledRadioGroup
-                {...props}
-                name={name}
-                options={options}
-                value={option.value}
-                disabled={disableOption}
-                onChange={disableOption ? () => null : handleChange}
-                type="radio"
-                checked={checked}
-              />
-              {icon}
-              {option.label && <div className="label">{option.label}</div>}
-            </StyledLabel>
-          );
-        })
+            return (
+              <StyledLabel key={option.value} disabled={disableOption} className={labelClassName}>
+                <StyledRadioGroup
+                  {...props}
+                  name={name}
+                  options={options}
+                  value={option.value}
+                  disabled={disableOption}
+                  onChange={disableOption ? () => null : handleChange}
+                  type="radio"
+                  checked={checked}
+                />
+                {icon}
+                {option.label && <div className="label">{option.label}</div>}
+              </StyledLabel>
+            );
+          })}
+        </>
     );
   };
 

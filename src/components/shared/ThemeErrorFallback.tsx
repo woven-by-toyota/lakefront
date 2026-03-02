@@ -1,6 +1,7 @@
-import { FC, useEffect } from 'react';
+import React, { FC, useEffect, CSSProperties } from 'react';
 
-interface ThemeErrorFallbackProps {
+export interface ThemeErrorFallbackProps {
+    /** The name of the component that failed to receive a theme */
     componentName: string;
 }
 
@@ -13,19 +14,19 @@ const ThemeErrorFallback: FC<ThemeErrorFallbackProps> = ({ componentName }) => {
         console.error(`${componentName}: No theme available. Make sure the component is wrapped in a ThemeProvider.`);
     }, [componentName]);
 
+    const errorStyles: CSSProperties = {
+        padding: '16px',
+        border: '1px solid #ff6b6b',
+        borderRadius: '4px',
+        backgroundColor: '#ffe0e0',
+        color: '#d63031',
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '14px',
+        maxWidth: '300px'
+    };
+
     return (
-        <div
-            style={{
-                padding: '16px',
-                border: '1px solid #ff6b6b',
-                borderRadius: '4px',
-                backgroundColor: '#ffe0e0',
-                color: '#d63031',
-                fontFamily: 'Arial, sans-serif',
-                fontSize: '14px',
-                maxWidth: '300px'
-            }}
-        >
+        <div style={errorStyles}>
             <strong>Theme Error:</strong> No theme available for {componentName}
             <br />
             <small>Make sure the component is wrapped in a ThemeProvider.</small>
