@@ -1,11 +1,11 @@
-import { Component } from 'react';
+import { useState, useEffect, FC } from 'react';
 
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { SelectOption } from 'src/types/global';
 import { getMultiSelectStyles } from './multiSelectStyles';
 import { createUniqueOptions, getUniqueOptions, parseItems } from './multiSelectUtil';
-import { withTheme, Theme } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import MultiValueInput from './MultiValueInput';
 import { GroupBase, OnChangeValue } from 'react-select/dist/declarations/src/types';
 import { SelectComponents } from 'react-select/dist/declarations/src/components';
@@ -27,148 +27,123 @@ interface MultiSelectProps {
     disableMenu?: boolean;
     autoFocus?: boolean;
     delimiter?: string;
-    theme?: Theme;
 }
 
-/**
- * This represents the structure of the MultiSelect
- * component state.
- */
-interface MultiSelectState {
-    items: MultiSelectOption[];
-    selected: string[];
-}
+export const MultiSelect: FC<MultiSelectProps> = ({
+    items: propItems,
+    value,
+    selectItem,
+    placeholder = 'Enter filter term(s)',
+    title,
+    creatable,
+    handleCreateItem,
+    disableMenu = false,
+    autoFocus = true,
+    delimiter
+}) => {
+    const theme = useTheme();
 
-export class MultiSelect extends Component<MultiSelectProps, MultiSelectState> {
-    static defaultProps = {
-        placeholder: 'Enter filter term(s)'
-    };
+    const [items, setItems] = useState<MultiSelectOption[]>([...propItems, ...value]);
+    const [selected, setSelected] = useState<string[]>([...value.map((option) => option.value)]);
 
-    constructor(props: MultiSelectProps) {
-        super(props);
-
-        this.state = {
-            items: [...props.items, ...props.value],
-            selected: [...props.value.map((option) => option.value)]
-        };
-    }
-
-    handleChange = (selectedOptions: OnChangeValue<MultiSelectOption, true> | null) => {
+    const handleChange = (selectedOptions: OnChangeValue<MultiSelectOption, true> | null) => {
         const items = selectedOptions ? selectedOptions.map((option: MultiSelectOption) => option.value) : [];
-        this.setState({ selected: items });
-        this.props.selectItem(items);
+        setSelected(items);
+        selectItem(items);
     };
 
-    handleCreate = (item: string) => {
-        const { handleCreateItem, delimiter, selectItem } = this.props;
-        const { items, selected } = this.state;
-
+    const handleCreate = (item: string) => {
         const parsedItems = parseItems(item, delimiter);
         const newOptions = createUniqueOptions(parsedItems);
 
-        this.setState({
-            items: [...items, ...newOptions],
-            selected: [...selected, ...parsedItems]
+        setItems(prev => [...prev, ...newOptions]);
+        setSelected(prev => {
+            const newSelected = [...prev, ...parsedItems];
+            selectItem(newSelected);
+            return newSelected;
         });
-
-        selectItem([...selected, ...parsedItems]);
 
         if (handleCreateItem) {
             handleCreateItem(parsedItems);
         }
     };
 
-    componentDidMount = () => {
-        const itemsStateCopy = [...this.state.items];
-        const availableOptionsResult = getUniqueOptions(itemsStateCopy);
+    useEffect(() => {
+        const initialItems = [...propItems, ...value];
+        const availableOptionsResult = getUniqueOptions(initialItems);
+        setItems(availableOptionsResult);
+        setSelected(value.map((option) => option.value));
+    }, [propItems, value]);
 
-        this.setState({ items: availableOptionsResult });
-    };
+    const disabledMenuComponents = disableMenu
+        ? {
+            DropdownIndicator: null,
+            Menu: () => <></>
+        }
+        : {};
 
+    const parseMultiValueComponents: Partial<SelectComponents<unknown, true, GroupBase<unknown>>> | undefined = delimiter
+        ? {
+            Input: (props) => (
+                <MultiValueInput {...props} handleCreate={handleCreate} />
+            )
+        }
+        : {};
 
-    render() {
-        const {
-            items,
-            placeholder,
-            value,
-            title,
-            creatable,
-            disableMenu = false,
-            autoFocus = true,
-            delimiter,
-            theme
-        } = this.props;
+    if (!theme) return null;
 
-        const disabledMenuComponents = disableMenu
-            ? {
-                DropdownIndicator: null,
-                Menu: () => <></>
-            }
-            : {};
+    return creatable ? (
+        <CreatableSelect
+            components={{
+                ...disabledMenuComponents,
+                ...parseMultiValueComponents
+            }}
+            autoFocus={autoFocus}
+            value={value}
+            isMulti
+            name={title}
+            placeholder={placeholder}
+            onChange={(value) => handleChange(value as MultiSelectOption[])}
+            onCreateOption={handleCreate}
+            options={items}
+            styles={getMultiSelectStyles(theme)}
+            theme={(defaultTheme) => ({
+                ...defaultTheme,
+                colors: {
+                    ...defaultTheme.colors,
+                    primary: theme.backgrounds.primary,
+                    primary25: theme.backgrounds.hover,
+                    neutral0: theme.backgrounds.primary,
+                    neutral80: theme.foregrounds.primary,    // Main text color
+                    neutral20: theme.foregrounds.secondary,  // Secondary text
+                    neutral10: theme.backgrounds.secondary   // Chip background
+                }
+            })}
+        />
+    ) : (
+        <Select
+            autoFocus={autoFocus}
+            value={value}
+            isMulti
+            name={title}
+            placeholder={placeholder}
+            onChange={handleChange}
+            options={propItems}
+            styles={getMultiSelectStyles(theme)}
+            theme={(defaultTheme) => ({
+                ...defaultTheme,
+                colors: {
+                    ...defaultTheme.colors,
+                    primary: theme.backgrounds.primary,
+                    primary25: theme.backgrounds.hover,
+                    neutral0: theme.backgrounds.primary,
+                    neutral80: theme.foregrounds.primary,    // Main text color
+                    neutral20: theme.foregrounds.secondary,  // Secondary text
+                    neutral10: theme.backgrounds.secondary   // Chip background
+                }
+            })}
+        />
+    );
+};
 
-        const parseMultiValueComponents: Partial<SelectComponents<unknown, true, GroupBase<unknown>>> | undefined = delimiter
-            ? {
-                Input: (props) => (
-                    <MultiValueInput {...props} handleCreate={this.handleCreate} />
-                )
-            }
-            : {};
-
-        if (!theme) return null;
-
-        return creatable ? (
-            <CreatableSelect
-                components={{
-                    ...disabledMenuComponents,
-                    ...parseMultiValueComponents
-                }}
-                autoFocus={autoFocus}
-                value={value}
-                isMulti
-                name={title}
-                placeholder={placeholder}
-                onChange={(value) => this.handleChange(value as MultiSelectOption[])}
-                onCreateOption={this.handleCreate}
-                options={this.state.items}
-                styles={getMultiSelectStyles(theme)}
-                theme={(defaultTheme) => ({
-                    ...defaultTheme,
-                    colors: {
-                        ...defaultTheme.colors,
-                        primary: theme.backgrounds.primary,
-                        primary25: theme.backgrounds.hover,
-                        neutral0: theme.backgrounds.primary,
-                        neutral80: theme.foregrounds.primary,    // Main text color
-                        neutral20: theme.foregrounds.secondary,  // Secondary text
-                        neutral10: theme.backgrounds.secondary   // Chip background
-                    }
-                })}
-            />
-        ) : (
-            <Select
-                autoFocus={autoFocus}
-                value={value}
-                isMulti
-                name={title}
-                placeholder={placeholder}
-                onChange={this.handleChange}
-                options={items}
-                styles={getMultiSelectStyles(theme)}
-                theme={(defaultTheme) => ({
-                    ...defaultTheme,
-                    colors: {
-                        ...defaultTheme.colors,
-                        primary: theme.backgrounds.primary,
-                        primary25: theme.backgrounds.hover,
-                        neutral0: theme.backgrounds.primary,
-                        neutral80: theme.foregrounds.primary,    // Main text color
-                        neutral20: theme.foregrounds.secondary,  // Secondary text
-                        neutral10: theme.backgrounds.secondary   // Chip background
-                    }
-                })}
-            />
-        );
-    }
-}
-
-export default withTheme(MultiSelect);
+export default MultiSelect;
