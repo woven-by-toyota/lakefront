@@ -66,8 +66,6 @@ import {
     };
 
     return (
-      <>
-      {
         options.map((option) => {
 
           const checked = value === option.value;
@@ -93,8 +91,6 @@ import {
             </StyledLabel>
           );
         })
-      }
-      </>
     );
   };
 
