@@ -18,11 +18,12 @@ import {
   ErrorMessage,
   HeaderCell,
   HideableTHead,
+  ResizerContainer,
   StyledHeader,
   StyledHeaderContent,
   TableStyle
 } from './tableStyles';
-import { getSortBySVG, getTitleForMultiSort } from './tableUtil';
+import { getSortBySVG, getTitleForMultiSort, isLastHeader } from './tableUtil';
 import { MenuItem } from '../ContextMenu';
 import TableRow from './TableRow';
 import { MoreActionsButton } from '../../index';
@@ -371,7 +372,10 @@ const Table: React.FC<TableProps> = ({
       >
         {table.getHeaderGroups().map((headerGroup: any) => (
           <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header: any) => {
+            {headerGroup.headers.map((header: any, idx: number) => {
+              const hasMoreActions = Boolean(moreActionsConfig);
+              const isLast = isLastHeader(header, idx, headerGroup.headers.length, hasMoreActions);
+
               return (
                 <HeaderCell
                   key={header.id}
@@ -380,7 +384,7 @@ const Table: React.FC<TableProps> = ({
                     position: 'relative'
                   }}
                   headerWidth={header.getSize()}
-                  onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
+                  onMouseDown={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
                   title={getTitleForMultiSort(
                     !enableMultiSort,
                     header.column.getCanSort() ? 'Toggle sorting' : '',
@@ -403,11 +407,19 @@ const Table: React.FC<TableProps> = ({
                     })}</StyledHeaderContent>
                   </StyledHeader>
                   {header.column.getCanResize() && (
-                    <ColumnResizeHandle
-                      onMouseDown={header.getResizeHandler()}
-                      onTouchStart={header.getResizeHandler()}
+                    <ResizerContainer
+                      onMouseDown={e => {
+                        e.stopPropagation();
+                        header.getResizeHandler()(e);
+                      }}
+                      onTouchStart={e => {
+                        e.stopPropagation();
+                        header.getResizeHandler()(e);
+                      }}
                       className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
-                    />
+                    >
+                      <ColumnResizeHandle showHandle={!isLast}/>
+                    </ResizerContainer>
                   )}
                 </HeaderCell>
               );

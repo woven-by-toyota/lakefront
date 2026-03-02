@@ -85,7 +85,7 @@ describe('<Table>', () => {
         expect(getAllByRole('cell')[28].textContent).toBe('6.9580');
 
         // sorting is applied on percentage change column on click event (descending first in v8)
-        fireEvent.click(percentageChange);
+        fireEvent.mouseDown(percentageChange);
         expect(getAllByRole('cell')[3].textContent).toBe('15.8140');
         expect(getAllByRole('cell')[8].textContent).toBe('6.9580');
         expect(getAllByRole('cell')[13].textContent).toBe('5.7166');
