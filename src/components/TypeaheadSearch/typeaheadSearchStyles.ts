@@ -22,7 +22,7 @@ export const SearchResultsPopover = styled.div<TypeaheadSearchContainerProps>(
             padding: '1em',
             width: POPOVER_WIDTH,
             backgroundColor: theme.backgrounds.primary,
-            zIndex: 9999
+            zIndex: theme.zIndex.popover
         };
     }
 );
@@ -63,19 +63,19 @@ export const TypeaheadSearchContainer = styled.div<TypeaheadSearchContainerProps
     height: 40,
     'input.typeaheadInput': {
         paddingLeft: 50,
-        ...(resultOpen && { zIndex: 9998 })
+        ...(resultOpen && { zIndex: theme.zIndex.popover - 1 })
     },
     'svg.typeaheadSearchIcon': {
         position: 'relative',
         top: -50,
         left: 15,
-        ...(resultOpen && { zIndex: 9998 })
+        ...(resultOpen && { zIndex: theme.zIndex.popover - 1 })
     },
     'div.inputWrapper': {
         position: 'relative'
     },
     'div.searchResultsPopoverBackground': {
-        zIndex: 9997,
+        zIndex: theme.zIndex.popover - 2,
         position: 'fixed',
         top: 0,
         left: 0,
