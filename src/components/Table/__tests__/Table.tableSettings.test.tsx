@@ -2,6 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import Table from '../Table';
 import { renderWithTheme as render } from 'src/lib/testing';
 import { humanize } from 'src/lib/format.js';
+import * as downloadUtils from '../tableDownloadUtils';
 
 const columns = [
   {
@@ -232,5 +233,195 @@ describe('<Table> with tableSettings', () => {
 
     const checkboxes = screen.getAllByRole('checkbox');
     expect(checkboxes).toHaveLength(2); // 1 for Value + 1 show all checkbox
+  });
+
+  describe('download functionality', () => {
+    let convertToCSVSpy: jest.SpyInstance;
+    let downloadFileSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      convertToCSVSpy = jest.spyOn(downloadUtils, 'convertToCSV').mockReturnValue('mock,csv,data');
+      downloadFileSpy = jest.spyOn(downloadUtils, 'downloadFile').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      convertToCSVSpy.mockRestore();
+      downloadFileSpy.mockRestore();
+    });
+
+    it('renders download button when enableDownload is true', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            enableDownload: true
+          }}
+        />
+      );
+
+      const downloadButton = container.querySelector('button[aria-label="Download table data"]');
+      expect(downloadButton).toBeInTheDocument();
+    });
+
+    it('does not render download button when enableDownload is false', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            enableDownload: false
+          }}
+        />
+      );
+
+      const downloadButton = container.querySelector('button[aria-label="Download table data"]');
+      expect(downloadButton).not.toBeInTheDocument();
+    });
+
+    it('does not render download button when enableDownload is not provided', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true }
+          }}
+        />
+      );
+
+      const downloadButton = container.querySelector('button[aria-label="Download table data"]');
+      expect(downloadButton).not.toBeInTheDocument();
+    });
+
+    it('triggers download with default filename when download button is clicked', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            enableDownload: true
+          }}
+        />
+      );
+
+      const downloadButton = container.querySelector('button[aria-label="Download table data"]');
+      fireEvent.click(downloadButton as Element);
+
+      expect(convertToCSVSpy).toHaveBeenCalled();
+      expect(downloadFileSpy).toHaveBeenCalledWith('mock,csv,data', 'table-data.csv');
+    });
+
+    it('triggers download with custom filename when provided', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            enableDownload: true,
+            downloadFilename: 'custom-export.csv'
+          }}
+        />
+      );
+
+      const downloadButton = container.querySelector('button[aria-label="Download table data"]');
+      fireEvent.click(downloadButton as Element);
+
+      expect(convertToCSVSpy).toHaveBeenCalled();
+      expect(downloadFileSpy).toHaveBeenCalledWith('mock,csv,data', 'custom-export.csv');
+    });
+
+    it('downloads only visible columns when some columns are hidden', async () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true, columnLabelTransform: humanize },
+            enableDownload: true
+          }}
+        />
+      );
+
+      // Open settings and hide the VALUE column
+      const settingsButton = screen.getByLabelText('Table settings');
+      fireEvent.click(settingsButton);
+
+      const valueCheckboxLabel = screen.getAllByText('Value').find(
+        (el) => el.tagName === 'SPAN'
+      ) as Element;
+      const valueCheckbox = (valueCheckboxLabel.closest('label') as Element).querySelector('input[type="checkbox"]');
+      fireEvent.click(valueCheckbox as Element);
+
+      // Close settings
+      const closeButton = screen.getByLabelText('Close');
+      fireEvent.click(closeButton);
+
+      // Wait for column to be hidden
+      await waitFor(() => {
+        const headers = container.querySelectorAll('thead th');
+        const headerTexts = Array.from(headers).map((th) => th.textContent);
+        expect(headerTexts).not.toContain('VALUE');
+      });
+
+      // Click download button
+      const downloadButton = container.querySelector('button[aria-label="Download table data"]');
+      fireEvent.click(downloadButton as Element);
+
+      // Check that convertToCSV was called
+      expect(convertToCSVSpy).toHaveBeenCalled();
+
+      // Verify that the columns passed to convertToCSV only include visible columns
+      const callArgs = convertToCSVSpy.mock.calls[0];
+      const columnsPassedToCSV = callArgs[1];
+      const columnIds = columnsPassedToCSV.map((col: any) => col.id);
+
+      // Should include TITLE and PERCENTAGE but not VALUE
+      expect(columnIds).toContain('title');
+      expect(columnIds).toContain('percentage');
+      expect(columnIds).not.toContain('value');
+    });
+
+    it('excludes more-actions column from download', () => {
+      const columnsWithMoreActions = [
+        ...columns,
+        {
+          id: 'more-actions',
+          header: '',
+          enableSorting: false,
+          cell: () => <div>Actions</div>
+        }
+      ];
+
+      const { container } = render(
+        <Table
+          columns={columnsWithMoreActions}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            enableDownload: true
+          }}
+          moreActionsConfig={{
+            getRowActionItems: () => []
+          }}
+        />
+      );
+
+      const downloadButton = container.querySelector('button[aria-label="Download table data"]');
+      fireEvent.click(downloadButton as Element);
+
+      expect(convertToCSVSpy).toHaveBeenCalled();
+
+      // Verify that more-actions column is excluded
+      const callArgs = convertToCSVSpy.mock.calls[0];
+      const columnsPassedToCSV = callArgs[1];
+      const columnIds = columnsPassedToCSV.map((col: any) => col.id);
+
+      expect(columnIds).not.toContain('more-actions');
+    });
   });
 });

@@ -226,6 +226,23 @@ TableWithSettings.args = {
   storyDescription: 'Click the settings icon in the top-left corner to show/hide columns.'
 };
 
+export const TableWithDownload = InfiniteScrollTemplate.bind({});
+TableWithDownload.args = {
+  columns: COLUMNS,
+  data: CUSTOM_DATA,
+  tableSettings: {
+    columnConfig: {
+      enableColumnHiding: true
+    },
+    enableDownload: true,
+    downloadFilename: 'my-table-export.csv'
+  } as TableProps['tableSettings'],
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Download',
+  storyDescription: 'Click the download icon to export the current table data as CSV. Only visible columns will be included in the export.'
+};
+
 export const TableWithSettingsAndMoreActions = InfiniteScrollTemplate.bind({});
 TableWithSettingsAndMoreActions.args = {
   columns: COLUMNS,
