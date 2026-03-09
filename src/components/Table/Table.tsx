@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithoutRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ComponentPropsWithoutRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -30,7 +30,7 @@ import { MoreActionsButton } from '../../index';
 import { useRowHover } from './RowHoverContext';
 import Loading from '../Loading/Loading';
 import TableSettings from './TableSettings';
-import { TableWrapper } from './tableSettingsStyles';
+import { DEFAULT_SETTINGS_ROW_HEIGHT, MIN_SETTINGS_ROW_HEIGHT, TableWrapper } from './tableSettingsStyles';
 import { convertToCSV, downloadFile } from './tableDownloadUtils';
 
 export interface TableSortByOptions {
@@ -116,6 +116,12 @@ export interface TableSettingsConfig {
    * If not provided, defaults to 'table-data.csv'.
    */
   downloadFilename?: string;
+  /**
+   * Display style for settings buttons.
+   * 'icons' (default): Shows icon buttons with settings and download icons.
+   * 'text': Shows text buttons with "Settings" and "Export CSV" labels, bordered layout.
+   */
+  buttonDisplayStyle?: 'icons' | 'text';
 }
 
 export interface TableProps<T = any> {
@@ -249,6 +255,12 @@ const Table: React.FC<TableProps> = ({
   );
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
   const [hasRenderError, setHasRenderError] = useState(false);
+  const [settingsRowHeight, setSettingsRowHeight] = useState<number>(DEFAULT_SETTINGS_ROW_HEIGHT);
+
+  // Handler that ensures a minimum reasonable height
+  const handleSettingsHeightChange = useCallback((height: number) => {
+    setSettingsRowHeight(Math.max(height, MIN_SETTINGS_ROW_HEIGHT));
+  }, []);
 
   // Check if any table settings have been modified
   const hasModifiedSettings = useMemo(() => {
@@ -494,7 +506,12 @@ const Table: React.FC<TableProps> = ({
 
   // Render table with settings panel
   return (
-    <TableWrapper hasSettings={Boolean(tableSettings)} stickyHeaders={shouldUseStickyHeaders} {...wrapperProps}>
+    <TableWrapper
+      hasSettings={Boolean(tableSettings)}
+      stickyHeaders={shouldUseStickyHeaders}
+      settingsRowHeight={settingsRowHeight}
+      {...wrapperProps}
+    >
       <TableSettings
         {...tableSettings}
         columns={table.getAllLeafColumns()}
@@ -508,6 +525,8 @@ const Table: React.FC<TableProps> = ({
         stickyHeaders={shouldUseStickyHeaders}
         hasModifiedSettings={hasModifiedSettings}
         onDownload={tableSettings?.enableDownload ? handleDownload : undefined}
+        buttonDisplayStyle={tableSettings?.buttonDisplayStyle}
+        onHeightChange={handleSettingsHeightChange}
       />
       {tableComponent}
     </TableWrapper>

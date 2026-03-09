@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Column } from '@tanstack/react-table';
 import CheckboxGroup, { CheckboxGroupOption } from '../CheckboxGroup/CheckboxGroup';
 import { ReactComponent as SettingsIcon } from './assets/settings.svg';
@@ -11,7 +11,8 @@ import {
   SettingsContent,
   ColumnCheckboxList,
   SettingsRowContainer,
-  SettingsContentSection
+  SettingsContentSection,
+  TextButtonContainer
 } from './tableSettingsStyles';
 import Button from 'src/components/Button';
 import { TableSettingsConfig } from 'src/components/Table/Table';
@@ -23,6 +24,8 @@ export interface TableSettingsProps<T = any> extends TableSettingsConfig {
   stickyHeaders?: boolean;
   hasModifiedSettings?: boolean;
   onDownload?: () => void;
+  buttonDisplayStyle?: 'icons' | 'text';
+  onHeightChange?: (height: number) => void;
 }
 
 const TableSettings: React.FC<TableSettingsProps> = ({
@@ -32,9 +35,12 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   columnConfig,
   stickyHeaders = false,
   hasModifiedSettings = false,
-  onDownload
+  onDownload,
+  buttonDisplayStyle = 'icons',
+  onHeightChange
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -43,6 +49,31 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  // Measure and report container height
+  useEffect(() => {
+    if (containerRef.current && onHeightChange) {
+      const observer = new ResizeObserver(() => {
+        // Use offsetHeight instead of contentRect.height to include padding/borders
+        if (containerRef.current) {
+          onHeightChange(containerRef.current.offsetHeight);
+        }
+      });
+
+      observer.observe(containerRef.current);
+
+      // Defer initial measurement to ensure browser has laid out the element
+      requestAnimationFrame(() => {
+        if (containerRef.current) {
+          onHeightChange(containerRef.current.offsetHeight);
+        }
+      });
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, [onHeightChange]);
 
   // Filter out columns that shouldn't be in the settings
   const configurableColumns = columns.filter((column) => {
@@ -94,8 +125,72 @@ const TableSettings: React.FC<TableSettingsProps> = ({
     });
   };
 
+  // Settings overlay panel (same for both styles)
+  const settingsOverlay = isOpen ? (
+    <>
+      <SettingsOpenBackgroundContainer onClick={handleClose} aria-label='table settings background' />
+      <SettingsOpenForegroundContainer aria-label='table settings foreground'>
+        <SettingsHeader>
+          <h4>Table Settings</h4>
+          <Button
+            icon={<CloseIcon />}
+            onClick={handleClose}
+            className="close-icon"
+            aria-label="Close"
+          />
+        </SettingsHeader>
+        <SettingsContent>
+          <SettingsContentSection>
+            {columnConfig?.enableColumnHiding && (
+              <>
+                <h5>Columns</h5>
+                <ColumnCheckboxList>
+                  <CheckboxGroup
+                    name="table-columns"
+                    options={checkboxOptions}
+                    selected={selectedColumns}
+                    onHandleChange={handleCheckboxGroupChange}
+                    allLabel="Show/Hide All"
+                  />
+                </ColumnCheckboxList>
+              </>
+            )}
+          </SettingsContentSection>
+        </SettingsContent>
+      </SettingsOpenForegroundContainer>
+    </>
+  ) : null;
+
+  // Text button style
+  if (buttonDisplayStyle === 'text') {
+    return (
+      <TextButtonContainer ref={containerRef} sticky={stickyHeaders} hasModifiedSettings={hasModifiedSettings}>
+        <button
+          onClick={handleToggle}
+          className="text-button settings-button"
+          aria-label="Table settings"
+          title="Table settings"
+        >
+          <SettingsIcon /><span>Settings</span>
+        </button>
+        {onDownload && (
+          <button
+            onClick={onDownload}
+            className="text-button download-button"
+            aria-label="Download table data"
+            title="Download table data"
+          >
+            <DownloadIcon /><span>Export CSV</span>
+          </button>
+        )}
+        {settingsOverlay}
+      </TextButtonContainer>
+    );
+  }
+
+  // Icon button style (default)
   return (
-    <SettingsRowContainer sticky={stickyHeaders} hasModifiedSettings={hasModifiedSettings}>
+    <SettingsRowContainer ref={containerRef} sticky={stickyHeaders} hasModifiedSettings={hasModifiedSettings}>
       <div className="button-container">
         <Button
           icon={<SettingsIcon />}
@@ -114,40 +209,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
           />
         )}
       </div>
-      {isOpen && (
-        <>
-          <SettingsOpenBackgroundContainer onClick={handleClose} aria-label='table settings background' />
-          <SettingsOpenForegroundContainer aria-label='table settings foreground'>
-            <SettingsHeader>
-              <h4>Table Settings</h4>
-              <Button
-                icon={<CloseIcon />}
-                onClick={handleClose}
-                className="close-icon"
-                aria-label="Close"
-              />
-            </SettingsHeader>
-            <SettingsContent>
-              <SettingsContentSection>
-                {columnConfig?.enableColumnHiding && (
-                  <>
-                    <h5>Columns</h5>
-                    <ColumnCheckboxList>
-                      <CheckboxGroup
-                        name="table-columns"
-                        options={checkboxOptions}
-                        selected={selectedColumns}
-                        onHandleChange={handleCheckboxGroupChange}
-                        allLabel="Show/Hide All"
-                      />
-                    </ColumnCheckboxList>
-                  </>
-                )}
-              </SettingsContentSection>
-            </SettingsContent>
-          </SettingsOpenForegroundContainer>
-        </>
-      )}
+      {settingsOverlay}
     </SettingsRowContainer>
   );
 };
