@@ -31,6 +31,7 @@ import { useRowHover } from './RowHoverContext';
 import Loading from '../Loading/Loading';
 import TableSettings from './TableSettings';
 import { TableWrapper } from './tableSettingsStyles';
+import { convertToCSV, downloadFile } from './tableDownloadUtils';
 
 export interface TableSortByOptions {
   id: string;
@@ -105,6 +106,16 @@ export interface TableSettingsConfig {
      */
     initialColumnVisibility?: VisibilityState;
   };
+  /**
+   * Enable table data download feature.
+   * When true, a download button will be displayed that exports the current table data as CSV.
+   */
+  enableDownload?: boolean;
+  /**
+   * Custom filename for downloaded CSV file.
+   * If not provided, defaults to 'table-data.csv'.
+   */
+  downloadFilename?: string;
 }
 
 export interface TableProps<T = any> {
@@ -363,6 +374,18 @@ const Table: React.FC<TableProps> = ({
     }
   }, [columnVisibility, tableSettings]);
 
+  // Handle table data download
+  const handleDownload = () => {
+    const rows = table.getRowModel().rows;
+    const visibleColumns = table.getAllLeafColumns().filter(
+      col => col.getIsVisible() && col.id !== 'more-actions'
+    );
+
+    const csv = convertToCSV(rows, visibleColumns);
+    const filename = tableSettings?.downloadFilename || 'table-data.csv';
+    downloadFile(csv, filename);
+  };
+
   const tableComponent = (
     <TableStyle className={className} style={style}>
       <HideableTHead
@@ -484,6 +507,7 @@ const Table: React.FC<TableProps> = ({
         getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
         stickyHeaders={shouldUseStickyHeaders}
         hasModifiedSettings={hasModifiedSettings}
+        onDownload={tableSettings?.enableDownload ? handleDownload : undefined}
       />
       {tableComponent}
     </TableWrapper>

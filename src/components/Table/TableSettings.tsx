@@ -3,6 +3,7 @@ import { Column } from '@tanstack/react-table';
 import CheckboxGroup, { CheckboxGroupOption } from '../CheckboxGroup/CheckboxGroup';
 import { ReactComponent as SettingsIcon } from './assets/settings.svg';
 import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
+import { ReactComponent as DownloadIcon } from './assets/download.svg';
 import {
   SettingsOpenBackgroundContainer,
   SettingsOpenForegroundContainer,
@@ -21,6 +22,7 @@ export interface TableSettingsProps<T = any> extends TableSettingsConfig {
   getColumnVisibility: (columnId: string) => boolean;
   stickyHeaders?: boolean;
   hasModifiedSettings?: boolean;
+  onDownload?: () => void;
 }
 
 const TableSettings: React.FC<TableSettingsProps> = ({
@@ -29,7 +31,8 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   getColumnVisibility,
   columnConfig,
   stickyHeaders = false,
-  hasModifiedSettings = false
+  hasModifiedSettings = false,
+  onDownload
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -101,6 +104,15 @@ const TableSettings: React.FC<TableSettingsProps> = ({
           aria-label="Table settings"
           title="Table settings"
         />
+        {onDownload && (
+          <Button
+            icon={<DownloadIcon />}
+            onClick={onDownload}
+            className="download-icon"
+            aria-label="Download table data"
+            title="Download table data"
+          />
+        )}
       </div>
       {isOpen && (
         <>
