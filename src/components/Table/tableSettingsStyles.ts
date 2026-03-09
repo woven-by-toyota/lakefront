@@ -28,20 +28,28 @@ export const SettingsRowContainer = styled.div<SettingsRowContainerProps>(({ the
   alignItems: 'center',
   padding: '1em 0.5em',
   '.button-container': {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    columnGap: 4,
     button: {
       borderRadius: 4,
-      border: `1px solid ${hasModifiedSettings ? theme.foregrounds.hyperlink : theme.borderColors.primary}`,
+      border: `1px solid ${theme.borderColors.primary}`,
       width: 36,
       height: 36,
       boxShadow: '0 1px 1px rgba(0, 0, 0, 0.15)',
+
+    },
+    'button.settings-icon': {
+      border: `1px solid ${hasModifiedSettings ? theme.foregrounds.hyperlink : theme.borderColors.primary}`,
       ...(hasModifiedSettings && {
         animation: `${pulseBorderGlow} 2s ease-in-out infinite`
       })
     },
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-start',
     svg: {
+      fill: theme.foregrounds.secondary
+    },
+    '.settings-icon svg': {
       fill: hasModifiedSettings ? theme.foregrounds.hyperlink : theme.foregrounds.secondary
     },
   },
