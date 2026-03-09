@@ -243,6 +243,24 @@ TableWithDownload.args = {
   storyDescription: 'Click the download icon to export the current table data as CSV. Only visible columns will be included in the export.'
 };
 
+export const TableWithTextButtonStyle = InfiniteScrollTemplate.bind({});
+TableWithTextButtonStyle.args = {
+  columns: COLUMNS,
+  data: CUSTOM_DATA,
+  tableSettings: {
+    columnConfig: {
+      enableColumnHiding: true
+    },
+    enableDownload: true,
+    downloadFilename: 'my-table-export.csv',
+    buttonDisplayStyle: 'text'
+  } as TableProps['tableSettings'],
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Text Button Style',
+  storyDescription: 'Table settings and download buttons are displayed as text buttons with borders. Hide a column to see the hyperlink color on the Settings button.'
+};
+
 export const TableWithSettingsAndMoreActions = InfiniteScrollTemplate.bind({});
 TableWithSettingsAndMoreActions.args = {
   columns: COLUMNS,

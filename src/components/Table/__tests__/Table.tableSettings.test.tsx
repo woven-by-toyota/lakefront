@@ -424,4 +424,123 @@ describe('<Table> with tableSettings', () => {
       expect(columnIds).not.toContain('more-actions');
     });
   });
+
+  describe('button display styles', () => {
+    it('renders icon buttons by default', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            enableDownload: true
+          }}
+        />
+      );
+
+      // Icon buttons should be present
+      const settingsButton = container.querySelector('button.settings-icon');
+      const downloadButton = container.querySelector('button.download-icon');
+
+      expect(settingsButton).toBeInTheDocument();
+      expect(downloadButton).toBeInTheDocument();
+
+      // Text buttons should not be present
+      const textButtons = container.querySelectorAll('button.text-button');
+      expect(textButtons).toHaveLength(0);
+    });
+
+    it('renders text buttons when buttonDisplayStyle is "text"', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            enableDownload: true,
+            buttonDisplayStyle: 'text'
+          }}
+        />
+      );
+
+      // Text buttons should be present
+      const settingsButton = container.querySelector('button.settings-button');
+      const downloadButton = container.querySelector('button.download-button');
+
+      expect(settingsButton).toBeInTheDocument();
+      expect(downloadButton).toBeInTheDocument();
+      expect(settingsButton?.textContent).toBe('Settings');
+      expect(downloadButton?.textContent).toBe('Export CSV');
+
+      // Icon buttons should not be present
+      const iconSettingsButton = container.querySelector('button.settings-icon');
+      const iconDownloadButton = container.querySelector('button.download-icon');
+      expect(iconSettingsButton).not.toBeInTheDocument();
+      expect(iconDownloadButton).not.toBeInTheDocument();
+    });
+
+    it('opens settings overlay when text-style settings button is clicked', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            buttonDisplayStyle: 'text'
+          }}
+        />
+      );
+
+      const settingsButton = container.querySelector('button.settings-button');
+      fireEvent.click(settingsButton as Element);
+
+      expect(screen.getByText('Table Settings')).toBeInTheDocument();
+      expect(screen.getByText('Columns')).toBeInTheDocument();
+    });
+
+    it('triggers download when text-style download button is clicked', () => {
+      const convertToCSVSpy = jest.spyOn(downloadUtils, 'convertToCSV').mockReturnValue('mock,csv,data');
+      const downloadFileSpy = jest.spyOn(downloadUtils, 'downloadFile').mockImplementation(() => {});
+
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            enableDownload: true,
+            buttonDisplayStyle: 'text'
+          }}
+        />
+      );
+
+      const downloadButton = container.querySelector('button.download-button');
+      fireEvent.click(downloadButton as Element);
+
+      expect(convertToCSVSpy).toHaveBeenCalled();
+      expect(downloadFileSpy).toHaveBeenCalled();
+
+      convertToCSVSpy.mockRestore();
+      downloadFileSpy.mockRestore();
+    });
+
+    it('only renders settings text button when download is not enabled', () => {
+      const { container } = render(
+        <Table
+          columns={columns}
+          data={customData}
+          tableSettings={{
+            columnConfig: { enableColumnHiding: true },
+            buttonDisplayStyle: 'text'
+          }}
+        />
+      );
+
+      const settingsButton = container.querySelector('button.settings-button');
+      const downloadButton = container.querySelector('button.download-button');
+
+      expect(settingsButton).toBeInTheDocument();
+      expect(downloadButton).not.toBeInTheDocument();
+    });
+  });
 });
