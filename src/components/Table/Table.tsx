@@ -81,6 +81,10 @@ export interface InfiniteScrollConfig {
 
 export interface TableSettingsConfig {
   /**
+   * Enable the display of the settings panel.
+   */
+  display?: boolean;
+  /**
    * Configuration for table settings panel.
    */
   columnConfig?: {
@@ -524,30 +528,35 @@ const Table: React.FC<TableProps> = ({
     return tableComponent;
   }
 
+  const displayTableSettings = tableSettings?.display ?? true;
+
   // Render table with settings panel
   return (
     <TableWrapper
-      hasSettings={Boolean(tableSettings)}
+      hasSettings={displayTableSettings}
       stickyHeaders={shouldUseStickyHeaders}
       settingsRowHeight={settingsRowHeight}
       {...wrapperProps}
     >
-      <TableSettings
-        {...tableSettings}
-        columns={table.getAllLeafColumns()}
-        onColumnVisibilityChange={(columnId, visible) => {
-          setColumnVisibility((prev) => ({
-            ...prev,
-            [columnId]: visible
-          }));
-        }}
-        getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
-        stickyHeaders={shouldUseStickyHeaders}
-        hasModifiedSettings={hasModifiedSettings}
-        onDownload={tableSettings?.enableDownload ? handleDownload : undefined}
-        buttonDisplayStyle={tableSettings?.buttonDisplayStyle}
-        onHeightChange={handleSettingsHeightChange}
-      />
+      {displayTableSettings && (
+        <TableSettings
+          {...tableSettings}
+          columns={table.getAllLeafColumns()}
+          onColumnVisibilityChange={(columnId, visible) => {
+            setColumnVisibility((prev) => ({
+              ...prev,
+              [columnId]: visible
+            }));
+          }}
+          getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
+          stickyHeaders={shouldUseStickyHeaders}
+          hasModifiedSettings={hasModifiedSettings}
+          onDownload={tableSettings?.enableDownload ? handleDownload : undefined}
+          buttonDisplayStyle={tableSettings?.buttonDisplayStyle}
+          onHeightChange={handleSettingsHeightChange}
+          overlayPosition={tableSettings?.buttonDisplayStyle === 'text' ? 'right' : undefined}
+        />
+      )}
       {tableComponent}
     </TableWrapper>
   );

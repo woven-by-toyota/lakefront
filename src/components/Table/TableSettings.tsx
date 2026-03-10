@@ -26,6 +26,7 @@ export interface TableSettingsProps<T = any> extends TableSettingsConfig {
   onDownload?: () => void;
   buttonDisplayStyle?: 'icons' | 'text';
   onHeightChange?: (height: number) => void;
+  overlayPosition?: 'left' | 'right';
 }
 
 const TableSettings: React.FC<TableSettingsProps> = ({
@@ -37,7 +38,8 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   hasModifiedSettings = false,
   onDownload,
   buttonDisplayStyle = 'icons',
-  onHeightChange
+  onHeightChange,
+  overlayPosition
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -129,7 +131,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   const settingsOverlay = isOpen ? (
     <>
       <SettingsOpenBackgroundContainer onClick={handleClose} aria-label='table settings background' />
-      <SettingsOpenForegroundContainer aria-label='table settings foreground'>
+      <SettingsOpenForegroundContainer aria-label='table settings foreground' position={overlayPosition}>
         <SettingsHeader>
           <h4>Table Settings</h4>
           <Button

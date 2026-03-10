@@ -73,14 +73,14 @@ export const TextButtonContainer = styled.div<TextButtonContainerProps>(({ theme
   }),
   height: 28,
   display: 'flex',
-  justifyContent: 'flex-start',
+  justifyContent: 'flex-end',
   alignItems: 'center',
   boxSizing: 'border-box',
-  borderTop: `1px solid ${theme.borderColors.primary}`,
   borderBottom: `1px solid ${theme.borderColors.primary}`,
   padding: 2,
   width: '100%',
   '.text-button': {
+    minWidth: 'fit-content',
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
@@ -89,8 +89,8 @@ export const TextButtonContainer = styled.div<TextButtonContainerProps>(({ theme
     height: MIN_SETTINGS_ROW_HEIGHT,
     padding: '0.75em 1.5em',
     background: 'transparent',
-    border: 'none',
     color: theme.foregrounds.secondary,
+    border: 'none',
     svg: {
       fill: theme.foregrounds.secondary,
       width: MIN_SETTINGS_ROW_HEIGHT,
@@ -124,11 +124,11 @@ export const SettingsOpenBackgroundContainer = styled.div(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-export const SettingsOpenForegroundContainer = styled.div(({ theme }) => ({
+export const SettingsOpenForegroundContainer = styled.div<{ position?: 'left' | 'right' }>(({ theme, position = 'left' }) => ({
   position: 'absolute',
   zIndex: theme.zIndex.modal,
   top: '3em',
-  left: '3em',
+  [position]: '3em',
   backgroundColor: theme.backgrounds.primary,
   color: theme.foregrounds.primary,
   borderRadius: 4,
