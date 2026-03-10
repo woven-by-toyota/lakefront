@@ -1,7 +1,7 @@
 import { ChevronContainer, SubComponentTr, TableWrapperTd } from 'src/stories/Table/tableStoryStyles';
 import { ReactComponent as ChevronUp } from 'src/components/Collapsible/assets/chevron-up.svg';
 import { ReactComponent as ChevronDown } from 'src/components/Collapsible/assets/chevron-down.svg';
-import TableComponent from 'src/components/Table';
+import TableComponent, { TableProps } from 'src/components/Table';
 
 export const COLUMNS = [
   {
@@ -42,6 +42,21 @@ export const FAULTY_COLUMNS = [
     accessorKey: 'metadata',
     cell: ({ getValue }) => {
       return getValue().created;
+    }
+  },
+];
+
+export const EXPORT_COLUMNS: TableProps['columns'] = [
+  ...COLUMNS,
+  {
+    header: 'COMPARE_TOTAL',
+    accessorKey: 'compare_total',
+    cell: ({ getValue }) => {
+      const value = getValue()?.nested;
+      return <div>{value ? value.toString() : 'no value'}</div>;
+    },
+    meta: {
+      csvValue: val => val?.nested ? val.nested.toString() : 'no value'
     }
   },
 ];
