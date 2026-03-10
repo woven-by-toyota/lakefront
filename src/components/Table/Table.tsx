@@ -105,6 +105,17 @@ export interface TableSettingsConfig {
      * This only sets the initial state and won't affect subsequent visibility updates.
      */
     initialColumnVisibility?: VisibilityState;
+    /**
+     * Watch for column sizing change events.
+     * @param updatedSizing
+     */
+    columnSizingChangeSubscriber?: (updatedSizing: ColumnSizingState) => void;
+    /**
+     * Initial column sizing state.
+     * Object mapping column IDs to their width in pixels.
+     * This only sets the initial state and won't affect subsequent sizing updates.
+     */
+    initialColumnSizing?: ColumnSizingState;
   };
   /**
    * Enable table data download feature.
@@ -253,7 +264,9 @@ const Table: React.FC<TableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     tableSettings?.columnConfig?.initialColumnVisibility ?? {}
   );
-  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>(
+    tableSettings?.columnConfig?.initialColumnSizing ?? {}
+  );
   const [hasRenderError, setHasRenderError] = useState(false);
   const [settingsRowHeight, setSettingsRowHeight] = useState<number>(DEFAULT_SETTINGS_ROW_HEIGHT);
 
@@ -385,6 +398,13 @@ const Table: React.FC<TableProps> = ({
       tableSettings.columnConfig.columnChangeSubscriber(columnVisibility);
     }
   }, [columnVisibility, tableSettings]);
+
+  // Column sizing change subscriber effect
+  useEffect(() => {
+    if (tableSettings?.columnConfig?.columnSizingChangeSubscriber) {
+      tableSettings.columnConfig.columnSizingChangeSubscriber(columnSizing);
+    }
+  }, [columnSizing, tableSettings]);
 
   // Handle table data download
   const handleDownload = () => {
