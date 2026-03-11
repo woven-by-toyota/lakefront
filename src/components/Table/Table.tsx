@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithoutRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ComponentPropsWithoutRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -30,7 +30,8 @@ import { MoreActionsButton } from '../../index';
 import { useRowHover } from './RowHoverContext';
 import Loading from '../Loading/Loading';
 import TableSettings from './TableSettings';
-import { TableWrapper } from './tableSettingsStyles';
+import { DEFAULT_SETTINGS_ROW_HEIGHT, MIN_SETTINGS_ROW_HEIGHT, TableWrapper } from './tableSettingsStyles';
+import { convertToCSV, downloadFile } from './tableDownloadUtils';
 
 export interface TableSortByOptions {
   id: string;
@@ -80,6 +81,10 @@ export interface InfiniteScrollConfig {
 
 export interface TableSettingsConfig {
   /**
+   * Enable the display of the settings panel.
+   */
+  display?: boolean;
+  /**
    * Configuration for table settings panel.
    */
   columnConfig?: {
@@ -104,7 +109,34 @@ export interface TableSettingsConfig {
      * This only sets the initial state and won't affect subsequent visibility updates.
      */
     initialColumnVisibility?: VisibilityState;
+    /**
+     * Watch for column sizing change events.
+     * @param updatedSizing
+     */
+    columnSizingChangeSubscriber?: (updatedSizing: ColumnSizingState) => void;
+    /**
+     * Initial column sizing state.
+     * Object mapping column IDs to their width in pixels.
+     * This only sets the initial state and won't affect subsequent sizing updates.
+     */
+    initialColumnSizing?: ColumnSizingState;
   };
+  /**
+   * Enable table data download feature.
+   * When true, a download button will be displayed that exports the current table data as CSV.
+   */
+  enableDownload?: boolean;
+  /**
+   * Custom filename for downloaded CSV file.
+   * If not provided, defaults to 'table-data.csv'.
+   */
+  downloadFilename?: string;
+  /**
+   * Display style for settings buttons.
+   * 'icons' (default): Shows icon buttons with settings and download icons.
+   * 'text': Shows text buttons with "Settings" and "Export CSV" labels, bordered layout.
+   */
+  buttonDisplayStyle?: 'icons' | 'text';
 }
 
 export interface TableProps<T = any> {
@@ -236,8 +268,16 @@ const Table: React.FC<TableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     tableSettings?.columnConfig?.initialColumnVisibility ?? {}
   );
-  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>(
+    tableSettings?.columnConfig?.initialColumnSizing ?? {}
+  );
   const [hasRenderError, setHasRenderError] = useState(false);
+  const [settingsRowHeight, setSettingsRowHeight] = useState<number>(DEFAULT_SETTINGS_ROW_HEIGHT);
+
+  // Handler that ensures a minimum reasonable height
+  const handleSettingsHeightChange = useCallback((height: number) => {
+    setSettingsRowHeight(Math.max(height, MIN_SETTINGS_ROW_HEIGHT));
+  }, []);
 
   // Check if any table settings have been modified
   const hasModifiedSettings = useMemo(() => {
@@ -363,6 +403,25 @@ const Table: React.FC<TableProps> = ({
     }
   }, [columnVisibility, tableSettings]);
 
+  // Column sizing change subscriber effect
+  useEffect(() => {
+    if (tableSettings?.columnConfig?.columnSizingChangeSubscriber) {
+      tableSettings.columnConfig.columnSizingChangeSubscriber(columnSizing);
+    }
+  }, [columnSizing, tableSettings]);
+
+  // Handle table data download
+  const handleDownload = () => {
+    const rows = table.getRowModel().rows;
+    const visibleColumns = table.getAllLeafColumns().filter(
+      col => col.getIsVisible() && col.id !== 'more-actions'
+    );
+
+    const csv = convertToCSV(rows, visibleColumns);
+    const filename = tableSettings?.downloadFilename || 'table-data.csv';
+    downloadFile(csv, filename);
+  };
+
   const tableComponent = (
     <TableStyle className={className} style={style}>
       <HideableTHead
@@ -469,22 +528,35 @@ const Table: React.FC<TableProps> = ({
     return tableComponent;
   }
 
+  const displayTableSettings = tableSettings?.display ?? true;
+
   // Render table with settings panel
   return (
-    <TableWrapper hasSettings={Boolean(tableSettings)} stickyHeaders={shouldUseStickyHeaders} {...wrapperProps}>
-      <TableSettings
-        {...tableSettings}
-        columns={table.getAllLeafColumns()}
-        onColumnVisibilityChange={(columnId, visible) => {
-          setColumnVisibility((prev) => ({
-            ...prev,
-            [columnId]: visible
-          }));
-        }}
-        getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
-        stickyHeaders={shouldUseStickyHeaders}
-        hasModifiedSettings={hasModifiedSettings}
-      />
+    <TableWrapper
+      hasSettings={displayTableSettings}
+      stickyHeaders={shouldUseStickyHeaders}
+      settingsRowHeight={settingsRowHeight}
+      {...wrapperProps}
+    >
+      {displayTableSettings && (
+        <TableSettings
+          {...tableSettings}
+          columns={table.getAllLeafColumns()}
+          onColumnVisibilityChange={(columnId, visible) => {
+            setColumnVisibility((prev) => ({
+              ...prev,
+              [columnId]: visible
+            }));
+          }}
+          getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
+          stickyHeaders={shouldUseStickyHeaders}
+          hasModifiedSettings={hasModifiedSettings}
+          onDownload={tableSettings?.enableDownload ? handleDownload : undefined}
+          buttonDisplayStyle={tableSettings?.buttonDisplayStyle}
+          onHeightChange={handleSettingsHeightChange}
+          overlayPosition={tableSettings?.buttonDisplayStyle === 'text' ? 'right' : undefined}
+        />
+      )}
       {tableComponent}
     </TableWrapper>
   );

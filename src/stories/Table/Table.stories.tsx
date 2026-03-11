@@ -3,16 +3,22 @@ import { Meta, StoryFn } from '@storybook/react-webpack5';
 import Button from 'src/components/Button/Button';
 import TableComponent, { TableProps } from 'src/components/Table';
 import DocBlock from '.storybook/DocBlock';
-import { CUSTOM_DATA, FAULTY_DATA, INFINITE_SCROLL_DATA, INITIAL_SORT_BY_DATA } from './tableStoryData';
+import { CUSTOM_DATA, EXPORT_DATA, FAULTY_DATA, INFINITE_SCROLL_DATA, INITIAL_SORT_BY_DATA } from './tableStoryData';
 import {
   COLUMNS,
   COLUMNS_WITH_WIDTH,
   COLUMNS_WITH_WIDTH_AND_EXPANDER,
   COLUMNS_WITH_RESIZING,
   FAULTY_COLUMNS,
-  renderRowSubComponent
+  EXPORT_COLUMNS,
+  renderRowSubComponent,
 } from './tableStoryUtil';
 import { StyledTableComponent } from './tableStoryStyles';
+
+interface StoryInfo {
+  storyTitle?: string;
+  storyDescription?: string;
+}
 
 export default {
   title: 'Lakefront/Table',
@@ -24,7 +30,7 @@ export default {
   }
 } as Meta;
 
-const Template: StoryFn<TableProps & ComponentPropsWithoutRef<'div'>> = (args) => {
+const Template: StoryFn<TableProps & ComponentPropsWithoutRef<'div'> & StoryInfo> = (args) => {
   const [data, setData] = useState(args.data);
   const [dataToggle, setDataToggle] = useState(false);
   const [sortMsg, setSortMsg] = useState('');
@@ -51,6 +57,8 @@ const Template: StoryFn<TableProps & ComponentPropsWithoutRef<'div'>> = (args) =
   return (
     <>
       <div style={{ marginTop: 10, marginLeft: 10 }}>
+        <h2>{args.storyTitle || ''}</h2>
+        <p>{args.storyDescription || ''}</p>
         <Button color="secondary" onClick={resetData}>
           {dataToggle ? 'Load Data' : 'Clear Data'}</Button><br /><br />
         {!dataToggle && <b>{sortMsg}</b>
@@ -124,7 +132,7 @@ TableWithExpandableRows.args = {
   renderRowSubComponent
 };
 
-const InfiniteScrollTemplate: StoryFn<TableProps & { storyTitle?: string; storyDescription?: string; }> = (args) => {
+const InfiniteScrollTemplate: StoryFn<TableProps & StoryInfo> = (args) => {
   const [data, setData] = useState(INFINITE_SCROLL_DATA.slice(0, 5));
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -224,6 +232,41 @@ TableWithSettings.args = {
   // story props
   storyTitle: 'Table with Settings',
   storyDescription: 'Click the settings icon in the top-left corner to show/hide columns.'
+};
+
+export const TableWithDownload = Template.bind({});
+TableWithDownload.args = {
+  columns: EXPORT_COLUMNS,
+  data: EXPORT_DATA,
+  tableSettings: {
+    columnConfig: {
+      enableColumnHiding: true
+    },
+    enableDownload: true,
+    downloadFilename: 'my-table-export.csv'
+  } as TableProps['tableSettings'],
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Download',
+  storyDescription: 'Click the download icon to export the current table data as CSV. Only visible columns will be included in the export. In this example, the "COMPARE_TOTAL" column demonstrates custom cell rendering and custom CSV export value.'
+};
+
+export const TableWithTextButtonStyle = InfiniteScrollTemplate.bind({});
+TableWithTextButtonStyle.args = {
+  columns: COLUMNS,
+  data: CUSTOM_DATA,
+  tableSettings: {
+    columnConfig: {
+      enableColumnHiding: true
+    },
+    enableDownload: true,
+    downloadFilename: 'my-table-export.csv',
+    buttonDisplayStyle: 'text'
+  } as TableProps['tableSettings'],
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Text Button Style',
+  storyDescription: 'Table settings and download buttons are displayed as text buttons with borders. Hide a column to see the hyperlink color on the Settings button.'
 };
 
 export const TableWithSettingsAndMoreActions = InfiniteScrollTemplate.bind({});
