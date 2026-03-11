@@ -3,7 +3,7 @@
 exports[`<MaskableImage /> renders properly 1`] = `
 <div>
   <div
-    class="css-wwgxf1"
+    class="css-1ffz430"
   >
     <img
       alt="Loading"
@@ -28,7 +28,7 @@ exports[`<MaskableImage /> renders properly 1`] = `
 exports[`<MaskableImage /> renders properly without dimensions passed as a prop 1`] = `
 <div>
   <div
-    class="css-wwgxf1"
+    class="css-1ffz430"
   >
     <img
       alt="Loading"
@@ -53,7 +53,7 @@ exports[`<MaskableImage /> renders properly without dimensions passed as a prop 
 exports[`<MaskableImage /> renders the checkmark when hovered 1`] = `
 <div>
   <div
-    class="css-wwgxf1"
+    class="css-1ffz430"
   >
     <img
       alt="Loading"
@@ -69,7 +69,7 @@ exports[`<MaskableImage /> renders the checkmark when hovered 1`] = `
       class="css-1hyfx7x"
     />
     <svg
-      class="css-e4d18b"
+      class="css-1r95ir6"
     />
   </div>
 </div>
@@ -78,7 +78,7 @@ exports[`<MaskableImage /> renders the checkmark when hovered 1`] = `
 exports[`<MaskableImage /> renders the filled in checkmark when selected 1`] = `
 <div>
   <div
-    class="css-wwgxf1"
+    class="css-1ffz430"
   >
     <img
       alt="Loading"
@@ -94,7 +94,7 @@ exports[`<MaskableImage /> renders the filled in checkmark when selected 1`] = `
       class="css-1hyfx7x"
     />
     <svg
-      class="css-1x68q7l"
+      class="css-15wczfl"
     />
   </div>
 </div>
@@ -103,10 +103,10 @@ exports[`<MaskableImage /> renders the filled in checkmark when selected 1`] = `
 exports[`<MaskableImage /> should loading spinner when showSpinnerOnLoad is true 1`] = `
 <div>
   <div
-    class="css-wwgxf1"
+    class="css-1ffz430"
   >
     <div
-      class="css-1ja8l8u"
+      class="css-bebv6b"
     >
       <div
         class="css-mqm9zm"
@@ -145,7 +145,7 @@ exports[`<MaskableImage /> should loading spinner when showSpinnerOnLoad is true
 exports[`<MaskableImage /> should not allow selecting when selectable is false 1`] = `
 <div>
   <div
-    class="css-wwgxf1"
+    class="css-1ffz430"
   >
     <img
       alt="Loading"
@@ -170,7 +170,7 @@ exports[`<MaskableImage /> should not allow selecting when selectable is false 1
 exports[`<MaskableImage /> should show highlighted overlay when highlighted prop is true 1`] = `
 <div>
   <div
-    class="css-wwgxf1"
+    class="css-1ffz430"
   >
     <img
       alt="Loading"
@@ -183,7 +183,7 @@ exports[`<MaskableImage /> should show highlighted overlay when highlighted prop
       src="test.com"
     />
     <div
-      class="css-1vkrpwh"
+      class="css-1v1xicb"
     />
     <svg
       class="css-1hyfx7x"

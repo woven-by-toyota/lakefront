@@ -1,5 +1,6 @@
-import { render } from '@testing-library/react';
+
 import { getSortBySVG, getSortDirectionSVG, getTitleForColumn, getTitleForMultiSort, MULTI_SORT_TITLE } from '../tableUtil';
+import { renderWithTheme as render } from 'src/lib/testing';
 
 const defaultColumn = {
     disableSortBy: true,

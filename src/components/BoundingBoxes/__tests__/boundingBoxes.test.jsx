@@ -1,5 +1,5 @@
 import 'jest-canvas-mock';
-import { render } from '@testing-library/react';
+import { renderWithTheme as render } from 'src/lib/testing';
 import { boundingBoxesData } from './boundingBoxes.data';
 import BoundingBoxes from '../BoundingBoxes';
 

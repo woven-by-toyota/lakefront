@@ -152,7 +152,7 @@ describe('MultiSelect', () => {
         }
     });
 
-    it('renders textarea when delimiter is provided', () => {
+    it('renders input when delimiter is not provided', () => {
         const commonProps = {
             key: NAME,
             title: NAME,
@@ -163,12 +163,25 @@ describe('MultiSelect', () => {
             disableMenu: true
         };
 
-        const { container, rerender } = render(<MultiSelect {...commonProps} />);
+        const { container } = render(<MultiSelect {...commonProps} />);
 
         expect(container.querySelector('input[type="text"]')).toBeInTheDocument();
         expect(container.querySelector('textarea')).not.toBeInTheDocument();
+    });
 
-        rerender(<MultiSelect {...commonProps} delimiter="\n" />);
+    it('renders textarea when delimiter is provided', () => {
+        const commonProps = {
+            key: NAME,
+            title: NAME,
+            handleCreateItem: () => null,
+            items: MULTI_SELECT_FILTER_OPTIONS,
+            value: [],
+            creatable: true,
+            disableMenu: true,
+            delimiter: '\n'
+        };
+
+        const { container } = render(<MultiSelect {...commonProps} />);
 
         expect(container.querySelector('input[type="text"]')).not.toBeInTheDocument();
         expect(container.querySelector('textarea')).toBeInTheDocument();
