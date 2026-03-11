@@ -9,7 +9,8 @@ export const MaskableImageContainer = styled.div<any>(({ heightToWidthRatio, the
     height: 0,
     overflow: 'hidden',
     width: '100%',
-    paddingBottom: heightToWidthRatio
+    paddingBottom: heightToWidthRatio,
+    color: theme.foregrounds.primary
 }
 ));
 
@@ -37,21 +38,23 @@ export const DisplayImage = styled.img<any>(({ imageLoaded, allLoading, showSpin
     ...imageLoaded && showSpinnerOnLoad && { display: 'none' }
 }));
 
-export const LoadingSpinner = styled.div(() => ({
+export const LoadingSpinner = styled.div(({ theme }) => ({
     position: 'absolute',
     left: '50%',
     top: '50%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+    color: theme.foregrounds.primary
 }));
 
-export const HighlightedImageStyle = styled.div<any>(({ highlighted }) => ({
+export const HighlightedImageStyle = styled.div<any>(({ theme, highlighted }) => ({
     ...highlighted && {
         backgroundColor: 'rgba(55, 143, 238,0.5)',
         position: 'absolute',
         top: 0,
         left: 0,
         height: '100%',
-        width: '100%'
+        width: '100%',
+        color: theme.foregrounds.primary
     },
     ...!highlighted && { display: 'none' }
 }));
