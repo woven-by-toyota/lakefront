@@ -3,17 +3,19 @@ import { ReactComponent as GpsFixedIcon } from './assets/navigation.svg';
 import { ReactComponent as AddIcon } from './assets/plus.svg';
 import { ReactComponent as RemoveIcon } from './assets/minus.svg';
 
-export const GraphContainer = styled.div({
+export const GraphContainer = styled.div(({ theme }) => ({
     height: '100%',
     margin: 0,
-    position: 'relative'
-});
+    position: 'relative',
+    color: theme.foregrounds.primary
+}));
 
-export const StyledCanvas = styled.canvas({
+export const StyledCanvas = styled.canvas(({ theme }) => ({
     cursor: 'grab',
     height: '100%',
-    width: '100%'
-});
+    width: '100%',
+    color: theme.foregrounds.primary
+}));
 
 export const GraphControls = styled.div(({theme}) => ({
     bottom: 16,
@@ -21,6 +23,7 @@ export const GraphControls = styled.div(({theme}) => ({
     flexDirection: 'column',
     position: 'absolute',
     right: 16,
+    color: theme.foregrounds.primary,
     svg: {
         height: 17
     },

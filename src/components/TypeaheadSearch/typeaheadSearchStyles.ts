@@ -22,6 +22,7 @@ export const SearchResultsPopover = styled.div<TypeaheadSearchContainerProps>(
             padding: '1em',
             width: POPOVER_WIDTH,
             backgroundColor: theme.backgrounds.primary,
+            color: theme.foregrounds.primary,
             zIndex: theme.zIndex.popover
         };
     }
@@ -33,6 +34,7 @@ export const TypeaheadError = styled.div(({ theme }) => ({
 
 export const TypeaheadResultsContainer = styled.div(({ theme }) => ({
     padding: 2,
+    color: theme.foregrounds.primary,
     'div.resultsHeader': {
         color: theme.foregrounds.secondary,
         textTransform: 'uppercase'
@@ -61,6 +63,7 @@ export const TypeaheadResultsContainer = styled.div(({ theme }) => ({
 
 export const TypeaheadSearchContainer = styled.div<TypeaheadSearchContainerProps>(({ theme, resultOpen }) => ({
     height: 40,
+    color: theme.foregrounds.primary,
     'input.typeaheadInput': {
         paddingLeft: 50,
         ...(resultOpen && { zIndex: theme.zIndex.popover - 1 })

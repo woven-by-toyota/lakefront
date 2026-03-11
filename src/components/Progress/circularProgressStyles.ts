@@ -7,6 +7,7 @@ export const CircularProgressStyle = styled.div<any>(({ width, theme }) => ({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
+    color: theme.foregrounds.primary,
     'svg': {
         position: 'absolute',
         top: 0,

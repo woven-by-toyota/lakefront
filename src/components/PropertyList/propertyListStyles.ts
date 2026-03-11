@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const AttributeGrid = styled.div({
+export const AttributeGrid = styled.div(({ theme }) => ({
     // Use CSS grid.
     // The grid has one template row and automatically creates additional rows.
     // The width of the first column of the grid is the width of the widest element in the column --
@@ -10,8 +10,9 @@ export const AttributeGrid = styled.div({
     display: 'grid',
     gridTemplateColumns: 'max-content auto',
     rowGap: '0.5rem',
-    columnGap: '1rem'
-});
+    columnGap: '1rem',
+    color: theme.foregrounds.primary
+}));
 
 export const Caption = styled.span<any>(({ theme }) => ({
     gridColumnStart: 1,
@@ -23,10 +24,11 @@ export const Caption = styled.span<any>(({ theme }) => ({
     }
 }));
 
-export const Content = styled.span<any>({
+export const Content = styled.span<any>(({ theme }) => ({
     gridColumnStart: 2,
-    gridColumnEnd: 3
-});
+    gridColumnEnd: 3,
+    color: theme.foregrounds.primary
+}));
 
 export const AttributeList = styled.span(({ theme }) => ({
     display: 'block',

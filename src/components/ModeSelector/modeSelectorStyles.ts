@@ -6,6 +6,7 @@ export const ModeSelectorContainer = styled.div(({ theme }) => ({
     boxShadow: '0 2px 4px 0 rgb(0 0 0 / 50%)',
     padding: '12px 16px',
     height: '100%',
+    color: theme.foregrounds.primary,
 
     h3: {
         color: theme.foregrounds.secondary,
@@ -26,11 +27,12 @@ interface LegendRowProps {
     color: string;
 }
 
-export const LegendRow = styled.div<LegendRowProps>(({ color }) => ({
+export const LegendRow = styled.div<LegendRowProps>(({ theme, color }) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 4,
+    color: theme.foregrounds.primary,
     '.row-key': {
         backgroundColor: color,
         height: 20,

@@ -22,12 +22,14 @@ export const Current = styled.span(({ theme }) => ({
 
 export const Divider = styled.span(({ theme }) => ({
     display: 'inline-block',
-    margin: '0 10px'
+    margin: '0 10px',
+    color: theme.foregrounds.primary
 }));
 
 export const Container = styled.div<any>(({ theme, standalone }) => ({
     display: 'grid',
     gridTemplateRows: '56px auto',
+    color: theme.foregrounds.primary,
     ...((standalone) && {
         padding: '0 3.5rem',
         borderBottom: '1px solid',
@@ -36,6 +38,7 @@ export const Container = styled.div<any>(({ theme, standalone }) => ({
     })
 }));
 
-export const Content = styled.div({
-    display: 'grid'
-});
+export const Content = styled.div(({ theme }) => ({
+    display: 'grid',
+    color: theme.foregrounds.primary
+}));

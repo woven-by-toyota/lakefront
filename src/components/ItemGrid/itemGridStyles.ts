@@ -7,8 +7,9 @@ interface ItemGridContainerProps {
     columnGap?: number;
 }
 
-export const ItemGridContainer = styled.div<ItemGridContainerProps>(({ columnWidthMin, columnWidth, rowGap, columnGap }) => ({
+export const ItemGridContainer = styled.div<ItemGridContainerProps>(({ theme, columnWidthMin, columnWidth, rowGap, columnGap }) => ({
     gridTemplateColumns: `repeat(auto-fill, minmax(${columnWidthMin}, ${columnWidth}vw))`,
     gridGap: `${rowGap}px ${columnGap}px`,
-    display: 'grid'
+    display: 'grid',
+    color: theme.foregrounds.primary
 }));

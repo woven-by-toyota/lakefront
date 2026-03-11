@@ -47,14 +47,15 @@ export const getMultiSelectStyles = (theme: Theme): Partial<GetStyles<MultiSelec
     })
 });
 
-export const MultiValueInputContainer = styled.div({
+export const MultiValueInputContainer = styled.div(({ theme }) => ({
+    color: theme.foregrounds.primary,
     'textarea + div': {
         minHeight: 0,
         marginTop: 0
     }
-});
+}));
 
-export const StyledMultiValueInput = styled(TextArea)({
+export const StyledMultiValueInput = styled(TextArea)(({ theme }) => ({
     height: 20,
     width: '125%',
     borderColor: 'transparent',
@@ -63,5 +64,6 @@ export const StyledMultiValueInput = styled(TextArea)({
     },
     backgroundColor: 'transparent',
     margin: '-8px 0 0 0',
-    textIndent: -10
-});
+    textIndent: -10,
+    color: theme.foregrounds.primary
+}));

@@ -57,10 +57,11 @@ export const ClearButton = styled(CloseLabel)(({ theme }) => ({
     }
 }));
 
-export const FilterActions = styled.div({
+export const FilterActions = styled.div(({ theme }) => ({
     display: 'flex',
-    alignItems: 'center'
-});
+    alignItems: 'center',
+    color: theme.foregrounds.primary
+}));
 
 export const FilterBadge = styled.div(({ theme }) => ({
     display: 'flex',
@@ -76,19 +77,22 @@ export const FilterBadge = styled.div(({ theme }) => ({
     backgroundColor: theme.backgrounds.secondary,
     minWidth: 24,
     minHeight: 24,
+    color: theme.foregrounds.primary
 }));
 
-export const FilterDetails = styled.div({
+export const FilterDetails = styled.div(({ theme }) => ({
     display: 'flex',
-    alignItems: 'center'
-});
+    alignItems: 'center',
+    color: theme.foregrounds.primary
+}));
 
-export const FilterSectionHeaderContainer = styled.h3({
+export const FilterSectionHeaderContainer = styled.h3(({ theme }) => ({
     fontSize: 16,
     fontWeight: 500,
     margin: 0,
     display: 'flex',
     justifyContent: 'space-between',
     textTransform: 'capitalize',
-    cursor: 'pointer'
-});
+    cursor: 'pointer',
+    color: theme.foregrounds.primary
+}));

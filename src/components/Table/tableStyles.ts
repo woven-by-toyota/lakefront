@@ -56,14 +56,15 @@ export const HeaderCell = styled.th<{ headerWidth?: number }>(({ headerWidth }) 
   }
 }));
 
-export const StyledHeader = styled.div({
+export const StyledHeader = styled.div(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-start',
+  color: theme.foregrounds.primary,
   'div:first-of-type': {
     width: 'max-content'
   }
-});
+}));
 
 export const StyledHeaderContent = styled.div(({ theme }) => ({
   display: 'flex',
@@ -83,7 +84,7 @@ export const ColumnResizeHandle = styled.div<{ showHandle?: boolean }>(({ theme,
   marginLeft: 16
 }));
 
-export const ResizerContainer = styled.div({
+export const ResizerContainer = styled.div(({ theme }) => ({
   position: 'absolute',
   right: 0,
   top: 0,
@@ -95,23 +96,27 @@ export const ResizerContainer = styled.div({
   display: 'inline-flex',
   justifyContent: 'center',
   alignItems: 'center',
-});
+  color: theme.foregrounds.primary
+}));
 
-export const StyledArrowDown = styled(ArrowDown)({
+export const StyledArrowDown = styled(ArrowDown)(({ theme }) => ({
   paddingLeft: 5,
-  paddingTop: 3
-});
+  paddingTop: 3,
+  color: theme.foregrounds.primary
+}));
 
-export const StyledArrowUp = styled(ArrowUp)({
+export const StyledArrowUp = styled(ArrowUp)(({ theme }) => ({
   paddingLeft: 5,
-  paddingTop: 3
-});
+  paddingTop: 3,
+  color: theme.foregrounds.primary
+}));
 
-export const StyledUnsorted = styled(Unsorted)({
+export const StyledUnsorted = styled(Unsorted)(({ theme }) => ({
   marginLeft: 8,
   position: 'relative',
-  top: 10
-});
+  top: 10,
+  color: theme.foregrounds.primary
+}));
 
 interface HideableTHeadProps {
   hide: boolean;
