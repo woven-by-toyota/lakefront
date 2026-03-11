@@ -11,7 +11,10 @@ export const ButtonLabel = styled.div(({ theme }) => ({
     textTransform: 'uppercase',
     borderBottom: 0,
     padding: 0,
-    color: theme.foregrounds.primary
+    color: theme.foregrounds.primary,
+    svg: {
+      fill: theme.foregrounds.primary
+    }
 }));
 
 export const ContextSwitchContainer = styled.div(({ theme }) => ({

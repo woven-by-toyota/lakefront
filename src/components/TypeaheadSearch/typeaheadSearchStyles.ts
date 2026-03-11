@@ -72,7 +72,8 @@ export const TypeaheadSearchContainer = styled.div<TypeaheadSearchContainerProps
         position: 'relative',
         top: -50,
         left: 15,
-        ...(resultOpen && { zIndex: theme.zIndex.popover - 1 })
+        ...(resultOpen && { zIndex: theme.zIndex.popover - 1 }),
+        fill: theme.foregrounds.primary
     },
     'div.inputWrapper': {
         position: 'relative'

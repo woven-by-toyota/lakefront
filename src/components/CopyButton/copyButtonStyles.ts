@@ -6,5 +6,5 @@ interface CopyButtonContentProps {
 
 export const CopyButtonContent = styled.div<CopyButtonContentProps>(({ theme, hasContent }) => ({
     paddingLeft: hasContent ? 8 : 0,
-    color: theme.foregrounds.primary
+    color: theme.foregrounds.inverted
 }));

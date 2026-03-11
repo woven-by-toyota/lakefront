@@ -10,7 +10,8 @@ export const CardContentContainer = styled.div(({ theme }) => ({
     border: `1px solid ${theme.borderColors.primary}`,
     borderRadius: 3,
     padding: 10,
-    color: theme.foregrounds.primary
+    color: theme.foregrounds.primary,
+    background: theme.backgrounds.primary
 }));
 
 export const StyledH1Title = styled.h1(({ theme }) => ({

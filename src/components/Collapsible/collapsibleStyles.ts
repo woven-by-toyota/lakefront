@@ -3,6 +3,7 @@ import { CollapsibleProps } from './Collapsible';
 
 export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
     color: theme.foregrounds.primary,
+    backgroundColor: theme.backgrounds.primary,
     display: 'flex',
     flexDirection: 'column',
     '.topCollapsible': {
@@ -28,7 +29,10 @@ export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
             button: {
                 marginLeft: 16,
                 marginBottom: 8
-            }
+            },
+          svg: {
+              fill: theme.foregrounds.primary
+          }
         }
     },
     '.divider': {

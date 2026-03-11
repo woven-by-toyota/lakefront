@@ -12,7 +12,7 @@ export const DrawerContainer = styled.div<DrawerContainerProps>(({ theme, width,
     overflow: 'auto',
     width,
     marginRight: open ? 0 : `-${width}`,
-    color: theme.foregrounds.primary,
+    color: theme.foregrounds.inverted,
     'div.innerDrawerContainer': {
         padding: '20px 18px 0 16px',
         position: 'relative',

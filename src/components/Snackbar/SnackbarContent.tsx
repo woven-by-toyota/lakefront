@@ -1,6 +1,7 @@
 import { ComponentPropsWithRef, FC, forwardRef, ReactNode } from 'react';
 import { getIcon, MESSAGE_TYPES } from './Snackbar.util';
 import { StyledSnackbarContent, StyledSnackbarMessage, StyledMessageTypeIcons } from './snackbarStyles';
+import { useTheme } from '@emotion/react';
 
 export interface SnackbarContentProps {
     /**
@@ -20,7 +21,8 @@ export interface SnackbarContentProps {
 
 const SnackbarContent: FC<SnackbarContentProps & ComponentPropsWithRef<'div'>> = forwardRef(
     ({ action, message, type,  ...props }, ref) => {
-        const icon = getIcon(type);
+        const theme = useTheme();
+        const icon = getIcon(type, theme);
 
         return (
                 <div { ...props}>

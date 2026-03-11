@@ -65,13 +65,13 @@ export const CheckOutlinedIconStyle = styled(CheckOutlinedIcon)<any>(({ selectab
             position: 'absolute',
             bottom: '15px',
             right: '15px',
-            fill: theme?.colors?.akoya,
+            fill: theme.borderColors.primary,
             borderRadius: '50%'
         },
         ...((!selectable || (!selected && (!hovered && !individuallySelected))) && { display: 'none' }),
         ...(selectable && (selected || individuallySelected) && {
-            background: theme?.colors?.pastelGreen,
-            border: '1px solid', borderColor: theme?.colors?.akoya
+            background: theme.foregrounds.success,
+            border: '1px solid', borderColor: theme.borderColors.primary
         })
     })
 )

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { lightenDarkenColor } from 'src/styles/stylesUtil';
 import { Theme } from '@emotion/react';
 import { SelectOption } from 'src/types/global';
 import { ReactComponent as baselineExpandSvg } from './baseline-expand_more-24px.svg';
@@ -55,7 +54,7 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
         ...defaultStyles,
         padding: '2px 4px'
     }),
-    menu: (defaultStyles: SelectState, state: SelectState) => ({
+    menu: (defaultStyles: SelectState) => ({
         ...defaultStyles,
         backgroundColor: theme.backgrounds.primary,
         border: `1px solid ${theme.borderColors.secondary}`,
@@ -134,5 +133,8 @@ export const SelectStyledComponent = styled.select(({ theme }) => ({
     padding: '12px 32px 12px 12px',
     backgroundImage: `url(${baselineExpandSvg})`,
     backgroundPosition: '97% center',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
+    svg: {
+      fill: theme.foregrounds.primary
+    }
 }));

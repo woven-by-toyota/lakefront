@@ -70,6 +70,9 @@ export const FilterHeader = styled.h2(({ theme }) => ({
   '.filterMenuIcon': {
     cursor: 'pointer',
     transform: 'rotate(-90deg)'
+  },
+  svg: {
+    fill: theme.foregrounds.primary
   }
 }));
 

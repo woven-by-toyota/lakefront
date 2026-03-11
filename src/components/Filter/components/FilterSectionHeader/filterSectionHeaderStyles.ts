@@ -14,6 +14,9 @@ export const FilterValueChip = styled.div(({ theme }) => ({
     fontSize: 12,
     fontWeight: 600,
     color: theme.foregrounds.secondary,
+    svg: {
+      fill: theme.foregrounds.primary
+    },
     minHeight: 28,
     div: {
         maxWidth: '100%',
@@ -60,7 +63,10 @@ export const ClearButton = styled(CloseLabel)(({ theme }) => ({
 export const FilterActions = styled.div(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    color: theme.foregrounds.primary
+    color: theme.foregrounds.primary,
+    svg: {
+      fill: theme.foregrounds.primary
+    }
 }));
 
 export const FilterBadge = styled.div(({ theme }) => ({
