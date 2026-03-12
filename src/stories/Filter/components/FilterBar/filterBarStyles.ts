@@ -7,6 +7,7 @@ export const FilterBarContainer = styled.div(({ theme }) => ({
     backgroundColor: theme.backgrounds.primary,
     borderBottom: `1px solid ${theme.borderColors.primary}`,
     padding: '0 1rem',
+    color: theme.foregrounds.primary,
     '.filterItem': {
         borderRadius: 2,
         border: `solid 1px ${theme.borderColors.primary}`,

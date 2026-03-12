@@ -1,12 +1,10 @@
 import styled from '@emotion/styled';
-import { lightenDarkenColor } from 'src/styles/stylesUtil';
 
-const DARKEN_MOST = -40;
-
-export const StyledSelectPopoverWrapper = styled.div({
+export const StyledSelectPopoverWrapper = styled.div(({ theme }) => ({
     display: 'inline',
-    position: 'relative'
-});
+    position: 'relative',
+    color: theme.foregrounds.primary
+}));
 
 export const StyledSelectPopover = styled.div(({ theme }) => ({
     backgroundColor: theme.backgrounds.primary,
@@ -19,7 +17,8 @@ export const StyledSelectPopover = styled.div(({ theme }) => ({
     top: '100%',
     left: '50%',
     transform: 'translateX(-55%)',
-    zIndex: 2
+    zIndex: 2,
+    color: theme.foregrounds.primary
 }));
 
 interface SelectPopoverItemProps {

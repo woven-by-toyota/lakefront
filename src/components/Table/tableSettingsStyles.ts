@@ -30,6 +30,7 @@ export const SettingsRowContainer = styled.div<SettingsRowContainerProps>(({ the
   justifyContent: 'center',
   alignItems: 'center',
   padding: '1em 0.5em',
+  color: theme.foregrounds.primary,
   '.button-container': {
     width: '100%',
     display: 'flex',
@@ -79,6 +80,7 @@ export const TextButtonContainer = styled.div<TextButtonContainerProps>(({ theme
   borderBottom: `1px solid ${theme.borderColors.primary}`,
   padding: 2,
   width: '100%',
+  color: theme.foregrounds.primary,
   '.text-button': {
     minWidth: 'fit-content',
     boxSizing: 'border-box',
@@ -115,7 +117,7 @@ export const TextButtonContainer = styled.div<TextButtonContainerProps>(({ theme
   }
 }));
 
-export const SettingsOpenBackgroundContainer = styled.div(({ theme }) => ({
+export const SettingsOpenBackgroundContainer = styled.div(() => ({
   position: 'absolute',
   top: 0,
   height: '80vh',
@@ -168,11 +170,13 @@ export const SettingsContent = styled.div(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   rowGap: 8,
+  color: theme.foregrounds.primary,
   h5: {
     ...theme.lettering.h5,
     margin:0,
     textTransform: 'uppercase',
-    letterSpacing: '0.5px'
+    letterSpacing: '0.5px',
+    color: theme.foregrounds.primary
   },
 }));
 
@@ -182,10 +186,11 @@ export const SettingsContentSection = styled(SettingsContent)(({ theme }) => ({
   flex: 1
 }));
 
-export const ColumnCheckboxList = styled.div({
+export const ColumnCheckboxList = styled.div(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-});
+  color: theme.foregrounds.primary
+}));
 
 interface TableWrapperProps {
   hasSettings?: boolean;
@@ -193,8 +198,9 @@ interface TableWrapperProps {
   settingsRowHeight?: number;
 }
 
-export const TableWrapper = styled.div<TableWrapperProps>(({ hasSettings, stickyHeaders, settingsRowHeight }) => ({
+export const TableWrapper = styled.div<TableWrapperProps>(({ theme, hasSettings, stickyHeaders, settingsRowHeight }) => ({
   position: 'relative',
+  color: theme.foregrounds.primary,
   ...(hasSettings && stickyHeaders && {
     '--settings-row-height': `${settingsRowHeight || DEFAULT_SETTINGS_ROW_HEIGHT}px`
   })

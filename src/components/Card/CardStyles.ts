@@ -9,22 +9,27 @@ export const CardContentContainer = styled.div(({ theme }) => ({
     height: 'auto',
     border: `1px solid ${theme.borderColors.primary}`,
     borderRadius: 3,
-    padding: 10
+    padding: 10,
+    color: theme.foregrounds.primary,
+    background: theme.backgrounds.primary
 }));
 
-export const StyledH1Title = styled.h1(() => ({
+export const StyledH1Title = styled.h1(({ theme }) => ({
     fontSize: 18,
-    height: 'min-content'
+    height: 'min-content',
+    color: theme.foregrounds.primary
 }));
 
-export const StyledDescription = styled.p(() => ({
+export const StyledDescription = styled.p(({ theme }) => ({
     gridArea: '2',
     marginTop: 'unset',
-    fontSize: 14
+    fontSize: 14,
+    color: theme.foregrounds.primary
 }));
 
-export const StyledContentContainer = styled.div(() => ({
-    gridArea: '3/1'
+export const StyledContentContainer = styled.div(({ theme }) => ({
+    gridArea: '3/1',
+    color: theme.foregrounds.primary
 }));
 
 export const StyledMoreDetailsButton = styled(Button)(() => ({

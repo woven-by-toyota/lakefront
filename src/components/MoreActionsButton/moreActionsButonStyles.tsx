@@ -13,5 +13,6 @@ export const ActionsMenuContainer = styled.div<ActionsMenuContainer>(({theme, to
     boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
     minWidth: 180,
     top,
-    left
+    left,
+    color: theme.foregrounds.primary
 }));

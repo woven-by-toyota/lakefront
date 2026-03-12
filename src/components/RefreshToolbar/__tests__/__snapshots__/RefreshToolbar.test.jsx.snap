@@ -3,7 +3,7 @@
 exports[`<RefreshToolbar /> renders button as correctly-styled icon 1`] = `
 <div>
   <div
-    class="css-iokxe6"
+    class="css-5i5jay"
   >
     <div>
       <button
@@ -21,10 +21,10 @@ exports[`<RefreshToolbar /> renders button as correctly-styled icon 1`] = `
       </button>
     </div>
     <div
-      class="css-e55m9z"
+      class="css-3eohi7"
     >
       <div
-        class="css-evfyw1"
+        class="css-1dtzhpw"
       />
       <div
         class="css-1qbmw7s"
@@ -37,7 +37,7 @@ exports[`<RefreshToolbar /> renders button as correctly-styled icon 1`] = `
 exports[`<RefreshToolbar /> renders tooltip on hover 1`] = `
 <div>
   <div
-    class="css-iokxe6"
+    class="css-5i5jay"
   >
     <div>
       <button
@@ -55,10 +55,10 @@ exports[`<RefreshToolbar /> renders tooltip on hover 1`] = `
       </button>
     </div>
     <div
-      class="css-e55m9z"
+      class="css-3eohi7"
     >
       <div
-        class="css-evfyw1"
+        class="css-1dtzhpw"
       />
       <div
         class="css-1qbmw7s"

@@ -39,6 +39,23 @@ export const getSeverityColor = (severity: string | undefined, theme?: Theme) =>
   return SEVERITY_COLORS[severity] || DEFAULT_BACKGROUND_COLOR;
 };
 
+export const getSeverityForegroundColor = (severity: string | undefined, theme?: Theme) => {
+  if (!theme) return DEFAULT_BACKGROUND_COLOR;
+
+  const SEVERITY_COLORS: SeverityColors = {
+    normal: theme.foregrounds.primary,
+    warning: theme.colors.storm,
+    error: theme.colors.storm,
+    default: theme.foregrounds.primary
+  };
+
+  if (!severity) {
+    return DEFAULT_BACKGROUND_COLOR;
+  }
+
+  return SEVERITY_COLORS[severity] || DEFAULT_BACKGROUND_COLOR;
+};
+
 export const getStackBannerIcon = (icon: StackBannerIcon) => {
   if (typeof icon === 'boolean') {
     return icon && <Flag />;

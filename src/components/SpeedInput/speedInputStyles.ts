@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const RadioGroupWrapper = styled.div(({ theme }) => ({
+    color: theme.foregrounds.primary,
     label: {
         marginBottom: '8px',
         display: 'flex',
@@ -14,6 +15,7 @@ export const RadioGroupWrapper = styled.div(({ theme }) => ({
     },
     svg: {
         height: '16px',
-        width: '16px'
+        width: '16px',
+        fill: theme.foregrounds.primary
     }
 }));

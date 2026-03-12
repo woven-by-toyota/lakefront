@@ -19,12 +19,14 @@ export const StyledContextMenu = styled.div<ContextMenuProps>(({ theme, top, lef
   left: left,
   position: 'fixed',
   padding: '4px 8px',
+  color: theme.foregrounds.primary
 }));
 
 export const StyledSeparator = styled.hr(({theme}) => ({
   margin: '4px 0',
   border: 'none',
-  borderTop: `1px solid ${theme.borderColors.primary}`
+  borderTop: `1px solid ${theme.borderColors.primary}`,
+  color: theme.foregrounds.primary
 }));
 
 export const StyledMenuItem = styled.div<{ disabled?: boolean }>(({ theme, disabled }) => ({

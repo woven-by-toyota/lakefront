@@ -23,6 +23,7 @@ export const SnackbarWrapper = styled.div<SnackbarPropsStyles>(({ anchorOrigin, 
 
     return {
         ...snackbarStyles,
+        color: theme.foregrounds.primary,
         '.content-snackbar-wrapper': {
             ...snackbarStyles,
             display: 'flex',
@@ -68,7 +69,8 @@ export const StyledSnackbarContent = styled.div(({theme }) => ({
     border: `3px solid ${theme.borderColors.inverted}`,
     backgroundColor: theme.backgrounds.inverted,
     padding: '4px 16px',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    color: theme.foregrounds.primary
 }));
 
 export const StyledSnackbarMessage = styled.div(({theme }) => ({
@@ -76,8 +78,9 @@ export const StyledSnackbarMessage = styled.div(({theme }) => ({
     alignSelf: 'center'
 }));
 
-export const StyledMessageTypeIcons = styled.span((Icon) => ({
+export const StyledMessageTypeIcons = styled.span(({ theme }) => ({
     display: 'flex',
     marginLeft: 10,
-    position: 'initial'
+    position: 'initial',
+    color: theme.foregrounds.primary
 }));

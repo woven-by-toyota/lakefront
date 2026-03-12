@@ -4,12 +4,13 @@ import Button from '../Button';
 
 const FILTER_BAR_HEIGHT = 48;
 
-export const FilterContainer = styled.div<FilterContainerProps>(({ showJSONInput, isCollapsed, hideFilterBar }) => ({
+export const FilterContainer = styled.div<FilterContainerProps>(({ theme, showJSONInput, isCollapsed, hideFilterBar }) => ({
   display: 'grid',
   gridTemplateColumns: '264px minmax(min-content, auto)',
   gridTemplateRows: hideFilterBar === true ?
     '1fr' :
     `${FILTER_BAR_HEIGHT}px auto`,
+  color: theme.foregrounds.primary,
   ...(showJSONInput && {
     gridTemplateColumns: 'minmax(min-content, max-content) minmax(min-content, auto)'
   }),
@@ -69,24 +70,29 @@ export const FilterHeader = styled.h2(({ theme }) => ({
   '.filterMenuIcon': {
     cursor: 'pointer',
     transform: 'rotate(-90deg)'
+  },
+  svg: {
+    fill: theme.foregrounds.primary
   }
 }));
 
-export const FilterChipsContainer = styled.div({
+export const FilterChipsContainer = styled.div(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   flexWrap: 'wrap',
-  gap: 4
-});
+  gap: 4,
+  color: theme.foregrounds.primary
+}));
 
-export const FiltersSection = styled.div({
+export const FiltersSection = styled.div(({ theme }) => ({
   position: 'relative',
+  color: theme.foregrounds.primary,
   '> span': {
     position: 'absolute',
     top: 16,
     right: 0
   }
-});
+}));
 
 export const FilterSectionDescription = styled.p(({ theme }) => ({
   color: theme.foregrounds.secondary,
@@ -94,19 +100,22 @@ export const FilterSectionDescription = styled.p(({ theme }) => ({
   margin: '8px 0 4px'
 }));
 
-export const FilterSectionBody = styled.div({
-  marginTop: 8
-});
+export const FilterSectionBody = styled.div(({ theme }) => ({
+  marginTop: 8,
+  color: theme.foregrounds.primary
+}));
 
-export const PresetFiltersContainer = styled.div({
-  marginBottom: 10
-});
+export const PresetFiltersContainer = styled.div(({ theme }) => ({
+  marginBottom: 10,
+  color: theme.foregrounds.primary
+}));
 
-export const FilterPaneControls = styled.div({
+export const FilterPaneControls = styled.div(({ theme }) => ({
   margin: '4px 0',
   display: 'flex',
-  flexDirection: 'row-reverse'
-});
+  flexDirection: 'row-reverse',
+  color: theme.foregrounds.primary
+}));
 
 export const FilterControl = styled(Button)({
   height: 30,

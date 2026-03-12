@@ -31,7 +31,8 @@ export const PageWrapper = styled.div(({ theme }) => ({
   display: 'grid',
   flexDirection: 'column',
   width: '100%',
-  border: `1px solid ${theme.borderColors.primary}`
+  border: `1px solid ${theme.borderColors.primary}`,
+  color: theme.foregrounds.primary
 }));
 
 export const PageBodyWithCollapseSection = styled.div(({ theme }) => ({
@@ -41,5 +42,6 @@ export const PageBodyWithCollapseSection = styled.div(({ theme }) => ({
   width: '100%',
   fontSize: 10,
   marginLeft: 5,
-  minHeight: 400
+  minHeight: 400,
+  color: theme.foregrounds.primary
 }));

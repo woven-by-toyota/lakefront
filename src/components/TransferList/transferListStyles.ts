@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Button from '../Button/Button';
 
-export const Panel = styled.div({
+export const Panel = styled.div(({ theme }) => ({
   width: '100%',
   padding: '1rem',
   boxSizing: 'border-box',
@@ -12,29 +12,32 @@ export const Panel = styled.div({
     '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
   overflowY: 'auto',
   height: 350,
+  color: theme.foregrounds.primary,
   label: {
     marginBottom: '1rem'
   }
-});
+}));
 
-export const GridContainer = styled.div({
+export const GridContainer = styled.div(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
-  width: '100%'
-});
+  width: '100%',
+  color: theme.foregrounds.primary
+}));
 
 export const CheckBoxContainer = styled(Panel)(({ theme }) => ({
   backgroundColor: theme.backgrounds.primary,
   width: '100%'
 }));
 
-export const ButtonColumnContainer = styled.div({
+export const ButtonColumnContainer = styled.div(({ theme }) => ({
   display: 'flex',
   flexFlow: 'column',
   justifyContent: 'center',
   marginLeft: '1rem',
-  marginRight: '1rem'
-});
+  marginRight: '1rem',
+  color: theme.foregrounds.primary
+}));
 
 export const StyledButton = styled(Button)({
   marginBottom: 5,
@@ -48,9 +51,10 @@ export const StyledH4 = styled.h4(({ theme }) => ({
   color: theme.foregrounds.primary
 }));
 
-export const PanelContainer = styled.div({
+export const PanelContainer = styled.div(({ theme }) => ({
   display: 'flex',
   flexFlow: 'column',
   width: '30%',
-  justifyContent: 'center'
-});
+  justifyContent: 'center',
+  color: theme.foregrounds.primary
+}));

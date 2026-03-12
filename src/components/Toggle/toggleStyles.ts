@@ -44,7 +44,8 @@ export const IconWrapper = styled.div<Pick<ToggleProps<unknown>, 'disabled' | 'p
     }
 }));
 
-export const ToggleWrapper = styled.div({
+export const ToggleWrapper = styled.div(({ theme }) => ({
     display: 'flex',
-    alignItems: 'center'
-});
+    alignItems: 'center',
+    color: theme.foregrounds.primary
+}));

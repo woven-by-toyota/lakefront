@@ -76,12 +76,32 @@ describe('getIcon', () => {
         expect(infoMessage).toEqual('info');
     });
 
-    it('has correct styling for each MESSAGE_TYPES', () => {
+    it('has correct styling for each MESSAGE_TYPES when theme is not provided', () => {
         const typeMock = MESSAGE_TYPES;
 
         expect(getIcon(typeMock.SUCCESS)).toStrictEqual(<svg style={{ fill: '#378fee' }} />);
         expect(getIcon(typeMock.ERROR)).toStrictEqual(<svg style={{ fill: '#ef5042' }} />);
         expect(getIcon(typeMock.INFO)).toStrictEqual(<svg style={{ fill: '#ffffff' }} />);
+    });
+
+    it('uses theme colors when theme is provided', () => {
+        const mockTheme = {
+            foregrounds: {
+                error: '#theme-error',
+                hyperlink: '#theme-success',
+                inverted: '#theme-info'
+            }
+        } as any;
+
+        expect(getIcon(MESSAGE_TYPES.SUCCESS, mockTheme)).toStrictEqual(<svg style={{ fill: '#theme-success' }} />);
+        expect(getIcon(MESSAGE_TYPES.ERROR, mockTheme)).toStrictEqual(<svg style={{ fill: '#theme-error' }} />);
+        expect(getIcon(MESSAGE_TYPES.INFO, mockTheme)).toStrictEqual(<svg style={{ fill: '#theme-info' }} />);
+    });
+
+    it('uses default lakefront colors when theme is undefined', () => {
+        expect(getIcon(MESSAGE_TYPES.SUCCESS, undefined)).toStrictEqual(<svg style={{ fill: '#378fee' }} />);
+        expect(getIcon(MESSAGE_TYPES.ERROR, undefined)).toStrictEqual(<svg style={{ fill: '#ef5042' }} />);
+        expect(getIcon(MESSAGE_TYPES.INFO, undefined)).toStrictEqual(<svg style={{ fill: '#ffffff' }} />);
     });
 
     describe('createDefaultAction', () => {

@@ -1,27 +1,30 @@
 import { FC } from 'react';
 import MultiSelect from 'src/components/Filter/modules/MultiSelectFilter/MultiSelect';
 import styled from '@emotion/styled';
-import theme from 'src/styles/theme';
 import { DoubleMultiSelectOptions, DoubleMultiSelectValues } from 'src/components/Filter/types';
 
-const FilterTitle = styled.div({
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginBottom: 5,
-    marginTop: 16
-});
+const FilterTitle = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginBottom: 5,
+  marginTop: 16,
+  color: theme.foregrounds.primary,
+  label: {
+    color: theme.foregrounds.primary
+  }
+}));
 
-const FilterLabel = styled.label({
+const FilterLabel = styled.label(({ theme }) => ({
     color: theme.foregrounds.secondary,
-    fontSize: 16
-});
+    fontSize: 16,
+}));
 
-const FilterClear = styled.div({
+const FilterClear = styled.div(({ theme }) => ({
     color: theme.foregrounds.secondary,
     cursor: 'pointer',
     fontSize: 16,
-    fontWeight: 600
-});
+    fontWeight: 600,
+}));
 
 interface DoubleMultiSelectProps {
     value: DoubleMultiSelectValues;

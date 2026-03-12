@@ -1,26 +1,30 @@
 import styled from '@emotion/styled';
 import lakefrontColors from 'src/styles/lakefrontColors';
 
-export const ProgressBarContainer = styled.div({
-    minHeight: '120px'
-});
+export const ProgressBarContainer = styled.div(({ theme }) => ({
+    minHeight: '120px',
+    color: theme.foregrounds.primary
+}));
 
-export const TopText = styled.div({
+export const TopText = styled.div(({ theme }) => ({
     display: 'grid',
     gridTemplateColumns: '5fr 10fr 5fr',
     paddingBottom: '10px',
+    color: theme.foregrounds.primary,
     'span': {
         whiteSpace: 'nowrap'
     }
-});
+}));
 
-export const CenterText = styled.span({
-    textAlign: 'center'
-});
+export const CenterText = styled.span(({ theme }) => ({
+    textAlign: 'center',
+    color: theme.foregrounds.primary
+}));
 
-export const RightText = styled.span({
-    textAlign: 'right'
-});
+export const RightText = styled.span(({ theme }) => ({
+    textAlign: 'right',
+    color: theme.foregrounds.primary
+}));
 
 export const ProgressBar = styled.div(({ theme }) => ({
     position: 'relative',
@@ -28,7 +32,8 @@ export const ProgressBar = styled.div(({ theme }) => ({
     borderRadius: '4px',
     border: '1px solid',
     borderColor: theme.borderColors.secondary,
-    background: theme.backgrounds.secondary
+    background: theme.backgrounds.secondary,
+    color: theme.foregrounds.primary
 }));
 
 export const Filler = styled.div<any>(({ width, backgroundColor, theme }) => ({
@@ -39,6 +44,7 @@ export const Filler = styled.div<any>(({ width, backgroundColor, theme }) => ({
     backgroundColor: backgroundColor,
     display: 'flex',
     alignItems: 'center',
+    color: theme.foregrounds.primary,
     span: {
         marginLeft: '1em'
     },
@@ -46,21 +52,23 @@ export const Filler = styled.div<any>(({ width, backgroundColor, theme }) => ({
     zIndex: 1
 }));
 
-export const BottomText = styled.div({
+export const BottomText = styled.div(({ theme }) => ({
     display: 'grid',
     gridTemplateColumns: '5fr 10fr 5fr',
-    paddingTop: '20px'
-});
+    paddingTop: '20px',
+    color: theme.foregrounds.primary
+}));
 
 interface ThresholdProps {
     color?: string;
     percentage: string;
 }
 
-export const Threshold = styled.div<ThresholdProps>(({ color = lakefrontColors.red, percentage }) => ({
+export const Threshold = styled.div<ThresholdProps>(({ theme, color = lakefrontColors.red, percentage }) => ({
     width: percentage,
     borderRight: `4px solid ${color}`,
     height: '100%',
     position: 'absolute',
     zIndex: 2,
+    color: theme.foregrounds.primary
 }));

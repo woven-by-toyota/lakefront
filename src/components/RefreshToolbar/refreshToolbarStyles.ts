@@ -9,6 +9,7 @@ export const ToolbarContainer = styled.div<any>(({ standalone, theme }) => ({
     height: '50px',
     zIndex: 1,
     padding: '0 16px',
+    color: theme.foregrounds.primary,
     ...(standalone) && {
         borderBottom: '1px solid',
         borderColor: theme.borderColors.primary
@@ -50,12 +51,14 @@ export const ToolbarAdditionalContent = styled.div<any>(({ theme }) => ({
     display: 'inline-grid',
     gridTemplateColumns: '1fr minmax(225px, max-content)',
     width: '100%',
-    zIndex: 'inherit'
+    zIndex: 'inherit',
+    color: theme.foregrounds.primary
 }));
 
 export const ButtonContainer = styled.div<any>(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
+    color: theme.foregrounds.primary,
     button: {
         border: 0,
         borderRadius: '50%',
