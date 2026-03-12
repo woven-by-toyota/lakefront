@@ -2,6 +2,16 @@ import { fireEvent } from '@testing-library/react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import MultiSelect from '../MultiSelect';
 
+// mock the styled components that use TextArea to avoid theme context issues
+jest.mock('../multiSelectStyles', () => {
+    const actual = jest.requireActual('../multiSelectStyles');
+    return {
+        ...actual,
+        StyledMultiValueInput: ({ children, ...props }) => <textarea {...props}>{children}</textarea>,
+        MultiValueInputContainer: ({ children, ...props }) => <div {...props}>{children}</div>
+    };
+});
+
 export const MULTI_SELECT_FILTER_OPTIONS = [
     {
         label: 'colors',
