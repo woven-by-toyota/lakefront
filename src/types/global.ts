@@ -29,6 +29,13 @@ type ColorsType = typeof colors;
 type BordersType = typeof borders;
 type ZIndexType = typeof zIndex;
 
+interface WidgetStyles {
+  primary: string;
+  dark: string;
+  secondaryDark: string;
+  light: string;
+}
+
 export interface LakefrontTheme {
     colors: ColorsType;
     borders: BordersType;
@@ -59,6 +66,7 @@ export interface LakefrontTheme {
         inverted: string;
         pronounced: string;
         alert: string;
+        dark: string;
     };
     buttonColors: {
         primary: string;
@@ -71,7 +79,7 @@ export interface LakefrontTheme {
         primary: string;
         secondary: string;
         tertiary: string;
-        widget: string;
+        widget: WidgetStyles;
         disabled: string;
         inverted: string;
         hover: string;
@@ -93,6 +101,7 @@ export interface LakefrontTheme {
         hyperlink: string;
         loading: string;
         tableHeading: string;
+        widget: WidgetStyles;
     };
     lettering: {
         primary: {

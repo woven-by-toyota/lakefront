@@ -37,7 +37,8 @@ const THEME: Theme = {
         disabled: colors.akoya,
         inverted: colors.dolphin,
         pronounced: colors.mercury,
-        alert: colors.watermelon
+        alert: colors.watermelon,
+        dark: colors.dolphin
     },
     shadowColors: {
         boxShadow: colors.pavement,
@@ -46,14 +47,19 @@ const THEME: Theme = {
         primary: colors.white,
         secondary: colors.akoya,
         tertiary: colors.akoya,
-        widget: colors.gunpowder,
+        widget: {
+          primary: colors.gunpowder,
+          dark: colors.storm,
+          secondaryDark: colors.gunpowder,
+          light: colors.white,
+        },
         disabled: colors.akoya,
         inverted: colors.storm,
         hover: colors.mercury,
         tinted: colors.akoya,
         error: colors.saturatedRed,
         warning: colors.saturatedOrange,
-        errorsInverted: colors.white
+        errorsInverted: colors.white,
     },
     foregrounds: {
         primary: colors.storm,
@@ -67,7 +73,13 @@ const THEME: Theme = {
         success: colors.saturatedGreen,
         hyperlink: colors.saturatedBlue,
         loading: colors.pavement,
-        tableHeading: colors.pavement
+        tableHeading: colors.pavement,
+        widget: {
+          primary: colors.akoya,
+          dark: colors.akoya,
+          secondaryDark: colors.akoya,
+          light: colors.storm,
+        },
     },
     lettering: {
         primary: {
@@ -122,23 +134,29 @@ export const DARK_THEME: Theme = {
         disabled: lightenDarkenColor(colors.white, -40),
         inverted: colors.selago,
         pronounced: colors.mercury,
-        alert: colors.watermelon
+        alert: colors.watermelon,
+        dark: colors.dolphin
     },
     shadowColors: {
-        boxShadow: "",
+        boxShadow: `${colors.black}80`,
     },
     backgrounds: {
         primary: colors.gunpowder,
         secondary: colors.storm,
         tertiary: colors.dolphin,
-        widget: colors.white,
+        widget: {
+          primary: colors.white,
+          dark: colors.storm,
+          secondaryDark: colors.gunpowder,
+          light: colors.white
+        },
         disabled: lightenDarkenColor(colors.white, -40),
         inverted: colors.white,
         hover: lightenDarkenColor(colors.dolphin, 5),
         tinted: colors.gunpowder,
         error: colors.red,
         warning: colors.orange,
-        errorsInverted: colors.gunpowder
+        errorsInverted: colors.gunpowder,
     },
     foregrounds: {
         primary: colors.akoya,
@@ -152,7 +170,13 @@ export const DARK_THEME: Theme = {
         success: colors.green,
         hyperlink: colors.saturatedBlue,
         loading: colors.akoya,
-        tableHeading: colors.pavement
+        tableHeading: colors.pavement,
+        widget: {
+          primary: colors.storm,
+          dark: colors.akoya,
+          secondaryDark: colors.akoya,
+          light: colors.storm,
+        },
     },
     lettering: {
         primary: {
