@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Button from 'src/components/Button/Button';
 import { generateAnchorOrigin, SnackbarOrigin } from './Snackbar.util';
+import { lightenDarkenColor } from 'src/styles/stylesUtil';
 
 export const TRANSITION_CLOSE_TIME = 0;
 
@@ -23,7 +24,7 @@ export const SnackbarWrapper = styled.div<SnackbarPropsStyles>(({ anchorOrigin, 
 
     return {
         ...snackbarStyles,
-        color: theme.foregrounds.primary,
+        color: theme.foregrounds.widget.secondaryDark,
         '.content-snackbar-wrapper': {
             ...snackbarStyles,
             display: 'flex',
@@ -49,14 +50,20 @@ export const StyledSnackbarCloseButton = styled(Button)(({theme}) => ({
     alignSelf: 'center',
     transform: 'scale(0.8)',
     svg: {
-        fill: theme.foregrounds.inverted
+        fill: theme.foregrounds.widget.secondaryDark
+    },
+    '&:hover': {
+      backgroundColor: lightenDarkenColor(theme.backgrounds.widget.secondaryDark, 20),
+      svg: {
+        fill: theme.foregrounds.widget.secondaryDark
+      }
     }
 }));
 
 export const StyledSnackbarButton = styled.span(({ theme }) => ({
     display: 'inline-flex',
-    backgroundColor: theme.backgrounds.inverted,
-    color: theme.foregrounds.inverted,
+    backgroundColor: theme.backgrounds.widget.secondaryDark,
+    color: theme.foregrounds.widget.secondaryDark,
     borderRadius: 5,
     padding: 5
 }));
@@ -66,15 +73,16 @@ export const StyledSnackbarContent = styled.div(({theme }) => ({
     alignItems: 'center',
     minWidth: 80,
     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-    border: `3px solid ${theme.borderColors.inverted}`,
-    backgroundColor: theme.backgrounds.inverted,
+    border: `2px solid ${theme.borderColors.primary}`,
+    borderRadius: 4,
+    backgroundColor: theme.backgrounds.widget.secondaryDark,
     padding: '4px 16px',
     justifyContent: 'space-between',
-    color: theme.foregrounds.primary
+    color: theme.foregrounds.widget.secondaryDark
 }));
 
 export const StyledSnackbarMessage = styled.div(({theme }) => ({
-    color: theme.foregrounds.inverted,
+    color: theme.foregrounds.widget.secondaryDark,
     alignSelf: 'center'
 }));
 
@@ -82,5 +90,5 @@ export const StyledMessageTypeIcons = styled.span(({ theme }) => ({
     display: 'flex',
     marginLeft: 10,
     position: 'initial',
-    color: theme.foregrounds.primary
+    color: theme.foregrounds.widget.secondaryDark
 }));
