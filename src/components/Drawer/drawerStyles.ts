@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { lightenDarkenColor } from 'src/styles/stylesUtil';
+import Button from 'src/components/Button/Button';
 
 interface DrawerContainerProps {
     width: string | number;
@@ -18,4 +20,16 @@ export const DrawerContainer = styled.div<DrawerContainerProps>(({ theme, width,
         position: 'relative',
         height: 'calc(100% - 32px)'
     }
+}));
+
+export const DrawerCloseButton = styled(Button)(({ theme }) => ({
+  svg: {
+    fill: theme.foregrounds.widget.secondaryDark
+  },
+  '&:hover': {
+    backgroundColor: lightenDarkenColor(theme.backgrounds.widget.secondaryDark, 20),
+    svg: {
+      fill: theme.foregrounds.widget.secondaryDark
+    }
+  }
 }));

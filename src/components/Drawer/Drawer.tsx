@@ -1,6 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { DrawerContainer } from './drawerStyles';
-import Button from 'src/components/Button/Button';
+import { DrawerCloseButton, DrawerContainer } from './drawerStyles';
 import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
 
 export interface DrawerProps {
@@ -46,7 +45,7 @@ const Drawer: FC<DrawerProps> = ({ children, className, open = false, onClose, w
             <div className="innerDrawerContainer">
                 <div className={toolbarClasses}>
                     <div>
-                        <Button alternate className="closeIcon" aria-label="Close" onClick={onClose} icon={<CloseIcon />} />
+                        <DrawerCloseButton alternate className="closeIcon" aria-label="Close" onClick={onClose} icon={<CloseIcon />} />
                     </div>
                 </div>
                 {children}
