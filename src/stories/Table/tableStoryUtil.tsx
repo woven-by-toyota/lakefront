@@ -165,6 +165,34 @@ export const COLUMNS_WITH_WIDTH_AND_EXPANDER = [
   }
 ];
 
+export const GROUPED_ROWS_COLUMNS = [
+  {
+    header: 'Platform',
+    accessorKey: 'platform',
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'Region',
+    accessorKey: 'region',
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'Total',
+    accessorKey: 'total',
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'Online',
+    accessorKey: 'online',
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'Offline',
+    accessorKey: 'offline',
+    cell: ({ getValue }) => getValue()
+  }
+];
+
 export const renderRowSubComponent = ({ row }) => {
   const { value, percentage, percentage_change, total } = row.original;
   const nestedData = [

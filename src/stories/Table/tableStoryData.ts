@@ -51,3 +51,18 @@ export const INFINITE_SCROLL_DATA = [
     total: parseFloat((Math.random()).toFixed(8))
   }))
 ];
+
+export const GROUPED_ROWS_DATA = [
+  { platform: 'TMPOC', region: 'US', total: 7, online: 0, offline: 7 },
+  { platform: 'TMPOC', region: 'JP', total: 3, online: 0, offline: 3 },
+  { platform: 'TMPOC', region: 'Actual Global', total: 10, online: 0, offline: 10 },
+  { platform: 'TMPOC Lite', region: 'US', total: 7, online: 0, offline: 7 },
+  { platform: 'TMPOC Lite', region: 'JP', total: 3, online: 0, offline: 3 },
+  { platform: 'TMPOC Lite', region: 'Actual Global', total: 10, online: 0, offline: 10 },
+  { platform: 'FLEX DDC', region: 'US', total: 7, online: 0, offline: 7 },
+  { platform: 'FLEX DDC', region: 'JP', total: 3, online: 0, offline: 3 },
+  { platform: 'FLEX DDC', region: 'Actual Global', total: 10, online: 0, offline: 10 },
+  { platform: 'FLEX APR', region: 'US', total: 7, online: 0, offline: 7 },
+  { platform: 'FLEX APR', region: 'JP', total: 3, online: 0, offline: 3 },
+  { platform: 'FLEX APR', region: 'Actual Global', total: 10, online: 0, offline: 10 }
+];

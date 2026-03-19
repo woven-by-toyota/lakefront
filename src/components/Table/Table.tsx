@@ -79,6 +79,18 @@ export interface InfiniteScrollConfig {
   stickyHeaders?: boolean;
 }
 
+export interface GroupedRowsConfig {
+  /**
+   * Enable grouped rows functionality with Excel-style merged cells.
+   */
+  enabled: boolean;
+  /**
+   * Column ID to group by for Excel-style merged cells.
+   * For example: 'platform' will merge platform column cells.
+   */
+  groupBy: string;
+}
+
 export interface TableSettingsConfig {
   /**
    * Enable the display of the settings panel.
@@ -226,6 +238,11 @@ export interface TableProps<T = any> {
    * Additional props for the table wrapper when tableSettings is enabled.
    */
   wrapperProps?: ComponentPropsWithoutRef<'div'>;
+  /**
+   * Configuration for grouped rows functionality.
+   * When provided, rows will be grouped by the specified column.
+   */
+  groupedRows?: GroupedRowsConfig;
 }
 
 /**
@@ -252,7 +269,8 @@ const Table: React.FC<TableProps> = ({
   infiniteScroll,
   stickyHeaders,
   tableSettings,
-  wrapperProps
+  wrapperProps,
+  groupedRows
 }) => {
   /** initialSortBy must be memoized */
   const initialSortByData: SortingState = useMemo(
@@ -326,6 +344,7 @@ const Table: React.FC<TableProps> = ({
     return columns;
   }, [columns, moreActionsConfig]);
 
+
   // Use the state and functions returned from useReactTable to build your UI
   const enableMultiSort = options.enableMultiSort ?? true;
   const table = useReactTable({
@@ -346,7 +365,7 @@ const Table: React.FC<TableProps> = ({
     getExpandedRowModel: getExpandedRowModel(),
     enableExpanding: true,
     getRowCanExpand: () => true,
-    autoResetExpanded: true,
+    autoResetExpanded: false,
     enableMultiSort,
     columnResizeMode: 'onChange',
     ...options
@@ -357,6 +376,7 @@ const Table: React.FC<TableProps> = ({
       onChangeSort(sorting[0], sorting);
     }
   }, [sorting, onChangeSort]);
+
 
   // Ref for the loading indicator at the bottom of the table
   const loadMoreRef = useRef<HTMLTableRowElement>(null);
@@ -497,6 +517,7 @@ const Table: React.FC<TableProps> = ({
             contextMenuConfig={contextMenuConfig}
             moreActionsConfig={moreActionsConfig}
             onRenderError={() => setHasRenderError(true)}
+            groupedRows={groupedRows}
           />
         );
       })}
