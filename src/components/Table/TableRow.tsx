@@ -46,34 +46,29 @@ const TableRow: FC<TableRowProps> = ({ row, rowProps, renderRowSubComponent, con
 
             const groupByColumn = groupedRows.groupBy;
             const currentValue = allRows[rowIndex].getVisibleCells()
-                .find((c: any) => c.column.id === groupByColumn)?.getValue();
+              .find((c: any) => c.column.id === groupByColumn)?.getValue();
 
-            // Find which group index this is (for alternating colors)
-            const uniqueGroups: any[] = [];
-            let groupIndex = -1;
-
-            for (let i = 0; i <= rowIndex; i++) {
-                const cellValue = allRows[i].getVisibleCells()
-                    .find((c: any) => c.column.id === groupByColumn)?.getValue();
-
-                if (!uniqueGroups.includes(cellValue)) {
-                    uniqueGroups.push(cellValue);
-                }
-
-                if (cellValue === currentValue && groupIndex === -1) {
-                    groupIndex = uniqueGroups.indexOf(cellValue);
-                }
-            }
-
-            // Check if this is the last row in the group
             let isLastInGroup = true;
             if (rowIndex < allRows.length - 1) {
                 const nextRowValue = allRows[rowIndex + 1].getVisibleCells()
-                    .find((c: any) => c.column.id === groupByColumn)?.getValue();
+                  .find((c: any) => c.column.id === groupByColumn)?.getValue();
                 isLastInGroup = nextRowValue !== currentValue;
             }
 
-            return { groupIndex, isLastInGroup };
+            if (!groupedRows.alternatingColors) {
+                return { isLastInGroup };
+            }
+
+            const uniqueGroups: any[] = [];
+            for (let i = 0; i <= rowIndex; i++) {
+                const cellValue = allRows[i].getVisibleCells()
+                  .find((c: any) => c.column.id === groupByColumn)?.getValue();
+                if (!uniqueGroups.includes(cellValue)) {
+                    uniqueGroups.push(cellValue);
+                }
+            }
+
+            return { groupIndex: uniqueGroups.indexOf(currentValue), isLastInGroup };
         };
 
         const groupInfo = getGroupInfo();
@@ -147,7 +142,7 @@ const TableRow: FC<TableRowProps> = ({ row, rowProps, renderRowSubComponent, con
                 return (
                     <GroupedRowCell
                         key={cell.id}
-                        groupIndex={groupInfo.groupIndex}
+                        groupIndex={groupInfo.groupIndex ?? 0}
                         isLastInGroup={groupInfo.isLastInGroup}
                         alternatingColors={groupedRows.alternatingColors}
                     >
