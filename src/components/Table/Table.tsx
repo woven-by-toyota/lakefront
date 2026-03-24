@@ -319,9 +319,19 @@ const Table: React.FC<TableProps> = ({
   }, [stickyHeaders, infiniteScroll]);
 
   const memoizedColumns = useMemo(() => {
+    let processedColumns = [...columns];
+
+    // Disable sorting on non-grouped columns when grouped rows is enabled
+    if (groupedRows?.enabled && groupedRows.groupBy) {
+      processedColumns = processedColumns.map(column => ({
+        ...column,
+        enableSorting: column.id === groupedRows.groupBy || (column as any).accessorKey === groupedRows.groupBy
+      }));
+    }
+
     if (moreActionsConfig) {
       return [
-        ...columns,
+        ...processedColumns,
         {
           id: 'more-actions',
           header: '',
@@ -341,8 +351,8 @@ const Table: React.FC<TableProps> = ({
         } as ColumnDef<any, any>
       ];
     }
-    return columns;
-  }, [columns, moreActionsConfig]);
+    return processedColumns;
+  }, [columns, moreActionsConfig, groupedRows]);
 
 
   // Use the state and functions returned from useReactTable to build your UI
