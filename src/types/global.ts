@@ -79,6 +79,10 @@ export interface LakefrontTheme {
         primary: string;
         secondary: string;
         tertiary: string;
+        table: {
+            groupedRowPrimary: string;
+            groupedRowSecondary: string;
+        };
         widget: WidgetStyles;
         disabled: string;
         inverted: string;

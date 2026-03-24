@@ -89,6 +89,11 @@ export interface GroupedRowsConfig {
    * For example: 'platform' will merge platform column cells.
    */
   groupBy: string;
+  /**
+   * Enable alternating background colors for grouped rows.
+   * When true, alternates between primary and secondary background colors for each group.
+   */
+  alternatingColors?: boolean;
 }
 
 export interface TableSettingsConfig {

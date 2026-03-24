@@ -362,11 +362,34 @@ TableWithGroupedRows.args = {
   } as TableProps['tableSettings'],
   groupedRows: {
     enabled: true,
-    groupBy: 'genre'
+    groupBy: 'genre',
+    alternatingColors: true
   } as TableProps['groupedRows'],
   noDataMessage: 'No data found',
   // story props
   storyTitle: 'Table with Grouped Rows (Excel-style merged cells)',
-  storyDescription: 'Genre values are merged in Excel-style with rowspan, showing each genre name only once per group. Each genre (Fiction, Non-Fiction, Science, Biography) shows multiple books underneath with their titles, authors, page counts, and ratings.'
+  storyDescription: 'Genre values are merged in Excel-style with rowspan, showing each genre name only once per group. Each genre (Fiction, Non-Fiction, Science, Biography) shows multiple books underneath with their titles, authors, page counts, and ratings. Alternating colors are enabled to distinguish between different groups, and border separators appear between groups.'
+};
+
+export const TableWithGroupedRowsNoAlternating = GroupedRowsTemplate.bind({});
+TableWithGroupedRowsNoAlternating.args = {
+  columns: GROUPED_ROWS_COLUMNS,
+  data: GROUPED_ROWS_DATA,
+  tableSettings: {
+    columnConfig: {
+      enableColumnHiding: true
+    },
+    enableDownload: true,
+    downloadFilename: 'my-table-export.csv'
+  } as TableProps['tableSettings'],
+  groupedRows: {
+    enabled: true,
+    groupBy: 'genre',
+    alternatingColors: false
+  } as TableProps['groupedRows'],
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Grouped Rows (No Alternating Colors)',
+  storyDescription: 'Same as above but with alternatingColors set to false, showing grouped rows with consistent background colors and only border separators between groups.'
 };
 

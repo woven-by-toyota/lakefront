@@ -35,6 +35,40 @@ describe('Table with Grouped Rows', () => {
     expect(getAllByText('History of Technology')).toHaveLength(1);
   });
 
+  it('renders grouped rows with alternating colors when enabled', () => {
+    const {getByText} = renderWithTheme(
+      <Table
+        data={mockData}
+        columns={mockColumns}
+        groupedRows={{
+          enabled: true,
+          groupBy: 'genre',
+          alternatingColors: true
+        }}
+      />
+    );
+
+    expect(getByText('Fiction')).toBeInTheDocument();
+    expect(getByText('Non-Fiction')).toBeInTheDocument();
+  });
+
+  it('renders grouped rows without alternating colors when disabled', () => {
+    const {getByText} = renderWithTheme(
+      <Table
+        data={mockData}
+        columns={mockColumns}
+        groupedRows={{
+          enabled: true,
+          groupBy: 'genre',
+          alternatingColors: false
+        }}
+      />
+    );
+
+    expect(getByText('Fiction')).toBeInTheDocument();
+    expect(getByText('Non-Fiction')).toBeInTheDocument();
+  });
+
   it('renders normal table when groupedRows is disabled', () => {
     const {getAllByText} = renderWithTheme(
       <Table

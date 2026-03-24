@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { ReactComponent as ArrowUp } from './assets/arrow_drop_up.svg';
 import { ReactComponent as ArrowDown } from './assets/arrow_drop_down.svg';
 import { ReactComponent as Unsorted } from './assets/unsorted.svg';
+import {lightenDarkenColor} from "../../styles/stylesUtil";
 
 export const TableStyle = styled.table(({ theme }) => ({
   padding: 0,
@@ -144,13 +145,27 @@ export const ErrorMessage = styled.td(({ theme }) => ({
   color: theme.foregrounds.error,
 }));
 
-export const GroupedCell = styled.td(({ theme }) => ({
+export const GroupedCell = styled.td<{ isLastInGroup?: boolean }>(({ theme, isLastInGroup }) => ({
   '&&': {
-    backgroundColor: theme.backgrounds.secondary,
-    borderRight: `1px solid ${theme.borderColors.primary}`,
+    backgroundColor: theme.backgrounds.table.groupedRowSecondary,
+    borderRight: `1px solid ${theme.borderColors.secondary}`,
+    borderBottom: !isLastInGroup
+      ? `2px solid ${theme.borderColors.secondary}`
+      : `1px solid ${theme.borderColors.primary}`,
     verticalAlign: 'middle',
     fontWeight: '600',
     color: theme.foregrounds.primary,
     textAlign: 'center'
+  }
+}));
+
+export const GroupedRowCell = styled.td<{ groupIndex: number; isLastInGroup?: boolean; alternatingColors?: boolean }>(({ theme, groupIndex, isLastInGroup, alternatingColors }) => ({
+  '&&': {
+    backgroundColor: alternatingColors && groupIndex % 2 === 1
+      ? theme.backgrounds.secondary
+      : theme.backgrounds.table.groupedRowPrimary,
+    ...(isLastInGroup && {
+      borderBottom: `2px solid ${theme.borderColors.secondary}`,
+    })
   }
 }));
