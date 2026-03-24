@@ -4,6 +4,7 @@ import ContextMenu from '../ContextMenu';
 import { RowHoverContext } from './RowHoverContext';
 import { ContextMenuConfig, GroupedRowsConfig, MoreActionsConfig } from './Table';
 import CellErrorBoundary from './CellErrorBoundary';
+import { GroupedCell } from './tableStyles';
 
 export interface TableRowProps {
     row: any;
@@ -89,16 +90,11 @@ const TableRow: FC<TableRowProps> = ({ row, rowProps, renderRowSubComponent, con
 
             // This is the first occurrence - render with rowspan
             return (
-                <td key={cell.id} rowSpan={spanCount} style={{
-                    backgroundColor: '#f8f9fa',
-                    borderRight: '1px solid #dee2e6',
-                    verticalAlign: 'top',
-                    fontWeight: '600'
-                }}>
+                <GroupedCell key={cell.id} rowSpan={spanCount}>
                     <CellErrorBoundary onError={onRenderError}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </CellErrorBoundary>
-                </td>
+                </GroupedCell>
             );
         } else {
             // Regular cell

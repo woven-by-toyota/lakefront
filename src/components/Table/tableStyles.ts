@@ -143,3 +143,14 @@ export const HideableTHead = styled.thead<HideableTHeadProps>(({ hide, sticky, t
 export const ErrorMessage = styled.td(({ theme }) => ({
   color: theme.foregrounds.error,
 }));
+
+export const GroupedCell = styled.td(({ theme }) => ({
+  '&&': {
+    backgroundColor: theme.backgrounds.secondary,
+    borderRight: `1px solid ${theme.borderColors.primary}`,
+    verticalAlign: 'middle',
+    fontWeight: '600',
+    color: theme.foregrounds.primary,
+    textAlign: 'center'
+  }
+}));
