@@ -53,16 +53,16 @@ export const INFINITE_SCROLL_DATA = [
 ];
 
 export const GROUPED_ROWS_DATA = [
-  { platform: 'TMPOC', region: 'US', total: 7, online: 0, offline: 7 },
-  { platform: 'TMPOC', region: 'JP', total: 3, online: 0, offline: 3 },
-  { platform: 'TMPOC', region: 'Actual Global', total: 10, online: 0, offline: 10 },
-  { platform: 'TMPOC Lite', region: 'US', total: 7, online: 0, offline: 7 },
-  { platform: 'TMPOC Lite', region: 'JP', total: 3, online: 0, offline: 3 },
-  { platform: 'TMPOC Lite', region: 'Actual Global', total: 10, online: 0, offline: 10 },
-  { platform: 'FLEX DDC', region: 'US', total: 7, online: 0, offline: 7 },
-  { platform: 'FLEX DDC', region: 'JP', total: 3, online: 0, offline: 3 },
-  { platform: 'FLEX DDC', region: 'Actual Global', total: 10, online: 0, offline: 10 },
-  { platform: 'FLEX APR', region: 'US', total: 7, online: 0, offline: 7 },
-  { platform: 'FLEX APR', region: 'JP', total: 3, online: 0, offline: 3 },
-  { platform: 'FLEX APR', region: 'Actual Global', total: 10, online: 0, offline: 10 }
+  { genre: 'Fiction', title: 'The Great Adventure', author: 'Jane Smith', pages: 324, rating: 4.2 },
+  { genre: 'Fiction', title: 'Mystery of the Lake', author: 'John Doe', pages: 278, rating: 4.5 },
+  { genre: 'Fiction', title: 'Summer Romance', author: 'Alice Johnson', pages: 245, rating: 3.8 },
+  { genre: 'Non-Fiction', title: 'History of Technology', author: 'Dr. Brown', pages: 456, rating: 4.1 },
+  { genre: 'Non-Fiction', title: 'Cooking Mastery', author: 'Chef Maria', pages: 312, rating: 4.7 },
+  { genre: 'Non-Fiction', title: 'Travel Guide Europe', author: 'Sam Wilson', pages: 198, rating: 4.3 },
+  { genre: 'Science', title: 'Quantum Physics Simplified', author: 'Prof. Lee', pages: 387, rating: 4.0 },
+  { genre: 'Science', title: 'Biology Basics', author: 'Dr. Chen', pages: 298, rating: 4.4 },
+  { genre: 'Science', title: 'Chemistry Lab Guide', author: 'Prof. Davis', pages: 156, rating: 3.9 },
+  { genre: 'Biography', title: 'Life of a Pioneer', author: 'Robert Taylor', pages: 234, rating: 4.6 },
+  { genre: 'Biography', title: 'Artist Journey', author: 'Emily White', pages: 289, rating: 4.2 },
+  { genre: 'Biography', title: 'Sports Legend', author: 'Mike Green', pages: 267, rating: 4.1 }
 ];

@@ -167,29 +167,29 @@ export const COLUMNS_WITH_WIDTH_AND_EXPANDER = [
 
 export const GROUPED_ROWS_COLUMNS = [
   {
-    header: 'Platform',
-    accessorKey: 'platform',
+    header: 'Genre',
+    accessorKey: 'genre',
     cell: ({ getValue }) => getValue()
   },
   {
-    header: 'Region',
-    accessorKey: 'region',
+    header: 'Title',
+    accessorKey: 'title',
     cell: ({ getValue }) => getValue()
   },
   {
-    header: 'Total',
-    accessorKey: 'total',
+    header: 'Author',
+    accessorKey: 'author',
     cell: ({ getValue }) => getValue()
   },
   {
-    header: 'Online',
-    accessorKey: 'online',
+    header: 'Pages',
+    accessorKey: 'pages',
     cell: ({ getValue }) => getValue()
   },
   {
-    header: 'Offline',
-    accessorKey: 'offline',
-    cell: ({ getValue }) => getValue()
+    header: 'Rating',
+    accessorKey: 'rating',
+    cell: ({ getValue }) => `⭐ ${getValue()}`
   }
 ];
 

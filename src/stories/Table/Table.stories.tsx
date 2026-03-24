@@ -362,11 +362,11 @@ TableWithGroupedRows.args = {
   } as TableProps['tableSettings'],
   groupedRows: {
     enabled: true,
-    groupBy: 'platform'
+    groupBy: 'genre'
   } as TableProps['groupedRows'],
   noDataMessage: 'No data found',
   // story props
   storyTitle: 'Table with Grouped Rows (Excel-style merged cells)',
-  storyDescription: 'Platform values are merged in Excel-style with rowspan, showing each platform name only once per group. Each platform (TMPOC, TMPOC Lite, FLEX DDC, FLEX APR) should show US, JP, and Actual Global as regions underneath.'
+  storyDescription: 'Genre values are merged in Excel-style with rowspan, showing each genre name only once per group. Each genre (Fiction, Non-Fiction, Science, Biography) shows multiple books underneath with their titles, authors, page counts, and ratings.'
 };
 
