@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactNode, useState } from 'react';
+import React, {FC, Fragment, ReactElement, ReactNode, useState} from 'react';
 import {Cell, flexRender} from '@tanstack/react-table';
 import ContextMenu from '../ContextMenu';
 import { RowHoverContext } from './RowHoverContext';
@@ -34,53 +34,59 @@ const TableRow: FC<TableRowProps> = ({ row, rowProps, renderRowSubComponent, con
         onMouseLeave: () => setIsHovered(false),
     };
 
-    // Helper function to find group cell info
-    const getGroupCellInfo = (cell: Cell<unknown, unknown>, rowIndex: number, allRows: any[]) => {
-        const currentValue = cell.getValue();
-        const groupColumnId = groupedRows!.groupBy;
+    const cells = row.getVisibleCells().map((cell: Cell<unknown, unknown>): ReactElement | null => {
+        // Check if this is a grouped column and if we should render it with merged cells
+        if (groupedRows?.enabled && cell.column.id === groupedRows.groupBy) {
+            const currentValue = cell.getValue();
+            const allRows = cell.getContext().table.getRowModel().rows;
 
-        // Check if previous row has same value (determines if we should render)
-        let isFirstOccurrence = true;
-        if (rowIndex > 0 && allRows[rowIndex - 1]) {
-            const prevRowCell = allRows[rowIndex - 1].getVisibleCells?.()
-                ?.find((c: any) => c.column.id === groupColumnId);
-            if (prevRowCell && prevRowCell.getValue() === currentValue) {
-                isFirstOccurrence = false;
+            // Use the row's index in the table for reliable positioning
+            let rowIndex = allRows.findIndex((r: any) => r.id === row.id);
+            if (rowIndex === -1) {
+                // Fallback if findIndex fails - try parseInt
+                const fallbackIndex = parseInt(row.id);
+                if (isNaN(fallbackIndex)) {
+                    // If we can't determine index, render as regular cell
+                    return (
+                        <td key={cell.id}>
+                            <CellErrorBoundary onError={onRenderError}>
+                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </CellErrorBoundary>
+                        </td>
+                    );
+                } else {
+                    rowIndex = fallbackIndex;
+                }
             }
-        }
 
-        if (!isFirstOccurrence) {
-            return { shouldRender: false, spanCount: 0 };
-        }
-
-        // Count consecutive rows with same value
-        let spanCount = 1;
-        for (let i = rowIndex + 1; i < allRows.length; i++) {
-            const nextRow = allRows[i];
-            if (!nextRow?.getVisibleCells) break;
-
-            const nextRowCell = nextRow.getVisibleCells()
-                .find((c: any) => c.column.id === groupColumnId);
-            if (nextRowCell && nextRowCell.getValue() === currentValue) {
-                spanCount++;
-            } else {
-                break;
+            // Check if previous row has same value (determines if we should render)
+            let isFirstOccurrence = true;
+            if (rowIndex > 0) {
+                const prevRow = allRows[rowIndex - 1];
+                const prevCell = prevRow?.getVisibleCells?.()?.find((c: any) => c.column.id === groupedRows.groupBy);
+                if (prevCell && prevCell.getValue() === currentValue) {
+                    isFirstOccurrence = false;
+                }
             }
-        }
 
-        return { shouldRender: true, spanCount };
-    };
-
-    const renderCell = (cell: Cell<unknown, unknown>, rowIndex: number, allRows: any[]): React.ReactElement | null => {
-        const isGroupedColumn = groupedRows?.enabled && cell.column.id === groupedRows.groupBy;
-
-        if (isGroupedColumn) {
-            const { shouldRender, spanCount } = getGroupCellInfo(cell, rowIndex, allRows);
-
-            if (!shouldRender) {
+            if (!isFirstOccurrence) {
+                // This is not the first occurrence - skip rendering this cell
                 return null;
             }
 
+            // Count consecutive rows with same value for rowspan
+            let spanCount = 1;
+            for (let i = rowIndex + 1; i < allRows.length; i++) {
+                const nextRow = allRows[i];
+                const nextCell = nextRow?.getVisibleCells?.()?.find((c: any) => c.column.id === groupedRows.groupBy);
+                if (nextCell && nextCell.getValue() === currentValue) {
+                    spanCount++;
+                } else {
+                    break;
+                }
+            }
+
+            // This is the first occurrence - render with rowspan
             return (
                 <td key={cell.id} rowSpan={spanCount} style={{
                     backgroundColor: '#f8f9fa',
@@ -93,24 +99,17 @@ const TableRow: FC<TableRowProps> = ({ row, rowProps, renderRowSubComponent, con
                     </CellErrorBoundary>
                 </td>
             );
+        } else {
+            // Regular cell
+            return (
+                <td key={cell.id}>
+                    <CellErrorBoundary onError={onRenderError}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </CellErrorBoundary>
+                </td>
+            );
         }
-
-        // Regular cell
-        return (
-            <td key={cell.id}>
-                <CellErrorBoundary onError={onRenderError}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </CellErrorBoundary>
-            </td>
-        );
-    };
-
-    const allRows = row.getContext?.()?.table.getRowModel().rows || [];
-    const rowIndex = allRows.findIndex((r: any) => r.id === row.id);
-
-    const cells = row.getVisibleCells()
-        .map((cell: Cell<unknown, unknown>) => renderCell(cell, rowIndex, allRows))
-        .filter((cellElement: React.ReactElement | null): cellElement is React.ReactElement => cellElement !== null);
+    }).filter((cellElement: ReactElement | null): cellElement is ReactElement => cellElement !== null);
 
     return (
         <RowHoverContext.Provider value={isHovered}>
