@@ -365,7 +365,7 @@ const Table: React.FC<TableProps> = ({
     getExpandedRowModel: getExpandedRowModel(),
     enableExpanding: true,
     getRowCanExpand: () => true,
-    autoResetExpanded: false,
+    autoResetExpanded: true,
     enableMultiSort,
     columnResizeMode: 'onChange',
     ...options
