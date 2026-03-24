@@ -44,6 +44,7 @@ const TableRow: FC<TableRowProps> = ({ row, rowProps, renderRowSubComponent, con
             let rowIndex = allRows.findIndex((r: any) => r.id === row.id);
             if (rowIndex === -1) {
                 // Fallback if findIndex fails - try parseInt
+                // Most table implementations use row ids that include the index (e.g. "0", "1"), so we can attempt to parse the index from the id
                 const fallbackIndex = parseInt(row.id);
                 if (isNaN(fallbackIndex)) {
                     // If we can't determine index, render as regular cell
