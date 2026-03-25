@@ -159,7 +159,7 @@ export const GroupedCell = styled.td<{ isLastInGroup?: boolean }>(({ theme, isLa
   }
 }));
 
-export const GroupedRowCell = styled.td<{ groupIndex: number; isLastInGroup?: boolean; alternatingColors?: boolean }>(({ theme, groupIndex, isLastInGroup, alternatingColors }) => ({
+export const GroupedRowCell = styled.td<{ groupIndex: number; isLastInGroup?: boolean; alternatingColors?: boolean }>(({ theme, groupIndex, isLastInGroup, alternatingColors = true}) => ({
   '&&': {
     backgroundColor: alternatingColors && groupIndex % 2 === 1
       ? theme.backgrounds.secondary
