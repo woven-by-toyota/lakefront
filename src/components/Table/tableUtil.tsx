@@ -1,4 +1,7 @@
 import { StyledArrowDown, StyledArrowUp, StyledUnsorted } from './tableStyles';
+import {Cell, flexRender} from "@tanstack/react-table";
+import CellErrorBoundary from "./CellErrorBoundary";
+import React from "react";
 
 export interface Column {
     disableSortBy: boolean;
@@ -45,3 +48,21 @@ export const isLastHeader = (
 
     return idx === totalHeaders - 1;
 };
+
+export const getCellContent = (cell: Cell<unknown, unknown>, onRenderError?: () => void) => (
+  <CellErrorBoundary onError={onRenderError}>
+      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+  </CellErrorBoundary>
+);
+
+export const getRowIndex = (allRows: any[], rowId: string): number => {
+    const index = allRows.findIndex((r: any) => r.id === rowId);
+    if (index !== -1) return index;
+    const fallback = parseInt(rowId);
+    return isNaN(fallback) ? -1 : fallback;
+};
+
+export const getGroupValue = (row: any, groupByColumn: string) =>
+  row?.getVisibleCells?.()
+    ?.find((c: any) => c.column.id === groupByColumn)
+    ?.getValue();

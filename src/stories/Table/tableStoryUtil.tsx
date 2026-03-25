@@ -165,6 +165,34 @@ export const COLUMNS_WITH_WIDTH_AND_EXPANDER = [
   }
 ];
 
+export const GROUPED_ROWS_COLUMNS = [
+  {
+    header: 'Genre',
+    accessorKey: 'genre',
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'Title',
+    accessorKey: 'title',
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'Author',
+    accessorKey: 'author',
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'Pages',
+    accessorKey: 'pages',
+    cell: ({ getValue }) => getValue()
+  },
+  {
+    header: 'Rating',
+    accessorKey: 'rating',
+    cell: ({ getValue }) => `⭐ ${getValue()}`
+  }
+];
+
 export const renderRowSubComponent = ({ row }) => {
   const { value, percentage, percentage_change, total } = row.original;
   const nestedData = [

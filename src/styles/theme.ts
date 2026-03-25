@@ -47,6 +47,10 @@ const THEME: Theme = {
         primary: colors.white,
         secondary: colors.akoya,
         tertiary: colors.akoya,
+        table: {
+            groupedRowPrimary: colors.white,
+            groupedRowSecondary: colors.selago,
+        },
         widget: {
           primary: colors.gunpowder,
           dark: colors.storm,
@@ -144,6 +148,10 @@ export const DARK_THEME: Theme = {
         primary: colors.gunpowder,
         secondary: colors.storm,
         tertiary: colors.dolphin,
+        table: {
+            groupedRowPrimary: colors.gunpowder,
+            groupedRowSecondary: colors.dolphin,
+        },
         widget: {
           primary: colors.white,
           dark: colors.storm,

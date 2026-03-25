@@ -79,6 +79,23 @@ export interface InfiniteScrollConfig {
   stickyHeaders?: boolean;
 }
 
+export interface GroupedRowsConfig {
+  /**
+   * Enable grouped rows functionality with Excel-style merged cells.
+   */
+  enabled: boolean;
+  /**
+   * Column ID to group by for Excel-style merged cells.
+   * For example: 'platform' will merge platform column cells.
+   */
+  groupBy: string;
+  /**
+   * Enable alternating background colors for grouped rows.
+   * When true, alternates between primary and secondary background colors for each group.
+   */
+  alternatingColors?: boolean;
+}
+
 export interface TableSettingsConfig {
   /**
    * Enable the display of the settings panel.
@@ -226,6 +243,11 @@ export interface TableProps<T = any> {
    * Additional props for the table wrapper when tableSettings is enabled.
    */
   wrapperProps?: ComponentPropsWithoutRef<'div'>;
+  /**
+   * Configuration for grouped rows functionality.
+   * When provided, rows will be grouped by the specified column.
+   */
+  groupedRows?: GroupedRowsConfig;
 }
 
 /**
@@ -252,7 +274,8 @@ const Table: React.FC<TableProps> = ({
   infiniteScroll,
   stickyHeaders,
   tableSettings,
-  wrapperProps
+  wrapperProps,
+  groupedRows
 }) => {
   /** initialSortBy must be memoized */
   const initialSortByData: SortingState = useMemo(
@@ -301,9 +324,19 @@ const Table: React.FC<TableProps> = ({
   }, [stickyHeaders, infiniteScroll]);
 
   const memoizedColumns = useMemo(() => {
+    let processedColumns = [...columns];
+
+    // Disable sorting on non-grouped columns when grouped rows is enabled
+    if (groupedRows?.enabled && groupedRows.groupBy) {
+      processedColumns = processedColumns.map(column => ({
+        ...column,
+        enableSorting: column.id === groupedRows.groupBy || (column as any).accessorKey === groupedRows.groupBy
+      }));
+    }
+
     if (moreActionsConfig) {
       return [
-        ...columns,
+        ...processedColumns,
         {
           id: 'more-actions',
           header: '',
@@ -323,8 +356,9 @@ const Table: React.FC<TableProps> = ({
         } as ColumnDef<any, any>
       ];
     }
-    return columns;
-  }, [columns, moreActionsConfig]);
+    return processedColumns;
+  }, [columns, moreActionsConfig, groupedRows]);
+
 
   // Use the state and functions returned from useReactTable to build your UI
   const enableMultiSort = options.enableMultiSort ?? true;
@@ -357,6 +391,7 @@ const Table: React.FC<TableProps> = ({
       onChangeSort(sorting[0], sorting);
     }
   }, [sorting, onChangeSort]);
+
 
   // Ref for the loading indicator at the bottom of the table
   const loadMoreRef = useRef<HTMLTableRowElement>(null);
@@ -497,6 +532,7 @@ const Table: React.FC<TableProps> = ({
             contextMenuConfig={contextMenuConfig}
             moreActionsConfig={moreActionsConfig}
             onRenderError={() => setHasRenderError(true)}
+            groupedRows={groupedRows}
           />
         );
       })}
