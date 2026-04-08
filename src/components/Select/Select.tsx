@@ -1,9 +1,8 @@
 import { FC } from 'react';
 import { SelectStyles, SelectStyledComponent } from './selectStyles';
 import SelectOverlay from './SelectOverlay';
-import { GetStyles, GroupBase } from 'react-select/dist/declarations/src/types';
-import { AsyncProps as ReactAsyncSelectProps } from 'react-select/async';
-import { Props as ReactSelectProps } from 'react-select';
+import { StylesConfig, GroupBase, Props as ReactSelectProps } from 'react-select';
+import type { AsyncProps as ReactAsyncSelectProps } from 'react-select/async';
 import { extractNativeSelectProps } from 'src/components/Select/selectUtil';
 
 export interface SelectOption {
@@ -56,7 +55,7 @@ export interface SelectProps extends ReactSelectProps {
     /**
      * This is to overwrite defaulted styles
      */
-    styles?: Partial<GetStyles<SelectOption, true, GroupBase<SelectOption>>>;
+    styles?: Partial<StylesConfig<SelectOption, true, GroupBase<SelectOption>>>;
     /**
      * This is the default text before an option is selected.
      */

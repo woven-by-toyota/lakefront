@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Theme } from '@emotion/react';
 import { SelectOption } from 'src/types/global';
 import { ReactComponent as baselineExpandSvg } from './baseline-expand_more-24px.svg';
-import { GetStyles, GroupBase } from 'react-select/dist/declarations/src/types';
+import { StylesConfig, GroupBase } from 'react-select';
 
 export const SelectStyles = styled.div({
     select: {
@@ -19,7 +19,7 @@ interface SelectState {
     theme: Theme;
 }
 
-export type SelectOverlayStyles = Partial<GetStyles<SelectOption<any>, true, GroupBase<SelectOption<any>>>>;
+export type SelectOverlayStyles = Partial<StylesConfig<SelectOption<any>, true, GroupBase<SelectOption<any>>>>;
 
 export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
     control: (defaultStyles: SelectState, state: SelectState) => ({
