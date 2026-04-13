@@ -3,40 +3,42 @@ import copy from '../copy';
 const originalClipboard = { ...global.navigator.clipboard };
 
 afterEach(() => {
-    global.navigator.clipboard = originalClipboard;
+  global.navigator.clipboard = originalClipboard;
 });
 
 describe('copy', () => {
-    it('copies the provided text to the clipboard', () => {
-        const writeText = jest.fn();
+  it('copies the provided text to the clipboard', () => {
+    const writeText = jest.fn();
 
-        global.navigator.clipboard = {
-            writeText
-        };
+    global.navigator.clipboard = {
+      writeText
+    };
 
-        copy('text');
+    copy('text');
 
-        expect(writeText).toBeCalledTimes(1);
-        expect(writeText).toHaveBeenCalledWith('text');
-    });
+    expect(writeText).toHaveBeenCalledTimes(1);
+    expect(writeText).toHaveBeenCalledWith('text');
+  });
 
-    it('returns true on successful copy', () => {
-        global.navigator.clipboard = {
-            writeText: () => null
-        };
+  it('returns true on successful copy', () => {
+    global.navigator.clipboard = {
+      writeText: () => null
+    };
 
-        copy('text');
+    copy('text');
 
-        expect(copy('text')).toBe(true);
-    });
+    expect(copy('text')).toBe(true);
+  });
 
-    it('returns false on failed copy', () => {
-        global.navigator.clipboard = {
-            writeText: () => { throw new Error('error') }
-        };
+  it('returns false on failed copy', () => {
+    global.navigator.clipboard = {
+      writeText: () => {
+        throw new Error('error');
+      }
+    };
 
-        copy('text');
+    copy('text');
 
-        expect(copy('text')).toBe(false);
-    });
+    expect(copy('text')).toBe(false);
+  });
 });

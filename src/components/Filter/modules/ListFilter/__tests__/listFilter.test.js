@@ -210,9 +210,9 @@ describe('ListFilter', () => {
             fireEvent.click(getByLabelText('Test 1'));
 
             // Nothing is selected now, so it is called with an empty Set
-            expect(update).toBeCalledWith(new Set());
+            expect(update).toHaveBeenCalledWith(new Set());
             fireEvent.click(getByLabelText('Test 1'));
-            expect(update).toBeCalledWith(selected);
+            expect(update).toHaveBeenCalledWith(selected);
         });
     });
 

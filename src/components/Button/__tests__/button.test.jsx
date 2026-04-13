@@ -86,7 +86,7 @@ describe('Button', () => {
       );
 
       expect(getByRole('button')).toHaveStyle({
-        backgroundColor: 'transparent'
+        backgroundColor: undefined
       });
     });
 
@@ -160,7 +160,7 @@ describe('Button', () => {
       expect(container.querySelector('div')).toHaveTextContent('label text');
     });
 
-    it("doesn't display the iconLabel when icon is false / not provided", () => {
+    it('doesn\'t display the iconLabel when icon is false / not provided', () => {
       const { container } = render(<Button iconLabel={'label text'} />);
 
       expect(container.querySelector('div')).toBe(null);

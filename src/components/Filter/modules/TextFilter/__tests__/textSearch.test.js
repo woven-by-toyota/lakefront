@@ -14,29 +14,29 @@ describe('<TextSearch />', () => {
         const changeCallback = jest.fn();
         const { getByRole } = render(<TextSearch onChange={changeCallback} />);
         fireEvent.change(getByRole('textbox'), { target: { value: 'asdf' } });
-        expect(changeCallback).not.toBeCalled();
+        expect(changeCallback).not.toHaveBeenCalled();
     });
 
     it('onChange callback fires on blur change', () => {
         const changeCallback = jest.fn();
         const { getByRole } = render(<TextSearch onChange={changeCallback} />);
         fireEvent.blur(getByRole('textbox'), { target: { value: 'asdf' } });
-        expect(changeCallback).toBeCalledWith('asdf');
+        expect(changeCallback).toHaveBeenCalledWith('asdf');
     });
 
     it('onChange callback fires on enter key press', () => {
         const changeCallback = jest.fn();
         const { getByRole } = render(<TextSearch onChange={changeCallback} />);
         fireEvent.keyPress(getByRole('textbox'), { key: 'Enter', charCode: 13, target: { value: 'asdf' } });
-        expect(changeCallback).toBeCalledWith('asdf');
+        expect(changeCallback).toHaveBeenCalledWith('asdf');
     });
 
     it('only accepts numbers when specified', () => {
         const changeCallback = jest.fn();
         const { getByRole } = render(<TextSearch onChange={changeCallback} type='number' />);
         fireEvent.keyPress(getByRole('spinbutton'), { key: 'Enter', charCode: 13, target: { value: 'asdf' } });
-        expect(changeCallback).toBeCalledWith('');
+        expect(changeCallback).toHaveBeenCalledWith('');
         fireEvent.keyPress(getByRole('spinbutton'), { key: 'Enter', charCode: 13, target: { value: '1' } });
-        expect(changeCallback).toBeCalledWith('1');
+        expect(changeCallback).toHaveBeenCalledWith('1');
     });
 });
