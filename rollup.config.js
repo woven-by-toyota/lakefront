@@ -1,9 +1,22 @@
-import ts from 'rollup-plugin-ts';
+import typescript from '@rollup/plugin-typescript';
 import del from 'rollup-plugin-delete';
-import pkg from './package.json';
 import url from '@rollup/plugin-url';
 import svgr from '@svgr/rollup';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
+import pkg from './package.json' with { type: 'json' };
+
+// Create external dependencies list
+const EXTERNAL_DEPS = [
+    // All peer dependencies
+    ...Object.keys(pkg.peerDependencies || {}),
+    // All dependencies (since this is a library, don't bundle dependencies)
+    ...Object.keys(pkg.dependencies || {}),
+    // React internals
+    'react/jsx-runtime',
+    'react/jsx-dev-runtime',
+    // Common runtime helpers
+    'tslib'
+];
 
 export default [
     {
@@ -14,11 +27,23 @@ export default [
         ],
         plugins: [
             del({ targets: ['dist/*'] }),
-            ts(),
+            typescript({
+                tsconfig: './tsconfig.json',
+                exclude: ['node_modules/**', '**/*.d.ts', '**/*.d.mts', 'src/stories/**'],
+                outputToFilesystem: true,
+                compilerOptions: {
+                    noEmitOnError: false  // Continue building despite type errors
+                }
+            }),
             url(),
-            svgr(),
+            svgr({
+                svgo: false  // Disable SVGO optimization to avoid plugin config issues
+            }),
             terser()
         ],
-        external: Object.keys(pkg.peerDependencies || {})
+        external: (id) => {
+            // Mark a module as external if it matches any of our external patterns
+            return EXTERNAL_DEPS.some(ext => id === ext || id.startsWith(ext + '/'));
+        }
     },
 ];

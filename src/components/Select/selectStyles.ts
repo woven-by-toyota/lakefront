@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
-import { Theme } from '@emotion/react';
 import { SelectOption } from 'src/types/global';
 import { ReactComponent as baselineExpandSvg } from './baseline-expand_more-24px.svg';
-import { StylesConfig, GroupBase } from 'react-select';
+import {
+    StylesConfig,
+    GroupBase,
+} from 'react-select';
 
 export const SelectStyles = styled.div({
     select: {
@@ -10,19 +12,10 @@ export const SelectStyles = styled.div({
     }
 });
 
-interface SelectState {
-    isSelected: boolean;
-    isFocused: boolean;
-    selectProps: {
-        isDisabled?: boolean;
-    };
-    theme: Theme;
-}
-
-export type SelectOverlayStyles = Partial<StylesConfig<SelectOption<any>, true, GroupBase<SelectOption<any>>>>;
+export type SelectOverlayStyles = Partial<StylesConfig<SelectOption<any>, boolean, GroupBase<SelectOption<any>>>>;
 
 export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
-    control: (defaultStyles: SelectState, state: SelectState) => ({
+    control: (defaultStyles, state) => ({
         ...defaultStyles,
         flexWrap: undefined,
         display: 'flex',
@@ -50,11 +43,11 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
             outline: 0
         }
     }),
-    valueContainer: (defaultStyles: SelectState) => ({
+    valueContainer: (defaultStyles) => ({
         ...defaultStyles,
         padding: '2px 4px'
     }),
-    menu: (defaultStyles: SelectState) => ({
+    menu: (defaultStyles) => ({
         ...defaultStyles,
         backgroundColor: theme.backgrounds.primary,
         border: `1px solid ${theme.borderColors.secondary}`,
@@ -64,13 +57,13 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
         marginTop: 8,
         zIndex: 9999
     }),
-    menuList: (defaultStyles: SelectState) => ({
+    menuList: (defaultStyles) => ({
         ...defaultStyles,
         overflowY: 'auto',
         overflowX: 'hidden',
         maxHeight: undefined
     }),
-    option: (defaultStyles: SelectState, state: SelectState) => ({
+    option: (defaultStyles, state) => ({
         ...defaultStyles,
         alignItems: 'center',
         color: state.selectProps.isDisabled ?
@@ -96,7 +89,7 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
             backgroundColor: theme.backgrounds.hover
         })
     }),
-    multiValue: (defaultStyles: any) => ({
+    multiValue: (defaultStyles) => ({
         ...defaultStyles,
         backgroundColor: theme.backgrounds.secondary,
         color: theme.foregrounds.primary,
@@ -104,11 +97,11 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
             backgroundColor: theme.backgrounds.hover
         }
     }),
-    multiValueLabel: (defaultStyles: any) => ({
+    multiValueLabel: (defaultStyles) => ({
         ...defaultStyles,
         color: theme.foregrounds.primary
     }),
-    multiValueRemove: (defaultStyles: any) => ({
+    multiValueRemove: (defaultStyles) => ({
         ...defaultStyles,
         color: theme.foregrounds.primary,
         ':hover': {

@@ -4,12 +4,13 @@
     "ignoreDeprecations": "6.0",
 
     /* Basic Options */
-    "target": "ES2015",                             /* Specify ECMAScript target version */
+    "target": "ES2022",                             /* Specify ECMAScript target version */
     "module": "ESNext",                             /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "lib": ["DOM","ES2019"],                        /* Specify library files to be included in the compilation. */
+    "lib": ["DOM", "ES2022"],                       /* Specify library files to be included in the compilation. */
     "jsx": "react-jsx",                             /* Specify JSX code generation: 'preserve', 'react-native', 'react', 'react-jsx' or 'react-jsxdev'. */
     "declaration": true,                            /* Generates corresponding '.d.ts' file. */
     "declarationDir": "dist",
+    "rootDir": "./src",                             /* Specify the root directory of input files. */
     "outDir": "./dist",                             /* Redirect output structure to the directory. */
 
     /* Strict Type-Checking Options */

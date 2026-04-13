@@ -421,8 +421,8 @@ export const StepFunctionGraph: FC<GraphProps> = ({
         // When the slider changes, we want to adjust the pan and default offset so centering on a node works.
         // This also lets the slider cover the graph when sliding instead of panning the graph.
         if (ctx && graphRef.current && initialWidth.current) {
-            pan.offset.x += (ctx.canvas.width - (initialWidth.current || ctx.canvas.width)) / 4 ?? 0;
-            globalOffset.defaultOffset.x += (ctx.canvas.width - (initialWidth.current || ctx.canvas.width)) / 4 ?? 0;
+            pan.offset.x += (ctx.canvas.width - (initialWidth.current || ctx.canvas.width)) / 4;
+            globalOffset.defaultOffset.x += (ctx.canvas.width - (initialWidth.current || ctx.canvas.width)) / 4;
             initialWidth.current = ctx.canvas.width;
         }
     }, [observedElement]);

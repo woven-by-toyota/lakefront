@@ -10,7 +10,7 @@ export interface SelectOption {
     label: string;
 }
 
-export interface SelectProps extends ReactSelectProps {
+export interface SelectProps extends Omit<ReactSelectProps, 'styles'> {
     /**
      * This is to set the options of the dropdown.
      */
@@ -37,6 +37,7 @@ export interface SelectProps extends ReactSelectProps {
     id?: string;
     /**
      * This is to enable/disable the dropdown by default.
+     * Alias for isDisabled from react-select.
      */
     disabled?: boolean;
     /**
