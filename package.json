@@ -90,6 +90,7 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "rollup": "^4.60.1",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-delete": "^3.0.2",
     "storybook": "^10.3.5",
     "ts-node": "^10.8.1",
@@ -110,7 +111,7 @@
   "files": [
     "dist"
   ],
-  "typings": "dist/index.cjs.d.ts",
+  "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/woven-by-toyota/lakefront.git"
