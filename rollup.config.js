@@ -1,4 +1,6 @@
 import typescript from '@rollup/plugin-typescript';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import del from 'rollup-plugin-delete';
 import url from '@rollup/plugin-url';
 import svgr from '@svgr/rollup';
@@ -27,6 +29,12 @@ export default [
         ],
         plugins: [
             del({ targets: ['dist/*'] }),
+            resolve({
+                extensions: ['.ts', '.tsx', '.js', '.jsx'],
+                // Support absolute imports from project root (matching tsconfig baseUrl)
+                moduleDirectories: ['node_modules', '.']
+            }),
+            commonjs(),
             typescript({
                 tsconfig: './tsconfig.json',
                 exclude: ['node_modules/**', '**/*.d.ts', '**/*.d.mts', 'src/stories/**'],
