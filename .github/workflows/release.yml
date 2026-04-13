@@ -2,7 +2,7 @@ name: NPM Release
 
 on:
   release:
-    types: [released]
+    types: [released, prereleased]
 
 permissions:
   id-token: write # Required for OIDC
@@ -19,5 +19,19 @@ jobs:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
+
+      # Update version for prereleases (releases already have correct version in package.json)
+      - name: Update version for prerelease
+        if: github.event.release.prerelease == true
+        run: npm version ${{ github.event.release.tag_name }} --no-git-tag-version --allow-same-version
+
       - run: npm run build
-      - run: npm publish
+
+      # Publish with beta tag for prereleases, latest tag for releases
+      - name: Publish to npm
+        run: |
+          if [[ "${{ github.event.release.prerelease }}" == "true" ]]; then
+            npm publish --tag beta
+          else
+            npm publish
+          fi
