@@ -41,6 +41,12 @@ export const saturatedBlue = '#378fee';
 export const saturatedLavender = '#625fe3';
 export const arsenic = '#41414e';
 
+export const pomegranate = '#c0392b';
+export const forest = '#2d7a4f';
+export const goldenrod = '#b8860b';
+export const slate = '#5a6475';
+export const fog = '#9ba8b8';
+
 const LAKEFRONT_COLORS = {
     white,
     akoya,
@@ -82,6 +88,11 @@ const LAKEFRONT_COLORS = {
     blue,
     havelockBlue,
     saturatedBlue,
+    pomegranate,
+    forest,
+    goldenrod,
+    slate,
+    fog
 };
 
 // export the variables for javascript access

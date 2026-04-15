@@ -102,6 +102,7 @@ export interface LakefrontTheme {
         warning: string;
         inverted: string;
         success: string;
+        paused: string;
         hyperlink: string;
         loading: string;
         tableHeading: string;
