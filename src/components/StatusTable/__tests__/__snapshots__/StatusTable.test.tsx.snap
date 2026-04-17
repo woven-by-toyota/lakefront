@@ -25,14 +25,14 @@ exports[`<StatusTable /> should render properly 1`] = `
       </thead>
       <tbody>
         <tr
-          class="css-b58vhv"
+          class="css-1yti5ll"
         >
           <td>
             First
           </td>
           <td>
             <div
-              class="css-1bpl63v"
+              class="css-r1vht8"
             >
               Running
             </div>
@@ -53,14 +53,14 @@ exports[`<StatusTable /> should render properly 1`] = `
           </td>
         </tr>
         <tr
-          class="css-a2fjum"
+          class="css-1s3fwj8"
         >
           <td>
             First
           </td>
           <td>
             <div
-              class="css-1ciqbm0"
+              class="css-18ebasd"
             >
               Failed
             </div>
