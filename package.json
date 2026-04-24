@@ -30,6 +30,8 @@
     "upgrade-storybook": "npx storybook@latest upgrade && npx storybook@latest add @storybook/addon-webpack5-compiler-babel"
   },
   "dependencies": {
+    "@dnd-kit/helpers": "^0.4.0",
+    "@dnd-kit/react": "^0.4.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@tanstack/react-table": "^8.21.3",

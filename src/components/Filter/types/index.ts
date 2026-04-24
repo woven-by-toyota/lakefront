@@ -198,6 +198,8 @@ export interface FilterSectionHeaderProps {
     children?: ReactNode;
     isPinned?: boolean;
     onTogglePin?: (name: string) => void;
+    isDragEnabled?: boolean;
+    dragHandleRef?: any;
 }
 
 /**
@@ -379,6 +381,12 @@ export interface FilterComponentProps {
      * When true, pin buttons will appear on filter headers allowing users to pin filters to the top.
      */
     enableFilterPinning?: boolean;
+    /**
+     * Controls whether drag-and-drop reordering is enabled for filters.
+     * When true, filters can be dragged to reorder them.
+     * Requires filterHooks.filterOrder and filterHooks.setFilterOrder to be provided.
+     */
+    enableFilterDragDrop?: boolean;
 }
 
 /**

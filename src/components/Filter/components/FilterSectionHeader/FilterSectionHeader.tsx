@@ -4,13 +4,15 @@ import { ReactComponent as Add } from '../../assets/add.svg';
 import { ReactComponent as Remove } from '../../assets/remove.svg';
 import { ReactComponent as PinActive } from '../../assets/pinActive.svg';
 import { ReactComponent as PinInactive } from '../../assets/pinInactive.svg';
+import { ReactComponent as DragHandle } from '../../assets/dragHandle.svg';
 import {
   ClearButton,
   FilterActions,
   FilterBadge,
   FilterDetails,
   FilterSectionHeaderContainer,
-  StyledPinButton
+  StyledPinButton,
+  DragHandleButton
 } from './filterSectionHeaderStyles';
 import FilterValueChips from './FilterValueChips';
 import { getFilterCount } from './filterSectionHeaderUtil';
@@ -27,7 +29,9 @@ const FilterSectionHeader: FC<FilterSectionHeaderProps> = ({
   badgeThreshold,
   children,
   isPinned = false,
-  onTogglePin
+  onTogglePin,
+  isDragEnabled = false,
+  dragHandleRef
 }) => {
   const handleClear: MouseEventHandler<SVGElement> = (event) => {
     event.stopPropagation();
@@ -49,6 +53,11 @@ const FilterSectionHeader: FC<FilterSectionHeaderProps> = ({
     <>
       <FilterSectionHeaderContainer onClick={onClick} className='filter-section-header'>
         <FilterDetails className='filter-details'>
+          {isDragEnabled && dragHandleRef && (
+            <DragHandleButton ref={dragHandleRef} title="Drag to reorder">
+              <DragHandle />
+            </DragHandleButton>
+          )}
           {filter.label}
           {!showChips && (
             <FilterBadge className="filter-badge" aria-details="count of applied filters">

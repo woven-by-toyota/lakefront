@@ -91,6 +91,30 @@ export const StyledPinButton = styled.div<{ isPinned: boolean }>(({ theme, isPin
     }
 }));
 
+export const DragHandleButton = styled.div(({ theme }) => ({
+    marginRight: 8,
+    cursor: 'grab',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 20,
+    height: 20,
+    color: theme.foregrounds.secondary,
+    opacity: 0.6,
+    transition: 'opacity 0.2s',
+    '&:hover': {
+        opacity: 1
+    },
+    '&:active': {
+        cursor: 'grabbing'
+    },
+    svg: {
+        width: 20,
+        height: 20,
+        fill: 'currentColor'
+    }
+}));
+
 export const FilterActions = styled.div(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
