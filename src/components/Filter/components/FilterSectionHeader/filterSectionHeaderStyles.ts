@@ -60,28 +60,34 @@ export const ClearButton = styled(CloseLabel)(({ theme }) => ({
     }
 }));
 
-export const PinButton = styled.button<{ isPinned: boolean }>(({ theme, isPinned }) => ({
-    background: 'none',
-    border: 'none',
-    padding: 0,
+const PIN_ICON_WIDTH_HEIGHT = 20;
+
+export const StyledPinButton = styled.div<{ isPinned: boolean }>(({ theme, isPinned }) => ({
     marginRight: 8,
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
+    display: 'inline-flex',
     justifyContent: 'center',
-    width: 16,
-    height: 16,
-    color: isPinned ? theme.foregrounds.primary : theme.foregrounds.secondary,
-    opacity: isPinned ? 1 : 0.6,
-    transition: 'opacity 0.2s, color 0.2s',
-    '&:hover': {
-        opacity: 1,
-        color: theme.foregrounds.primary
-    },
-    svg: {
-        width: 16,
-        height: 16,
-        fill: 'currentColor'
+    alignItems: 'center',
+    button: {
+        width: PIN_ICON_WIDTH_HEIGHT,
+        height: PIN_ICON_WIDTH_HEIGHT,
+        minWidth: PIN_ICON_WIDTH_HEIGHT,
+        padding: 0,
+        background: 'none',
+        border: 'none',
+        color: isPinned ? theme.foregrounds.hyperlink : theme.foregrounds.secondary,
+        opacity: isPinned ? 1 : 0.6,
+        transition: 'opacity 0.2s, color 0.2s, transform 0.2s',
+        '&:hover': {
+            opacity: 1,
+            color: theme.foregrounds.primary,
+            backgroundColor: 'transparent'
+        },
+        svg: {
+            width: PIN_ICON_WIDTH_HEIGHT,
+            height: PIN_ICON_WIDTH_HEIGHT,
+            fill: 'currentColor',
+            transform: 'rotate(45deg)'
+        }
     }
 }));
 

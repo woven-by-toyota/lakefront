@@ -2,18 +2,20 @@ import { FC, MouseEventHandler } from 'react';
 import { FilterSectionHeaderProps } from 'src/components/Filter/types';
 import { ReactComponent as Add } from '../../assets/add.svg';
 import { ReactComponent as Remove } from '../../assets/remove.svg';
-import { ReactComponent as Pin } from '../../assets/pin.svg';
+import { ReactComponent as PinActive } from '../../assets/pinActive.svg';
+import { ReactComponent as PinInactive } from '../../assets/pinInactive.svg';
 import {
   ClearButton,
   FilterActions,
   FilterBadge,
   FilterDetails,
   FilterSectionHeaderContainer,
-  PinButton
+  StyledPinButton
 } from './filterSectionHeaderStyles';
 import FilterValueChips from './FilterValueChips';
 import { getFilterCount } from './filterSectionHeaderUtil';
 import { FilterChipsContainer } from 'src/components/Filter/filterStyles';
+import Button from 'src/components/Button';
 
 const FilterSectionHeader: FC<FilterSectionHeaderProps> = ({
   activeSection = '',
@@ -57,13 +59,15 @@ const FilterSectionHeader: FC<FilterSectionHeaderProps> = ({
         <FilterActions className='filter-actions' data-has-toggle-pin={!!onTogglePin}>
           {filterApplied && <ClearButton onClick={handleClear} aria-label="clear" />}
           {onTogglePin ? (
-            <PinButton
-              onClick={handleTogglePin}
-              isPinned={isPinned}
-              aria-label={isPinned ? 'unpin filter' : 'pin filter'}
-            >
-              <Pin />
-            </PinButton>
+            <StyledPinButton isPinned={isPinned}>
+              <Button
+                color="secondary"
+                icon={isPinned ? <PinActive /> : <PinInactive />}
+                onClick={handleTogglePin}
+                aria-label={isPinned ? 'unpin filter' : 'pin filter'}
+                title={isPinned ? 'Unpin filter' : 'Pin filter'}
+              />
+            </StyledPinButton>
           ) : null}
           {activeSection !== name ? <Add aria-label="add" /> : <Remove aria-label="remove" />}
         </FilterActions>
