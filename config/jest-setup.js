@@ -19,3 +19,15 @@ if (typeof global.TextEncoder === 'undefined') {
   global.TextEncoder = TextEncoder;
   global.TextDecoder = TextDecoder;
 }
+
+// Mock @dnd-kit modules for all tests
+jest.mock('@dnd-kit/react', () => ({
+  DragDropProvider: ({ children }) => children
+}));
+
+jest.mock('@dnd-kit/react/sortable', () => ({
+  useSortable: () => ({
+    ref: jest.fn(),
+    isDragging: false
+  })
+}));
