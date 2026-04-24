@@ -196,6 +196,8 @@ export interface FilterSectionHeaderProps {
     resetFilter: (name: string) => void;
     badgeThreshold: number;
     children?: ReactNode;
+    isPinned?: boolean;
+    onTogglePin?: (name: string) => void;
 }
 
 /**
