@@ -66,7 +66,34 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
   // use isCollapsed prop if provided to track state externally, otherwise track state internally
   const isCollapsed = isCollapsedProp === undefined ? isCollapsedState : isCollapsedProp;
 
-  const { filters, filterValues, updateFilter, resetFilter, resetAllFilters, initializePresetValues } = filterHooks;
+  const {
+    filters,
+    filterValues,
+    updateFilter,
+    resetFilter,
+    resetAllFilters,
+    initializePresetValues,
+    filterOrder: filterOrderFromHooks,
+    pinnedFilters: pinnedFiltersFromHooks,
+    togglePinFilter
+  } = filterHooks;
+
+  // Memoize default values to prevent re-creating objects on each render
+  const defaultFilterOrder = useMemo(() => Object.keys(filters), [filters]);
+  const defaultPinnedFilters = useMemo(() => new Set<string>(), []);
+
+  const filterOrder = filterOrderFromHooks ?? defaultFilterOrder;
+  const pinnedFilters = pinnedFiltersFromHooks ?? defaultPinnedFilters;
+
+  // Sort filters: pinned first (in order), then unpinned (in order)
+  const sortedFilterKeys = useMemo(() => {
+    const pinned = filterOrder.filter(key => pinnedFilters.has(key));
+    const unpinned = filterOrder.filter(key => !pinnedFilters.has(key));
+    return [...pinned, ...unpinned];
+  }, [filterOrder, pinnedFilters]);
+
+  // Filter out hidden filters from sorted list
+  const visibleFilterKeys = sortedFilterKeys.filter(key => filters[key] && !filters[key].inputHidden);
 
   // save the additional query parameters in the browser url
   useEffect(() => {
@@ -134,7 +161,6 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
   };
 
   const standardMode = !isJSONInputAllowed || !jsonQueryParams.jsonView;
-  const panelVisible = Object.entries(filters).filter(([, f]) => !f.inputHidden);
 
   return (
     <FilterContainer
@@ -171,8 +197,7 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
           {standardMode && (
             <FiltersSection className="filters">
               <FilterChipsContainer className="filter-chips-container">
-                {panelVisible
-                  .map(([key]) => {
+                {visibleFilterKeys.map((key) => {
                     const itemFilterLabelValues = filters[key].getFilterSectionLabel(filterValues[key]);
 
                     return (
@@ -201,45 +226,51 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
         </div>
         {standardMode && (
           <FiltersSection className="filters">
-            {panelVisible
-              .map(([key, filter]) => (
-                <section key={key}>
-                  {filter.renderSectionHeader ? (
-                    filter.renderSectionHeader({
-                      activeSection,
-                      filter,
-                      name: key,
-                      onClick: () => toggleSection(key),
-                      resetFilter,
-                      value: filterValues[key],
-                      badgeThreshold
-                    })
-                  ) : (
-                    <FilterSectionHeader
-                      activeSection={activeSection}
-                      filter={filter}
-                      name={key}
-                      onClick={() => toggleSection(key)}
-                      resetFilter={resetFilter}
-                      value={filterValues[key]}
-                      badgeThreshold={badgeThreshold} />
-                  )}
-                  {activeSection === key && (
-                    <>
-                      <FilterSectionDescription>
-                        {filter.description}
-                      </FilterSectionDescription>
-                      <FilterSectionBody>
-                        {filter.renderComponent({
-                          name: key,
-                          value: filterValues[key],
-                          update: (value) => updateFilter(key, value)
-                        })}
-                      </FilterSectionBody>
-                    </>
-                  )}
-                </section>
-              ))}
+            {visibleFilterKeys.map((key) => {
+                const filter = filters[key];
+                return (
+                  <section key={key}>
+                    {filter.renderSectionHeader ? (
+                      filter.renderSectionHeader({
+                        activeSection,
+                        filter,
+                        name: key,
+                        onClick: () => toggleSection(key),
+                        resetFilter,
+                        value: filterValues[key],
+                        badgeThreshold,
+                        isPinned: pinnedFilters.has(key),
+                        onTogglePin: togglePinFilter
+                      })
+                    ) : (
+                      <FilterSectionHeader
+                        activeSection={activeSection}
+                        filter={filter}
+                        name={key}
+                        onClick={() => toggleSection(key)}
+                        resetFilter={resetFilter}
+                        value={filterValues[key]}
+                        badgeThreshold={badgeThreshold}
+                        isPinned={pinnedFilters.has(key)}
+                        onTogglePin={togglePinFilter} />
+                    )}
+                    {activeSection === key && (
+                      <>
+                        <FilterSectionDescription>
+                          {filter.description}
+                        </FilterSectionDescription>
+                        <FilterSectionBody>
+                          {filter.renderComponent({
+                            name: key,
+                            value: filterValues[key],
+                            update: (value) => updateFilter(key, value)
+                          })}
+                        </FilterSectionBody>
+                      </>
+                    )}
+                  </section>
+                );
+              })}
           </FiltersSection>
         )}
 

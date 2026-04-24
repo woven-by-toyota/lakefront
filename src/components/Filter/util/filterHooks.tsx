@@ -22,7 +22,9 @@ export const useFilter = <T extends FilterPostBody>(
     userFilters: FilterSet,
     supportJSON = false,
     location: Location,
-    updateHistory: UpdateHistory
+    updateHistory: UpdateHistory,
+    initialFilterOrder?: string[],
+    initialPinnedFilters?: Set<string>
 ): FilterHooks<T> => {
     const filters = useMemo(() => {
         return supportJSON ? { ...userFilters, [USER_JSON_QUERY_PARAM]: AdditionalJSONFilter() } : userFilters;
@@ -32,6 +34,8 @@ export const useFilter = <T extends FilterPostBody>(
     const filterUrl = useMemo(() => getApiQueryUrl(filters, filterValues), [filters, filterValues]);
     const filterPostBody = useMemo(() => getApiPostBody<T>(filters, filterValues), [filters, filterValues]);
     const [presetValues, setInitialPresetValues] = useState({});
+    const [filterOrder, setFilterOrder] = useState<string[]>(initialFilterOrder || Object.keys(filters));
+    const [pinnedFilters, setPinnedFilters] = useState<Set<string>>(initialPinnedFilters || new Set());
 
     // initialize the filter values based on url params and default values
     useEffect(() => {
@@ -125,6 +129,18 @@ export const useFilter = <T extends FilterPostBody>(
         }
     };
 
+    const togglePinFilter = (name: string) => {
+        setPinnedFilters((prev) => {
+            const newPinned = new Set(prev);
+            if (newPinned.has(name)) {
+                newPinned.delete(name);
+            } else {
+                newPinned.add(name);
+            }
+            return newPinned;
+        });
+    };
+
     return {
         filters,
         filterUrl,
@@ -134,6 +150,10 @@ export const useFilter = <T extends FilterPostBody>(
         resetFilter,
         resetAllFilters,
         applyApiPostBody,
-        initializePresetValues
+        initializePresetValues,
+        filterOrder,
+        pinnedFilters,
+        togglePinFilter,
+        setFilterOrder
     };
 };

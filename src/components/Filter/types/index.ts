@@ -161,6 +161,22 @@ export interface FilterHooks<T = FilterPostBody> {
      * The function sets initial filter preset values.
      */
     initializePresetValues(presetValues: { [key: string]: any; }): void;
+    /**
+     * The ordered array of filter keys (defines display order).
+     */
+    filterOrder?: string[];
+    /**
+     * Set of pinned filter keys.
+     */
+    pinnedFilters?: Set<string>;
+    /**
+     * The function to toggle a filter's pinned state.
+     */
+    togglePinFilter?(name: string): void;
+    /**
+     * The function to set the filter order.
+     */
+    setFilterOrder?(order: string[]): void;
 }
 
 /**
