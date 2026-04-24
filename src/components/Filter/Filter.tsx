@@ -1,4 +1,4 @@
-import { ChangeEvent, ComponentProps, FC, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, ComponentProps, FC, useCallback, useEffect, useMemo, useState } from 'react';
 import queryString from 'query-string';
 import { ContextSwitchMenuValue, FilterComponentProps, FilterMode, UrlParameters } from './types';
 import {
@@ -9,8 +9,6 @@ import {
 } from './util';
 import {
   FilterContainer,
-  FilterSectionBody,
-  FilterSectionDescription,
   FilterHeader,
   FiltersSection,
   SidePanel,
@@ -20,9 +18,13 @@ import {
   FilterControl
 } from './filterStyles';
 import { ReactComponent as FilterIcon } from './assets/filterIcon.svg';
-import { FilterSectionHeader } from './components';
+import { FilterSectionContent, SortableSection } from './components';
 import FilterValueChips from './components/FilterSectionHeader/FilterValueChips';
 import Select from '../Select';
+import { DragDropProvider } from '@dnd-kit/react';
+import { isSortableOperation } from '@dnd-kit/react/sortable';
+import { move } from '@dnd-kit/helpers';
+import { isDraggingBetweenSections, isReorderAllowed } from './util/filterDragDropUtil';
 
 /**
  * Filter Component
@@ -50,6 +52,8 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
   badgeThreshold = 1,
   className,
   filterMapping,
+  enableFilterPinning = false,
+  enableFilterDragDrop = false,
   ...rest
 }) => {
   const presetFilterDropdownOptions = useMemo(() => convertToFilterDropdownOptions(filterMapping), [filterMapping]);
@@ -66,7 +70,36 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
   // use isCollapsed prop if provided to track state externally, otherwise track state internally
   const isCollapsed = isCollapsedProp === undefined ? isCollapsedState : isCollapsedProp;
 
-  const { filters, filterValues, updateFilter, resetFilter, resetAllFilters, initializePresetValues } = filterHooks;
+  const {
+    filters,
+    filterValues,
+    updateFilter,
+    resetFilter,
+    resetAllFilters,
+    initializePresetValues,
+    filterOrder: filterOrderFromHooks,
+    pinnedFilters: pinnedFiltersFromHooks,
+    togglePinFilter
+  } = filterHooks;
+
+  // Memoize default values to prevent re-creating objects on each render
+  const defaultFilterOrder = useMemo(() => Object.keys(filters), [filters]);
+  const defaultPinnedFilters = useMemo(() => new Set<string>(), []);
+
+  // Only use pinning-related values if the feature is enabled
+  const filterOrder = enableFilterPinning && filterOrderFromHooks ? filterOrderFromHooks : defaultFilterOrder;
+  const pinnedFilters = enableFilterPinning && pinnedFiltersFromHooks ? pinnedFiltersFromHooks : defaultPinnedFilters;
+  const effectiveTogglePinFilter = enableFilterPinning ? togglePinFilter : undefined;
+
+  // Sort filters: pinned first (in order), then unpinned (in order)
+  const sortedFilterKeys = useMemo(() => {
+    const pinned = filterOrder.filter(key => pinnedFilters.has(key));
+    const unpinned = filterOrder.filter(key => !pinnedFilters.has(key));
+    return [...pinned, ...unpinned];
+  }, [filterOrder, pinnedFilters]);
+
+  // Filter out hidden filters from sorted list
+  const visibleFilterKeys = sortedFilterKeys.filter(key => filters[key] && !filters[key].inputHidden);
 
   // save the additional query parameters in the browser url
   useEffect(() => {
@@ -133,8 +166,55 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
     updateFiltersWithPresets(event.target.value);
   };
 
+  // Drag over handler to prevent visual dragging between sections
+  const handleDragOver = useCallback(
+    (event: any) => {
+      if (!filterOrder) return;
+
+      const { operation } = event;
+
+      if (!operation.source || !operation.target) return;
+      if (!isSortableOperation(operation)) return;
+
+      const pinnedSet = pinnedFilters || new Set();
+
+      // Prevent visual drag between pinned and unpinned sections
+      if (isDraggingBetweenSections(String(operation.source.id), String(operation.target.id), pinnedSet)) {
+        event.preventDefault();
+      }
+    },
+    [filterOrder, pinnedFilters]
+  );
+
+  // Drag and drop handler
+  const handleDragEnd = useCallback(
+    (event: any) => {
+      if (!filterHooks.setFilterOrder || !filterOrder) return;
+
+      const { operation } = event;
+
+      if (!operation.source || !operation.target) return;
+      if (!isSortableOperation(operation)) return;
+
+      const oldOrder = filterOrder;
+      const newOrder = move(oldOrder, event);
+
+      const draggedId = String(operation.source.id);
+      const fromIndex = oldOrder.indexOf(draggedId);
+      const toIndex = newOrder.indexOf(draggedId);
+
+      const pinnedSet = pinnedFilters || new Set();
+
+      // Only apply the reorder if it's allowed within the same section
+      if (isReorderAllowed(fromIndex, toIndex, oldOrder, pinnedSet)) {
+        filterHooks.setFilterOrder(newOrder);
+      }
+    },
+    [filterOrder, filterHooks, pinnedFilters]
+  );
+
   const standardMode = !isJSONInputAllowed || !jsonQueryParams.jsonView;
-  const panelVisible = Object.entries(filters).filter(([, f]) => !f.inputHidden);
+  const isDragDropEnabled = enableFilterDragDrop;
 
   return (
     <FilterContainer
@@ -171,8 +251,7 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
           {standardMode && (
             <FiltersSection className="filters">
               <FilterChipsContainer className="filter-chips-container">
-                {panelVisible
-                  .map(([key]) => {
+                {visibleFilterKeys.map((key) => {
                     const itemFilterLabelValues = filters[key].getFilterSectionLabel(filterValues[key]);
 
                     return (
@@ -201,45 +280,47 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
         </div>
         {standardMode && (
           <FiltersSection className="filters">
-            {panelVisible
-              .map(([key, filter]) => (
+            {isDragDropEnabled ? (
+              <DragDropProvider onDragEnd={handleDragEnd} onDragOver={handleDragOver}>
+                {visibleFilterKeys.map((key, index) => (
+                  <SortableSection key={key} id={key} index={index} isDragEnabled={isDragDropEnabled}>
+                    {(handleRef: any) => (
+                      <FilterSectionContent
+                        filterKey={key}
+                        filter={filters[key]}
+                        activeSection={activeSection}
+                        filterValues={filterValues}
+                        resetFilter={resetFilter}
+                        updateFilter={updateFilter}
+                        toggleSection={toggleSection}
+                        badgeThreshold={badgeThreshold}
+                        pinnedFilters={pinnedFilters}
+                        effectiveTogglePinFilter={effectiveTogglePinFilter}
+                        isDragEnabled={isDragDropEnabled}
+                        dragHandleRef={handleRef}
+                      />
+                    )}
+                  </SortableSection>
+                ))}
+              </DragDropProvider>
+            ) : (
+              visibleFilterKeys.map((key) => (
                 <section key={key}>
-                  {filter.renderSectionHeader ? (
-                    filter.renderSectionHeader({
-                      activeSection,
-                      filter,
-                      name: key,
-                      onClick: () => toggleSection(key),
-                      resetFilter,
-                      value: filterValues[key],
-                      badgeThreshold
-                    })
-                  ) : (
-                    <FilterSectionHeader
-                      activeSection={activeSection}
-                      filter={filter}
-                      name={key}
-                      onClick={() => toggleSection(key)}
-                      resetFilter={resetFilter}
-                      value={filterValues[key]}
-                      badgeThreshold={badgeThreshold} />
-                  )}
-                  {activeSection === key && (
-                    <>
-                      <FilterSectionDescription>
-                        {filter.description}
-                      </FilterSectionDescription>
-                      <FilterSectionBody>
-                        {filter.renderComponent({
-                          name: key,
-                          value: filterValues[key],
-                          update: (value) => updateFilter(key, value)
-                        })}
-                      </FilterSectionBody>
-                    </>
-                  )}
+                  <FilterSectionContent
+                    filterKey={key}
+                    filter={filters[key]}
+                    activeSection={activeSection}
+                    filterValues={filterValues}
+                    resetFilter={resetFilter}
+                    updateFilter={updateFilter}
+                    toggleSection={toggleSection}
+                    badgeThreshold={badgeThreshold}
+                    pinnedFilters={pinnedFilters}
+                    effectiveTogglePinFilter={effectiveTogglePinFilter}
+                  />
                 </section>
-              ))}
+              ))
+            )}
           </FiltersSection>
         )}
 

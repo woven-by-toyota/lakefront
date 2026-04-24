@@ -295,4 +295,49 @@ describe('Filter', () => {
             expect(getAllByText('badge: 4')).toHaveLength(2);
         });
     });
+
+    describe('filter pinning feature toggle', () => {
+        it('respects enableFilterPinning prop', () => {
+            const mockSectionHeader = jest.spyOn(FilterSectionHeader, 'default');
+
+            // Test with pinning disabled (default)
+            const { rerender } = render(<TestComponent />);
+
+            // FilterSectionHeader should be called with onTogglePin=undefined when pinning is disabled
+            const firstCall = mockSectionHeader.mock.calls[0][0];
+            expect(firstCall.onTogglePin).toBeUndefined();
+
+            mockSectionHeader.mockClear();
+
+            // Test with pinning enabled
+            const TestComponentWithPinning = () => {
+                const location = { ...LOCATION };
+                const updateHistory = jest.fn;
+                const togglePinFilter = jest.fn();
+                const filterHooks = {
+                    ...mockUseFilter(FILTERS, false, location, updateHistory),
+                    filterOrder: Object.keys(FILTERS),
+                    pinnedFilters: new Set(),
+                    togglePinFilter
+                };
+
+                return (
+                    <Filter
+                        filterHooks={filterHooks}
+                        location={location}
+                        updateHistory={updateHistory}
+                        enableFilterPinning={true}
+                    />
+                );
+            };
+
+            rerender(<TestComponentWithPinning />);
+
+            // FilterSectionHeader should be called with onTogglePin function when pinning is enabled
+            const lastCall = mockSectionHeader.mock.calls[mockSectionHeader.mock.calls.length - 1][0];
+            expect(lastCall.onTogglePin).toEqual(expect.any(Function));
+
+            mockSectionHeader.mockRestore();
+        });
+    });
 });

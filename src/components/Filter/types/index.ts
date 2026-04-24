@@ -161,6 +161,22 @@ export interface FilterHooks<T = FilterPostBody> {
      * The function sets initial filter preset values.
      */
     initializePresetValues(presetValues: { [key: string]: any; }): void;
+    /**
+     * The ordered array of filter keys (defines display order).
+     */
+    filterOrder?: string[];
+    /**
+     * Set of pinned filter keys.
+     */
+    pinnedFilters?: Set<string>;
+    /**
+     * The function to toggle a filter's pinned state.
+     */
+    togglePinFilter?(name: string): void;
+    /**
+     * The function to set the filter order.
+     */
+    setFilterOrder?(order: string[]): void;
 }
 
 /**
@@ -180,6 +196,10 @@ export interface FilterSectionHeaderProps {
     resetFilter: (name: string) => void;
     badgeThreshold: number;
     children?: ReactNode;
+    isPinned?: boolean;
+    onTogglePin?: (name: string) => void;
+    isDragEnabled?: boolean;
+    dragHandleRef?: any;
 }
 
 /**
@@ -356,6 +376,17 @@ export interface FilterComponentProps {
     filterMapping?: {
         [key: string]: any;
     };
+    /**
+     * Controls whether the pinning feature is enabled for filters.
+     * When true, pin buttons will appear on filter headers allowing users to pin filters to the top.
+     */
+    enableFilterPinning?: boolean;
+    /**
+     * Controls whether drag-and-drop reordering is enabled for filters.
+     * When true, filters can be dragged to reorder them.
+     * Requires filterHooks.filterOrder and filterHooks.setFilterOrder to be provided.
+     */
+    enableFilterDragDrop?: boolean;
 }
 
 /**

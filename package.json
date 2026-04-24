@@ -1,7 +1,7 @@
 {
   "name": "@woven-planet/lakefront",
   "description": "React UI Components",
-  "version": "9.0.1",
+  "version": "9.5.0",
   "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -30,6 +30,8 @@
     "upgrade-storybook": "npx storybook@latest upgrade && npx storybook@latest add @storybook/addon-webpack5-compiler-babel"
   },
   "dependencies": {
+    "@dnd-kit/helpers": "^0.4.0",
+    "@dnd-kit/react": "^0.4.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@tanstack/react-table": "^8.21.3",

@@ -90,4 +90,59 @@ describe('FilterSectionHeader', () => {
         fireEvent.click(container.querySelector('svg[aria-label="clear"]'));
         expect(FILTER_SECTION_PROPS.resetFilter).toHaveBeenCalled();
     });
+
+    it('does not render pin button when onTogglePin is not provided', () => {
+        const { container } = render(
+            <FilterSectionHeader
+                {...FILTER_SECTION_PROPS}
+                value={['a', 'b', 'c']}
+            />
+        );
+
+        expect(container.querySelector('button[aria-label="pin filter"]')).not.toBeInTheDocument();
+        expect(container.querySelector('button[aria-label="unpin filter"]')).not.toBeInTheDocument();
+    });
+
+    it('renders pin button when onTogglePin is provided', () => {
+        const onTogglePin = jest.fn();
+        const { container } = render(
+            <FilterSectionHeader
+                {...FILTER_SECTION_PROPS}
+                value={['a', 'b', 'c']}
+                onTogglePin={onTogglePin}
+                isPinned={false}
+            />
+        );
+
+        expect(container.querySelector('button[aria-label="pin filter"]')).toBeInTheDocument();
+    });
+
+    it('shows correct aria-label when filter is pinned', () => {
+        const onTogglePin = jest.fn();
+        const { container } = render(
+            <FilterSectionHeader
+                {...FILTER_SECTION_PROPS}
+                value={['a', 'b', 'c']}
+                onTogglePin={onTogglePin}
+                isPinned={true}
+            />
+        );
+
+        expect(container.querySelector('button[aria-label="unpin filter"]')).toBeInTheDocument();
+    });
+
+    it('calls onTogglePin when pin button is clicked', () => {
+        const onTogglePin = jest.fn();
+        const { container } = render(
+            <FilterSectionHeader
+                {...FILTER_SECTION_PROPS}
+                value={['a', 'b', 'c']}
+                onTogglePin={onTogglePin}
+                isPinned={false}
+            />
+        );
+
+        fireEvent.click(container.querySelector('button[aria-label="pin filter"]'));
+        expect(onTogglePin).toHaveBeenCalledWith(FILTER_SECTION_PROPS.name);
+    });
 });
