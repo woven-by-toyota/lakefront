@@ -50,6 +50,7 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
   badgeThreshold = 1,
   className,
   filterMapping,
+  enableFilterPinning = false,
   ...rest
 }) => {
   const presetFilterDropdownOptions = useMemo(() => convertToFilterDropdownOptions(filterMapping), [filterMapping]);
@@ -82,8 +83,10 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
   const defaultFilterOrder = useMemo(() => Object.keys(filters), [filters]);
   const defaultPinnedFilters = useMemo(() => new Set<string>(), []);
 
-  const filterOrder = filterOrderFromHooks ?? defaultFilterOrder;
-  const pinnedFilters = pinnedFiltersFromHooks ?? defaultPinnedFilters;
+  // Only use pinning-related values if the feature is enabled
+  const filterOrder = enableFilterPinning && filterOrderFromHooks ? filterOrderFromHooks : defaultFilterOrder;
+  const pinnedFilters = enableFilterPinning && pinnedFiltersFromHooks ? pinnedFiltersFromHooks : defaultPinnedFilters;
+  const effectiveTogglePinFilter = enableFilterPinning ? togglePinFilter : undefined;
 
   // Sort filters: pinned first (in order), then unpinned (in order)
   const sortedFilterKeys = useMemo(() => {
@@ -240,7 +243,7 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
                         value: filterValues[key],
                         badgeThreshold,
                         isPinned: pinnedFilters.has(key),
-                        onTogglePin: togglePinFilter
+                        onTogglePin: effectiveTogglePinFilter
                       })
                     ) : (
                       <FilterSectionHeader
@@ -252,7 +255,7 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
                         value={filterValues[key]}
                         badgeThreshold={badgeThreshold}
                         isPinned={pinnedFilters.has(key)}
-                        onTogglePin={togglePinFilter} />
+                        onTogglePin={effectiveTogglePinFilter} />
                     )}
                     {activeSection === key && (
                       <>

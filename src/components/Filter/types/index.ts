@@ -374,6 +374,11 @@ export interface FilterComponentProps {
     filterMapping?: {
         [key: string]: any;
     };
+    /**
+     * Controls whether the pinning feature is enabled for filters.
+     * When true, pin buttons will appear on filter headers allowing users to pin filters to the top.
+     */
+    enableFilterPinning?: boolean;
 }
 
 /**
