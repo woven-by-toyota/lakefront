@@ -1,22 +1,23 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
+    "ignoreDeprecations": "6.0",
 
     /* Basic Options */
-    "target": "es5",                                /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    "target": "ES2022",                             /* Specify ECMAScript target version */
     "module": "ESNext",                             /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "lib": ["DOM","es2019"],                        /* Specify library files to be included in the compilation. */
+    "lib": ["DOM", "ES2022"],                       /* Specify library files to be included in the compilation. */
     "jsx": "react-jsx",                             /* Specify JSX code generation: 'preserve', 'react-native', 'react', 'react-jsx' or 'react-jsxdev'. */
     "declaration": true,                            /* Generates corresponding '.d.ts' file. */
     "declarationDir": "dist",
+    "rootDir": "./src",                             /* Specify the root directory of input files. */
     "outDir": "./dist",                             /* Redirect output structure to the directory. */
-    "downlevelIteration": true,                     /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
 
     /* Strict Type-Checking Options */
     "strict": true,                                 /* Enable all strict type-checking options. */
 
     /* Module Resolution Options */
-    "moduleResolution": "node",                     /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "moduleResolution": "bundler",                  /* Specify module resolution strategy */
     "baseUrl": "./",                                /* Base directory to resolve non-absolute module names. */
     "esModuleInterop": true,                        /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
 

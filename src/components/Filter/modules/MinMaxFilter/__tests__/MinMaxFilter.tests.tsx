@@ -147,7 +147,7 @@ describe('MinMaxFilter', () => {
       fireEvent.blur(container.querySelectorAll('input')[0], {
         target: { value: 2 }
       });
-      expect(update).toBeCalledTimes(2);
+      expect(update).toHaveBeenCalledTimes(2);
     });
   });
 });

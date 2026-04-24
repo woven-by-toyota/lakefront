@@ -118,7 +118,7 @@ describe('TextFilter', () => {
             const { getByRole } = render(<div>{renderComponent({ name: 'name', value: '1', update })}</div>);
             expect(getByRole('textbox')).toHaveValue('1');
             fireEvent.blur(getByRole('textbox'), { target: { value: 'asdf' } });
-            expect(update).toBeCalledWith('asdf');
+            expect(update).toHaveBeenCalledWith('asdf');
         });
         
         it('limits input to numbers only when specified', () => {
@@ -128,7 +128,7 @@ describe('TextFilter', () => {
             const { getByRole } = render(<div>{renderComponent({ name: 'name', value: '1', update })}</div>);
             expect(getByRole('spinbutton')).toHaveValue(1);
             fireEvent.blur(getByRole('spinbutton'), { target: { value: 'asdf' } });
-            expect(update).toBeCalledWith('');
+            expect(update).toHaveBeenCalledWith('');
             expect(getByRole('spinbutton')).toHaveValue(null);
         });
     });

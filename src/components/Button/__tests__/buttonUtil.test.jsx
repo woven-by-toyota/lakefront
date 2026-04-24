@@ -4,7 +4,7 @@ describe('InvalidButtonColorError', () => {
     it('throws the correct error', () => {
         const color = 'black';
 
-        expect(() => { throw new InvalidButtonColorError(color); }).toThrowError(
+        expect(() => { throw new InvalidButtonColorError(color); }).toThrow(
             `Invalid color '${color}' was provided. Valid colors are: ${Object.values(COLORS).join(', ')}.`
         );
     });

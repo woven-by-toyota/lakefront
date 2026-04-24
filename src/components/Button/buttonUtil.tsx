@@ -49,7 +49,7 @@ export interface ButtonProps {
      * An emotion prop that allow for changing the type of element. It can be a simple string
      * with an HTML element such as "a", or even a complex component such as a react router Link.
      */
-    as?: ElementType | keyof JSX.IntrinsicElements;
+    as?: ElementType | keyof React.JSX.IntrinsicElements;
     /**
      * The classes to pass to the button.
      */

@@ -52,7 +52,7 @@ describe('createChips', () => {
 
         const x = container.querySelector('svg');
         fireEvent.click(x);
-        expect(onCloseMock).toBeCalledWith('Some Filter', 'chip a');
+        expect(onCloseMock).toHaveBeenCalledWith('Some Filter', 'chip a');
     });
 });
 

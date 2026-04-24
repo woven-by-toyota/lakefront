@@ -1,4 +1,4 @@
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor, act } from '@testing-library/react';
 import Snackbar from '../index';
 import { MESSAGE_TYPES } from '../Snackbar.util';
 import { ReactComponent as CloseIcon } from 'src/stories/Snackbar/assets/closeIcon.svg';
@@ -32,7 +32,7 @@ const snackbarPropsClosed = {
     open: false,
 };
 
-jest.useFakeTimers();
+jest.useFakeTimers('modern');
 
 describe('<Snackbar>', () => {
     it('should render component when open is true', () => {
@@ -91,7 +91,9 @@ describe('<Snackbar>', () => {
         const onCloseMock = jest.fn();
         render(<Snackbar {...snackbarPropsOpen} onClose={onCloseMock} />);
 
-        jest.advanceTimersByTime(4000);
+        act(() => {
+            jest.runAllTimers();
+        });
         expect(onCloseMock).toHaveBeenCalledWith('timeout');
     });
 
@@ -124,7 +126,9 @@ describe('<Snackbar>', () => {
 
         expect(container.getElementsByClassName('snackbarOpen').length).toBe(1);
 
-        jest.advanceTimersByTime(2000);
+        act(() => {
+            jest.runAllTimers();
+        });
         expect(onCloseMock).toHaveBeenCalledWith('timeout');
     });
 

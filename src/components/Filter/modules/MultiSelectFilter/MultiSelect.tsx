@@ -1,6 +1,6 @@
 import { useState, useEffect, FC } from 'react';
 
-import Select from 'react-select';
+import Select, { OnChangeValue, components } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { SelectOption } from 'src/types/global';
 import { getMultiSelectStyles } from './multiSelectStyles';
@@ -8,8 +8,6 @@ import { createUniqueOptions, getUniqueOptions, parseItems } from './multiSelect
 import { useTheme } from '@emotion/react';
 import MultiValueInput from './MultiValueInput';
 import ThemeErrorFallback from 'src/components/shared/ThemeErrorFallback';
-import { GroupBase, OnChangeValue } from 'react-select/dist/declarations/src/types';
-import { SelectComponents } from 'react-select/dist/declarations/src/components';
 
 export type MultiSelectOption = SelectOption<string>;
 
@@ -83,9 +81,9 @@ export const MultiSelect: FC<MultiSelectProps> = ({
         }
         : {};
 
-    const parseMultiValueComponents: Partial<SelectComponents<unknown, true, GroupBase<unknown>>> | undefined = delimiter
+    const parseMultiValueComponents: Partial<typeof components> | undefined = delimiter
         ? {
-            Input: (props) => (
+            Input: (props: any) => (
                 <MultiValueInput {...props} handleCreate={handleCreate} />
             )
         }

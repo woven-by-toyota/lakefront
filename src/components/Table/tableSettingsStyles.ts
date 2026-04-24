@@ -117,14 +117,14 @@ export const TextButtonContainer = styled.div<TextButtonContainerProps>(({ theme
   }
 }));
 
-export const SettingsOpenBackgroundContainer = styled.div(() => ({
+export const SettingsOpenBackgroundContainer = styled.div({
   position: 'absolute',
   top: 0,
   height: '80vh',
   width: '100%',
   backgroundColor: 'transparent',
   cursor: 'pointer'
-}));
+});
 
 export const SettingsOpenForegroundContainer = styled.div<{ position?: 'left' | 'right' }>(({ theme, position = 'left' }) => ({
   position: 'absolute',

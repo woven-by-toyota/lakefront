@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { MultiSelectOption } from './MultiSelect';
 import TextArea from 'src/components/TextArea/TextArea';
-import { GetStyles, GroupBase } from 'react-select/dist/declarations/src/types';
+import { StylesConfig, GroupBase } from 'react-select';
 import { Theme } from '@emotion/react';
 
-export const getMultiSelectStyles = (theme: Theme): Partial<GetStyles<MultiSelectOption, true, GroupBase<MultiSelectOption>>> => ({
+export const getMultiSelectStyles = (theme: Theme): Partial<StylesConfig<MultiSelectOption, true, GroupBase<MultiSelectOption>>> => ({
     control: (styles: any, state: { isFocused: any; }) => ({
         ...styles,
         backgroundColor: theme.backgrounds.primary,

@@ -11,17 +11,17 @@ const themes = {
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   backgrounds: {
-    default: 'default',
-    values: [
-      {
+    options: {
+      default: {
         name: 'default',
         value: theme.colors.white,
       },
-      {
+
+      alternate: {
         name: 'alternate',
         value: theme.colors.gunpowder,
-      },
-    ],
+      }
+    }
   },
   controls: { expanded: true },
   previewTabs: {
@@ -65,4 +65,10 @@ export const decorators = [
 
 
 export const tags = ['autodocs'];
+
+export const initialGlobals = {
+  backgrounds: {
+    value: 'default'
+  }
+};
 

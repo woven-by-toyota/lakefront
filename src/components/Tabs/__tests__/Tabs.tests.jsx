@@ -27,6 +27,6 @@ describe('<Tabs>', () => {
 
         // clicking on the tab should fire callback
         fireEvent.click(getByText('Command Tasks'));
-        expect(callback).toBeCalledWith('command');
+        expect(callback).toHaveBeenCalledWith('command');
     });
 });
