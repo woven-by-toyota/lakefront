@@ -4,7 +4,10 @@ name: Version Bump Check
   # a specific version bump is necessary. This check runs on every push and can
   # perform version updates before and during a pull request.
 
-on: push
+on:
+  push:
+    branches-ignore:
+      - main
 
 jobs:
   check_push_version_bump:
