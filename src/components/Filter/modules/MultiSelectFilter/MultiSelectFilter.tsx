@@ -8,16 +8,16 @@ const INITIAL_VALUE: [] = [];
  * MultiSelectFilter Component
  * 
  * The MultiSelectFilter component is a multi select dropdown filter. While the default
- * behaviour should suffice, any valid `FilterModule` property (excluding description and label) can
+ * behavior should suffice, any valid `FilterModule` property (excluding description and label) can
  * be supplied via the `multiSelectFilterOptions` parameter to change how the filter looks and acts.
  * MultiSelectFilter arguments include:
  *
  * `multiSelectFilterProps` - The props required to be supplied as the first argument of
  * the MultiSelectFilter component. If the *optional* `delimiter` prop is provided, input parsing
- * will be enabled to allow typing/pasting multiple values seperated by the chosen delimiter.
+ * will be enabled to allow typing/pasting multiple values separated by the chosen delimiter.
  *
  * `multiSelectFilterOptions` - Any valid `FilterModule` property (excluding description and label)
- * meant to override default text filter behaviour.
+ * meant to override default text filter behavior.
  */
 const MultiSelectFilter = (
     {
@@ -48,15 +48,23 @@ const MultiSelectFilter = (
         }
     },
     getBrowserQueryUrlValue: (value) => value,
-    getDefaultFilterValue: () => [],
+    getDefaultFilterValue: () => initialValue !== INITIAL_VALUE ? initialValue : [],
     clearPartialSingleFilter: (originalValue, value) => originalValue.filter((original) => original !== value),
     isDefaultFilterValue: (value) => {
-        if (value) {
+        // No custom initialValue provided - default is empty array or all options selected
+        if (value && initialValue === INITIAL_VALUE) {
             if (value.length === 0) {
                 return true;
             }
             return value.length === options.length;
         }
+
+        // Custom initialValue provided - match against that value
+        if (value && initialValue !== INITIAL_VALUE) {
+            return value.length === initialValue.length &&
+                   value.every((v: string) => initialValue.includes(v));
+        }
+
         return false;
     },
     getFilterBarLabel: (values) => {
