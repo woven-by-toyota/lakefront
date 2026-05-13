@@ -51,16 +51,20 @@ const MultiSelectFilter = (
     getDefaultFilterValue: () => initialValue !== INITIAL_VALUE ? initialValue : [],
     clearPartialSingleFilter: (originalValue, value) => originalValue.filter((original) => original !== value),
     isDefaultFilterValue: (value) => {
+        // No custom initialValue provided - default is empty array or all options selected
         if (value && initialValue === INITIAL_VALUE) {
             if (value.length === 0) {
                 return true;
             }
             return value.length === options.length;
         }
+
+        // Custom initialValue provided - match against that value
         if (value && initialValue !== INITIAL_VALUE) {
             return value.length === initialValue.length &&
                    value.every((v: string) => initialValue.includes(v));
         }
+
         return false;
     },
     getFilterBarLabel: (values) => {
