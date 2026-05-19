@@ -131,3 +131,35 @@ export const StatusDescription = styled.div(({ theme }) => ({
     textOverflow: 'ellipsis',
     maxWidth: '100%'
 }));
+
+const skeletonPulse = keyframes`
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 0.3;
+    }
+`;
+
+export const SkeletonCircle = styled.div(({ theme }) => ({
+    width: 10,
+    height: 10,
+    borderRadius: '50%',
+    backgroundColor: theme.backgrounds.disabled,
+    flexShrink: 0,
+    border: `2px solid ${theme.backgrounds.disabled}`,
+    animation: `${skeletonPulse} 1.5s ease-in-out infinite`
+}));
+
+interface SkeletonBarProps {
+    width?: number;
+    height?: number;
+}
+
+export const SkeletonBar = styled.div<SkeletonBarProps>(({ theme, width = 100, height = 16 }) => ({
+    width: `${width}px`,
+    height: `${height}px`,
+    borderRadius: 4,
+    backgroundColor: theme.backgrounds.disabled,
+    animation: `${skeletonPulse} 1.5s ease-in-out infinite`
+}));

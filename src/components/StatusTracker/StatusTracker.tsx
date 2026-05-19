@@ -7,7 +7,9 @@ import {
     StatusContent,
     StatusLabel,
     StatusAboveDetails,
-    StatusDescription
+    StatusDescription,
+    SkeletonCircle,
+    SkeletonBar
 } from './statusTrackerStyles';
 
 export interface StatusItem {
@@ -31,6 +33,10 @@ export interface StatusItem {
      * When true, displays a pulsing ring around the node and fades the label.
      */
     active?: boolean;
+    /**
+     * When true, displays skeleton placeholders with fade animation.
+     */
+    loading?: boolean;
 }
 
 export interface StatusTrackerProps {
@@ -57,16 +63,25 @@ const StatusTracker: FC<StatusTrackerProps> = ({ statuses, className }) => {
             {statuses.map((status, index) => (
                 <Fragment key={`${status.label}-${index}`}>
                     <StatusNode>
-                        <StatusContent>
-                            {status.aboveDetails && (
-                                <StatusAboveDetails>{status.aboveDetails}</StatusAboveDetails>
-                            )}
-                            <StatusNodeCircle color={status.color} active={status.active} />
-                            <StatusLabel active={status.active}>{status.label}</StatusLabel>
-                            {status.description && (
-                                <StatusDescription>{status.description}</StatusDescription>
-                            )}
-                        </StatusContent>
+                        {status.loading ? (
+                            <StatusContent>
+                                {status.aboveDetails && <SkeletonBar width={80} height={12} />}
+                                <SkeletonCircle />
+                                <SkeletonBar width={100} height={16} />
+                                {status.description && <SkeletonBar width={120} height={12} />}
+                            </StatusContent>
+                        ) : (
+                            <StatusContent>
+                                {status.aboveDetails && (
+                                    <StatusAboveDetails>{status.aboveDetails}</StatusAboveDetails>
+                                )}
+                                <StatusNodeCircle color={status.color} active={status.active} />
+                                <StatusLabel active={status.active}>{status.label}</StatusLabel>
+                                {status.description && (
+                                    <StatusDescription>{status.description}</StatusDescription>
+                                )}
+                            </StatusContent>
+                        )}
                     </StatusNode>
                     {index < statuses.length - 1 && (
                         <StatusLine active={statuses[index + 1]?.active} />

@@ -149,3 +149,53 @@ WithActiveState.args = {
         { label: 'Not Started' }
     ]
 };
+
+export const WithLoadingState = Template.bind({});
+WithLoadingState.args = {
+    statuses: [
+        { label: 'Completed', color: green },
+        { label: 'In Progress', color: saturatedBlue },
+        { label: 'Loading', loading: true },
+        { label: 'Pending', loading: true }
+    ]
+};
+
+export const LoadingWithDetails = Template.bind({});
+LoadingWithDetails.args = {
+    statuses: [
+        {
+            label: 'Submitted',
+            description: '10:30 AM',
+            aboveDetails: 'John Doe',
+            color: green
+        },
+        {
+            label: 'Processing',
+            description: 'In progress',
+            aboveDetails: 'System',
+            loading: true
+        },
+        {
+            label: 'Review',
+            description: 'Pending',
+            aboveDetails: 'Reviewer',
+            loading: true
+        },
+        {
+            label: 'Complete',
+            description: 'Not started',
+            aboveDetails: 'Manager',
+            loading: true
+        }
+    ]
+};
+
+export const AllLoading = Template.bind({});
+AllLoading.args = {
+    statuses: [
+        { label: 'Step 1', loading: true },
+        { label: 'Step 2', loading: true },
+        { label: 'Step 3', loading: true },
+        { label: 'Step 4', loading: true }
+    ]
+};

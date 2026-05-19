@@ -115,3 +115,14 @@ WithIconButton.args = {
         { label: 'Step 3', aboveDetails: 'User C', color: saturatedOrange }
     ]
 };
+
+export const WithLoadingState = Template.bind({});
+WithLoadingState.args = {
+    visible: true,
+    statuses: [
+        { label: 'Completed', description: '10:30 AM', color: green },
+        { label: 'In Progress', description: 'Started 11:45 AM', color: saturatedBlue },
+        { label: 'Pending', description: 'Waiting', loading: true },
+        { label: 'Not Started', description: 'Queued', loading: true }
+    ]
+};

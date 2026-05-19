@@ -140,4 +140,58 @@ describe('StatusTracker Component', () => {
         expect(getByText('Step 2')).toBeInTheDocument();
         expect(getByText('Step 3')).toBeInTheDocument();
     });
+
+    it('renders loading state with skeleton placeholders', () => {
+        const loadingStatuses = [
+            { label: 'Completed', color: green },
+            { label: 'Loading', loading: true },
+            { label: 'Pending', loading: true }
+        ];
+
+        const { getByText, queryByText } = renderWithTheme(<StatusTracker statuses={loadingStatuses} />);
+
+        expect(getByText('Completed')).toBeInTheDocument();
+        expect(queryByText('Loading')).not.toBeInTheDocument();
+        expect(queryByText('Pending')).not.toBeInTheDocument();
+    });
+
+    it('renders loading state with all details placeholders', () => {
+        const loadingWithDetails = [
+            {
+                label: 'Completed',
+                description: '10:30 AM',
+                aboveDetails: 'John',
+                color: green
+            },
+            {
+                label: 'Loading',
+                description: 'In progress',
+                aboveDetails: 'System',
+                loading: true
+            }
+        ];
+
+        const { getByText, queryByText } = renderWithTheme(<StatusTracker statuses={loadingWithDetails} />);
+
+        expect(getByText('Completed')).toBeInTheDocument();
+        expect(getByText('10:30 AM')).toBeInTheDocument();
+        expect(getByText('John')).toBeInTheDocument();
+        expect(queryByText('Loading')).not.toBeInTheDocument();
+        expect(queryByText('In progress')).not.toBeInTheDocument();
+        expect(queryByText('System')).not.toBeInTheDocument();
+    });
+
+    it('handles mixed active and loading states', () => {
+        const mixedStatuses = [
+            { label: 'Completed', color: green },
+            { label: 'Active', active: true },
+            { label: 'Loading', loading: true }
+        ];
+
+        const { getByText, queryByText } = renderWithTheme(<StatusTracker statuses={mixedStatuses} />);
+
+        expect(getByText('Completed')).toBeInTheDocument();
+        expect(getByText('Active')).toBeInTheDocument();
+        expect(queryByText('Loading')).not.toBeInTheDocument();
+    });
 });
