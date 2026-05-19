@@ -58,33 +58,37 @@ export interface StatusTrackerProps {
  *
  */
 const StatusTracker: FC<StatusTrackerProps> = ({ statuses, className }) => {
+    // Determine if min-heights need to be applied for consistent alignment across statuses
+    const anyAboveDetails = statuses.some(status => status.aboveDetails);
+    const anyDescription = statuses.some(status => status.description);
+
     return (
         <StyledStatusTracker className={className}>
             {statuses.map((status, index) => (
                 <Fragment key={`${status.label}-${index}`}>
-                    <StatusNode>
+                    <StatusNode className='status-node'>
                         {status.loading ? (
-                            <StatusContent>
-                                {status.aboveDetails && <SkeletonBar width={80} height={12} />}
-                                <SkeletonCircle />
-                                <SkeletonBar width={100} height={16} />
-                                {status.description && <SkeletonBar width={120} height={12} />}
+                            <StatusContent className='status-content'>
+                                {status.aboveDetails && <SkeletonBar className='skeleton-bar above-details' width={80} height={12} />}
+                                <SkeletonCircle className='status-circle' />
+                                <SkeletonBar className='skeleton-bar' width={100} height={16} />
+                                {status.description && <SkeletonBar className='skeleton-bar description' width={120} height={12} />}
                             </StatusContent>
                         ) : (
-                            <StatusContent>
-                                {status.aboveDetails && (
-                                    <StatusAboveDetails>{status.aboveDetails}</StatusAboveDetails>
+                            <StatusContent className='status-content'>
+                                {anyAboveDetails && (
+                                    <StatusAboveDetails className='above-details' showBorder={Boolean(status.aboveDetails)}>{status.aboveDetails || ''}</StatusAboveDetails>
                                 )}
-                                <StatusNodeCircle color={status.color} active={status.active} />
-                                <StatusLabel active={status.active}>{status.label}</StatusLabel>
-                                {status.description && (
-                                    <StatusDescription>{status.description}</StatusDescription>
+                                <StatusNodeCircle className='status-circle' color={status.color} active={status.active} />
+                                <StatusLabel className='label' active={status.active}>{status.label}</StatusLabel>
+                                {anyDescription && (
+                                    <StatusDescription className='description'>{status.description || ''}</StatusDescription>
                                 )}
                             </StatusContent>
                         )}
                     </StatusNode>
                     {index < statuses.length - 1 && (
-                        <StatusLine active={statuses[index + 1]?.active} />
+                        <StatusLine className='status-line' active={statuses[index + 1]?.active} />
                     )}
                 </Fragment>
             ))}

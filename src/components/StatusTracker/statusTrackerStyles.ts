@@ -108,7 +108,7 @@ export const StatusLabel = styled.div<StatusLabelProps>(({ theme, active }) => (
     })
 }));
 
-export const StatusAboveDetails = styled.div(({ theme }) => ({
+export const StatusAboveDetails = styled.div<{ showBorder: boolean }>(({ theme, showBorder }) => ({
     fontSize: theme.lettering.secondary.fontSize,
     color: theme.foregrounds.secondary,
     textAlign: 'center',
@@ -116,10 +116,11 @@ export const StatusAboveDetails = styled.div(({ theme }) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     maxWidth: '100%',
-    border: `1px solid ${theme.borderColors.pronounced}`,
+    border: showBorder ? `1px solid ${theme.borderColors.pronounced}` : undefined,
     padding: 8,
     borderRadius: 4,
-    backgroundColor: theme.backgrounds.tinted
+    backgroundColor: theme.backgrounds.tinted,
+    minHeight: 18
 }));
 
 export const StatusDescription = styled.div(({ theme }) => ({
@@ -129,7 +130,9 @@ export const StatusDescription = styled.div(({ theme }) => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    maxWidth: '100%'
+    maxWidth: '100%',
+    minHeight: 18
+
 }));
 
 const skeletonPulse = keyframes`

@@ -1,7 +1,8 @@
 import { Meta, StoryFn } from '@storybook/react-webpack5';
 import StatusTracker, { StatusTrackerProps } from 'src/components/StatusTracker/StatusTracker';
 import DocBlock from '.storybook/DocBlock';
-import { dolphin, green, saturatedBlue, saturatedOrange, saturatedRed } from 'src/styles/lakefrontColors';
+import { dolphin, green, saturatedBlue, saturatedGreen, saturatedOrange, saturatedRed } from 'src/styles/lakefrontColors';
+import styled from '@emotion/styled';
 
 export default {
     title: 'Lakefront/StatusTracker',
@@ -13,10 +14,20 @@ export default {
     }
 } as Meta;
 
+const TemplateWrapper = styled.div({
+  '.mixed-example': {
+      '.above-details': {
+          color: saturatedRed,
+          fontWeight: 600,
+      }
+  }
+});
+
+
 const Template: StoryFn<StatusTrackerProps> = (args) => (
-    <div style={{ padding: '40px', maxWidth: '800px' }}>
+    <TemplateWrapper style={{ padding: '40px', maxWidth: '800px' }}>
         <StatusTracker {...args} />
-    </div>
+    </TemplateWrapper>
 );
 
 export const ActiveWithDetails = Template.bind({});
@@ -88,6 +99,29 @@ WithAboveDetails.args = {
         { label: 'Review', aboveDetails: 'Bob Johnson' },
         { label: 'Complete', aboveDetails: 'Alice Williams' }
     ]
+};
+
+export const MixedExample = Template.bind({});
+MixedExample.args = {
+    statuses: [
+        {
+            label: 'Submitted For Review',
+            description: '2024-01-15 02:15 PM',
+            color: saturatedGreen
+        },
+        {
+            label: 'Reviewer Selected',
+            description: '2024-01-15 04:30 PM',
+            aboveDetails: 'An error occurred',
+            color: saturatedRed,
+            active: true
+        },
+        {
+            label: 'Under Review',
+            description: '',
+        },
+    ],
+    className: 'mixed-example'
 };
 
 export const CompleteExample = Template.bind({});
