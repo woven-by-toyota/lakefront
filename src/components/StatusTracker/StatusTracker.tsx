@@ -68,7 +68,9 @@ const StatusTracker: FC<StatusTrackerProps> = ({ statuses, className }) => {
                             )}
                         </StatusContent>
                     </StatusNode>
-                    {index < statuses.length - 1 && <StatusLine />}
+                    {index < statuses.length - 1 && (
+                        <StatusLine active={statuses[index + 1]?.active} />
+                    )}
                 </Fragment>
             ))}
         </StyledStatusTracker>

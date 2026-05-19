@@ -67,11 +67,18 @@ export const StatusNodeCircle = styled.div<StatusNodeCircleProps>(({ theme, colo
     })
 }));
 
-export const StatusLine = styled.div(({ theme }) => ({
+interface StatusLineProps {
+    active?: boolean;
+}
+
+export const StatusLine = styled.div<StatusLineProps>(({ theme, active }) => ({
     flex: '1 1 auto',
     height: 1,
-    backgroundColor: theme.borderColors.pronounced,
-    marginTop: 8
+    backgroundColor: theme.foregrounds.primary,
+    marginTop: 8,
+    ...(active && {
+        animation: `${fadePulse} 2s ease-in-out infinite`
+    })
 }));
 
 const fadePulse = keyframes`
