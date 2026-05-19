@@ -22,6 +22,18 @@ const Template: StoryFn<StatusTrackerPopoverProps> = (args) => (
     </div>
 );
 
+
+export const WithActiveState = Template.bind({});
+WithActiveState.args = {
+    visible: true,
+    statuses: [
+        { label: 'Completed', description: '10:30 AM', color: green },
+        { label: 'In Progress', description: '11:45 AM', color: saturatedBlue, active: true },
+        { label: 'Pending', description: '12:30 PM', color: saturatedOrange },
+        { label: 'Not Started', description: '' }
+    ]
+};
+
 export const BasicPopover = Template.bind({});
 BasicPopover.args = {
     visible: true,

@@ -27,6 +27,10 @@ export interface StatusItem {
      * Color for the status node. Defaults to theme primary.
      */
     color?: string;
+    /**
+     * When true, displays a pulsing ring around the node and fades the label.
+     */
+    active?: boolean;
 }
 
 export interface StatusTrackerProps {
@@ -57,8 +61,8 @@ const StatusTracker: FC<StatusTrackerProps> = ({ statuses, className }) => {
                             {status.aboveDetails && (
                                 <StatusAboveDetails>{status.aboveDetails}</StatusAboveDetails>
                             )}
-                            <StatusNodeCircle color={status.color} />
-                            <StatusLabel>{status.label}</StatusLabel>
+                            <StatusNodeCircle color={status.color} active={status.active} />
+                            <StatusLabel active={status.active}>{status.label}</StatusLabel>
                             {status.description && (
                                 <StatusDescription>{status.description}</StatusDescription>
                             )}

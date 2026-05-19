@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithTheme } from 'src/lib/testing';
 import StatusTracker from '../StatusTracker';
-import { green, saturatedRed } from 'src/styles/lakefrontColors';
+import { green, saturatedRed, saturatedBlue } from 'src/styles/lakefrontColors';
 
 describe('StatusTracker Component', () => {
     const basicStatuses = [
@@ -111,5 +111,33 @@ describe('StatusTracker Component', () => {
         const { container } = renderWithTheme(<StatusTracker statuses={[]} />);
 
         expect(container.firstChild).toBeInTheDocument();
+    });
+
+    it('renders active status with animations', () => {
+        const activeStatuses = [
+            { label: 'Completed', color: green },
+            { label: 'In Progress', color: saturatedBlue, active: true },
+            { label: 'Pending' }
+        ];
+
+        const { getByText } = renderWithTheme(<StatusTracker statuses={activeStatuses} />);
+
+        expect(getByText('In Progress')).toBeInTheDocument();
+        expect(getByText('Completed')).toBeInTheDocument();
+        expect(getByText('Pending')).toBeInTheDocument();
+    });
+
+    it('handles multiple active statuses', () => {
+        const multipleActiveStatuses = [
+            { label: 'Step 1', active: true },
+            { label: 'Step 2', active: true },
+            { label: 'Step 3' }
+        ];
+
+        const { getByText } = renderWithTheme(<StatusTracker statuses={multipleActiveStatuses} />);
+
+        expect(getByText('Step 1')).toBeInTheDocument();
+        expect(getByText('Step 2')).toBeInTheDocument();
+        expect(getByText('Step 3')).toBeInTheDocument();
     });
 });

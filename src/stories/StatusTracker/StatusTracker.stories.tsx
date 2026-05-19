@@ -1,7 +1,7 @@
 import { Meta, StoryFn } from '@storybook/react-webpack5';
 import StatusTracker, { StatusTrackerProps } from 'src/components/StatusTracker/StatusTracker';
 import DocBlock from '.storybook/DocBlock';
-import { green, saturatedBlue, saturatedOrange, saturatedRed } from 'src/styles/lakefrontColors';
+import { akoya, green, saturatedBlue, saturatedOrange, saturatedRed } from 'src/styles/lakefrontColors';
 
 export default {
     title: 'Lakefront/StatusTracker',
@@ -19,6 +19,37 @@ const Template: StoryFn<StatusTrackerProps> = (args) => (
     </div>
 );
 
+export const ActiveWithDetails = Template.bind({});
+ActiveWithDetails.args = {
+    statuses: [
+        {
+            label: 'Submitted',
+            description: '10:30 AM',
+            aboveDetails: 'John Doe',
+            color: green
+        },
+        {
+            label: 'Processing',
+            description: '11:45 AM',
+            aboveDetails: 'System',
+            color: saturatedBlue,
+            active: true
+        },
+        {
+            label: 'Under Review',
+            description: '(Planned 1:45 PM)',
+            aboveDetails: 'Jane Smith',
+            color: akoya
+        },
+        {
+            label: 'Approved',
+            description: '(Planned 2:00 PM)',
+            aboveDetails: 'Manager',
+            color: akoya
+        }
+    ]
+};
+
 export const BasicStatusTracker = Template.bind({});
 BasicStatusTracker.args = {
     statuses: [
@@ -26,6 +57,16 @@ BasicStatusTracker.args = {
         { label: 'In Progress' },
         { label: 'Review' },
         { label: 'Complete' }
+    ]
+};
+
+export const CustomColors = Template.bind({});
+CustomColors.args = {
+    statuses: [
+        { label: 'Success', color: green },
+        { label: 'Warning', color: saturatedOrange },
+        { label: 'Error', color: saturatedRed },
+        { label: 'Info', color: saturatedBlue }
     ]
 };
 
@@ -79,16 +120,6 @@ CompleteExample.args = {
     ]
 };
 
-export const CustomColors = Template.bind({});
-CustomColors.args = {
-    statuses: [
-        { label: 'Success', color: green },
-        { label: 'Warning', color: saturatedOrange },
-        { label: 'Error', color: saturatedRed },
-        { label: 'Info', color: saturatedBlue }
-    ]
-};
-
 export const TwoStatuses = Template.bind({});
 TwoStatuses.args = {
     statuses: [
@@ -106,5 +137,15 @@ ManyStatuses.args = {
         { label: 'Step 4', color: saturatedOrange },
         { label: 'Step 5', color: saturatedOrange },
         { label: 'Step 6', color: saturatedRed }
+    ]
+};
+
+export const WithActiveState = Template.bind({});
+WithActiveState.args = {
+    statuses: [
+        { label: 'Completed', color: green },
+        { label: 'In Progress', color: saturatedBlue, active: true },
+        { label: 'Pending', color: saturatedOrange },
+        { label: 'Not Started' }
     ]
 };

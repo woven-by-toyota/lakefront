@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 
 export const StyledStatusTracker = styled.div(({ theme }) => ({
     display: 'flex',
@@ -14,6 +15,7 @@ export const StatusNode = styled.div({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    alignSelf: 'flex-start',
     flexShrink: 0
 });
 
@@ -25,18 +27,44 @@ export const StatusContent = styled.div({
     position: 'relative'
 });
 
+const pulseRing = keyframes`
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+`;
+
 interface StatusNodeCircleProps {
     color?: string;
+    active?: boolean;
 }
 
-export const StatusNodeCircle = styled.div<StatusNodeCircleProps>(({ theme, color }) => ({
+export const StatusNodeCircle = styled.div<StatusNodeCircleProps>(({ theme, color, active }) => ({
     width: 10,
     height: 10,
     borderRadius: '50%',
-    backgroundColor: color || theme.foregrounds.success,
+    backgroundColor: color || theme.foregrounds.secondary,
     flexShrink: 0,
-    border: `2px solid ${color || theme.foregrounds.success}`,
+    border: `2px solid ${color || theme.foregrounds.secondary}`,
     position: 'relative',
+    zIndex: 1,
+    ...(active && {
+        '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: -4,
+            left: -4,
+            right: -4,
+            bottom: -4,
+            borderRadius: '50%',
+            border: `2px solid ${color || theme.foregrounds.secondary}`,
+            animation: `${pulseRing} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`
+        }
+    })
 }));
 
 export const StatusLine = styled.div(({ theme }) => ({
@@ -46,7 +74,20 @@ export const StatusLine = styled.div(({ theme }) => ({
     marginTop: 8
 }));
 
-export const StatusLabel = styled.div(({ theme }) => ({
+const fadePulse = keyframes`
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+`;
+
+interface StatusLabelProps {
+    active?: boolean;
+}
+
+export const StatusLabel = styled.div<StatusLabelProps>(({ theme, active }) => ({
     fontSize: theme.lettering.primary.fontSize,
     fontWeight: 600,
     textAlign: 'center',
@@ -54,7 +95,10 @@ export const StatusLabel = styled.div(({ theme }) => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    maxWidth: '100%'
+    maxWidth: '100%',
+    ...(active && {
+        animation: `${fadePulse} 2s ease-in-out infinite`
+    })
 }));
 
 export const StatusAboveDetails = styled.div(({ theme }) => ({
