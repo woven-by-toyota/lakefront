@@ -1,7 +1,7 @@
 import { Meta, StoryFn } from '@storybook/react-webpack5';
 import StatusTracker, { StatusTrackerProps } from 'src/components/StatusTracker/StatusTracker';
 import DocBlock from '.storybook/DocBlock';
-import { akoya, green, saturatedBlue, saturatedOrange, saturatedRed } from 'src/styles/lakefrontColors';
+import { dolphin, green, saturatedBlue, saturatedOrange, saturatedRed } from 'src/styles/lakefrontColors';
 
 export default {
     title: 'Lakefront/StatusTracker',
@@ -39,13 +39,13 @@ ActiveWithDetails.args = {
             label: 'Under Review',
             description: '(Planned 1:45 PM)',
             aboveDetails: 'Jane Smith',
-            color: akoya
+            color: dolphin
         },
         {
             label: 'Approved',
             description: '(Planned 2:00 PM)',
             aboveDetails: 'Manager',
-            color: akoya
+            color: dolphin
         }
     ]
 };
