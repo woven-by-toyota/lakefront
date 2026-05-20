@@ -6,7 +6,7 @@ export const StyledStatusTrackerPopoverWrapper = styled.div(({ theme }) => ({
     color: theme.foregrounds.primary
 }));
 
-export const StyledStatusTrackerPopover = styled.div(({ theme }) => ({
+export const StyledStatusTrackerPopover = styled.div<{ width?: string | number }>(({ theme, width }) => ({
     backgroundColor: theme.backgrounds.primary,
     border: `1px solid ${theme.borderColors.primary}`,
     borderRadius: 8,
@@ -19,5 +19,6 @@ export const StyledStatusTrackerPopover = styled.div(({ theme }) => ({
     zIndex: theme.zIndex.popover,
     minWidth: 400,
     maxWidth: 600,
+    width,
     color: theme.foregrounds.primary
 }));

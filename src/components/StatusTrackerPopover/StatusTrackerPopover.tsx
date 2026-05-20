@@ -31,6 +31,10 @@ export interface StatusTrackerPopoverProps {
      * The classes to pass to the component.
      */
     className?: string;
+    /**
+     * Optional width of the popover.
+     */
+    width?: string | number;
 }
 
 /**
@@ -48,7 +52,8 @@ const StatusTrackerPopover: FC<StatusTrackerPopoverProps> = ({
     visible = false,
     portalId,
     renderInPortal = false,
-    className
+    className,
+    width
 }) => {
     const [popoverElement, setPopoverElement] = useState<HTMLElement | null>(null);
     const portalStyles: PortalStyles = useMemo(() => {
@@ -88,7 +93,7 @@ const StatusTrackerPopover: FC<StatusTrackerPopoverProps> = ({
             {children}
             <PopoverContent portal={portal} deps={[children, statuses]}>
                 {visible && statuses.length > 0 && (
-                    <StyledStatusTrackerPopover>
+                    <StyledStatusTrackerPopover className='status-tracker-popover' width={width}>
                         <StatusTracker statuses={statuses} />
                     </StyledStatusTrackerPopover>
                 )}
