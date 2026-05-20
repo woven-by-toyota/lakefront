@@ -107,6 +107,12 @@ export * from './components/StackBanner';
 export { default as StatusTable } from './components/StatusTable';
 export * from './components/StatusTable';
 
+export { default as StatusTracker } from './components/StatusTracker';
+export * from './components/StatusTracker';
+
+export { default as StatusTrackerPopover } from './components/StatusTrackerPopover';
+export * from './components/StatusTrackerPopover';
+
 export { default as StepFunctionGraph } from './components/StepFunctionGraph';
 export * from './components/StepFunctionGraph';
 
