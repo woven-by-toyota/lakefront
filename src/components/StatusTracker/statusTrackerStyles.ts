@@ -109,7 +109,7 @@ export const StatusLabel = styled.div<StatusLabelProps>(({ theme, active }) => (
     })
 }));
 
-export const StatusAboveDetails = styled.div<{ showBorder: boolean }>(({ theme, showBorder }) => ({
+export const StatusAboveDetails = styled.div<{ hasDetails: boolean }>(({ theme, hasDetails }) => ({
     fontSize: theme.lettering.secondary.fontSize,
     color: theme.foregrounds.secondary,
     textAlign: 'center',
@@ -117,11 +117,11 @@ export const StatusAboveDetails = styled.div<{ showBorder: boolean }>(({ theme, 
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     maxWidth: '-webkit-fill-available',
-    border: showBorder ? `1px solid ${theme.borderColors.pronounced}` : undefined,
+    border: hasDetails ? `1px solid ${theme.borderColors.pronounced}` : undefined,
     padding: 8,
     borderRadius: 4,
-    backgroundColor: theme.backgrounds.tinted,
-    minHeight: 18,
+    backgroundColor: hasDetails ? theme.backgrounds.secondary : undefined,
+    minHeight: hasDetails ? undefined : 34,
     boxSizing: 'border-box',
 }));
 

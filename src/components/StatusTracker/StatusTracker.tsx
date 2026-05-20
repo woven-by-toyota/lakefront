@@ -77,7 +77,7 @@ const StatusTracker: FC<StatusTrackerProps> = ({ statuses, className }) => {
                         ) : (
                             <StatusContent className='status-content'>
                                 {anyAboveDetails && (
-                                    <StatusAboveDetails className='above-details' title={status.aboveDetails} showBorder={Boolean(status.aboveDetails)}>{status.aboveDetails || ''}</StatusAboveDetails>
+                                    <StatusAboveDetails className='above-details' title={status.aboveDetails} hasDetails={Boolean(status.aboveDetails)}>{status.aboveDetails || ''}</StatusAboveDetails>
                                 )}
                                 <StatusNodeCircle className='status-circle' color={status.color} active={status.active} />
                                 <StatusLabel className='label' active={status.active}>{status.label}</StatusLabel>
