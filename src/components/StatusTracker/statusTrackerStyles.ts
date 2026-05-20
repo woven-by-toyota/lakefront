@@ -16,7 +16,7 @@ export const StatusNode = styled.div({
     flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    flexShrink: 0
+    flexShrink: 0,
 });
 
 export const StatusContent = styled.div({
@@ -24,7 +24,8 @@ export const StatusContent = styled.div({
     flexDirection: 'column',
     alignItems: 'center',
     gap: 8,
-    position: 'relative'
+    position: 'relative',
+    maxWidth: 240,
 });
 
 const pulseRing = keyframes`
@@ -115,12 +116,13 @@ export const StatusAboveDetails = styled.div<{ showBorder: boolean }>(({ theme, 
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    maxWidth: '100%',
+    maxWidth: 400,
     border: showBorder ? `1px solid ${theme.borderColors.pronounced}` : undefined,
     padding: 8,
     borderRadius: 4,
     backgroundColor: theme.backgrounds.tinted,
-    minHeight: 18
+    minHeight: 18,
+    boxSizing: 'border-box',
 }));
 
 export const StatusDescription = styled.div(({ theme }) => ({

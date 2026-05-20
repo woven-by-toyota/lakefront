@@ -25,7 +25,7 @@ const TemplateWrapper = styled.div({
 
 
 const Template: StoryFn<StatusTrackerProps> = (args) => (
-    <TemplateWrapper style={{ padding: '40px', maxWidth: '800px' }}>
+    <TemplateWrapper style={{ padding: '40px', width: '100%', boxSizing: 'border-box'}}>
         <StatusTracker {...args} />
     </TemplateWrapper>
 );
@@ -112,7 +112,7 @@ MixedExample.args = {
         {
             label: 'Reviewer Selected',
             description: '2024-01-15 04:30 PM',
-            aboveDetails: 'An error occurred',
+            aboveDetails: 'An error occurred: the number of reviewers available is under the minimum threshold for this process to continue',
             color: saturatedRed,
             active: true
         },
