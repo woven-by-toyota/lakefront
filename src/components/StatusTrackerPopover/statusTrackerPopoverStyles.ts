@@ -18,7 +18,7 @@ export const StyledStatusTrackerPopover = styled.div<{ width?: string | number }
     transform: 'translateX(-50%)',
     zIndex: theme.zIndex.popover,
     minWidth: 400,
-    maxWidth: 600,
+    maxWidth: width || 600,
     width,
     color: theme.foregrounds.primary
 }));
