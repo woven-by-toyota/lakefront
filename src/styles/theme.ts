@@ -76,7 +76,7 @@ const THEME: Theme = {
         inverted: colors.akoya,
         success: colors.forest,
         paused: colors.slate,
-        hyperlink: colors.saturatedBlue,
+        hyperlink: colors.havelockBlue,
         loading: colors.pavement,
         tableHeading: colors.pavement,
         widget: {
@@ -178,7 +178,7 @@ export const DARK_THEME: Theme = {
         inverted: colors.storm,
         success: colors.green,
         paused: colors.fog,
-        hyperlink: colors.saturatedBlue,
+        hyperlink: colors.calmingBlue,
         loading: colors.akoya,
         tableHeading: colors.pavement,
         widget: {
