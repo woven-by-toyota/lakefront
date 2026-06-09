@@ -57,7 +57,7 @@ describe('<Snackbar>', () => {
         expect(container.getElementsByClassName('snackbarMessage').length).toBe(1);
         getByText('File transfer initiated.');
         expect(container.getElementsByClassName('snackbarIcon').length).toBe(1);
-        expect(container.querySelector('svg')).toContainHTML('<svg style="fill: #378fee;" />');
+        expect(container.querySelector('svg')).toContainHTML('<svg style="fill: #5c85d6;" />');
         expect(container.querySelector('button')).toBeEnabled();
         expect(container.querySelectorAll('div')).toHaveLength(5);
     });

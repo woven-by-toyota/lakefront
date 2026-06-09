@@ -13,6 +13,6 @@ describe('SnackbarContent', () => {
         const { container, getByText } = renderWithTheme(<SnackbarContent {...SnackbarContentPropsMock} />);
         expect(container).toBeDefined();
         getByText('File transfer initiated.');
-        expect(container.querySelector('svg')).toContainHTML('style="fill: #378fee;"');
+        expect(container.querySelector('svg')).toContainHTML('style="fill: #5c85d6;"');
     });
 });
