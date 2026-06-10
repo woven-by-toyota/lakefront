@@ -79,6 +79,7 @@ DisabledSelect.args = {
   isMulti: false,
   disabled: true
 };
+
 export const MultiSelect = Template.bind({});
 MultiSelect.args = {
     options: [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperial' }, {label: 'Made up system', value: 'made up'}],
