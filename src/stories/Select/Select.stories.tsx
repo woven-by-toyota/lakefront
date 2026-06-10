@@ -69,14 +69,22 @@ export const Select = Template.bind({});
 Select.args = {
     options: [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperial' }],
     value: 'imperial',
-    isMulti: false
+    isMulti: false,
+};
+
+export const DisabledSelect = Template.bind({});
+DisabledSelect.args = {
+  options: [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperial' }],
+  value: 'imperial',
+  isMulti: false,
+  disabled: true
 };
 
 export const MultiSelect = Template.bind({});
 MultiSelect.args = {
     options: [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperial' }, {label: 'Made up system', value: 'made up'}],
     value: '',
-    isMulti: true
+    isMulti: true,
 };
 
 export const MultiSelectWithDefaultValues = Template.bind({});

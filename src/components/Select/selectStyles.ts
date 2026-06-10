@@ -89,6 +89,12 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
             backgroundColor: theme.backgrounds.hover
         })
     }),
+    singleValue: (defaultStyles, state) => ({
+        ...defaultStyles,
+        color: state.selectProps.isDisabled ?
+            theme.foregrounds.disabled :
+            theme.foregrounds.primary
+    }),
     multiValue: (defaultStyles) => ({
         ...defaultStyles,
         backgroundColor: theme.backgrounds.secondary,
