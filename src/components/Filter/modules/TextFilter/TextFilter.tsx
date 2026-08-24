@@ -3,6 +3,7 @@ import { FilterModule, TextFilterOverrides } from 'src/components/Filter/types';
 
 export interface TextFilterOptions {
     type?: 'text' | 'number';
+    trimWhitespace?: boolean;
 }
 
 /**
@@ -19,34 +20,55 @@ export interface TextFilterOptions {
  * `textFilterOverrides` - Any valid `FilterModule` property (excluding description and label)
  * which will override default text filter behaviour.
  * 
- * `textFilterOptions` - Used to set additional textFilter options such as the type of text input.
+ * `textFilterOptions` - Used to set additional textFilter options such as the type of text input and whether
+ * leading/trailing whitespace is trimmed (`trimWhitespace`, which defaults to `true`).
  */
 const TextFilter = (
     label: string,
     description?: string,
     textFilterOverrides: TextFilterOverrides = {},
     textFilterOptions: TextFilterOptions = {}
-): FilterModule<string> => ({
-    getApiQueryUrl: (key, value) => {
-        return value ? `&${key}=${encodeURIComponent(value)}` : '';
-    },
-    getApiPostBody: (key, value) => (value ? { [key]: value } : undefined),
-    getBrowserQueryUrlValue: (value) => value,
-    getDefaultFilterValue: () => '',
-    isDefaultFilterValue: (value) => value === '',
-    getFilterBarLabel: (value) => value,
-    getFilterSectionLabel: (value) => value,
-    parseInitialFilterValue: (browserQueryUrlValue: string) => browserQueryUrlValue || '',
-    renderComponent: ({ name, value, update }) => (
-        <TextSearch key={name} onChange={update} value={value} type={textFilterOptions.type} />
-    ),
-    getFilterCount(value?: string): number {
-        return value ? 1 : 0;
-    },
-    ...textFilterOverrides,
-    description,
-    label
-});
+): FilterModule<string> => {
+    const { trimWhitespace = true } = textFilterOptions;
+
+    // Leading/trailing whitespace is rarely intended as part of a search term and often causes
+    // requests to return no results, so it is removed unless the consumer opts out.
+    const trim = (value?: string) => (trimWhitespace && typeof value === 'string' ? value.trim() : value);
+
+    return {
+        getApiQueryUrl: (key, value) => {
+            const trimmedValue = trim(value);
+
+            return trimmedValue ? `&${key}=${encodeURIComponent(trimmedValue)}` : '';
+        },
+        getApiPostBody: (key, value) => {
+            const trimmedValue = trim(value);
+
+            return trimmedValue ? { [key]: trimmedValue } : undefined;
+        },
+        getBrowserQueryUrlValue: (value) => trim(value),
+        getDefaultFilterValue: () => '',
+        isDefaultFilterValue: (value) => trim(value) === '',
+        getFilterBarLabel: (value) => value,
+        getFilterSectionLabel: (value) => value,
+        parseInitialFilterValue: (browserQueryUrlValue: string) => trim(browserQueryUrlValue) || '',
+        renderComponent: ({ name, value, update }) => (
+            <TextSearch
+                key={name}
+                onChange={update}
+                value={value}
+                type={textFilterOptions.type}
+                trimWhitespace={trimWhitespace}
+            />
+        ),
+        getFilterCount(value?: string): number {
+            return trim(value) ? 1 : 0;
+        },
+        ...textFilterOverrides,
+        description,
+        label
+    };
+};
 
 export default TextFilter;
 

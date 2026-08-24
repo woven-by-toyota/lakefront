@@ -188,6 +188,50 @@ describe('TextFilter', () => {
         });
     });
 
+    describe('trimWhitespace', () => {
+        it('trims leading and trailing whitespace by default', () => {
+            const {
+                getApiQueryUrl,
+                getApiPostBody,
+                getBrowserQueryUrlValue,
+                isDefaultFilterValue,
+                parseInitialFilterValue,
+                getFilterCount
+            } = TextFilter('', '');
+
+            expect(getApiQueryUrl('a', '  first name  ')).toBe('&a=first%20name');
+            expect(getApiPostBody('a', '  first name  ')).toMatchObject({ a: 'first name' });
+            expect(getBrowserQueryUrlValue('  a  ')).toBe('a');
+            expect(parseInitialFilterValue('  a  ')).toBe('a');
+
+            // whitespace-only values are treated the same as no value at all
+            expect(getApiQueryUrl('a', '   ')).toBe('');
+            expect(getApiPostBody('a', '   ')).toBeUndefined();
+            expect(isDefaultFilterValue('   ')).toBe(true);
+            expect(getFilterCount('   ')).toBe(0);
+        });
+
+        it('keeps whitespace when trimWhitespace is false', () => {
+            const { getApiQueryUrl, getApiPostBody, isDefaultFilterValue, getFilterCount } = TextFilter('', '', {}, {
+                trimWhitespace: false
+            });
+
+            expect(getApiQueryUrl('a', '  a  ')).toBe('&a=%20%20a%20%20');
+            expect(getApiPostBody('a', '  a  ')).toMatchObject({ a: '  a  ' });
+            expect(isDefaultFilterValue('   ')).toBe(false);
+            expect(getFilterCount('   ')).toBe(1);
+        });
+
+        it('renders an input that trims whitespace on submit', () => {
+            const { renderComponent } = TextFilter('', '');
+
+            const update = jest.fn();
+            const { getByRole } = render(<div>{renderComponent({ name: 'name', value: '1', update })}</div>);
+            fireEvent.blur(getByRole('textbox'), { target: { value: '  asdf  ' } });
+            expect(update).toHaveBeenCalledWith('asdf');
+        });
+    });
+
     describe('getFilterCount', () => {
         const { getFilterCount } = TextFilter('', '');
 
