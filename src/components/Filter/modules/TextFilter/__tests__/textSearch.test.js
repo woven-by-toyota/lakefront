@@ -31,6 +31,28 @@ describe('<TextSearch />', () => {
         expect(changeCallback).toHaveBeenCalledWith('asdf');
     });
 
+    it('trims leading and trailing whitespace on submit', () => {
+        const changeCallback = jest.fn();
+        const { getByRole } = render(<TextSearch onChange={changeCallback} />);
+        fireEvent.blur(getByRole('textbox'), { target: { value: '  asdf  ' } });
+        expect(changeCallback).toHaveBeenCalledWith('asdf');
+        expect(getByRole('textbox')).toHaveValue('asdf');
+    });
+
+    it('does not trim whitespace between words', () => {
+        const changeCallback = jest.fn();
+        const { getByRole } = render(<TextSearch onChange={changeCallback} />);
+        fireEvent.blur(getByRole('textbox'), { target: { value: ' first  last ' } });
+        expect(changeCallback).toHaveBeenCalledWith('first  last');
+    });
+
+    it('keeps whitespace when trimWhitespace is false', () => {
+        const changeCallback = jest.fn();
+        const { getByRole } = render(<TextSearch onChange={changeCallback} trimWhitespace={false} />);
+        fireEvent.blur(getByRole('textbox'), { target: { value: '  asdf  ' } });
+        expect(changeCallback).toHaveBeenCalledWith('  asdf  ');
+    });
+
     it('only accepts numbers when specified', () => {
         const changeCallback = jest.fn();
         const { getByRole } = render(<TextSearch onChange={changeCallback} type='number' />);

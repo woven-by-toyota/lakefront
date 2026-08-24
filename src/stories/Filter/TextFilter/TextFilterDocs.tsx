@@ -35,7 +35,8 @@ export interface TextFilterArgs {
             ...additionalTextFilterOverrides
         },
         {
-            type: 'text'
+            type: 'text',
+            trimWhitespace: true
         },
     )
 }`);
@@ -44,8 +45,11 @@ export interface TextFilterArgs {
  * TextFilter Component
  * 
  * The TextFilter component is a text input control meant to be used as a keyword(s) search. While the default
- * behaviour should suffice, any valid `FilterModule` property (excluding description and label) can
+ * behavior should suffice, any valid `FilterModule` property (excluding description and label) can
  * be supplied via the `textFilterOverrides` parameter to change how the filter looks and acts.
+ *
+ * Leading/trailing whitespace is trimmed when the search is submitted. Set the `trimWhitespace` text filter
+ * option to `false` to keep it.
  */
 const TextFilterDocs: FC<TextFilterArgs> = () => null;
 

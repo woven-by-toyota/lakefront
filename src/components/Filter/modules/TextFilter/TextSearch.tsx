@@ -5,9 +5,10 @@ interface TextSearchProps {
     onChange(text: string): void;
     type?: 'text' | 'number';
     value: string;
+    trimWhitespace?: boolean;
 }
 
-const TextSearch: FC<TextSearchProps> = ({ onChange, type = 'text', value }) => {
+const TextSearch: FC<TextSearchProps> = ({ onChange, type = 'text', value, trimWhitespace = true }) => {
     const [text, setText] = useState('');
 
     useEffect(() => {
@@ -15,7 +16,11 @@ const TextSearch: FC<TextSearchProps> = ({ onChange, type = 'text', value }) => 
     }, [value]);
 
     const submitSearch = (text: string) => {
-        onChange(text);
+        // Whitespace is trimmed on submit (rather than on change) so that it can still be typed between words.
+        const submittedText = trimWhitespace ? text.trim() : text;
+
+        setText(submittedText);
+        onChange(submittedText);
     };
 
     const handleOnBlur = (event: FocusEvent<HTMLInputElement>) => {
