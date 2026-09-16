@@ -52,6 +52,16 @@ export const INFINITE_SCROLL_DATA = [
   }))
 ];
 
+export const COLUMN_PRESETS = [
+  { id: 'summary', label: 'Summary', columns: ['title', 'value'] },
+  { id: 'percentages', label: 'Percentages', columns: ['title', 'percentage', 'percentage_change'] },
+  { id: 'everything', label: 'Everything', columns: ['title', 'value', 'percentage', 'percentage_change', 'total'] }
+];
+
+export const USER_DEFINED_COLUMN_PRESETS = [
+  { id: 'my-layout', label: 'My Layout', columns: ['title', 'total'], userDefined: true }
+];
+
 export const GROUPED_ROWS_DATA = [
   { genre: 'Fiction', title: 'The Great Adventure', author: 'Jane Smith', pages: 324, rating: 4.2 },
   { genre: 'Fiction', title: 'Mystery of the Lake', author: 'John Doe', pages: 278, rating: 4.5 },

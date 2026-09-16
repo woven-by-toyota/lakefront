@@ -1,9 +1,20 @@
 import { ComponentPropsWithoutRef, useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { action } from 'storybook/actions';
 import Button from 'src/components/Button/Button';
-import TableComponent, { TableProps } from 'src/components/Table';
+import TableComponent, { TableColumnPreset, TableProps } from 'src/components/Table';
+import useTableColumnPresets, { createLocalStorageColumnPreferences } from 'src/lib/hooks/useTableColumnPresets';
 import DocBlock from '.storybook/DocBlock';
-import { CUSTOM_DATA, EXPORT_DATA, FAULTY_DATA, GROUPED_ROWS_DATA, INFINITE_SCROLL_DATA, INITIAL_SORT_BY_DATA } from './tableStoryData';
+import {
+  COLUMN_PRESETS,
+  CUSTOM_DATA,
+  EXPORT_DATA,
+  FAULTY_DATA,
+  GROUPED_ROWS_DATA,
+  INFINITE_SCROLL_DATA,
+  INITIAL_SORT_BY_DATA,
+  USER_DEFINED_COLUMN_PRESETS
+} from './tableStoryData';
 import {
   COLUMNS,
   COLUMNS_WITH_WIDTH,
@@ -334,6 +345,120 @@ TableWithResizableColumns.args = {
   // story props
   storyTitle: 'Table with Resizable Columns',
   storyDescription: 'Drag the edges of the column headers to resize columns. Resize handles are visible on hover or when a column is actively being resized. In this example, all columns except the last one can be resized.'
+};
+
+// Prompting for a name is one option - a modal, an inline input, or an auto-generated name all work.
+const promptForPresetName = (sourcePreset: TableColumnPreset | null): TableColumnPreset | null => {
+  const label = window.prompt('Name this column configuration', `${sourcePreset?.label ?? 'Custom'} copy`);
+
+  return label ? { id: `user-${label}`, label, columns: [] } : null;
+};
+
+const ColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({ storyTitle, storyDescription, ...args }) => {
+  const [presets, setPresets] = useState<TableColumnPreset[]>([
+    ...COLUMN_PRESETS,
+    ...USER_DEFINED_COLUMN_PRESETS
+  ]);
+
+  // Naming and storing a new preset is the consumer's job - here it just goes into component state.
+  // Returning its id tells the table to select it, which clears the unsaved changes callout.
+  const handleSavePreset = (columnIds: string[], sourcePreset: TableColumnPreset | null) => {
+    action('onSavePreset')(columnIds, sourcePreset);
+
+    const named = promptForPresetName(sourcePreset);
+
+    if (!named) {
+      return;
+    }
+
+    const saved = { ...named, columns: columnIds, userDefined: true };
+    setPresets(current => [...current.filter(({ id }) => id !== saved.id), saved]);
+
+    return saved.id;
+  };
+
+  return (
+    <div style={{ height: 400 }}>
+      <h2>{storyTitle || ''}</h2>
+      <p>{storyDescription || ''}</p>
+      <TableComponent
+        {...args}
+        tableSettings={{
+          columnConfig: {
+            enableColumnHiding: true,
+            presets,
+            initialPresetId: 'percentages',
+            presetChangeSubscriber: action('presetChangeSubscriber'),
+            onSavePreset: handleSavePreset
+          }
+        }}
+      />
+    </div>
+  );
+};
+
+export const TableWithColumnPresets = ColumnPresetsTemplate.bind({});
+TableWithColumnPresets.args = {
+  columns: COLUMNS,
+  data: CUSTOM_DATA,
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Column Presets',
+  storyDescription: 'Open the settings panel and pick a configuration under COLUMN CONFIGURATION to show exactly that preset\'s columns. Toggling an individual column afterwards keeps the preset selected but marks it Modified, and offers Save as new preset / Revert. Presets with userDefined: true render in the group below the divider.'
+};
+
+const PERSISTED_PRESETS_STORAGE = createLocalStorageColumnPreferences('lakefront-story-table-columns');
+
+const PersistedColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({
+  storyTitle,
+  storyDescription,
+  ...args
+}) => {
+  const { ready, presets, initialPresetId, initialColumnVisibility, presetChangeSubscriber, onSavePreset } =
+    useTableColumnPresets({
+      presets: COLUMN_PRESETS,
+      // Swap this for an adapter that calls your own user preferences API
+      storage: PERSISTED_PRESETS_STORAGE,
+      defaultPresetId: 'summary',
+      createPreset: (columnIds, sourcePreset) => {
+        const named = promptForPresetName(sourcePreset);
+
+        return named ? { ...named, columns: columnIds } : null;
+      }
+    });
+
+  return (
+    <div style={{ height: 400 }}>
+      <h2>{storyTitle || ''}</h2>
+      <p>{storyDescription || ''}</p>
+      {/* The table's initial* props only seed state on mount, so wait for the stored config */}
+      {ready && (
+        <TableComponent
+          {...args}
+          tableSettings={{
+            columnConfig: {
+              enableColumnHiding: true,
+              presets,
+              initialPresetId,
+              initialColumnVisibility,
+              presetChangeSubscriber,
+              onSavePreset
+            }
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
+export const TableWithPersistedColumnPresets = PersistedColumnPresetsTemplate.bind({});
+TableWithPersistedColumnPresets.args = {
+  columns: COLUMNS,
+  data: CUSTOM_DATA,
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Persisted Column Presets',
+  storyDescription: 'useTableColumnPresets keeps the column configuration in a storage adapter of your choosing - this story uses the bundled localStorage reference adapter, so changing the configuration and reloading the page restores it. Saved presets appear under the divider. Implement TableColumnPreferencesStorage against your own preferences API to persist per user instead.'
 };
 
 const GroupedRowsTemplate: StoryFn<TableProps & StoryInfo> = (args) => {

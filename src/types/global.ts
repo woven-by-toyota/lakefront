@@ -61,12 +61,18 @@ export interface LakefrontTheme {
     };
     borderColors: {
         primary: string;
+        /**
+         * A lighter rule than `primary`, for grouping content inside a section
+         * without reading as a section boundary.
+         */
+        subtle: string;
         secondary: string;
         disabled: string;
         inverted: string;
         pronounced: string;
         alert: string;
         dark: string;
+        warning: string;
     };
     buttonColors: {
         primary: string;
@@ -90,6 +96,9 @@ export interface LakefrontTheme {
         tinted: string;
         error: string;
         warning: string;
+        warningSubtle: string;
+        warningTint: string;
+        selected: string;
         errorsInverted: string;
     };
     foregrounds: {
@@ -100,6 +109,8 @@ export interface LakefrontTheme {
         disabled: string;
         info: string;
         warning: string;
+        warningPronounced: string;
+        selected: string;
         inverted: string;
         success: string;
         paused: string;

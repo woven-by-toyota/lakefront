@@ -12,6 +12,7 @@ export const grey30 = '#4d4d4d';
 export const doveGrey = '#6e6e6e';
 export const bombay = '#ababae';
 export const alto = '#d8d8d8';
+export const whisper = '#f0f0f5';
 
 export const red = '#f47368';
 export const watermelon = '#ff5b73';
@@ -47,12 +48,25 @@ export const goldenrod = '#b8860b';
 export const slate = '#5a6475';
 export const fog = '#9ba8b8';
 
+export const zircon = '#f4f7ff';
+export const mariner = '#2c58c8';
+export const cornsilk = '#fffbeb';
+export const wheat = '#fef3c7';
+export const mustard = '#fcd34d';
+export const cinnamon = '#92400e';
+
+// dark theme counterparts for the tinted "selected" and "warning" surfaces above
+export const tangaroa = '#1e2a47';
+export const deepOlive = '#3a2c08';
+export const bronzeOlive = '#5c4409';
+
 const LAKEFRONT_COLORS = {
     white,
     akoya,
     selago,
     mercury,
     alto,
+    whisper,
     bombay,
     pavement,
     dolphin,
@@ -92,7 +106,16 @@ const LAKEFRONT_COLORS = {
     forest,
     goldenrod,
     slate,
-    fog
+    fog,
+    zircon,
+    mariner,
+    cornsilk,
+    wheat,
+    mustard,
+    cinnamon,
+    tangaroa,
+    deepOlive,
+    bronzeOlive
 };
 
 // export the variables for javascript access
