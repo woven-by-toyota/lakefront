@@ -84,7 +84,9 @@ export const getConfigurableColumnIds = <T,>(columns: Column<T, any>[]): string[
 export const getConfigurableColumnIdsFromDefs = <T,>(columns: ColumnDef<T, any>[]): string[] =>
   columns
     .map((columnDef) => {
-      const id = columnDef.id ?? (columnDef as { accessorKey?: string }).accessorKey;
+      const { accessorKey } = columnDef as { accessorKey?: string };
+      // A dotted accessorKey becomes an underscored column id, so normalize it the way tanstack does
+      const id = columnDef.id ?? (typeof accessorKey === 'string' ? accessorKey.replaceAll('.', '_') : undefined);
 
       if (!id || !columnDef.header || id === MORE_ACTIONS_COLUMN_ID) {
         return undefined;

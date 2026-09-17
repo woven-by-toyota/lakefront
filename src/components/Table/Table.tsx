@@ -158,6 +158,12 @@ export interface TableSettingsConfig {
      */
     initialPresetId?: string;
     /**
+     * True when the columns saved for `initialPresetId` had been modified away from the preset.
+     * The preset stays selected and shows as modified, and `initialColumnVisibility` seeds the
+     * initial visibility instead of the preset's own columns, so the modifications are restored.
+     */
+    initialPresetModified?: boolean;
+    /**
      * Watch for column preset changes. Fires when a preset is applied, reverted, or when the
      * visible columns start or stop deviating from the applied preset. Use this to persist the
      * user's column configuration to your own preferences API.
@@ -178,6 +184,24 @@ export interface TableSettingsConfig {
       columnIds: string[],
       sourcePreset: TableColumnPreset | null
     ) => string | void | Promise<string | void>;
+    /**
+     * When provided, a "Save" button is rendered in the unsaved changes callout, overwriting the
+     * applied preset's columns rather than creating a new preset. Only user defined presets can be
+     * overwritten - for built in presets the button renders disabled, since there is nothing the
+     * consumer can persist. Push the new columns back in through `presets`.
+     * @param presetId the applied preset's id
+     * @param columnIds the currently visible configurable column ids
+     */
+    onUpdatePreset?: (presetId: string, columnIds: string[]) => void | Promise<void>;
+    /**
+     * When provided, user defined preset rows render a delete control. lakefront does not confirm
+     * the deletion - prompt the user and persist the removal here, then push the shortened list
+     * back in through `presets`.
+     *
+     * Deleting the applied preset clears the selection and leaves the visible columns alone.
+     * @param presetId the preset to delete
+     */
+    onDeletePreset?: (presetId: string) => void | Promise<void>;
   };
   /**
    * Enable table data download feature.
@@ -336,13 +360,19 @@ const Table: React.FC<TableProps> = ({
     return presets?.some((preset) => preset.id === initialPresetId) ? (initialPresetId as string) : null;
   });
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => {
+    const { initialColumnVisibility, initialPresetModified } = tableSettings?.columnConfig ?? {};
     const initialPreset = presets?.find((preset) => preset.id === initialPresetId);
+
+    // A preset saved in a modified state keeps the saved visibility, so the modifications survive
+    if (initialPresetModified && initialColumnVisibility) {
+      return initialColumnVisibility;
+    }
 
     // The initial preset seeds visibility, so it has to be resolved from the column definitions -
     // there is no table instance to read columns from yet.
     return initialPreset
       ? presetToVisibility(initialPreset, getConfigurableColumnIdsFromDefs(columns))
-      : tableSettings?.columnConfig?.initialColumnVisibility ?? {};
+      : initialColumnVisibility ?? {};
   });
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>(
     tableSettings?.columnConfig?.initialColumnSizing ?? {}
@@ -561,14 +591,45 @@ const Table: React.FC<TableProps> = ({
   const onSavePreset = tableSettings?.columnConfig?.onSavePreset;
 
   // Hand the current columns off to the consumer to name and persist. When they respond with the new
-  // preset's id, select it so the unsaved changes callout clears.
+  // preset's id, select it so the unsaved changes callout clears. A rejected save leaves the
+  // selection alone - reporting the failure is the consumer's job.
   const handleSavePreset = useCallback(async (columnIds: string[], sourcePreset: TableColumnPreset | null) => {
-    const savedPresetId = await onSavePreset?.(columnIds, sourcePreset);
+    try {
+      const savedPresetId = await onSavePreset?.(columnIds, sourcePreset);
 
-    if (savedPresetId) {
-      setActivePresetId(savedPresetId);
+      if (savedPresetId) {
+        setActivePresetId(savedPresetId);
+      }
+    } catch {
+      // Persisting a preset is the consumer's concern, and must never break the table
     }
   }, [onSavePreset]);
+
+  const onUpdatePreset = tableSettings?.columnConfig?.onUpdatePreset;
+
+  // Overwrite the applied preset. The consumer pushes the new columns back in through `presets`,
+  // which is what clears the modified state - the visible columns are already what the user wants.
+  const handleUpdatePreset = useCallback(async (presetId: string, columnIds: string[]) => {
+    try {
+      await onUpdatePreset?.(presetId, columnIds);
+    } catch {
+      // As above
+    }
+  }, [onUpdatePreset]);
+
+  const onDeletePreset = tableSettings?.columnConfig?.onDeletePreset;
+
+  // Deleting the applied preset drops the selection but leaves the columns on screen alone, so
+  // nothing jumps under the user.
+  const handleDeletePreset = useCallback(async (presetId: string) => {
+    try {
+      await onDeletePreset?.(presetId);
+
+      setActivePresetId((previous) => (previous === presetId ? null : previous));
+    } catch {
+      // As above
+    }
+  }, [onDeletePreset]);
 
   // Handle table data download
   const handleDownload = () => {
@@ -715,6 +776,8 @@ const Table: React.FC<TableProps> = ({
           onApplyPreset={handleApplyPreset}
           onRevertPreset={handleRevertPreset}
           onSavePreset={onSavePreset ? handleSavePreset : undefined}
+          onUpdatePreset={onUpdatePreset ? handleUpdatePreset : undefined}
+          onDeletePreset={onDeletePreset ? handleDeletePreset : undefined}
           stickyHeaders={shouldUseStickyHeaders}
           hasModifiedSettings={hasModifiedSettings}
           onDownload={tableSettings?.enableDownload ? handleDownload : undefined}

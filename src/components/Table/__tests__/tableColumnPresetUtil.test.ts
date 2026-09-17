@@ -61,11 +61,19 @@ describe('getConfigurableColumnIdsFromDefs', () => {
     { header: 'LOCKED', accessorKey: 'locked', enableHiding: false },
     { header: '', id: 'expander' },
     { header: 'ACTIONS', id: MORE_ACTIONS_COLUMN_ID },
-    { header: 'CUSTOM', id: 'custom' }
+    { header: 'CUSTOM', id: 'custom' },
+    { header: 'BASE', accessorKey: 'base.name' }
   ] as ColumnDef<TestRow, any>[];
 
   it('resolves ids from either id or accessorKey and applies the same filtering', () => {
-    expect(getConfigurableColumnIdsFromDefs(columnDefs)).toEqual(['title', 'value', 'custom']);
+    // A dotted accessorKey resolves to the underscored id tanstack actually assigns the column
+    expect(getConfigurableColumnIdsFromDefs(columnDefs)).toEqual(['title', 'value', 'custom', 'base_name']);
+  });
+
+  it('prefers an explicit id over a dotted accessorKey', () => {
+    const columns = [{ header: 'BASE', id: 'base', accessorKey: 'base.name' }] as ColumnDef<TestRow, any>[];
+
+    expect(getConfigurableColumnIdsFromDefs(columns)).toEqual(['base']);
   });
 
   it('returns an empty list for no columns', () => {

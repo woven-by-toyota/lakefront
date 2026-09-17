@@ -1,5 +1,6 @@
 import useTableColumnPresets, {
   TableColumnPreferences,
+  TableColumnPreferencesOperation,
   TableColumnPreferencesStorage,
   UseTableColumnPresetsProps,
   UseTableColumnPresetsResult
@@ -8,6 +9,7 @@ import createLocalStorageColumnPreferences from './localStorageColumnPreferences
 
 export {
   TableColumnPreferences,
+  TableColumnPreferencesOperation,
   TableColumnPreferencesStorage,
   UseTableColumnPresetsProps,
   UseTableColumnPresetsResult,

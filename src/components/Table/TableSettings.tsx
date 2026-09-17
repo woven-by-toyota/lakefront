@@ -5,6 +5,7 @@ import { ReactComponent as SettingsIcon } from './assets/settings.svg';
 import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
 import { ReactComponent as DownloadIcon } from './assets/download.svg';
 import { ReactComponent as RevertIcon } from './assets/revert.svg';
+import { ReactComponent as DeleteIcon } from '../Button/assets/delete.svg';
 import {
   SettingsOpenBackgroundContainer,
   SettingsOpenForegroundContainer,
@@ -16,6 +17,8 @@ import {
   TextButtonContainer,
   PresetList,
   PresetRow,
+  PresetRowContainer,
+  PresetDeleteButton,
   PresetModifiedChip,
   PresetColumnCount,
   PresetGroupDivider,
@@ -53,9 +56,18 @@ export interface TableSettingsProps<T = any> extends TableSettingsConfig {
    */
   onRevertPreset?: () => void;
   /**
-   * When provided, renders the "Save as new preset" button in the unsaved changes callout.
+   * When provided, renders the "Save New" button in the unsaved changes callout.
    */
   onSavePreset?: (columnIds: string[], sourcePreset: TableColumnPreset | null) => void;
+  /**
+   * When provided, renders the "Save" button in the unsaved changes callout, which overwrites the
+   * applied preset. Only enabled for user defined presets.
+   */
+  onUpdatePreset?: (presetId: string, columnIds: string[]) => void;
+  /**
+   * When provided, renders a delete control on user defined preset rows.
+   */
+  onDeletePreset?: (presetId: string) => void;
 }
 
 const TableSettings: React.FC<TableSettingsProps> = ({
@@ -73,7 +85,9 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   presetModified = false,
   onApplyPreset,
   onRevertPreset,
-  onSavePreset
+  onSavePreset,
+  onUpdatePreset,
+  onDeletePreset
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -164,23 +178,39 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   const renderPreset = (preset: TableColumnPreset) => {
     const isActive = preset.id === activePresetId;
     const isModified = isActive && presetModified;
+    // Only the user's own presets can be deleted - built in ones come from the consumer's code
+    const isDeletable = Boolean(onDeletePreset && preset.userDefined);
 
     return (
-      <PresetRow
-        key={preset.id}
-        type="button"
-        role="option"
-        aria-selected={isActive}
-        selected={isActive}
-        modified={isModified}
-        onClick={() => onApplyPreset?.(preset.id)}
-      >
-        <span className="preset-label">
-          {preset.label}
-          {isModified && <PresetModifiedChip>Modified</PresetModifiedChip>}
-        </span>
-        <PresetColumnCount>{preset.columns.length} cols</PresetColumnCount>
-      </PresetRow>
+      // The delete control is a sibling rather than a child of the row, since a button cannot nest
+      <PresetRowContainer key={preset.id}>
+        <PresetRow
+          type="button"
+          role="option"
+          aria-selected={isActive}
+          selected={isActive}
+          modified={isModified}
+          deletable={isDeletable}
+          onClick={() => onApplyPreset?.(preset.id)}
+        >
+          <span className="preset-label">
+            {preset.label}
+            {isModified && <PresetModifiedChip>Modified</PresetModifiedChip>}
+          </span>
+          <PresetColumnCount>{preset.columns.length} cols</PresetColumnCount>
+        </PresetRow>
+        {isDeletable && (
+          <PresetDeleteButton
+            type="button"
+            className="delete-preset-button"
+            aria-label={`Delete ${preset.label} preset`}
+            title={`Delete ${preset.label} preset`}
+            onClick={() => onDeletePreset?.(preset.id)}
+          >
+            <DeleteIcon />
+          </PresetDeleteButton>
+        )}
+      </PresetRowContainer>
     );
   };
 
@@ -225,16 +255,37 @@ const TableSettings: React.FC<TableSettingsProps> = ({
                   <UnsavedChangesCallout>
                     <p>{activePreset.label} &mdash; unsaved changes</p>
                     <div className="callout-actions">
+                      {onUpdatePreset && (
+                        <button
+                          type="button"
+                          className="update-preset-button"
+                          disabled={!activePreset.userDefined}
+                          title={
+                            activePreset.userDefined
+                              ? `Overwrite ${activePreset.label}`
+                              : `${activePreset.label} is a built in preset and cannot be overwritten`
+                          }
+                          onClick={() => onUpdatePreset(activePreset.id, visibleColumnIds)}
+                        >
+                          Save
+                        </button>
+                      )}
                       {onSavePreset && (
                         <button
                           type="button"
                           className="save-preset-button"
+                          title="Save these columns as a new preset"
                           onClick={() => onSavePreset(visibleColumnIds, activePreset)}
                         >
-                          Save as new preset
+                          Save New
                         </button>
                       )}
-                      <button type="button" className="revert-preset-button" onClick={onRevertPreset}>
+                      <button
+                        type="button"
+                        className="revert-preset-button"
+                        title={`Restore ${activePreset.label}'s columns`}
+                        onClick={onRevertPreset}
+                      >
                         <RevertIcon />Revert
                       </button>
                     </div>

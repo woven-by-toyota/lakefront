@@ -135,6 +135,9 @@ const PANEL_INSET = 14;
 // the label does not shift when a row becomes selected.
 const PRESET_ACCENT_WIDTH = 3;
 
+// Right hand space a deletable preset row reserves for its delete control.
+const PRESET_DELETE_GUTTER = 22;
+
 export const SettingsOpenForegroundContainer = styled.div<{ position?: 'left' | 'right' }>(({ theme, position = 'left' }) => ({
   position: 'absolute',
   zIndex: theme.zIndex.modal,
@@ -249,12 +252,21 @@ export const PresetList = styled.div({
   flexDirection: 'column'
 });
 
+// Positions the delete control over the row's reserved right hand gap
+export const PresetRowContainer = styled.div({
+  position: 'relative',
+  display: 'flex',
+  flexShrink: 0,
+  alignItems: 'center'
+});
+
 interface PresetRowProps {
   selected?: boolean;
   modified?: boolean;
+  deletable?: boolean;
 }
 
-export const PresetRow = styled.button<PresetRowProps>(({ theme, selected, modified }) => {
+export const PresetRow = styled.button<PresetRowProps>(({ theme, selected, modified, deletable }) => {
   const accentColor = modified ? theme.foregrounds.warning : theme.foregrounds.hyperlink;
   const labelColor = modified ? theme.foregrounds.warningPronounced : theme.foregrounds.selected;
 
@@ -267,8 +279,9 @@ export const PresetRow = styled.button<PresetRowProps>(({ theme, selected, modif
     height: 32,
     boxSizing: 'border-box',
     // Spans the full panel width so the selected highlight reads as a menu row, with the label
-    // still landing on PANEL_INSET once the accent bar is accounted for
-    padding: `0 ${PANEL_INSET}px 0 ${PANEL_INSET - PRESET_ACCENT_WIDTH}px`,
+    // still landing on PANEL_INSET once the accent bar is accounted for. A deletable row reserves
+    // room on the right so the trash never sits on top of the column count.
+    padding: `0 ${deletable ? PANEL_INSET + PRESET_DELETE_GUTTER : PANEL_INSET}px 0 ${PANEL_INSET - PRESET_ACCENT_WIDTH}px`,
     background: selected
       ? (modified ? theme.backgrounds.warningSubtle : theme.backgrounds.selected)
       : 'transparent',
@@ -299,6 +312,35 @@ export const PresetRow = styled.button<PresetRowProps>(({ theme, selected, modif
     }
   };
 });
+
+// Revealed on row hover or keyboard focus so the list stays quiet until the user goes looking
+export const PresetDeleteButton = styled.button(({ theme }) => ({
+  position: 'absolute',
+  right: PANEL_INSET - 3,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 3,
+  borderRadius: 3,
+  border: 'none',
+  background: 'transparent',
+  cursor: 'pointer',
+  opacity: 0,
+  svg: {
+    width: 12,
+    height: 12,
+    fill: theme.foregrounds.secondary
+  },
+  '&:hover svg, &:focus-visible svg': {
+    fill: theme.foregrounds.error
+  },
+  '&:focus-visible': {
+    opacity: 1
+  },
+  [`${PresetRowContainer}:hover &, ${PresetRowContainer}:focus-within &`]: {
+    opacity: 1
+  }
+}));
 
 export const PresetModifiedChip = styled.span(({ theme }) => ({
   flexShrink: 0,
@@ -366,9 +408,16 @@ export const UnsavedChangesCallout = styled.div(({ theme }) => ({
     lineHeight: '16.5px',
     '&:hover': {
       backgroundColor: theme.backgrounds.warningTint
+    },
+    // Save stays visible on a built in preset so the affordance is discoverable, its title
+    // explaining why it cannot be used
+    '&:disabled': {
+      opacity: 0.5,
+      cursor: 'not-allowed',
+      backgroundColor: 'transparent'
     }
   },
-  'button.save-preset-button': {
+  'button.update-preset-button, button.save-preset-button': {
     flex: 1
   },
   'button.revert-preset-button svg': {

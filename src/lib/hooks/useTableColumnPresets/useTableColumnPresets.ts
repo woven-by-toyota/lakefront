@@ -16,6 +16,11 @@ export interface TableColumnPreferences {
    */
   columnVisibility: VisibilityState;
   /**
+   * True when the saved columns deviate from the applied preset. Persisting this is what lets an
+   * unsaved modification survive a page load with the preset still selected.
+   */
+  isModified?: boolean;
+  /**
    * Layouts the user saved themselves. These are merged into the preset list and rendered in the
    * separated group below the divider.
    */
@@ -23,8 +28,14 @@ export interface TableColumnPreferences {
 }
 
 /**
+ * The operations that can fail, reported through `onError`.
+ */
+export type TableColumnPreferencesOperation = 'load' | 'save' | 'createPreset' | 'updatePreset' | 'deletePreset';
+
+/**
  * A storage adapter. Implement this against your own user preferences API - both methods may be
- * synchronous or return a promise.
+ * synchronous or return a promise. A synchronous `load` is applied on the first render, so `ready`
+ * is true immediately and the table does not have to wait a commit to mount.
  */
 export interface TableColumnPreferencesStorage {
   load(): Promise<TableColumnPreferences | null> | TableColumnPreferences | null;
@@ -50,20 +61,42 @@ export interface UseTableColumnPresetsProps {
    */
   saveDebounceMs?: number;
   /**
-   * Turns on the "Save as new preset" button. Return the preset to save (prompt the user for a
-   * name here), or null to cancel. The returned preset is persisted as a user defined preset.
+   * Whether the column visibility state is persisted. Defaults to true. Set this to false when your
+   * storage cannot hold a visibility map, or when you already persist visibility elsewhere - only
+   * the applied preset, its modified state and the user's presets are then saved, so showing and
+   * hiding columns no longer triggers a write.
+   */
+  persistColumnVisibility?: boolean;
+  /**
+   * Turns on the "Save New" button. Return the preset to save (prompt the user for a name here), or
+   * null to cancel. The returned preset is persisted as a user defined preset.
    */
   createPreset?: (
     columnIds: string[],
     sourcePreset: TableColumnPreset | null
   ) => TableColumnPreset | null | Promise<TableColumnPreset | null>;
+  /**
+   * Turns on the "Save" button, which overwrites a user defined preset's columns in place. Throw or
+   * reject to leave the preset as it was.
+   */
+  updatePreset?: (preset: TableColumnPreset) => void | Promise<void>;
+  /**
+   * Turns on the delete control on user defined preset rows. Confirm the deletion here - lakefront
+   * does not prompt. Throw or reject to keep the preset.
+   */
+  deletePreset?: (preset: TableColumnPreset) => void | Promise<void>;
+  /**
+   * Called whenever an operation fails. Loading and saving are best effort by default and stay that
+   * way - this only reports, so surface what matters to your users.
+   */
+  onError?: (error: unknown, operation: TableColumnPreferencesOperation) => void;
 }
 
 export interface UseTableColumnPresetsResult {
   /**
    * False until the stored configuration has been loaded. Because the table's initialPresetId and
    * initialColumnVisibility props only seed state on mount, do not render the table until this
-   * is true: `{ready && <Table … />}`.
+   * is true: `{ready && <Table … />}`. A synchronous `load` makes it true on the first render.
    */
   ready: boolean;
   /**
@@ -72,9 +105,12 @@ export interface UseTableColumnPresetsResult {
   preferences: TableColumnPreferences | null;
   presets: TableColumnPreset[];
   initialPresetId?: string;
+  initialPresetModified?: boolean;
   initialColumnVisibility?: VisibilityState;
   presetChangeSubscriber: (presetState: TableColumnPresetState) => void;
   onSavePreset?: (columnIds: string[], sourcePreset: TableColumnPreset | null) => Promise<string | void>;
+  onUpdatePreset?: (presetId: string, columnIds: string[]) => Promise<void>;
+  onDeletePreset?: (presetId: string) => Promise<void>;
 }
 
 /**
@@ -92,11 +128,12 @@ const useTableColumnPresets = ({
   storage,
   defaultPresetId,
   saveDebounceMs = 500,
-  createPreset
+  persistColumnVisibility = true,
+  createPreset,
+  updatePreset,
+  deletePreset,
+  onError
 }: UseTableColumnPresetsProps): UseTableColumnPresetsResult => {
-  const [ready, setReady] = useState(false);
-  const [preferences, setPreferences] = useState<TableColumnPreferences | null>(null);
-
   // Held in refs so re-created inline adapters and callbacks do not re-trigger the effects below
   const storageRef = useRef(storage);
   storageRef.current = storage;
@@ -104,9 +141,66 @@ const useTableColumnPresets = ({
   const createPresetRef = useRef(createPreset);
   createPresetRef.current = createPreset;
 
+  const updatePresetRef = useRef(updatePreset);
+  updatePresetRef.current = updatePreset;
+
+  const deletePresetRef = useRef(deletePreset);
+  deletePresetRef.current = deletePreset;
+
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
+
   const lastSavedRef = useRef<string | null>(null);
 
+  const reportError = useCallback((error: unknown, operation: TableColumnPreferencesOperation) => {
+    onErrorRef.current?.(error, operation);
+  }, []);
+
+  // A synchronous load is applied here so the table can mount on the first render. Anything
+  // asynchronous is left to the effect below.
+  const [initialLoad] = useState<TableColumnPreferences | null | Promise<TableColumnPreferences | null>>(() => {
+    if (!storageRef.current) {
+      return null;
+    }
+
+    try {
+      const loaded = storageRef.current.load();
+
+      if (loaded && typeof (loaded as Promise<unknown>).then === 'function') {
+        return loaded;
+      }
+
+      lastSavedRef.current = loaded ? JSON.stringify(loaded) : null;
+
+      return loaded as TableColumnPreferences | null;
+    } catch (error) {
+      reportError(error, 'load');
+
+      return null;
+    }
+  });
+
+  const loadIsPending = Boolean(initialLoad && typeof (initialLoad as Promise<unknown>).then === 'function');
+
+  const [ready, setReady] = useState(!loadIsPending);
+  const [preferences, setPreferences] = useState<TableColumnPreferences | null>(
+    loadIsPending ? null : (initialLoad as TableColumnPreferences | null)
+  );
+
+  // What was loaded, assigned once and never updated, so the initial* values handed to the table
+  // are not re-derived from the user's later changes
+  const [loadedPreferences, setLoadedPreferences] = useState<TableColumnPreferences | null>(
+    loadIsPending ? null : (initialLoad as TableColumnPreferences | null)
+  );
+
+  const preferencesRef = useRef(preferences);
+  preferencesRef.current = preferences;
+
   useEffect(() => {
+    if (!loadIsPending) {
+      return;
+    }
+
     let cancelled = false;
 
     const finish = (loaded: TableColumnPreferences | null) => {
@@ -116,21 +210,19 @@ const useTableColumnPresets = ({
 
       if (loaded) {
         setPreferences(loaded);
+        setLoadedPreferences(loaded);
         lastSavedRef.current = JSON.stringify(loaded);
       }
 
       setReady(true);
     };
 
-    if (!storageRef.current) {
-      setReady(true);
-
-      return;
-    }
-
-    Promise.resolve(storageRef.current.load())
+    Promise.resolve(initialLoad)
       .then(finish)
-      .catch(() => finish(null));
+      .catch((error) => {
+        reportError(error, 'load');
+        finish(null);
+      });
 
     return () => {
       cancelled = true;
@@ -148,9 +240,10 @@ const useTableColumnPresets = ({
 
     lastSavedRef.current = debouncedPreferences;
 
-    Promise.resolve(storageRef.current?.save(JSON.parse(debouncedPreferences))).catch(() => {
+    Promise.resolve(storageRef.current?.save(JSON.parse(debouncedPreferences))).catch((error) => {
       // Saving preferences is best effort - a failure should never break the table
       lastSavedRef.current = null;
+      reportError(error, 'save');
     });
   }, [ready, debouncedPreferences]);
 
@@ -158,32 +251,96 @@ const useTableColumnPresets = ({
     setPreferences((previous) => ({
       ...previous,
       presetId: presetState.presetId,
-      columnVisibility: presetState.columnVisibility
+      isModified: presetState.isModified,
+      columnVisibility: persistColumnVisibility ? presetState.columnVisibility : (previous?.columnVisibility ?? {})
     }));
-  }, []);
+  }, [persistColumnVisibility]);
 
   const handleSavePreset = useCallback(
     async (columnIds: string[], sourcePreset: TableColumnPreset | null) => {
-      const created = await createPresetRef.current?.(columnIds, sourcePreset);
+      let created: TableColumnPreset | null | undefined;
+
+      try {
+        created = await createPresetRef.current?.(columnIds, sourcePreset);
+      } catch (error) {
+        reportError(error, 'createPreset');
+
+        return;
+      }
 
       if (!created) {
         return;
       }
 
+      const savedPreset = { ...created, userDefined: true };
+
       setPreferences((previous) => ({
-        presetId: created.id,
+        ...previous,
+        presetId: savedPreset.id,
+        isModified: false,
         columnVisibility: previous?.columnVisibility ?? {},
         userPresets: [
-          ...(previous?.userPresets ?? []).filter(({ id }) => id !== created.id),
-          { ...created, userDefined: true }
+          ...(previous?.userPresets ?? []).filter(({ id }) => id !== savedPreset.id),
+          savedPreset
         ]
       }));
 
       // Returning the id lets the table select the preset it just saved
-      return created.id;
+      return savedPreset.id;
     },
     []
   );
+
+  const handleUpdatePreset = useCallback(async (presetId: string, columnIds: string[]) => {
+    const existing = (preferencesRef.current?.userPresets ?? []).find(({ id }) => id === presetId);
+
+    if (!existing) {
+      return;
+    }
+
+    const updated = { ...existing, columns: columnIds, userDefined: true };
+
+    try {
+      await updatePresetRef.current?.(updated);
+    } catch (error) {
+      reportError(error, 'updatePreset');
+
+      return;
+    }
+
+    setPreferences((previous) => ({
+      ...previous,
+      presetId,
+      isModified: false,
+      columnVisibility: previous?.columnVisibility ?? {},
+      userPresets: (previous?.userPresets ?? []).map((preset) => (preset.id === presetId ? updated : preset))
+    }));
+  }, []);
+
+  const handleDeletePreset = useCallback(async (presetId: string) => {
+    const existing = (preferencesRef.current?.userPresets ?? []).find(({ id }) => id === presetId);
+
+    if (!existing) {
+      return;
+    }
+
+    try {
+      await deletePresetRef.current?.(existing);
+    } catch (error) {
+      reportError(error, 'deletePreset');
+
+      return;
+    }
+
+    setPreferences((previous) => ({
+      ...previous,
+      // The table drops the selection too, but the visible columns are deliberately left alone
+      presetId: previous?.presetId === presetId ? null : (previous?.presetId ?? null),
+      isModified: previous?.presetId === presetId ? false : previous?.isModified,
+      columnVisibility: previous?.columnVisibility ?? {},
+      userPresets: (previous?.userPresets ?? []).filter(({ id }) => id !== presetId)
+    }));
+  }, []);
 
   const mergedPresets = useMemo(() => {
     const userPresets = (preferences?.userPresets ?? []).map((preset) => ({ ...preset, userDefined: true }));
@@ -198,10 +355,13 @@ const useTableColumnPresets = ({
     presets: mergedPresets,
     // A loaded preferences object with a null presetId means the user intentionally has no preset
     // applied, so the default must not be reinstated
-    initialPresetId: preferences ? preferences.presetId ?? undefined : defaultPresetId,
-    initialColumnVisibility: preferences?.columnVisibility,
+    initialPresetId: loadedPreferences ? loadedPreferences.presetId ?? undefined : defaultPresetId,
+    initialPresetModified: loadedPreferences?.isModified,
+    initialColumnVisibility: loadedPreferences?.columnVisibility,
     presetChangeSubscriber,
-    onSavePreset: createPreset ? handleSavePreset : undefined
+    onSavePreset: createPreset ? handleSavePreset : undefined,
+    onUpdatePreset: updatePreset ? handleUpdatePreset : undefined,
+    onDeletePreset: deletePreset ? handleDeletePreset : undefined
   };
 };
 

@@ -172,6 +172,7 @@ describe('useTableColumnPresets', () => {
     expect(storage.save).toHaveBeenCalledTimes(1);
     expect(storage.save).toHaveBeenCalledWith({
       presetId: 'everything',
+      isModified: false,
       columnVisibility: { title: true, value: true, percentage: true }
     });
 
@@ -221,6 +222,273 @@ describe('useTableColumnPresets', () => {
     await waitFor(() => {
       expect(storage.save).toHaveBeenCalled();
     });
+  });
+
+  it('is ready on the first render when load is synchronous', () => {
+    const loaded = { presetId: 'everything', columnVisibility: { percentage: true }, isModified: true };
+    const { result } = renderHook(() =>
+      useTableColumnPresets({ presets, storage: { load: () => loaded, save: jest.fn() } })
+    );
+
+    expect(result.current.ready).toBe(true);
+    expect(result.current.initialPresetId).toBe('everything');
+    expect(result.current.initialPresetModified).toBe(true);
+    expect(result.current.initialColumnVisibility).toEqual({ percentage: true });
+  });
+
+  it('reports a synchronous load failure and stays ready', () => {
+    const onError = jest.fn();
+    const error = new Error('offline');
+    const { result } = renderHook(() =>
+      useTableColumnPresets({
+        presets,
+        storage: { load: () => { throw error; }, save: jest.fn() },
+        onError
+      })
+    );
+
+    expect(result.current.ready).toBe(true);
+    expect(onError).toHaveBeenCalledWith(error, 'load');
+  });
+
+  it('persists isModified so an unsaved modification survives a reload', async () => {
+    const storage = createStorage(null);
+    const { result } = renderHook(() => useTableColumnPresets({ presets, storage, saveDebounceMs: 0 }));
+
+    await waitFor(() => {
+      expect(result.current.ready).toBe(true);
+    });
+
+    act(() => {
+      result.current.presetChangeSubscriber({
+        presetId: 'summary',
+        isModified: true,
+        visibleColumnIds: ['title'],
+        columnVisibility: { title: true, value: false, percentage: false }
+      });
+    });
+
+    await waitFor(() => {
+      expect(storage.save).toHaveBeenCalledWith({
+        presetId: 'summary',
+        isModified: true,
+        columnVisibility: { title: true, value: false, percentage: false }
+      });
+    });
+
+    // What was saved above, re-read on the next page load
+    const reloaded = renderHook(() =>
+      useTableColumnPresets({
+        presets,
+        storage: { load: () => storage.save.mock.calls[0][0], save: jest.fn() }
+      })
+    );
+
+    expect(reloaded.result.current.initialPresetId).toBe('summary');
+    expect(reloaded.result.current.initialPresetModified).toBe(true);
+  });
+
+  it('leaves column visibility out of the saved preferences when persistColumnVisibility is false', async () => {
+    const storage = createStorage(null);
+    const { result } = renderHook(() =>
+      useTableColumnPresets({ presets, storage, saveDebounceMs: 0, persistColumnVisibility: false })
+    );
+
+    await waitFor(() => {
+      expect(result.current.ready).toBe(true);
+    });
+
+    act(() => {
+      result.current.presetChangeSubscriber({
+        presetId: 'summary',
+        isModified: false,
+        visibleColumnIds: ['title', 'value'],
+        columnVisibility: { title: true, value: true, percentage: false }
+      });
+    });
+
+    await waitFor(() => {
+      expect(storage.save).toHaveBeenCalledTimes(1);
+    });
+    expect(storage.save).toHaveBeenCalledWith({ presetId: 'summary', isModified: false, columnVisibility: {} });
+
+    // Hiding another column changes nothing worth writing
+    act(() => {
+      result.current.presetChangeSubscriber({
+        presetId: 'summary',
+        isModified: false,
+        visibleColumnIds: ['title'],
+        columnVisibility: { title: true, value: false, percentage: false }
+      });
+    });
+
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(storage.save).toHaveBeenCalledTimes(1);
+  });
+
+  it('reports a rejected save', async () => {
+    const onError = jest.fn();
+    const error = new Error('too long');
+    const storage = { load: () => null, save: jest.fn().mockRejectedValue(error) };
+    const { result } = renderHook(() =>
+      useTableColumnPresets({ presets, storage, saveDebounceMs: 0, onError })
+    );
+
+    act(() => {
+      result.current.presetChangeSubscriber({
+        presetId: 'summary',
+        isModified: false,
+        visibleColumnIds: ['title', 'value'],
+        columnVisibility: {}
+      });
+    });
+
+    await waitFor(() => {
+      expect(onError).toHaveBeenCalledWith(error, 'save');
+    });
+  });
+
+  it('reports a rejected createPreset without selecting anything', async () => {
+    const onError = jest.fn();
+    const error = new Error('duplicate name');
+    const createPreset = jest.fn().mockRejectedValue(error);
+    const { result } = renderHook(() =>
+      useTableColumnPresets({ presets, storage: createStorage(null), createPreset, onError })
+    );
+
+    await act(async () => {
+      const savedId = await result.current.onSavePreset?.(['title'], SUMMARY_PRESET);
+      expect(savedId).toBeUndefined();
+    });
+
+    expect(onError).toHaveBeenCalledWith(error, 'createPreset');
+    expect(result.current.presets).toEqual(presets);
+  });
+
+  it('does not expose onUpdatePreset or onDeletePreset unless their callbacks are provided', () => {
+    const { result } = renderHook(() => useTableColumnPresets({ presets }));
+
+    expect(result.current.onUpdatePreset).toBeUndefined();
+    expect(result.current.onDeletePreset).toBeUndefined();
+  });
+
+  it('overwrites a user preset in place rather than adding one', async () => {
+    const updatePreset = jest.fn();
+    const storage = {
+      load: () => ({
+        presetId: 'my-layout',
+        columnVisibility: {},
+        userPresets: [{ id: 'my-layout', label: 'My Layout', columns: ['title'] }]
+      }),
+      save: jest.fn()
+    };
+
+    const { result } = renderHook(() =>
+      useTableColumnPresets({ presets, storage, saveDebounceMs: 0, updatePreset })
+    );
+
+    await act(async () => {
+      await result.current.onUpdatePreset?.('my-layout', ['title', 'percentage']);
+    });
+
+    expect(updatePreset).toHaveBeenCalledWith({
+      id: 'my-layout',
+      label: 'My Layout',
+      columns: ['title', 'percentage'],
+      userDefined: true
+    });
+    expect(result.current.presets).toHaveLength(3);
+    expect(result.current.presets[2].columns).toEqual(['title', 'percentage']);
+    expect(result.current.preferences?.isModified).toBe(false);
+  });
+
+  it('keeps the preset as it was when the overwrite is rejected', async () => {
+    const onError = jest.fn();
+    const error = new Error('too long');
+    const storage = {
+      load: () => ({
+        presetId: 'my-layout',
+        columnVisibility: {},
+        userPresets: [{ id: 'my-layout', label: 'My Layout', columns: ['title'] }]
+      }),
+      save: jest.fn()
+    };
+
+    const { result } = renderHook(() =>
+      useTableColumnPresets({
+        presets,
+        storage,
+        saveDebounceMs: 0,
+        updatePreset: jest.fn().mockRejectedValue(error),
+        onError
+      })
+    );
+
+    await act(async () => {
+      await result.current.onUpdatePreset?.('my-layout', ['title', 'percentage']);
+    });
+
+    expect(onError).toHaveBeenCalledWith(error, 'updatePreset');
+    expect(result.current.presets[2].columns).toEqual(['title']);
+  });
+
+  it('removes a deleted preset and clears the selection when it was applied', async () => {
+    const deletePreset = jest.fn();
+    const storage = {
+      load: () => ({
+        presetId: 'my-layout',
+        columnVisibility: { percentage: false },
+        userPresets: [{ id: 'my-layout', label: 'My Layout', columns: ['title'] }]
+      }),
+      save: jest.fn()
+    };
+
+    const { result } = renderHook(() =>
+      useTableColumnPresets({ presets, storage, saveDebounceMs: 0, deletePreset })
+    );
+
+    await act(async () => {
+      await result.current.onDeletePreset?.('my-layout');
+    });
+
+    expect(deletePreset).toHaveBeenCalledWith({ id: 'my-layout', label: 'My Layout', columns: ['title'] });
+    expect(result.current.presets).toEqual(presets);
+    expect(result.current.preferences?.presetId).toBeNull();
+    // Deleting a preset must not disturb the columns on screen
+    expect(result.current.preferences?.columnVisibility).toEqual({ percentage: false });
+  });
+
+  it('keeps a deleted preset when the delete is rejected', async () => {
+    const onError = jest.fn();
+    const error = new Error('offline');
+    const storage = {
+      load: () => ({
+        presetId: 'summary',
+        columnVisibility: {},
+        userPresets: [{ id: 'my-layout', label: 'My Layout', columns: ['title'] }]
+      }),
+      save: jest.fn()
+    };
+
+    const { result } = renderHook(() =>
+      useTableColumnPresets({
+        presets,
+        storage,
+        saveDebounceMs: 0,
+        deletePreset: jest.fn().mockRejectedValue(error),
+        onError
+      })
+    );
+
+    await act(async () => {
+      await result.current.onDeletePreset?.('my-layout');
+    });
+
+    expect(onError).toHaveBeenCalledWith(error, 'deletePreset');
+    expect(result.current.presets).toHaveLength(3);
+    expect(result.current.preferences?.presetId).toBe('summary');
   });
 });
 
@@ -285,6 +553,7 @@ describe('createLocalStorageColumnPreferences', () => {
     await waitFor(() => {
       expect(storage.load()).toEqual({
         presetId: 'summary',
+        isModified: false,
         columnVisibility: { title: true, value: true, percentage: false }
       });
     });

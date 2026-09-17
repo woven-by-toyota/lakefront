@@ -377,6 +377,28 @@ const ColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({ storyTitle, st
     return saved.id;
   };
 
+  // Overwriting only ever happens on a user defined preset - the table disables Save for built in ones
+  const handleUpdatePreset = (presetId: string, columnIds: string[]) => {
+    action('onUpdatePreset')(presetId, columnIds);
+
+    setPresets(current =>
+      current.map(preset => (preset.id === presetId ? { ...preset, columns: columnIds } : preset))
+    );
+  };
+
+  // lakefront does not confirm the deletion, so prompt here
+  const handleDeletePreset = (presetId: string) => {
+    action('onDeletePreset')(presetId);
+
+    const preset = presets.find(({ id }) => id === presetId);
+
+    if (!window.confirm(`Delete "${preset?.label}"?`)) {
+      throw new Error('cancelled');
+    }
+
+    setPresets(current => current.filter(({ id }) => id !== presetId));
+  };
+
   return (
     <div style={{ height: 400 }}>
       <h2>{storyTitle || ''}</h2>
@@ -389,7 +411,9 @@ const ColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({ storyTitle, st
             presets,
             initialPresetId: 'percentages',
             presetChangeSubscriber: action('presetChangeSubscriber'),
-            onSavePreset: handleSavePreset
+            onSavePreset: handleSavePreset,
+            onUpdatePreset: handleUpdatePreset,
+            onDeletePreset: handleDeletePreset
           }
         }}
       />
@@ -404,7 +428,7 @@ TableWithColumnPresets.args = {
   noDataMessage: 'No data found',
   // story props
   storyTitle: 'Table with Column Presets',
-  storyDescription: 'Open the settings panel and pick a configuration under COLUMN CONFIGURATION to show exactly that preset\'s columns. Toggling an individual column afterwards keeps the preset selected but marks it Modified, and offers Save as new preset / Revert. Presets with userDefined: true render in the group below the divider.'
+  storyDescription: 'Open the settings panel and pick a configuration under COLUMN CONFIGURATION to show exactly that preset\'s columns. Toggling an individual column afterwards keeps the preset selected but marks it Modified, and offers Save / Save New / Revert - Save overwrites the applied preset and is only enabled for the user\'s own presets. Presets with userDefined: true render in the group below the divider, and hovering one reveals a delete control.'
 };
 
 const PERSISTED_PRESETS_STORAGE = createLocalStorageColumnPreferences('lakefront-story-table-columns');
@@ -414,18 +438,37 @@ const PersistedColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({
   storyDescription,
   ...args
 }) => {
-  const { ready, presets, initialPresetId, initialColumnVisibility, presetChangeSubscriber, onSavePreset } =
-    useTableColumnPresets({
-      presets: COLUMN_PRESETS,
-      // Swap this for an adapter that calls your own user preferences API
-      storage: PERSISTED_PRESETS_STORAGE,
-      defaultPresetId: 'summary',
-      createPreset: (columnIds, sourcePreset) => {
-        const named = promptForPresetName(sourcePreset);
+  const {
+    ready,
+    presets,
+    initialPresetId,
+    initialPresetModified,
+    initialColumnVisibility,
+    presetChangeSubscriber,
+    onSavePreset,
+    onUpdatePreset,
+    onDeletePreset
+  } = useTableColumnPresets({
+    presets: COLUMN_PRESETS,
+    // Swap this for an adapter that calls your own user preferences API
+    storage: PERSISTED_PRESETS_STORAGE,
+    defaultPresetId: 'summary',
+    createPreset: (columnIds, sourcePreset) => {
+      const named = promptForPresetName(sourcePreset);
 
-        return named ? { ...named, columns: columnIds } : null;
+      return named ? { ...named, columns: columnIds } : null;
+    },
+    updatePreset: action('updatePreset'),
+    // Confirming is the consumer's job - throwing keeps the preset
+    deletePreset: (preset) => {
+      action('deletePreset')(preset);
+
+      if (!window.confirm(`Delete "${preset.label}"?`)) {
+        throw new Error('cancelled');
       }
-    });
+    },
+    onError: action('onError')
+  });
 
   return (
     <div style={{ height: 400 }}>
@@ -440,9 +483,12 @@ const PersistedColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({
               enableColumnHiding: true,
               presets,
               initialPresetId,
+              initialPresetModified,
               initialColumnVisibility,
               presetChangeSubscriber,
-              onSavePreset
+              onSavePreset,
+              onUpdatePreset,
+              onDeletePreset
             }
           }}
         />
@@ -458,7 +504,7 @@ TableWithPersistedColumnPresets.args = {
   noDataMessage: 'No data found',
   // story props
   storyTitle: 'Table with Persisted Column Presets',
-  storyDescription: 'useTableColumnPresets keeps the column configuration in a storage adapter of your choosing - this story uses the bundled localStorage reference adapter, so changing the configuration and reloading the page restores it. Saved presets appear under the divider. Implement TableColumnPreferencesStorage against your own preferences API to persist per user instead.'
+  storyDescription: 'useTableColumnPresets keeps the column configuration in a storage adapter of your choosing - this story uses the bundled localStorage reference adapter, so changing the configuration and reloading the page restores it. An unsaved modification survives the reload too: the preset stays selected, still Modified, with the tweaked columns intact. Saved presets appear under the divider, where they can be overwritten with Save or removed with the delete control. Implement TableColumnPreferencesStorage against your own preferences API to persist per user instead.'
 };
 
 const GroupedRowsTemplate: StoryFn<TableProps & StoryInfo> = (args) => {

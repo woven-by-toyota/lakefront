@@ -31,12 +31,14 @@ const MY_LAYOUT_PRESET: TableColumnPreset = {
 const presets = [SUMMARY_PRESET, EVERYTHING_PRESET];
 
 // humanize keeps the settings panel labels ("Value") distinct from the column headers ("VALUE")
-const renderTable = (columnConfig: TableSettingsConfig['columnConfig']) =>
+const renderTable = (columnConfig: Partial<NonNullable<TableSettingsConfig['columnConfig']>>) =>
   render(
     <Table
       columns={columns}
       data={customData}
-      tableSettings={{ columnConfig: { columnLabelTransform: humanize, ...columnConfig } }}
+      tableSettings={{
+        columnConfig: { enableColumnHiding: false, columnLabelTransform: humanize, ...columnConfig }
+      }}
     />
   );
 
@@ -204,7 +206,7 @@ describe('<Table> column presets', () => {
       expect(screen.getByText('Revert')).toBeInTheDocument();
     });
 
-    expect(screen.queryByText('Save as new preset')).not.toBeInTheDocument();
+    expect(screen.queryByText('Save New')).not.toBeInTheDocument();
   });
 
   it('calls onSavePreset with the visible column ids and the source preset', async () => {
@@ -216,10 +218,10 @@ describe('<Table> column presets', () => {
     fireEvent.click(getColumnCheckbox('Value'));
 
     await waitFor(() => {
-      expect(screen.getByText('Save as new preset')).toBeInTheDocument();
+      expect(screen.getByText('Save New')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText('Save as new preset'));
+    fireEvent.click(screen.getByText('Save New'));
 
     expect(onSavePreset).toHaveBeenCalledWith(['title'], SUMMARY_PRESET);
   });
@@ -243,10 +245,10 @@ describe('<Table> column presets', () => {
     fireEvent.click(getColumnCheckbox('Value'));
 
     await waitFor(() => {
-      expect(screen.getByText('Save as new preset')).toBeInTheDocument();
+      expect(screen.getByText('Save New')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText('Save as new preset'));
+    fireEvent.click(screen.getByText('Save New'));
 
     // The new preset matches the visible columns, so it becomes selected and unmodified
     await waitFor(() => {
@@ -255,6 +257,151 @@ describe('<Table> column presets', () => {
 
     expect(screen.queryByText('Modified')).not.toBeInTheDocument();
     expect(screen.queryByText(/unsaved changes/)).not.toBeInTheDocument();
+  });
+
+  it('restores a modified preset from initialColumnVisibility when initialPresetModified is set', () => {
+    const { container } = renderTable({
+      enableColumnHiding: true,
+      presets,
+      initialPresetId: 'summary',
+      initialPresetModified: true,
+      initialColumnVisibility: { title: true, value: false, percentage: true }
+    });
+
+    // The saved columns win over the preset's own, and the preset stays selected and modified
+    expect(getHeaderTexts(container)).toEqual(['TITLE', 'PERCENTAGE']);
+
+    openSettings();
+
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent('Summary');
+    expect(screen.getByText('Modified')).toBeInTheDocument();
+    expect(screen.getByText('Revert')).toBeInTheDocument();
+  });
+
+  it('falls back to the preset columns when it was modified but nothing was stored', () => {
+    const { container } = renderTable({
+      enableColumnHiding: true,
+      presets,
+      initialPresetId: 'summary',
+      initialPresetModified: true
+    });
+
+    expect(getHeaderTexts(container)).toEqual(['TITLE', 'VALUE']);
+  });
+
+  it('does not render the overwrite button when onUpdatePreset is omitted', async () => {
+    renderTable({ enableColumnHiding: true, presets: [...presets, MY_LAYOUT_PRESET], initialPresetId: 'my-layout' });
+    openSettings();
+
+    fireEvent.click(getColumnCheckbox('Value'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Revert')).toBeInTheDocument();
+    });
+
+    expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument();
+  });
+
+  it('overwrites a user defined preset through onUpdatePreset', async () => {
+    const onUpdatePreset = jest.fn();
+
+    renderTable({
+      enableColumnHiding: true,
+      presets: [...presets, MY_LAYOUT_PRESET],
+      initialPresetId: 'my-layout',
+      onUpdatePreset
+    });
+    openSettings();
+
+    fireEvent.click(getColumnCheckbox('Value'));
+
+    const saveButton = await screen.findByRole('button', { name: 'Save' });
+    expect(saveButton).toBeEnabled();
+
+    fireEvent.click(saveButton);
+
+    expect(onUpdatePreset).toHaveBeenCalledWith('my-layout', ['title', 'value']);
+  });
+
+  it('disables the overwrite button for a built in preset', async () => {
+    renderTable({
+      enableColumnHiding: true,
+      presets,
+      initialPresetId: 'summary',
+      onUpdatePreset: jest.fn()
+    });
+    openSettings();
+
+    fireEvent.click(getColumnCheckbox('Percentage'));
+
+    const saveButton = await screen.findByRole('button', { name: 'Save' });
+    expect(saveButton).toBeDisabled();
+    expect(saveButton).toHaveAttribute('title', 'Summary is a built in preset and cannot be overwritten');
+  });
+
+  it('renders the delete control on user defined presets only', () => {
+    renderTable({
+      enableColumnHiding: true,
+      presets: [...presets, MY_LAYOUT_PRESET],
+      onDeletePreset: jest.fn()
+    });
+    openSettings();
+
+    expect(screen.getByLabelText('Delete My Layout preset')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Delete Summary preset')).not.toBeInTheDocument();
+  });
+
+  it('does not render the delete control when onDeletePreset is omitted', () => {
+    renderTable({ enableColumnHiding: true, presets: [...presets, MY_LAYOUT_PRESET] });
+    openSettings();
+
+    expect(screen.queryByLabelText('Delete My Layout preset')).not.toBeInTheDocument();
+  });
+
+  it('deletes without applying the preset, dropping the selection and leaving the columns alone', async () => {
+    const onDeletePreset = jest.fn();
+
+    const { container } = renderTable({
+      enableColumnHiding: true,
+      presets: [...presets, MY_LAYOUT_PRESET],
+      initialPresetId: 'my-layout',
+      onDeletePreset
+    });
+    openSettings();
+
+    expect(getHeaderTexts(container)).toEqual(['TITLE']);
+
+    fireEvent.click(screen.getByLabelText('Delete My Layout preset'));
+
+    expect(onDeletePreset).toHaveBeenCalledWith('my-layout');
+
+    await waitFor(() => {
+      expect(screen.queryByRole('option', { selected: true })).not.toBeInTheDocument();
+    });
+
+    // Nothing should jump under the user - the columns are still the deleted preset's
+    expect(getHeaderTexts(container)).toEqual(['TITLE']);
+  });
+
+  it('normalizes a dotted accessorKey when seeding visibility from a preset', () => {
+    const { container } = render(
+      <Table
+        columns={[
+          { header: 'TITLE', accessorKey: 'title' },
+          { header: 'BASE', accessorKey: 'base.name' }
+        ]}
+        data={[{ title: 'r2204_1_0', base: { name: 'Palo Alto' } }]}
+        tableSettings={{
+          columnConfig: {
+            enableColumnHiding: true,
+            presets: [{ id: 'title-only', label: 'Title Only', columns: ['title'] }],
+            initialPresetId: 'title-only'
+          }
+        }}
+      />
+    );
+
+    expect(getHeaderTexts(container)).toEqual(['TITLE']);
   });
 
   it('notifies presetChangeSubscriber when a preset is applied and modified', async () => {
