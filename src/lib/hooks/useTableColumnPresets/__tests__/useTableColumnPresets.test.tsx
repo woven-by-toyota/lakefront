@@ -328,6 +328,41 @@ describe('useTableColumnPresets', () => {
     expect(storage.save).toHaveBeenCalledTimes(1);
   });
 
+  it('keeps the same state when an equivalent preset change comes back round', async () => {
+    const storage = createStorage(null);
+    const { result } = renderHook(() => useTableColumnPresets({ presets, storage, saveDebounceMs: 0 }));
+
+    const presetState = {
+      presetId: 'summary',
+      isModified: false,
+      visibleColumnIds: ['title', 'value'],
+      columnVisibility: { title: true, value: true, percentage: false }
+    };
+
+    act(() => {
+      result.current.presetChangeSubscriber(presetState);
+    });
+
+    await waitFor(() => {
+      expect(result.current.preferences?.presetId).toBe('summary');
+    });
+
+    const { preferences } = result.current;
+
+    // A Table that rebuilds its columns every render re-fires this with equal but not identical state.
+    // Handing back the same object is what stops that becoming a render loop.
+    act(() => {
+      result.current.presetChangeSubscriber({
+        ...presetState,
+        visibleColumnIds: ['title', 'value'],
+        columnVisibility: { title: true, value: true, percentage: false }
+      });
+    });
+
+    expect(result.current.preferences).toBe(preferences);
+    expect(storage.save).toHaveBeenCalledTimes(1);
+  });
+
   it('reports a rejected save', async () => {
     const onError = jest.fn();
     const error = new Error('too long');

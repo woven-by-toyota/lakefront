@@ -42,6 +42,12 @@ export interface TableColumnPreferencesStorage {
   save(preferences: TableColumnPreferences): Promise<void> | void;
 }
 
+const isSameVisibility = (a: VisibilityState = {}, b: VisibilityState = {}): boolean => {
+  const keys = Object.keys(a);
+
+  return keys.length === Object.keys(b).length && keys.every((key) => a[key] === b[key]);
+};
+
 export interface UseTableColumnPresetsProps {
   /**
    * The presets your application provides. Presets loaded from storage are appended to these.
@@ -248,12 +254,29 @@ const useTableColumnPresets = ({
   }, [ready, debouncedPreferences]);
 
   const presetChangeSubscriber = useCallback((presetState: TableColumnPresetState) => {
-    setPreferences((previous) => ({
-      ...previous,
-      presetId: presetState.presetId,
-      isModified: presetState.isModified,
-      columnVisibility: persistColumnVisibility ? presetState.columnVisibility : (previous?.columnVisibility ?? {})
-    }));
+    setPreferences((previous) => {
+      const columnVisibility = persistColumnVisibility
+        ? presetState.columnVisibility
+        : (previous?.columnVisibility ?? {});
+
+      // Returning the previous object is what keeps a Table whose `columns` array is rebuilt on every
+      // render from looping: the change effect re-fires, this returns identical state, React bails out
+      if (
+        previous &&
+        previous.presetId === presetState.presetId &&
+        Boolean(previous.isModified) === Boolean(presetState.isModified) &&
+        isSameVisibility(previous.columnVisibility, columnVisibility)
+      ) {
+        return previous;
+      }
+
+      return {
+        ...previous,
+        presetId: presetState.presetId,
+        isModified: presetState.isModified,
+        columnVisibility
+      };
+    });
   }, [persistColumnVisibility]);
 
   const handleSavePreset = useCallback(

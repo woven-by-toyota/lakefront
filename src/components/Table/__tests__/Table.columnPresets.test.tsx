@@ -1,6 +1,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import { humanize } from 'src/lib/format.js';
+import useTableColumnPresets from 'src/lib/hooks/useTableColumnPresets/useTableColumnPresets';
 import Table, { TableSettingsConfig } from '../Table';
 import { TableColumnPreset } from '../tableColumnPresetUtil';
 
@@ -482,5 +483,46 @@ describe('<Table> column presets', () => {
     });
 
     expect(settingsButtonGlows(container)).toBe(true);
+  });
+
+  // Building the column definitions inline is ordinary consumer code, and the preset change effect
+  // depends on the ids derived from them, so this used to feed itself until React gave up
+  it('does not loop when the columns array is rebuilt on every render', async () => {
+    const PresetTable = () => {
+      const { presets: mergedPresets, presetChangeSubscriber, initialPresetId } = useTableColumnPresets({
+        presets,
+        storage: { load: () => ({ presetId: 'summary', columnVisibility: {} }), save: () => undefined },
+        persistColumnVisibility: false
+      });
+
+      return (
+        <Table
+          columns={columns.map((column) => ({ ...column }))}
+          data={customData}
+          tableSettings={{
+            columnConfig: {
+              enableColumnHiding: true,
+              columnLabelTransform: humanize,
+              presets: mergedPresets,
+              initialPresetId,
+              presetChangeSubscriber
+            }
+          }}
+        />
+      );
+    };
+
+    const { container } = render(<PresetTable />);
+
+    await waitFor(() => {
+      expect(getHeaderTexts(container)).toEqual(['TITLE', 'VALUE']);
+    });
+
+    openSettings();
+    fireEvent.click(getColumnCheckbox('Percentage'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Modified')).toBeInTheDocument();
+    });
   });
 });
