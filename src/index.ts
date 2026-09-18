@@ -119,6 +119,9 @@ export * from './components/StepFunctionGraph';
 export { default as Table } from './components/Table';
 export * from './components/Table';
 
+export { default as useTableColumnPresets } from './lib/hooks/useTableColumnPresets';
+export * from './lib/hooks/useTableColumnPresets';
+
 export { default as Tabs } from './components/Tabs';
 export * from './components/Tabs';
 

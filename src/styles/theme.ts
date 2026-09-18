@@ -33,12 +33,14 @@ const THEME: Theme = {
     },
     borderColors: {
         primary: colors.selago,
+        subtle: colors.whisper,
         secondary: colors.storm,
         disabled: colors.akoya,
         inverted: colors.dolphin,
         pronounced: colors.mercury,
         alert: colors.watermelon,
-        dark: colors.dolphin
+        dark: colors.dolphin,
+        warning: colors.mustard
     },
     shadowColors: {
         boxShadow: colors.pavement,
@@ -63,6 +65,9 @@ const THEME: Theme = {
         tinted: colors.akoya,
         error: colors.saturatedRed,
         warning: colors.saturatedOrange,
+        warningSubtle: colors.cornsilk,
+        warningTint: colors.wheat,
+        selected: colors.zircon,
         errorsInverted: colors.white,
     },
     foregrounds: {
@@ -73,6 +78,8 @@ const THEME: Theme = {
         disabled: colors.mercury,
         info: colors.akoya,
         warning: colors.goldenrod,
+        warningPronounced: colors.cinnamon,
+        selected: colors.mariner,
         inverted: colors.akoya,
         success: colors.forest,
         paused: colors.slate,
@@ -135,12 +142,14 @@ export const DARK_THEME: Theme = {
     },
     borderColors: {
         primary: colors.dolphin,
+        subtle: lightenDarkenColor(colors.gunpowder, 20),
         secondary: colors.mercury,
         disabled: lightenDarkenColor(colors.white, -40),
         inverted: colors.selago,
         pronounced: colors.mercury,
         alert: colors.watermelon,
-        dark: colors.dolphin
+        dark: colors.dolphin,
+        warning: colors.goldenrod
     },
     shadowColors: {
         boxShadow: `${colors.black}80`,
@@ -165,6 +174,9 @@ export const DARK_THEME: Theme = {
         tinted: colors.gunpowder,
         error: colors.red,
         warning: colors.orange,
+        warningSubtle: colors.deepOlive,
+        warningTint: colors.bronzeOlive,
+        selected: colors.tangaroa,
         errorsInverted: colors.gunpowder,
     },
     foregrounds: {
@@ -175,6 +187,8 @@ export const DARK_THEME: Theme = {
         disabled: colors.mercury,
         info: colors.akoya,
         warning: colors.saturatedOrange,
+        warningPronounced: colors.gold,
+        selected: colors.blue,
         inverted: colors.storm,
         success: colors.green,
         paused: colors.fog,

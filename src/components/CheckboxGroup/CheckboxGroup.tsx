@@ -52,6 +52,10 @@ export interface CheckboxGroupProps {
    * This option is used to set the select all checkbox color.
    */
   allColor?: string;
+  /**
+   * Whether to render a divider between the `allLabel` checkbox and the options. Defaults to true.
+   */
+  showAllDivider?: boolean;
 }
 
 /**
@@ -67,7 +71,8 @@ const CheckboxGroup: FC<CheckboxGroupProps> = ({
   name,
   onHandleChange,
   options,
-  selected
+  selected,
+  showAllDivider = true
 }) => {
   const isItemChecked = (value: string) => {
     return selected.has(value);
@@ -109,10 +114,11 @@ const CheckboxGroup: FC<CheckboxGroupProps> = ({
             label={allLabel}
             color={allColor}
             id={`checkbox-${name}-all`}
+            labelClassName="checkbox-group-all"
             onChange={onAllItemChange}
             checked={isAllSelected}
           />
-          <StyledDivider />
+          {showAllDivider && <StyledDivider />}
         </>
       )}
 

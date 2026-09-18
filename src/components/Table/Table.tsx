@@ -32,6 +32,15 @@ import Loading from '../Loading/Loading';
 import TableSettings from './TableSettings';
 import { DEFAULT_SETTINGS_ROW_HEIGHT, MIN_SETTINGS_ROW_HEIGHT, TableWrapper } from './tableSettingsStyles';
 import { convertToCSV, downloadFile } from './tableDownloadUtils';
+import {
+  getConfigurableColumnIds,
+  getConfigurableColumnIdsFromDefs,
+  getVisibleColumnIds,
+  isPresetModified,
+  presetToVisibility,
+  TableColumnPreset,
+  TableColumnPresetState
+} from './tableColumnPresetUtil';
 
 export interface TableSortByOptions {
   id: string;
@@ -137,6 +146,62 @@ export interface TableSettingsConfig {
      * This only sets the initial state and won't affect subsequent sizing updates.
      */
     initialColumnSizing?: ColumnSizingState;
+    /**
+     * Named column presets displayed in the "Column Configuration" section of the settings panel.
+     * Applying a preset shows exactly its columns and hides every other configurable column.
+     * The section is not rendered when this is omitted or empty.
+     */
+    presets?: TableColumnPreset[];
+    /**
+     * The id of the preset applied on mount. When it matches a preset, that preset's columns seed
+     * the initial visibility state, taking precedence over initialColumnVisibility.
+     */
+    initialPresetId?: string;
+    /**
+     * True when the columns saved for `initialPresetId` had been modified away from the preset.
+     * The preset stays selected and shows as modified, and `initialColumnVisibility` seeds the
+     * initial visibility instead of the preset's own columns, so the modifications are restored.
+     */
+    initialPresetModified?: boolean;
+    /**
+     * Watch for column preset changes. Fires when a preset is applied, reverted, or when the
+     * visible columns start or stop deviating from the applied preset. Use this to persist the
+     * user's column configuration to your own preferences API.
+     * @param presetState
+     */
+    presetChangeSubscriber?: (presetState: TableColumnPresetState) => void;
+    /**
+     * When provided, a "Save as new preset" button is rendered in the unsaved changes callout.
+     * Naming and persisting the new preset is the consumer's responsibility - push the result back
+     * in through `presets` with `userDefined: true` so it appears in the separated group.
+     *
+     * Return the new preset's id (or a promise of it) to have it become the applied preset, which
+     * clears the unsaved changes callout. Return nothing to leave the current selection alone.
+     * @param columnIds the currently visible configurable column ids
+     * @param sourcePreset the preset the columns were modified from
+     */
+    onSavePreset?: (
+      columnIds: string[],
+      sourcePreset: TableColumnPreset | null
+    ) => string | void | Promise<string | void>;
+    /**
+     * When provided, a "Save" button is rendered in the unsaved changes callout, overwriting the
+     * applied preset's columns rather than creating a new preset. Only user defined presets can be
+     * overwritten - for built in presets the button renders disabled, since there is nothing the
+     * consumer can persist. Push the new columns back in through `presets`.
+     * @param presetId the applied preset's id
+     * @param columnIds the currently visible configurable column ids
+     */
+    onUpdatePreset?: (presetId: string, columnIds: string[]) => void | Promise<void>;
+    /**
+     * When provided, user defined preset rows render a delete control. lakefront does not confirm
+     * the deletion - prompt the user and persist the removal here, then push the shortened list
+     * back in through `presets`.
+     *
+     * Deleting the applied preset clears the selection and leaves the visible columns alone.
+     * @param presetId the preset to delete
+     */
+    onDeletePreset?: (presetId: string) => void | Promise<void>;
   };
   /**
    * Enable table data download feature.
@@ -286,11 +351,29 @@ const Table: React.FC<TableProps> = ({
     [initialSortBy]
   );
 
+  const presets = tableSettings?.columnConfig?.presets;
+  const initialPresetId = tableSettings?.columnConfig?.initialPresetId;
+
   const [sorting, setSorting] = React.useState<SortingState>(initialSortByData);
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-    tableSettings?.columnConfig?.initialColumnVisibility ?? {}
-  );
+  const [activePresetId, setActivePresetId] = useState<string | null>(() => {
+    return presets?.some((preset) => preset.id === initialPresetId) ? (initialPresetId as string) : null;
+  });
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => {
+    const { initialColumnVisibility, initialPresetModified } = tableSettings?.columnConfig ?? {};
+    const initialPreset = presets?.find((preset) => preset.id === initialPresetId);
+
+    // A preset saved in a modified state keeps the saved visibility, so the modifications survive
+    if (initialPresetModified && initialColumnVisibility) {
+      return initialColumnVisibility;
+    }
+
+    // The initial preset seeds visibility, so it has to be resolved from the column definitions -
+    // there is no table instance to read columns from yet.
+    return initialPreset
+      ? presetToVisibility(initialPreset, getConfigurableColumnIdsFromDefs(columns))
+      : initialColumnVisibility ?? {};
+  });
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>(
     tableSettings?.columnConfig?.initialColumnSizing ?? {}
   );
@@ -302,10 +385,34 @@ const Table: React.FC<TableProps> = ({
     setSettingsRowHeight(Math.max(height, MIN_SETTINGS_ROW_HEIGHT));
   }, []);
 
-  // Check if any table settings have been modified
+  const activePreset = useMemo(
+    () => presets?.find((preset) => preset.id === activePresetId) ?? null,
+    [presets, activePresetId]
+  );
+
+  // Configurable column ids derived from the column definitions, so preset comparisons do not
+  // depend on the table instance existing yet
+  const configurableColumnIds = useMemo(
+    () => getConfigurableColumnIdsFromDefs(columns),
+    [columns]
+  );
+
+  // True when the visible columns no longer match the applied preset
+  const presetModified = useMemo(() => {
+    return activePreset ? isPresetModified(activePreset, configurableColumnIds, columnVisibility) : false;
+  }, [activePreset, configurableColumnIds, columnVisibility]);
+
+  // Check if any table settings have been modified. With presets in play, "modified" means the
+  // visible columns deviate from the applied preset rather than simply having hidden columns.
   const hasModifiedSettings = useMemo(() => {
-    return Object.values(columnVisibility).some(visible => visible === false);
-  }, [columnVisibility]);
+    const hasHiddenColumns = Object.values(columnVisibility).some(visible => visible === false);
+
+    if (presets?.length) {
+      return activePreset ? presetModified : hasHiddenColumns;
+    }
+
+    return hasHiddenColumns;
+  }, [columnVisibility, presets, activePreset, presetModified]);
 
   // Determine if sticky headers should be enabled
   // Default to true if infiniteScroll is enabled, unless explicitly overridden
@@ -444,6 +551,85 @@ const Table: React.FC<TableProps> = ({
       tableSettings.columnConfig.columnSizingChangeSubscriber(columnSizing);
     }
   }, [columnSizing, tableSettings]);
+
+  const presetChangeSubscriber = tableSettings?.columnConfig?.presetChangeSubscriber;
+
+  // Column preset change subscriber effect. This depends on the callback itself rather than on
+  // tableSettings so an inline tableSettings object does not re-fire it on every render.
+  useEffect(() => {
+    if (presetChangeSubscriber) {
+      presetChangeSubscriber({
+        presetId: activePresetId,
+        isModified: presetModified,
+        visibleColumnIds: getVisibleColumnIds(configurableColumnIds, columnVisibility),
+        columnVisibility
+      });
+    }
+  }, [presetChangeSubscriber, activePresetId, presetModified, configurableColumnIds, columnVisibility]);
+
+  // Apply a preset, replacing the current column visibility with exactly the preset's columns
+  const handleApplyPreset = useCallback((presetId: string) => {
+    const preset = presets?.find(({ id }) => id === presetId);
+
+    if (!preset) {
+      return;
+    }
+
+    setActivePresetId(preset.id);
+    setColumnVisibility(presetToVisibility(preset, getConfigurableColumnIds(table.getAllLeafColumns())));
+  }, [presets, table]);
+
+  // Restore the applied preset's columns, discarding any manual changes
+  const handleRevertPreset = useCallback(() => {
+    if (!activePreset) {
+      return;
+    }
+
+    setColumnVisibility(presetToVisibility(activePreset, getConfigurableColumnIds(table.getAllLeafColumns())));
+  }, [activePreset, table]);
+
+  const onSavePreset = tableSettings?.columnConfig?.onSavePreset;
+
+  // Hand the current columns off to the consumer to name and persist. When they respond with the new
+  // preset's id, select it so the unsaved changes callout clears. A rejected save leaves the
+  // selection alone - reporting the failure is the consumer's job.
+  const handleSavePreset = useCallback(async (columnIds: string[], sourcePreset: TableColumnPreset | null) => {
+    try {
+      const savedPresetId = await onSavePreset?.(columnIds, sourcePreset);
+
+      if (savedPresetId) {
+        setActivePresetId(savedPresetId);
+      }
+    } catch {
+      // Persisting a preset is the consumer's concern, and must never break the table
+    }
+  }, [onSavePreset]);
+
+  const onUpdatePreset = tableSettings?.columnConfig?.onUpdatePreset;
+
+  // Overwrite the applied preset. The consumer pushes the new columns back in through `presets`,
+  // which is what clears the modified state - the visible columns are already what the user wants.
+  const handleUpdatePreset = useCallback(async (presetId: string, columnIds: string[]) => {
+    try {
+      await onUpdatePreset?.(presetId, columnIds);
+    } catch {
+      // As above
+    }
+  }, [onUpdatePreset]);
+
+  const onDeletePreset = tableSettings?.columnConfig?.onDeletePreset;
+
+  // Deleting the applied preset drops the selection but leaves the columns on screen alone, so
+  // nothing jumps under the user.
+  const handleDeletePreset = useCallback(async (presetId: string) => {
+    try {
+      await onDeletePreset?.(presetId);
+
+      setActivePresetId((previous) => (previous === presetId ? null : previous));
+    } catch {
+      // As above
+    }
+  }, [onDeletePreset]);
 
   // Handle table data download
   const handleDownload = () => {
@@ -585,6 +771,13 @@ const Table: React.FC<TableProps> = ({
             }));
           }}
           getColumnVisibility={(columnId) => columnVisibility[columnId] !== false}
+          activePresetId={activePresetId}
+          presetModified={presetModified}
+          onApplyPreset={handleApplyPreset}
+          onRevertPreset={handleRevertPreset}
+          onSavePreset={onSavePreset ? handleSavePreset : undefined}
+          onUpdatePreset={onUpdatePreset ? handleUpdatePreset : undefined}
+          onDeletePreset={onDeletePreset ? handleDeletePreset : undefined}
           stickyHeaders={shouldUseStickyHeaders}
           hasModifiedSettings={hasModifiedSettings}
           onDownload={tableSettings?.enableDownload ? handleDownload : undefined}
