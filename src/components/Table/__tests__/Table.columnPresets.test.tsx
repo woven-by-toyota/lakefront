@@ -352,6 +352,19 @@ describe('<Table> column presets', () => {
     expect(screen.queryByLabelText('Delete Summary preset')).not.toBeInTheDocument();
   });
 
+  it('renders the delete control visibly at rest', () => {
+    renderTable({
+      enableColumnHiding: true,
+      presets: [...presets, MY_LAYOUT_PRESET],
+      onDeletePreset: jest.fn()
+    });
+    openSettings();
+
+    // Guards against revealing the control through an emotion component selector, which resolves to
+    // ".undefined" in any build without @emotion/babel-plugin and leaves the button permanently hidden
+    expect(getComputedStyle(screen.getByLabelText('Delete My Layout preset')).opacity).not.toBe('0');
+  });
+
   it('does not render the delete control when onDeletePreset is omitted', () => {
     renderTable({ enableColumnHiding: true, presets: [...presets, MY_LAYOUT_PRESET] });
     openSettings();

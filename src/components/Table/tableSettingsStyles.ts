@@ -257,7 +257,13 @@ export const PresetRowContainer = styled.div({
   position: 'relative',
   display: 'flex',
   flexShrink: 0,
-  alignItems: 'center'
+  alignItems: 'center',
+  // Brightening the control from the container rather than from the control itself keeps this off
+  // emotion's component selectors, which silently resolve to ".undefined" unless the build that
+  // compiles lakefront includes @emotion/babel-plugin
+  '&:hover .delete-preset-button, &:focus-within .delete-preset-button': {
+    opacity: 1
+  }
 });
 
 interface PresetRowProps {
@@ -313,7 +319,8 @@ export const PresetRow = styled.button<PresetRowProps>(({ theme, selected, modif
   };
 });
 
-// Revealed on row hover or keyboard focus so the list stays quiet until the user goes looking
+// Muted while the row is idle so the list stays quiet, but never hidden - a preset the user cannot
+// see a way to delete may as well not be deletable
 export const PresetDeleteButton = styled.button(({ theme }) => ({
   position: 'absolute',
   right: PANEL_INSET - 3,
@@ -325,7 +332,7 @@ export const PresetDeleteButton = styled.button(({ theme }) => ({
   border: 'none',
   background: 'transparent',
   cursor: 'pointer',
-  opacity: 0,
+  opacity: 0.6,
   svg: {
     width: 12,
     height: 12,
@@ -334,10 +341,7 @@ export const PresetDeleteButton = styled.button(({ theme }) => ({
   '&:hover svg, &:focus-visible svg': {
     fill: theme.foregrounds.error
   },
-  '&:focus-visible': {
-    opacity: 1
-  },
-  [`${PresetRowContainer}:hover &, ${PresetRowContainer}:focus-within &`]: {
+  '&:hover, &:focus-visible': {
     opacity: 1
   }
 }));
