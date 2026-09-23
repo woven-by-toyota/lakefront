@@ -8,7 +8,9 @@ import {
   SortingState,
   ColumnDef,
   ColumnSort,
+  Column,
   ExpandedState,
+  Row,
   TableOptions,
   VisibilityState,
   ColumnSizingState
@@ -219,6 +221,19 @@ export interface TableSettingsConfig {
    * 'text': Shows text buttons with "Settings" and "Export CSV" labels, bordered layout.
    */
   buttonDisplayStyle?: 'icons' | 'text';
+  /**
+   * Custom icon for the download button, replacing the default download icon.
+   */
+  downloadIcon?: React.ReactNode;
+  /**
+   * When provided, called instead of the built-in CSV download when the download button is
+   * clicked - use this to run a custom export flow (e.g. a column/rename picker) rather than
+   * downloading immediately. Receives the currently visible rows and leaf columns backing the
+   * built-in CSV export; `resolveCsvCellValue` from `tableDownloadUtils` resolves the same
+   * per-cell values `convertToCSV` would, so a custom flow can match its output.
+   * @param context the visible rows and leaf columns backing the built-in CSV export
+   */
+  onDownloadPress?: (context: { rows: Row<any>[]; columns: Column<any, any>[] }) => void;
 }
 
 export interface TableProps<T = any> {
@@ -637,6 +652,11 @@ const Table: React.FC<TableProps> = ({
     const visibleColumns = table.getAllLeafColumns().filter(
       col => col.getIsVisible() && col.id !== 'more-actions'
     );
+
+    if (tableSettings?.onDownloadPress) {
+      tableSettings.onDownloadPress({ rows, columns: visibleColumns });
+      return;
+    }
 
     const csv = convertToCSV(rows, visibleColumns);
     const filename = tableSettings?.downloadFilename || 'table-data.csv';

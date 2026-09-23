@@ -26,6 +26,7 @@ import {
   UnsavedChangesCallout
 } from './tableSettingsStyles';
 import Button from 'src/components/Button';
+import type { Icon } from 'src/components/Button/buttonUtil';
 import { TableSettingsConfig } from 'src/components/Table/Table';
 import { getConfigurableColumns, TableColumnPreset } from './tableColumnPresetUtil';
 
@@ -78,6 +79,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
   stickyHeaders = false,
   hasModifiedSettings = false,
   onDownload,
+  downloadIcon,
   buttonDisplayStyle = 'icons',
   onHeightChange,
   overlayPosition,
@@ -334,7 +336,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
             aria-label="Download table data"
             title="Download table data"
           >
-            <DownloadIcon /><span>Export CSV</span>
+            {downloadIcon ?? <DownloadIcon />}<span>Export CSV</span>
           </button>
         )}
         {settingsOverlay}
@@ -355,7 +357,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
         />
         {onDownload && (
           <Button
-            icon={<DownloadIcon />}
+            icon={(downloadIcon as Icon) ?? <DownloadIcon />}
             onClick={onDownload}
             className="download-icon"
             aria-label="Download table data"
