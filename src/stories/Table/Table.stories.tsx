@@ -263,6 +263,38 @@ TableWithDownload.args = {
   storyDescription: 'Click the download icon to export the current table data as CSV. Only visible columns will be included in the export. In this example, the "COMPARE_TOTAL" column demonstrates custom cell rendering and custom CSV export value.'
 };
 
+const CustomDownloadIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M12 3v10m0 0-4-4m4 4 4-4M4 19h16"
+      stroke="#2E7D32"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const TableWithCustomDownload = Template.bind({});
+TableWithCustomDownload.args = {
+  columns: EXPORT_COLUMNS,
+  data: EXPORT_DATA,
+  tableSettings: {
+    columnConfig: {
+      enableColumnHiding: true
+    },
+    enableDownload: true,
+    downloadIcon: <CustomDownloadIcon />,
+    onDownloadPress: ({ rows, columns }) => {
+      action('onDownloadPress')(`${rows.length} row(s), ${columns.length} column(s)`);
+    }
+  } as TableProps['tableSettings'],
+  noDataMessage: 'No data found',
+  // story props
+  storyTitle: 'Table with Custom Download',
+  storyDescription: 'The download button uses a custom icon, and onDownloadPress intercepts the click instead of downloading a CSV immediately - check the Actions panel below to see the currently visible rows/columns it received. Use this to run a custom export flow (e.g. a column/rename picker) instead of the built-in download.'
+};
+
 export const TableWithTextButtonStyle = InfiniteScrollTemplate.bind({});
 TableWithTextButtonStyle.args = {
   columns: COLUMNS,

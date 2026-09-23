@@ -19,6 +19,46 @@ function safeToString(value: any): string {
 }
 
 /**
+ * Resolves a single cell's export value, in the same order `convertToCSV` uses:
+ * 1. `columnDef.meta.csvValue`, if the column defines one
+ * 2. the column's own cell renderer, if it returns a plain string or number
+ * 3. the raw cell value
+ *
+ * Exported so a consumer replacing the built-in download (e.g. `tableSettings.onDownloadPress`)
+ * can reproduce the same per-cell values instead of re-deriving this precedence itself.
+ */
+export function resolveCsvCellValue(row: Row<any>, col: any): string {
+  // 1. Check if column has a custom csvValue accessor for CSV export
+  if (col.columnDef.meta?.csvValue && typeof col.columnDef.meta.csvValue === 'function') {
+    try {
+      return safeToString(col.columnDef.meta.csvValue(row.getValue(col.id), row));
+    } catch (error) {
+      return safeToString(row.getValue(col.id));
+    }
+  }
+
+  // 2. Try to use the column's cell renderer if it exists
+  const cell = row.getAllCells().find(c => c.column.id === col.id);
+  if (cell && col.columnDef.cell && typeof col.columnDef.cell === 'function') {
+    try {
+      const rendered = col.columnDef.cell(cell.getContext());
+      // Handle the rendered value - could be string, number, or React element
+      if (typeof rendered === 'string' || typeof rendered === 'number') {
+        return String(rendered);
+      }
+      // If it's a React element or other object, fall back to raw value
+      return safeToString(row.getValue(col.id));
+    } catch (error) {
+      // If cell renderer errors, fall back to raw value
+      return safeToString(row.getValue(col.id));
+    }
+  }
+
+  // 3. No cell renderer, use raw value
+  return safeToString(row.getValue(col.id));
+}
+
+/**
  * Converts table rows and columns to CSV format
  * @param rows - The table rows to convert
  * @param columns - The visible columns to include
@@ -45,37 +85,7 @@ export function convertToCSV(rows: Row<any>[], columns: any[]): string {
   // Data rows
   const dataRows = rows.map(row =>
     columns.map(col => {
-      const cell = row.getAllCells().find(c => c.column.id === col.id);
-      let stringValue: string;
-
-      // 1. Check if column has a custom csvValue accessor for CSV export
-      if (col.columnDef.meta?.csvValue && typeof col.columnDef.meta.csvValue === 'function') {
-        try {
-          const csvValue = col.columnDef.meta.csvValue(row.getValue(col.id), row);
-          stringValue = safeToString(csvValue);
-        } catch (error) {
-          stringValue = safeToString(row.getValue(col.id));
-        }
-      }
-      // 2. Try to use the column's cell renderer if it exists
-      else if (cell && col.columnDef.cell && typeof col.columnDef.cell === 'function') {
-        try {
-          const rendered = col.columnDef.cell(cell.getContext());
-          // Handle the rendered value - could be string, number, or React element
-          if (typeof rendered === 'string' || typeof rendered === 'number') {
-            stringValue = String(rendered);
-          } else {
-            // If it's a React element or other object, fall back to raw value
-            stringValue = safeToString(row.getValue(col.id));
-          }
-        } catch (error) {
-          // If cell renderer errors, fall back to raw value
-          stringValue = safeToString(row.getValue(col.id));
-        }
-      } else {
-        // No cell renderer, use raw value
-        stringValue = safeToString(row.getValue(col.id));
-      }
+      const stringValue = resolveCsvCellValue(row, col);
 
       // Escape quotes and wrap in quotes if contains comma/quote/newline
       if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
