@@ -4,8 +4,9 @@ import { ReactComponent as CloseIcon } from '../../../Modal/assets/closeIcon.svg
 
 export const DEFAULT_FILTER_COUNT = 1;
 
-export const createChips = (values: string | string[], name: string, onClose?: (name: string, value: any) => void, label?: FilterModule<any>['label'], showX?: boolean) => {
+export const createChips = (values: string | string[], name: string, onClose?: (name: string, value: any) => void, label?: FilterModule<any>['label'], showX?: boolean, sectionValues?: string | string[]) => {
     const chips = Array.isArray(values) ? values : [values];
+    const chipValues = Array.isArray(sectionValues) ? sectionValues : (sectionValues !== undefined ? [sectionValues] : undefined);
 
     if (!chips?.length) {
         return null;
@@ -23,7 +24,7 @@ export const createChips = (values: string | string[], name: string, onClose?: (
                         {content}
                     </div>
                     <FilterLabels>{label}</FilterLabels>
-                    {showX && onClose && <span onClick={() => onClose(name, content)}><CloseIcon/></span>}
+                    {showX && onClose && <span onClick={() => onClose(name, chipValues?.[idx] ?? content)}><CloseIcon/></span>}
                 </FilterValueChip>;
             })}
         </>

@@ -277,22 +277,37 @@ describe('ListFilter', () => {
     });
 
     describe('clearPartialSingleFilter', () => {
+        // clearPartialSingleFilter now receives the underlying value (not the display label) --
+        // this is the contract change that fixes chips whose label differs from their value.
         const options = [{ value: 'a', label: 'A [b]' }, { value: 'b', label: 'B [a]' }];
         const { clearPartialSingleFilter } = ListFilter(options, '', '');
         const allOptions = new Set([options[0].value, options[1].value]);
 
         it('clears part of the filter if value exists', () => {
-            const result = clearPartialSingleFilter(allOptions, options[0].label);
+            const result = clearPartialSingleFilter(allOptions, options[0].value);
             expect(result.size).toBe(1);
             expect(result.has(options[1].value)).toBe(true);
             expect(result.has(options[0].value)).toBe(false);
         });
 
-        it('returns original Set when selectedLabel is not provided', () => {
+        it('returns original Set when value is not provided', () => {
             const result = clearPartialSingleFilter(allOptions, '');
             expect(result.size).toBe(2);
             expect(result.has(options[0].value)).toBe(true);
             expect(result.has(options[1].value)).toBe(true);
+        });
+    });
+
+    describe('getFilterSectionValues', () => {
+        const { getFilterSectionValues } = ListFilter(options, '', '');
+        const allOptions = new Set([options[0].value, options[1].value]);
+
+        it('returns array of the underlying values, index-aligned with getFilterSectionLabel', () => {
+            expect(getFilterSectionValues(allOptions)).toStrictEqual([options[0].value, options[1].value]);
+        });
+
+        it('returns empty array by default', () => {
+            expect(getFilterSectionValues()).toStrictEqual([]);
         });
     });
 });

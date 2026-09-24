@@ -77,6 +77,13 @@ export interface FilterModule<T> {
      */
     getFilterSectionLabel(value: T): string | string[];
     /**
+     * Returns the underlying stored value(s) for this filter's section, index-aligned with
+     * getFilterSectionLabel. Used to close an individual chip by value instead of by its
+     * (possibly reformatted or truncated) display label. Optional for backwards compatibility;
+     * falls back to closing by label when not implemented.
+     */
+    getFilterSectionValues?(value: T): string[];
+    /**
      * Parses filter value from browser url query param value(s) and pre-populates the filter value on init.
      */
     parseInitialFilterValue(browserQueryUrlValue?: string | string[] | null | undefined | any): T | null | undefined;

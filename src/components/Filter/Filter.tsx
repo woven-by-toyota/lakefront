@@ -253,6 +253,7 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
               <FilterChipsContainer className="filter-chips-container">
                 {visibleFilterKeys.map((key) => {
                     const itemFilterLabelValues = filters[key].getFilterSectionLabel(filterValues[key]);
+                    const itemFilterSectionValues = filters[key].getFilterSectionValues?.(filterValues[key]);
 
                     return (
                       <FilterValueChips
@@ -262,6 +263,7 @@ export const Filter: FC<FilterComponentProps & ComponentProps<'div'>> = ({
                         name={key}
                         notDefaultValues={filters[key] ? !filters[key].isDefaultFilterValue(filterValues[key]) : false}
                         value={itemFilterLabelValues}
+                        values={itemFilterSectionValues}
                         visible={true} />
                     );
                   })}

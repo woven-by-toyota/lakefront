@@ -5,6 +5,7 @@ import { Filter } from '../Filter';
 import { FILTERS, LOCATION } from './filter.data';
 import { useFilter } from '../util';
 import * as FilterSectionHeader from 'src/components/Filter/components/FilterSectionHeader';
+import MultiSelectFilter from '../modules/MultiSelectFilter/MultiSelectFilter';
 
 const mockUseFilter = jest.fn(useFilter);
 
@@ -293,6 +294,41 @@ describe('Filter', () => {
             );
 
             expect(getAllByText('badge: 4')).toHaveLength(2);
+        });
+    });
+
+    describe('chip value clearing', () => {
+        it('removes only the clicked chip\'s value, by value rather than its (possibly reformatted) label', () => {
+            const statusOptions = [
+                { value: 'DMV_PROCESSING', label: 'Dmv Processing' },
+                { value: 'ACTIVE', label: 'Active' },
+                { value: 'INACTIVE', label: 'Inactive' }
+            ];
+            const FILTERS_WITH_STATUSES = {
+                ...FILTERS,
+                statuses: MultiSelectFilter({ label: 'Statuses', options: statusOptions }, {})
+            };
+            const location = {
+                ...LOCATION,
+                search: 'statuses=DMV_PROCESSING&statuses=ACTIVE'
+            };
+            const updateHistory = jest.fn();
+
+            const TestComponentWithStatuses = () => {
+                const filterHooks = useFilter(FILTERS_WITH_STATUSES, false, location, updateHistory);
+                return <Filter filterHooks={filterHooks} location={location} updateHistory={updateHistory} />;
+            };
+
+            const { getByText, queryByText } = render(<TestComponentWithStatuses />);
+
+            getByText('Dmv Processing');
+            getByText('Active');
+
+            const dmvChip = getByText('Dmv Processing').closest('div').parentElement;
+            fireEvent.click(dmvChip.querySelector('svg'));
+
+            expect(queryByText('Dmv Processing')).not.toBeInTheDocument();
+            expect(getByText('Active')).toBeInTheDocument();
         });
     });
 

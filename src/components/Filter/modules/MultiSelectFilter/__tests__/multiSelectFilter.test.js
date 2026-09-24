@@ -191,6 +191,19 @@ describe('MultiSelectFilter', () => {
         });
     });
 
+    describe('getFilterSectionValues', () => {
+        const { getFilterSectionValues } = MultiSelectFilter({ options: MULTI_SELECT_FILTER_OPTIONS }, {});
+
+        it('returns the raw values, unaffected by any label formatting', () => {
+            expect(getFilterSectionValues(['colors', 'sizes'])).toStrictEqual(['colors', 'sizes']);
+        });
+
+        it('returns an empty array when values is not an array', () => {
+            expect(getFilterSectionValues()).toStrictEqual([]);
+            expect(getFilterSectionValues('a')).toStrictEqual([]);
+        });
+    });
+
     describe('parseInitialFilterValue', () => {
         describe('when value is truthy', () => {
             const { parseInitialFilterValue } = MultiSelectFilter({ initialValue: '' }, {});
@@ -301,6 +314,25 @@ describe('MultiSelectFilter', () => {
         it('returns original array when value is not provided', () => {
             const result = clearPartialSingleFilter(['a', 'b'], '');
             expect(result).toStrictEqual(['a', 'b']);
+        });
+
+        it('removes the right entry when the display label differs from the stored value', () => {
+            const dmvOptions = [
+                { value: 'DMV_PROCESSING', label: 'Dmv Processing' },
+                { value: 'ACTIVE', label: 'Active' }
+            ];
+            const { clearPartialSingleFilter } = MultiSelectFilter({ options: dmvOptions });
+
+            const result = clearPartialSingleFilter(['DMV_PROCESSING', 'ACTIVE'], 'DMV_PROCESSING');
+            expect(result).toStrictEqual(['ACTIVE']);
+        });
+
+        it('removes the right entry when two options render identical "["-truncated labels', () => {
+            const readyOptions = [{ value: 'a', label: 'Ready [A]' }, { value: 'b', label: 'Ready [B]' }];
+            const { clearPartialSingleFilter } = MultiSelectFilter({ options: readyOptions });
+
+            const result = clearPartialSingleFilter(['a', 'b'], 'a');
+            expect(result).toStrictEqual(['b']);
         });
     });
 });
