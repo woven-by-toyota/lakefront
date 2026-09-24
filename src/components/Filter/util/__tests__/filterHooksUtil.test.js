@@ -109,4 +109,58 @@ describe('getFilterBrowserQueryParams', () => {
             phrases: PHRASE_DEMO
         });
     });
+
+    describe('when a filter declares splitQueryParams', () => {
+        const SPLIT_FILTERS = {
+            ...FILTERS,
+            customDateRange: {
+                ...FILTERS.keywords,
+                label: 'Custom Date Range',
+                splitQueryParams: ['startDate', 'endDate'],
+                isDefaultFilterValue: (value) => !value,
+                getBrowserQueryUrlValue: (value) => value || {}
+            }
+        };
+
+        it('spreads the returned object into its declared params under their own keys', () => {
+            expect(
+                getFilterBrowserQueryParams(SPLIT_FILTERS, {
+                    ...FILTER_HOOKS_UTIL_VALUES,
+                    customDateRange: { startDate: '2024-01-01', endDate: '2024-01-31' }
+                })
+            ).toMatchObject({
+                startDate: '2024-01-01',
+                endDate: '2024-01-31'
+            });
+        });
+
+        it('ignores keys the filter has not declared in splitQueryParams', () => {
+            const result = getFilterBrowserQueryParams(SPLIT_FILTERS, {
+                ...FILTER_HOOKS_UTIL_VALUES,
+                customDateRange: { startDate: '2024-01-01', unrelatedKey: 'nope' }
+            });
+
+            expect(result).not.toHaveProperty('unrelatedKey');
+        });
+
+        it('omits empty split param values so cleared params disappear', () => {
+            const result = getFilterBrowserQueryParams(SPLIT_FILTERS, {
+                ...FILTER_HOOKS_UTIL_VALUES,
+                customDateRange: { startDate: '2024-01-01', endDate: '' }
+            });
+
+            expect(result).toMatchObject({ startDate: '2024-01-01' });
+            expect(result).not.toHaveProperty('endDate');
+        });
+
+        it('contributes nothing for a default-valued split filter', () => {
+            const result = getFilterBrowserQueryParams(SPLIT_FILTERS, {
+                ...FILTER_HOOKS_UTIL_VALUES,
+                customDateRange: null
+            });
+
+            expect(result).not.toHaveProperty('startDate');
+            expect(result).not.toHaveProperty('endDate');
+        });
+    });
 });

@@ -205,6 +205,34 @@ describe('useFilter', () => {
         });
     });
 
+    it('keeps a split filter\'s query params in the url when an unrelated filter changes', () => {
+        const updateHistory = jest.fn();
+        const FILTERS_WITH_SPLIT = {
+            ...FILTERS,
+            dateRange: {
+                ...FILTERS.keywords,
+                label: 'Date Range',
+                splitQueryParams: ['startDate', 'endDate'],
+                isDefaultFilterValue: (value) => !value,
+                getBrowserQueryUrlValue: (value) => value || {}
+            }
+        };
+        const { result } = renderHook(() => useFilter(FILTERS_WITH_SPLIT, false, LOCATION, updateHistory));
+
+        act(() => {
+            result.current.updateFilter('dateRange', { startDate: '2024-01-01', endDate: '2024-01-31' });
+        });
+
+        act(() => {
+            result.current.updateFilter('keywords', KEYWORD_DEMO);
+        });
+
+        const { search } = updateHistory.mock.calls[updateHistory.mock.calls.length - 1][0];
+        expect(search).toContain('startDate=2024-01-01');
+        expect(search).toContain('endDate=2024-01-31');
+        expect(search).toContain(`keywords=${KEYWORD_DEMO}`);
+    });
+
     describe('when a filter has the required property set to false', () => {
         it('resets filter name when calling resetFilter with no passed value', () => {
             const FILTERS_WITH_NOT_REQUIRED_PHRASES = {
