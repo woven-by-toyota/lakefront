@@ -64,10 +64,9 @@ const ListFilter = (
         }
         return false;
     },
-    clearPartialSingleFilter: (originalValue, selectedLabel) => {
-        const itemValue = options.find(i => i.label === selectedLabel);
+    clearPartialSingleFilter: (originalValue, selectedValue) => {
         const copySetValues = new Set(originalValue);
-        itemValue && copySetValues.delete(itemValue.value);
+        copySetValues.delete(selectedValue);
 
         return copySetValues;
     },
@@ -92,6 +91,7 @@ const ListFilter = (
         }
         return [];
     },
+    getFilterSectionValues: value => (value ? Array.from(value) : []),
     parseInitialFilterValue: browserQueryUrlValue => {
         if (browserQueryUrlValue) {
             // initial value is either a single string or array of strings

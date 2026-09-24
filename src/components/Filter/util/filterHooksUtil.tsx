@@ -86,7 +86,24 @@ export const getFilterBrowserQueryParams = (filters: FilterSet, values: FilterVa
         // only save filter url if it's not a default value or it's a time range
         if (!filters[key].isDefaultFilterValue(values[key]) || key === 'dateRange') {
             const filter = filters[key];
-            urlValues[key] = filter.getBrowserQueryUrlValue(values[key]);
+            const urlValue = filter.getBrowserQueryUrlValue(values[key]);
+
+            // filters that store their value across multiple query params (e.g. a date range's
+            // startDate/endDate) return an object keyed by those params, which must be merged in
+            // under their own names rather than under this filter's key.
+            if (filter.splitQueryParams) {
+                filter.splitQueryParams.forEach((paramKey) => {
+                    const paramValue = (urlValue as Record<string, unknown> | null | undefined)?.[paramKey];
+                    const isEmpty = paramValue == null || paramValue === '' || (Array.isArray(paramValue) && paramValue.length === 0);
+
+                    if (!isEmpty) {
+                        urlValues[paramKey] = paramValue;
+                    }
+                });
+                return;
+            }
+
+            urlValues[key] = urlValue;
         }
     });
 

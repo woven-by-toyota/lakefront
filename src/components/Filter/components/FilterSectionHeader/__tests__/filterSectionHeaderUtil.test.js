@@ -54,6 +54,20 @@ describe('createChips', () => {
         fireEvent.click(x);
         expect(onCloseMock).toHaveBeenCalledWith('Some Filter', 'chip a');
     });
+
+    it('closes with the parallel value when values is supplied, instead of the (possibly reformatted) label', () => {
+        const onCloseMock = jest.fn();
+        const { container } = render(
+            <div>
+                chips
+                {createChips(['Chip A', 'Chip B'], 'Some Filter', onCloseMock, 'Item Label', true, ['value-a', 'value-b'])}
+            </div>
+        );
+
+        const x = container.querySelector('svg');
+        fireEvent.click(x);
+        expect(onCloseMock).toHaveBeenCalledWith('Some Filter', 'value-a');
+    });
 });
 
 describe('getFilterCount', () => {

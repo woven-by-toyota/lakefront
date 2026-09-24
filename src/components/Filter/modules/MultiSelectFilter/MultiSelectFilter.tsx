@@ -113,6 +113,7 @@ const MultiSelectFilter = (
 
         return [];
     },
+    getFilterSectionValues: (values) => (Array.isArray(values) ? values : []),
     parseInitialFilterValue: (browserQueryUrlValue) => {
         if (browserQueryUrlValue) {
             return typeof browserQueryUrlValue === 'string' ? [browserQueryUrlValue] : browserQueryUrlValue;
