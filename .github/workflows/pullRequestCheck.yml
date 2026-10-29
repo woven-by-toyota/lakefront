@@ -27,7 +27,7 @@ jobs:
       - name: "Setup Node.js"
         uses: actions/setup-node@v6
         with:
-          node-version: '24.x'
+          node-version: '26.x'
       - run: npm ci
       - run: npm test
       - run: npm run build
@@ -40,7 +40,7 @@ jobs:
       - name: "Setup Node.js"
         uses: actions/setup-node@v6
         with:
-          node-version: '24.x'
+          node-version: '26.x'
       - name: "Version Check"
         id: check
         uses: EndBug/version-check@v2
@@ -48,7 +48,10 @@ jobs:
           diff-search: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: "Apply Patch If Required"
-        if: steps.check.outputs.changed == 'false'
+        # phips28/gh-action-bump-version is blocked by org policy (actions must come from
+        # woven-by-toyota, GitHub, or a verified Marketplace entry). Skipped until a replacement
+        # is picked; We'll bump the version manually in the meantime.
+        if: false
         uses: 'phips28/gh-action-bump-version@master'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
