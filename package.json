@@ -126,7 +126,7 @@
     "library"
   ],
   "engines": {
-    "node": "24.x"
+    "node": "26.x"
   },
   "overrides": {
     "storybook": "$storybook"
