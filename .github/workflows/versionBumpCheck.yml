@@ -21,6 +21,10 @@ jobs:
         with:
           node-version: '26.x'
       - name: "Automated Version Bump (Push)"
+        # phips28/gh-action-bump-version is blocked by org policy (actions must come from
+        # woven-by-toyota, GitHub, or a verified Marketplace entry). Skipped until a replacement
+        # is picked; LAKEHOUSE-1792 bumps the version manually in the meantime.
+        if: false
         uses: 'phips28/gh-action-bump-version@master'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
