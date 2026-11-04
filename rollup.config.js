@@ -24,11 +24,11 @@ const addEmotionReference = () => ({
 });
 
 /*
- * query-string is ESM only from v8 on and publishes no require condition, so leaving it external
- * makes the cjs bundle emit a require() that bundler-based consumers cannot resolve. Bundling it
- * keeps pkg.main usable.
+ * These are ESM only and publish no require condition, so leaving them external makes the cjs
+ * bundle emit a require() that bundler-based consumers cannot resolve. Bundling them keeps
+ * pkg.main usable.
  */
-const BUNDLED_DEPS = ['query-string'];
+const BUNDLED_DEPS = ['query-string', 'uuid'];
 
 // Create external dependencies list
 const EXTERNAL_DEPS = [
