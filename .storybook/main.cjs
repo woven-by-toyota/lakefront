@@ -28,16 +28,18 @@ module.exports = {
         fileLoaderRule.exclude = /\.svg$/;
 
         // use our own loader for handling svgs (svgr)
+        // svgo is off to match rollup.config.js, so Storybook renders the svg the bundle ships
         config.module.rules.push({
             test: /\.svg$/,
             enforce: 'pre',
-            loader: require.resolve('@svgr/webpack')
+            loader: require.resolve('@svgr/webpack'),
+            options: { svgo: false }
         });
 
         // Add transform for svgs into base64 uri (data:encodedValueHere)
         config.module.rules.unshift({
             test: /\.svg$/,
-            use: ['@svgr/webpack', 'url-loader']
+            use: [{ loader: '@svgr/webpack', options: { svgo: false } }, 'url-loader']
         });
 
         return config;
