@@ -47,6 +47,22 @@ createRoot.render(<App />, document.querySelector('#app'));
 If you want to contribute to the action, even by just raising a problem or proposing an idea, you can click [here](CONTRIBUTING.md) to find out how to do it.
 
 ---
+## Npm Dependencies Maintenance
+Dependencies in the [package.json](package.json) should be kept up to date to avoid unexpected issues. A report of
+outdated dependencies is rebuilt nightly and published to
+[the dependencies page](https://woven-by-toyota.github.io/lakefront/dependencies/), alongside the Storybook. It covers
+both `dependencies` and `devDependencies`, and the same content is written to the workflow's job summary so a failed
+publish does not lose it.
+
+### Review cadence
+Review it **once per sprint**, at planning:
+
+1. Open the report. Anything under Patch or Minor is routine; apply it as one pull request.
+2. For each new entry under Major, raise a ticket rather than attempting it inline.
+3. Check the repository's security alerts as well. The report shows versions, not vulnerabilities, so it will not
+   surface a CVE on a package that is otherwise current.
+
+---
 ## Storybook Components
 We've added Storybook pages to show how each component can be used.
 

@@ -157,7 +157,9 @@ export default {
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
     '/node_modules/',
-    '/dist/'
+    '/dist/',
+    // scratch worktrees hold whole stale copies of src, which otherwise run as extra suites
+    '/\\.claude/'
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
@@ -179,6 +181,12 @@ export default {
   // transform: undefined,
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
+  // The default transform only matches .js/.jsx/.ts/.tsx, so .mjs files are never compiled. d3 ships
+  // its modern builds as .mjs, which Jest then cannot require.
+  transform: {
+    '^.+\\.(m?js|jsx|ts|tsx)$': 'babel-jest'
+  },
+
   transformIgnorePatterns: [
     '/node_modules/(?!d3)',
   ],

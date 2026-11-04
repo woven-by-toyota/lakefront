@@ -1,0 +1,64 @@
+name: Check Dependencies
+on:
+  workflow_dispatch:
+  schedule:
+    # every day at midnight
+    - cron: '0 0 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  # Shared with storybook.yml: both publish to gh-pages, and the Storybook deploy cleans the branch,
+  # so they must not run at the same time.
+  group: 'gh-pages-publish'
+  cancel-in-progress: false
+
+jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+    env:
+      APP_NAME: 'lakefront'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '26.x'
+
+      - name: Install packages
+        run: npm ci
+
+      # No --dep filter: the default covers devDependencies too, which is where most of the drift is.
+      - name: Run update checker
+        run: |
+          mkdir dep_report
+          npx --yes npm-check-updates --target latest --format group > dep_report/root.txt
+
+      - name: Generate report
+        run: |
+          node ./scripts/generate-outdated-report.js
+          rm dep_report/root.txt
+
+      # Kept alongside the Pages publish below so a failed publish still leaves the report somewhere.
+      - name: Upload report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-report
+          path: dep_report/
+          retention-days: 7
+
+      # Publishes into a subfolder with clean off, so the Storybook at the branch root is untouched.
+      # Uses the default GITHUB_TOKEN deliberately: a token push would trigger versionBumpCheck.yml,
+      # which does not exclude gh-pages and would try to version-bump the Storybook branch.
+      - name: Publish report to GitHub Pages
+        if: always()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dep_report
+          target-folder: dependencies
+          clean: false
