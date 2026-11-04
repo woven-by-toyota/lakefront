@@ -62,6 +62,20 @@ Review it **once per sprint**, at planning:
 3. Check the repository's security alerts as well. The report shows versions, not vulnerabilities, so it will not
    surface a CVE on a package that is otherwise current.
 
+### Majors the report will keep listing
+Four will stay on the report until something outside this repository changes. They are listed here so each sprint
+does not rediscover them:
+
+| Package | Why it is held |
+|---|---|
+| `typescript` 7 | `@rollup/plugin-typescript` destructures `ts.ModuleKind`, which 7 no longer exposes, so `rollup` fails before reading a file. 12.3.1 is the latest. `tsc` itself is clean on 7. |
+| `@babel/*` 8 | `babel-jest` and `@storybook/addon-webpack5-compiler-babel` both require `@babel/core` ^7, and they are the only things here that use Babel. |
+| `@tanstack/react-table` 9 | Restructures the APIs `Table.tsx` is built on. `lakehouse-ui` renders that component, so it needs its own ticket and a `build-copy` check against the consumer. |
+| `eslint` 10 | Needs the flat-config migration, `@typescript-eslint` 5 to 8, a `lint` script without the removed `--ext` flag, and the 95 existing errors under `src/stories` resolved. Worth considering Biome instead, which the other two repositories use. |
+
+Three high findings also have no published fix: `@storybook/builder-webpack5`, `@storybook/react-webpack5` and
+`webpack-dev-middleware`, all reached only through the Storybook dev server.
+
 ---
 ## Storybook Components
 We've added Storybook pages to show how each component can be used.
