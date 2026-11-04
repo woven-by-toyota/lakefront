@@ -23,12 +23,19 @@ const addEmotionReference = () => ({
     }
 });
 
+/*
+ * query-string is ESM only from v8 on and publishes no require condition, so leaving it external
+ * makes the cjs bundle emit a require() that bundler-based consumers cannot resolve. Bundling it
+ * keeps pkg.main usable.
+ */
+const BUNDLED_DEPS = ['query-string'];
+
 // Create external dependencies list
 const EXTERNAL_DEPS = [
     // All peer dependencies
     ...Object.keys(pkg.peerDependencies || {}),
     // All dependencies (since this is a library, don't bundle dependencies)
-    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.dependencies || {}).filter(dep => !BUNDLED_DEPS.includes(dep)),
     // React internals
     'react/jsx-runtime',
     'react/jsx-dev-runtime',
