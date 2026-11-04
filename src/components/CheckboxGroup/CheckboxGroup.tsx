@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import Checkbox from 'src/components/Checkbox/Checkbox';
 import colors from 'src/styles/lakefrontColors';
@@ -19,7 +19,7 @@ export interface CheckboxGroupOption {
   value: string;
   label: string | ReactElement;
   color?: string;
-  description?: string;
+  description?: ReactNode;
 }
 
 export interface CheckboxGroupProps {

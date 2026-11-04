@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactNode } from 'react';
 import Modal from 'src/components/Modal/Modal';
 import { ReactComponent as ErrorIcon } from './assets/errorIcon.svg';
 import Button from 'src/components/Button/Button';
@@ -17,11 +17,11 @@ export interface ConfirmationModalProps {
   /**
    * The title of the modal.
    */
-  title?: string;
+  title?: ReactNode;
   /**
    * The text or content to display in the main body of the modal.
    */
-  message: string | ReactElement;
+  message: ReactNode;
   /**
    * The yes/accept button text. This defaults to `Yes`.
    */
