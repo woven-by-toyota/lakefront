@@ -1,9 +1,7 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, ReactNode } from 'react';
 import Select from 'src/components/Select/Select';
 import { SelectOption } from 'src/types/global';
 import { LegendRow, ModeSelectorContainer } from './modeSelectorStyles';
-import { ThemeProvider } from '@emotion/react';
-import theme from '../../styles/theme';
 
 export interface ModeSelectorLegendRowProps {
     label: string;
@@ -14,7 +12,7 @@ export interface ModeSelectorProps {
     /**
      * The title of the mode selector.
      */
-    title?: string;
+    title?: ReactNode;
     /**
      * The classes to pass to the mode selector.
      */

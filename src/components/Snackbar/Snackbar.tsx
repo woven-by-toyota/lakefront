@@ -23,7 +23,7 @@ export interface SnackbarProps {
     /**
      * The message to display.
      */
-    message?: string;
+    message?: ReactNode;
     /**
      * Callback fired when the component requests to be closed.
      * Typically `onClose` is used to set state in the parent component,

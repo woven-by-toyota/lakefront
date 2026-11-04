@@ -12,7 +12,7 @@ export interface CardProps {
   /**
    * This will set the cards h1 heading.
    */
-  title: string;
+  title: ReactNode;
   /**
    * This is the callback that is fired when the top-right arrow button is clicked.
    */
@@ -20,7 +20,7 @@ export interface CardProps {
   /**
    * Description of the card's intent.
    */
-  description?: string;
+  description?: ReactNode;
   /**
    * Display content as a child node.
    */
