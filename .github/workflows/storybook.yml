@@ -4,13 +4,17 @@ on:
     branches:
       - main
     paths: ["src/**"] # Trigger the action only when files change in the folders defined here
+
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup node 24
+      - name: Setup node
         uses: actions/setup-node@v6
         with:
           node-version: '26.x'
@@ -18,9 +22,14 @@ jobs:
         run: | # Install npm packages and build the Storybook files
           npm ci
           npm run build-storybook
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: docs-build # The folder that the build-storybook script generates files.
-          clean: true # Automatically remove deleted files from the deploy branch
+      - name: Deploy to gh-pages branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: | # Force-push the built folder as the whole content of gh-pages
+          cd docs-build
+          git init -q
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy Storybook for ${GITHUB_SHA}"
+          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages
