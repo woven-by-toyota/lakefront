@@ -9,28 +9,40 @@ on:
     branches-ignore:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   check_push_version_bump:
     name: 'Check Push Version Bump'
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout source code"
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - name: "Setup Node.js"
         uses: actions/setup-node@v6
         with:
           node-version: '26.x'
+      - name: "Determine commit range"
+        id: range
+        run: |
+          before="${{ github.event.before }}"
+          if [[ "$before" =~ ^0+$ ]]; then
+            echo "range=${{ github.event.after }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "range=${before}..${{ github.event.after }}" >> "$GITHUB_OUTPUT"
+          fi
       - name: "Automated Version Bump (Push)"
-        # phips28/gh-action-bump-version is blocked by org policy (actions must come from
-        # woven-by-toyota, GitHub, or a verified Marketplace entry). Skipped until a replacement
-        # is picked. We'll bump the version manually in the meantime.
-        if: false
-        uses: 'phips28/gh-action-bump-version@master'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ./.github/actions/bump-version
         with:
+          commit-range: ${{ steps.range.outputs.range }}
+          ref: ${{ github.ref_name }}
           skip-tag:  'true'
           minor-wording:  'minor,Minor,MINOR,add,Adds,ADD,ADDS,new,New,NEW,feat,Feat,FEAT,feature,Feature,FEATURE,features,Features,FEATURES'
           major-wording:  'major,MAJOR,cut-major,Cut-Major,break,Break,BREAK,breaking,Breaking,BREAKING'
           patch-wording:  'patch,Patch,PATCH,patches,Patches,PATCHES,fix,Fix,FIX,fixes,Fixes,FIXES'
           rc-wording:     'RELEASE,alpha'
+          github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -7,10 +7,9 @@ name: Pull Request Check
     # Here we perform a clean installation, run all tests
     # and verify we can build the project successfully.
   # Automated Version Patch
-    # Since commit messages are not available in pull request action payloads
-    # we can't check here for semantic versioning keywords. Instead we
-    # make sure at least a version patch is applied if no versioning changes
-    # are discovered.
+    # Keyword-based bumps already run on push (see versionBumpCheck.yml), so
+    # this job is a safety net: it applies a plain patch bump if the PR branch
+    # still has the same package.json version as the base branch.
 
 on:
   pull_request:
@@ -34,30 +33,40 @@ jobs:
   automated_version_patch:
     name: "Automated Version Patch"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: "Checkout source code"
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
       - name: "Setup Node.js"
         uses: actions/setup-node@v6
         with:
           node-version: '26.x'
       - name: "Version Check"
         id: check
-        uses: EndBug/version-check@v2
-        with:
-          diff-search: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git fetch origin "${{ github.event.pull_request.base.sha }}" --depth=1
+          base_version="$(git show "${{ github.event.pull_request.base.sha }}:package.json" | node -e 'process.stdout.write(JSON.parse(require("fs").readFileSync(0,"utf8")).version)')"
+          head_version="$(node -pe "require('./package.json').version")"
+          if [ "$base_version" = "$head_version" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "version=$head_version" >> "$GITHUB_OUTPUT"
+          fi
       - name: "Apply Patch If Required"
-        # phips28/gh-action-bump-version is blocked by org policy (actions must come from
-        # woven-by-toyota, GitHub, or a verified Marketplace entry). Skipped until a replacement
-        # is picked; We'll bump the version manually in the meantime.
-        if: false
-        uses: 'phips28/gh-action-bump-version@master'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check.outputs.changed == 'false'
+        uses: ./.github/actions/bump-version
         with:
-          default: 'patch'
+          commit-range: ${{ github.event.pull_request.base.sha }}..${{ github.sha }}
+          ref: ${{ github.head_ref }}
+          default-bump: 'patch'
+          skip-tag: 'true'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: "No Version Bump Required"
         if: steps.check.outputs.changed == 'true'
-        run: 'echo "No bump required. Version change found in commit ${{ steps.check.outputs.commit }} - ${{ steps.check.outputs.version }} (${{ steps.check.outputs.type }})"'
+        run: 'echo "No bump required. Version already updated to ${{ steps.check.outputs.version }} in this PR."'
 
