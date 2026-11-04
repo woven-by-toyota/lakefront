@@ -36,7 +36,7 @@ class MockIntersectionObserver {
 
 // Setup IntersectionObserver mock
 beforeAll(() => {
-    global.IntersectionObserver = MockIntersectionObserver as any;
+    globalThis.IntersectionObserver = MockIntersectionObserver as any;
 });
 
 describe('Table Infinite Scroll', () => {

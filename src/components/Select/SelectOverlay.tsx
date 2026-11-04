@@ -77,8 +77,15 @@ const SelectOverlay: FC<SelectProps> = ({
         isMulti: isMulti
     };
 
+    /*
+     * SelectProps extends react-select's Props without generic arguments, so they default to
+     * Option = unknown while options is narrowed to SelectOption[]. value and onChange are therefore
+     * typed against different option types and cannot agree. Parameterising SelectProps over the
+     * option type is the real fix, but it changes a public signature, so it is tracked separately.
+     */
     if (asyncConfig) {
         return (
+            // @ts-expect-error see above: SelectProps leaves Option as unknown
             <AsyncSelect
               {...commonProps}
               {...asyncConfig}
@@ -87,6 +94,7 @@ const SelectOverlay: FC<SelectProps> = ({
     }
 
     return (
+        // @ts-expect-error see above: SelectProps leaves Option as unknown
         <Select
           {...commonProps}
           {...rest}

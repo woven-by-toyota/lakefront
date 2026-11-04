@@ -12,11 +12,16 @@ jest.mock('src/lib/hooks/usePopover', () => ({
 }));
 
 describe('ContextMenu', () => {
+    // held as named mocks rather than read back off the array, which cannot be narrowed past MenuItem
+    const onEdit = jest.fn();
+    const onCopy = jest.fn();
+    const onDelete = jest.fn();
+
     const mockMenuItems: MenuItem[] = [
-        { label: 'Edit', onClick: jest.fn() },
-        { label: 'Copy', onClick: jest.fn() },
+        { key: 'edit', label: 'Edit', onClick: onEdit },
+        { key: 'copy', label: 'Copy', onClick: onCopy },
         { isSeparator: true },
-        { label: 'Delete', onClick: jest.fn(), disabled: true },
+        { key: 'delete', label: 'Delete', onClick: onDelete, disabled: true },
     ];
 
     const TestComponent = () => (
@@ -28,11 +33,7 @@ describe('ContextMenu', () => {
     );
 
     beforeEach(() => {
-        mockMenuItems.forEach(item => {
-            if (!item.isSeparator) {
-                (item.onClick as jest.Mock).mockClear();
-            }
-        });
+        [onEdit, onCopy, onDelete].forEach(onClick => onClick.mockClear());
     });
 
     test('renders children and does not show the menu by default', () => {
@@ -64,11 +65,8 @@ describe('ContextMenu', () => {
         const copyButton = getByText('Copy');
         fireEvent.click(copyButton);
 
-        const copyOnClick = mockMenuItems[1].onClick as jest.Mock;
-        expect(copyOnClick).toHaveBeenCalledTimes(1);
-
-        const editOnClick = mockMenuItems[0].onClick as jest.Mock;
-        expect(editOnClick).not.toHaveBeenCalled();
+        expect(onCopy).toHaveBeenCalledTimes(1);
+        expect(onEdit).not.toHaveBeenCalled();
 
         expect(queryByText('Copy')).not.toBeInTheDocument();
     });
@@ -82,8 +80,7 @@ describe('ContextMenu', () => {
         const deleteButton = getByText('Delete');
         fireEvent.click(deleteButton);
 
-        const deleteOnClick = mockMenuItems[3].onClick as jest.Mock;
-        expect(deleteOnClick).not.toHaveBeenCalled();
+        expect(onDelete).not.toHaveBeenCalled();
 
         expect(getByText('Delete')).toBeInTheDocument();
     });

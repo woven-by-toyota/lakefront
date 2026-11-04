@@ -20,7 +20,7 @@ let mockIntersectionObserver: IntersectionObserver;
 let intersectionChange = jest.fn();
 
 beforeAll(() => {
-    jest.useFakeTimers('modern');
+    jest.useFakeTimers();
     jest.setSystemTime(new Date('04 Jan 2023 00:12:00 GMT').getTime());
 });
 
@@ -32,6 +32,7 @@ beforeEach(() => {
         unobserve: jest.fn(),
         root: null,
         rootMargin: '0px 0px 0px 0px',
+        scrollMargin: '0px 0px 0px 0px',
         thresholds: [],
         disconnect: () => null,
         takeRecords: () => [],
