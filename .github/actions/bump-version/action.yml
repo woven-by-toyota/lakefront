@@ -1,0 +1,67 @@
+name: Bump Version
+description: >
+  Scans the commit messages in a given git revision range for configured keywords,
+  bumps package.json's version accordingly, then commits (and optionally tags) the
+  result back onto the current branch. Replaces phips28/gh-action-bump-version,
+  which is blocked by org policy because it isn't a verified Marketplace action.
+inputs:
+  commit-range:
+    description: Git revision range to scan for keywords, e.g. abc123..def456, or a single commit sha
+    required: true
+  major-wording:
+    description: Comma separated, case-insensitive words that trigger a major bump
+    required: false
+    default: 'major'
+  minor-wording:
+    description: Comma separated, case-insensitive words that trigger a minor bump
+    required: false
+    default: 'minor'
+  patch-wording:
+    description: Comma separated, case-insensitive words that trigger a patch bump
+    required: false
+    default: 'patch,fix'
+  rc-wording:
+    description: Comma separated, case-insensitive words that trigger a prerelease bump
+    required: false
+    default: 'release,alpha'
+  default-bump:
+    description: Bump type to apply when no keyword matches
+    required: false
+    default: 'patch'
+  skip-tag:
+    description: Skip creating and pushing a git tag for the new version
+    required: false
+    default: 'false'
+  ref:
+    description: Branch name to push the version commit (and tag) to
+    required: true
+  github-token:
+    description: Token used to push the version commit (and tag)
+    required: true
+outputs:
+  version:
+    description: The version written to package.json after the bump
+    value: ${{ steps.bump.outputs.version }}
+runs:
+  using: composite
+  steps:
+    - name: Determine and apply version bump
+      id: bump
+      shell: bash
+      env:
+        COMMIT_RANGE: ${{ inputs.commit-range }}
+        MAJOR_WORDING: ${{ inputs.major-wording }}
+        MINOR_WORDING: ${{ inputs.minor-wording }}
+        PATCH_WORDING: ${{ inputs.patch-wording }}
+        RC_WORDING: ${{ inputs.rc-wording }}
+        DEFAULT_BUMP: ${{ inputs.default-bump }}
+      run: ${{ github.action_path }}/determine-version.sh
+
+    - name: Commit and push version bump
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        SKIP_TAG: ${{ inputs.skip-tag }}
+        VERSION: ${{ steps.bump.outputs.version }}
+        REF: ${{ inputs.ref }}
+      run: ${{ github.action_path }}/commit-and-push.sh
