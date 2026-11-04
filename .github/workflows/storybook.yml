@@ -4,6 +4,13 @@ on:
     branches:
       - main
     paths: ["src/**"] # Trigger the action only when files change in the folders defined here
+
+concurrency:
+  # Shared with dependency-check.yml: both publish to gh-pages, and this deploy cleans the branch, so
+  # they must not run at the same time.
+  group: 'gh-pages-publish'
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
