@@ -212,10 +212,11 @@ export class JSONBuilderUtil {
         const nodePath = convertToArrayPath(path);
         const nodeValue = RPath<JSONStateObject>(nodePath, original);
         const parentPath = JSONBuilderUtil.getNodeParentPath(path);
-        const parentValue = RPath<JSONStateObject>(parentPath, original);
+        // JSONState, not JSONStateObject: the parent is the map keyed by state name that omit works on
+        const parentValue = RPath<JSONState>(parentPath, original);
         const oldName = last(nodePath);
 
-        if (oldName && nodeValue) {
+        if (oldName && nodeValue && parentValue) {
             const newParentValue = {
                 ...omit([oldName.toString()], parentValue),
                 [name]: nodeValue
