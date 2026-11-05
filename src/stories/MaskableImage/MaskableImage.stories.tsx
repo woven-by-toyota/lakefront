@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react-webpack5';
-import MaskableImageComponent, { MaskableImageProps } from 'src/components/MaskableImage'
+import MaskableImageComponent, { MaskableImageProps } from 'src/components/MaskableImage';
 import DocBlock from '.storybook/DocBlock';
 import { emerald } from 'src/styles/lakefrontColors';
 import imageFile from './__assets__/Nature.jpg';
@@ -19,7 +19,7 @@ const Template: StoryFn<MaskableImageProps & ComponentPropsWithoutRef<'div'>> = 
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const onHandleImageClick = () => {
         setShowMessage(showMessage => !showMessage);
-    }
+    };
     return (
         <>
             <div
@@ -51,4 +51,4 @@ MaskableImage.args = {
     showSpinner: false,
     showSpinnerOnLoad: true,
     heightToWidthRatio: 10 / 18
-}
+};

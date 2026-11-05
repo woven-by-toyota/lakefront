@@ -31,4 +31,4 @@ SortedByColor.args = {
 export const SortedByName = Template.bind({});
 SortedByName.args = {
     sortBy: 'name'
-}
+};

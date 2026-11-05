@@ -49,8 +49,8 @@ const Template: StoryFn<StatusTableProps & ComponentPropsWithoutRef<'div'>> = (a
                 <td><StatusCellBadge status={'NONE'} /></td>
             </StatusRow>
         </StatusTableComponent>
-    )
-}
+    );
+};
 
 export const StatusTable = Template.bind({});
 StatusTable.args = {

@@ -46,7 +46,7 @@ const Template: StoryFn<ContextMenuProps> = (args) => {
                     <div
                         style={{
                             width: '10%',
-                            border: `2px dashed`,
+                            border: '2px dashed',
                             borderRadius: '8px',
                             display: 'flex',
                             alignItems: 'center',

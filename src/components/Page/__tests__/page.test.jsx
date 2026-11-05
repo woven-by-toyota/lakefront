@@ -28,8 +28,8 @@ describe('Page', () => {
             );
             const [element] = container.querySelectorAll('div');
             
-            expect(element).toHaveStyle("padding: 42px;");
-            expect(element).toHaveStyle("justify-content: center;");
+            expect(element).toHaveStyle('padding: 42px;');
+            expect(element).toHaveStyle('justify-content: center;');
         });
     });
 });

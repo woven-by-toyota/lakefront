@@ -20,12 +20,12 @@ export const FAULTY_DATA = [
   ...CUSTOM_DATA,
   { title: 'r2110_1_0', value: undefined, percentage: 234.77, percentage_change: 5.80969996, total: 0.2344, metadata: {} },
   { title: 'r2110_1_0', value: undefined, percentage: 306544.77, percentage_change: 8.80969996, total: 0.5464, metadata: null }
-]
+];
 
 export const EXPORT_DATA = [
   { title: 'r2110_1_0', value: undefined, percentage: 306544.77, percentage_change: 8.80969996, total: 0.5464, compare_total: { nested: [1,2,3] } },
   { title: 'r2110_1_0', value: undefined, percentage: 306544.77, percentage_change: 8.80969996, total: 0.5464, compare_total: { nested: [4,5,6] }},
-]
+];
 
 export const INITIAL_SORT_BY_DATA = [
   { title: 'car', value: 24, percentage: 166.992, percentage_change: 6.9579999999, total: 0.14371985 },

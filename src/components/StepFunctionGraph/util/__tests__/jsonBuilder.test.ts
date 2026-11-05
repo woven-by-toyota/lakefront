@@ -533,7 +533,7 @@ describe('JSONBuilderUtil', () => {
     });
 
     describe('getNodeParentPath', () => {
-        it("returns the parent path of a nested node's path.", () => {
+        it('returns the parent path of a nested node\'s path.', () => {
             const parentPath = ['root', 'parent'];
 
             expect(JSONBuilderUtil.getNodeParentPath('root.parent.child')).toMatchObject(parentPath);

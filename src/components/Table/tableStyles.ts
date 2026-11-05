@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { ReactComponent as ArrowUp } from './assets/arrow_drop_up.svg';
 import { ReactComponent as ArrowDown } from './assets/arrow_drop_down.svg';
 import { ReactComponent as Unsorted } from './assets/unsorted.svg';
-import {lightenDarkenColor} from "../../styles/stylesUtil";
+import {lightenDarkenColor} from '../../styles/stylesUtil';
 
 export const TableStyle = styled.table(({ theme }) => ({
   padding: 0,

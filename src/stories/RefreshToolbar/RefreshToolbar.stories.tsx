@@ -74,7 +74,7 @@ const Template: StoryFn<RefreshToolbarProps & ComponentPropsWithoutRef<'div'>> =
           }}
         >
           {count > 0 && `Refresh clicked ${count} times.`}
-          {count === 0 && `Refresh counter reset to 0`}
+          {count === 0 && 'Refresh counter reset to 0'}
         </div>
       )}
       {showBanner || <div style={{ height: BANNER_HEIGHT + 16 }} />}

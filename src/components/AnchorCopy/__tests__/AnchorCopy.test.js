@@ -57,7 +57,7 @@ describe('AnchorCopy', () => {
         const { getByRole } = render(<AnchorCopy title={title} hashId="go-here" onCopy={onCopy} disabled />);
 
         global.navigator.clipboard = {
-            writeText: () => { throw new Error('error') }
+            writeText: () => { throw new Error('error'); }
         };
 
         fireEvent.click(getByRole('button'));

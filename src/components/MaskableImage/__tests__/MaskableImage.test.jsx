@@ -15,7 +15,7 @@ describe('<MaskableImage />', () => {
 
         expect(highlightedDiv).toHaveLength(0);
 
-        expect(svg).toHaveStyle('display:none')
+        expect(svg).toHaveStyle('display:none');
 
         expect(container).toMatchSnapshot();
     });

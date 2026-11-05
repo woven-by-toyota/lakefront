@@ -5,7 +5,7 @@ import PropertyList, { PropertyListVariable } from '../PropertyList';
 const attributes = [
     { caption: 'P1', content: d => d.p1 },
     { caption: 'P2', content: d => d.p2 }
-]
+];
 
 const data = {
     p1: 'content 1',

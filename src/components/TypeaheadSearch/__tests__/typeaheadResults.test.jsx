@@ -48,7 +48,7 @@ describe('TypeaheadResults', () => {
         });
 
         await waitFor(() => {
-            expect(queryByText(ERROR_MESSAGE)).toBeInTheDocument()
+            expect(queryByText(ERROR_MESSAGE)).toBeInTheDocument();
         });  
     });
 
@@ -72,7 +72,7 @@ describe('TypeaheadResults', () => {
         });
 
         await waitFor(() => {
-            expect(queryByText(NO_RESULTS_MESSAGE)).toBeInTheDocument()
+            expect(queryByText(NO_RESULTS_MESSAGE)).toBeInTheDocument();
         }); 
     });
 
@@ -88,7 +88,7 @@ describe('TypeaheadResults', () => {
         });
 
         await waitFor(() => {
-            expect(queryByText(HEADER_MESSAGE)).toBeInTheDocument()
+            expect(queryByText(HEADER_MESSAGE)).toBeInTheDocument();
         });
 
         expect(container.querySelectorAll('li.resultItem')).toHaveLength(3);
@@ -105,7 +105,7 @@ describe('TypeaheadResults', () => {
         });
 
         await waitFor(() => {
-            expect(queryByText('Lak')).toBeInTheDocument()
+            expect(queryByText('Lak')).toBeInTheDocument();
         });
 
         fireEvent.click(queryByText('Lak'));

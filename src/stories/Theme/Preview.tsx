@@ -34,7 +34,7 @@ const Preview: FC<PreviewProps> = ({ sortBy = 'name' }) => {
                 </div>
             ))}
         </div>
-    )
-}
+    );
+};
 
 export default Preview;

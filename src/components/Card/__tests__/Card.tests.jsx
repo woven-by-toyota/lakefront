@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { renderWithTheme as render } from '../../../lib/testing';
-import Card from '../Card'
+import Card from '../Card';
 
 describe('<Card />', () => {
     it('renders CardProps', () => {

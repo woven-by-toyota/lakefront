@@ -4,7 +4,7 @@ import ContextMenu from '../ContextMenu';
 import { RowHoverContext } from './RowHoverContext';
 import { ContextMenuConfig, GroupedRowsConfig, MoreActionsConfig } from './Table';
 import { GroupedCell, GroupedRowCell } from './tableStyles';
-import {getCellContent, getGroupValue, getRowIndex} from "./tableUtil";
+import {getCellContent, getGroupValue, getRowIndex} from './tableUtil';
 
 export interface TableRowProps {
     row: any;

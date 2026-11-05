@@ -29,7 +29,7 @@ describe('<ItemResult />', () => {
         const { container } = render(
             <ItemResult dataLength={2} totalItems={5}>
             </ItemResult>
-        )
-        expect(container).toHaveTextContent('1 - 2 of 5')
+        );
+        expect(container).toHaveTextContent('1 - 2 of 5');
     });
 });

@@ -359,7 +359,7 @@ export const getX = (
     const rangeLength = groups.length > 1 ? currentGroup.length : flattened.length;
 
     // The rangePosition tells us where we need to draw in a range when positioning by previous
-    // eslint-disable-next-line no-nested-ternary
+     
     let rangePosition = ~previousEnd ?
         previousEnd + X_OFFSET : // there is a previous end, we just need to add space between
         (rangeLength > 1) ? // there is no previous end

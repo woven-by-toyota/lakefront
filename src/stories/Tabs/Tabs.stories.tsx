@@ -20,7 +20,7 @@ const Template: StoryFn<TabProps & ComponentPropsWithoutRef<'div'>> = (args) => 
 
     const handleChange = (value: string) => {
         setKeyValue(value);
-    }
+    };
     return (
 
         <TabComponent

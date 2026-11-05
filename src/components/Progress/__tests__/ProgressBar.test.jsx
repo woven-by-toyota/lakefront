@@ -7,7 +7,7 @@ const items = [
     { label: 'failed', value: 30 },
     { label: 'running', value: 10 },
     { label: 'pending', value: 5 }
-]
+];
 
 describe('<ProgressBar />', () => {
     describe('general rendering', () => {
@@ -45,7 +45,7 @@ describe('<ProgressBar />', () => {
                 <ProgressBar theme={PROGRESS_COLOR_SCHEME} data={items} total={50} width={100} />
             );
             expect(container.getElementsByTagName('span')).toHaveLength(1);
-            expect(container.getElementsByTagName('span')[0]).toHaveStyle('width:50px')
+            expect(container.getElementsByTagName('span')[0]).toHaveStyle('width:50px');
         });
         it('renders transparent color for a non existing label ', () => {
             const items = [
@@ -55,7 +55,7 @@ describe('<ProgressBar />', () => {
                 <ProgressBar theme={PROGRESS_COLOR_SCHEME} data={items} total={50} width={100} />
             );
             expect(container.getElementsByTagName('span')).toHaveLength(1);
-            expect(container.getElementsByTagName('span')[0]).toHaveStyle('background-color:#e1e1e8')
+            expect(container.getElementsByTagName('span')[0]).toHaveStyle('background-color:#e1e1e8');
         });
-    })
+    });
 });

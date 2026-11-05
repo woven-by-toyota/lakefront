@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Button from 'src/components/Button/Button';
 
 export const ButtonLabel = styled.div(({ theme }) => ({
-    fontFamily: "'Source Sans Pro', sans-serif",
+    fontFamily: '\'Source Sans Pro\', sans-serif',
     fontSize: 16,
     fontWeight: 700,
     margin: 0,

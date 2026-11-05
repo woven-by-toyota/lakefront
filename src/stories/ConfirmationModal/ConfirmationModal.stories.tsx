@@ -89,7 +89,7 @@ CustomizedConfirm.args = {
         </div>
     ),
     yes: 'Accept',
-    no: "Decline"
+    no: 'Decline'
 };
 
 export const PortalConfirm = Template.bind({});

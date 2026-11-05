@@ -74,4 +74,4 @@ export const CheckOutlinedIconStyle = styled(CheckOutlinedIcon)<any>(({ selectab
             border: '1px solid', borderColor: theme.borderColors.primary
         })
     })
-)
+);

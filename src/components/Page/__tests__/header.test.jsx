@@ -28,7 +28,7 @@ describe('Header', () => {
             );
             const [element] = container.querySelectorAll('div');
             
-            expect(element).toHaveStyle("margin: 0 0 12px;");
+            expect(element).toHaveStyle('margin: 0 0 12px;');
         });
     });
 });

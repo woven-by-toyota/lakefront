@@ -28,11 +28,11 @@ describe('getDefaultValue', () => {
 });
 
 describe('getDefaultJsonViewValue', () => {
-    it("returns true if jsonView key exists and is the string 'true'", () => {
+    it('returns true if jsonView key exists and is the string \'true\'', () => {
         expect(getDefaultJsonViewValue({ jsonView: 'true' })).toBe(true);
     });
 
-    it("returns false if jsonView key exists and is not the string 'true'", () => {
+    it('returns false if jsonView key exists and is not the string \'true\'', () => {
         expect(getDefaultJsonViewValue({ jsonView: true })).toBe(false);
         expect(getDefaultJsonViewValue({ jsonView: false })).toBe(false);
         expect(getDefaultJsonViewValue({ jsonView: undefined })).toBe(false);

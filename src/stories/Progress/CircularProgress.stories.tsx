@@ -53,7 +53,7 @@ const Template: StoryFn<CircularProgressProps & ComponentPropsWithoutRef<'div'>>
                                     {res.value}
                                 </Chips>
                             </Row>
-                        )
+                        );
 
                     })}
                 </ul>

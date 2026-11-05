@@ -16,7 +16,7 @@ export default {
 const attributes: Property[] = [
     { caption: 'LongCaptionNameC1', content: d => d.p1 },
     { caption: 'C2', content: d => d.p2 }
-]
+];
 
 const data = {
     p1: 'This is to demonstrate the rendering of content 1',

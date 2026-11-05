@@ -52,7 +52,7 @@ const Template: StoryFn<ProgressBarProps & ComponentPropsWithoutRef<'div'>> = (a
                                     {res.value}
                                 </Chips>
                             </Row>
-                        )
+                        );
 
                     })}
                 </ul>

@@ -38,7 +38,7 @@ describe('<ItemGrid />', () => {
 
         const firstDiv = container.firstChild;
         const innerDiv = firstDiv.firstChild;
-        expect(innerDiv).toHaveStyle("grid-template-columns: repeat(auto-fill, minmax(50px, -1.26vw))");
+        expect(innerDiv).toHaveStyle('grid-template-columns: repeat(auto-fill, minmax(50px, -1.26vw))');
     });
 });
 

@@ -30,7 +30,7 @@ const FilterJSONInput: FC<FilterJSONInputProps> = ({ filterHooks, onInputModifie
 
         try {
             const body = JSON.parse(escaped);
-            console.log(body)
+            console.log(body);
             applyApiPostBody(body);
             setIsInputModified(false);
         } catch (error) {

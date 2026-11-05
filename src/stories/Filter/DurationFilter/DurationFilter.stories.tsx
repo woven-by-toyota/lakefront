@@ -30,7 +30,7 @@ export default {
 
 // Duration Filter
 const DurationFilterTemplate: StoryFn = (args: DurationFilterArgs) => {
-    console.log("args:", args);
+    console.log('args:', args);
     const pageFilters = {
         durationFilter: DurationFilterFunction({ ...args })
     };

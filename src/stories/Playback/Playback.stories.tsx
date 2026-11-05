@@ -69,12 +69,12 @@ const Template: StoryFn<PlaybackBarProps & ComponentPropsWithoutRef<'div'>> = (a
                 return (<div style={{ textAlign: 'center' }}>
                     <b>Start Index:</b><span> {highlight.start}</span>&nbsp;
                     <b>End Index:</b><span> {highlight.end}</span>&nbsp;
-                    <b>Playback:</b><span> {highlight.playback ? "True" : "False"}</span>
-                </div>)
+                    <b>Playback:</b><span> {highlight.playback ? 'True' : 'False'}</span>
+                </div>);
             })}
         </div>
-    )
-}
+    );
+};
 
 export const PlaybackBarSingleHighlight = Template.bind({});
 PlaybackBarSingleHighlight.args = {

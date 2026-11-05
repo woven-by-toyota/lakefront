@@ -33,7 +33,7 @@ const Template: StoryFn<ItemResultsProps & ComponentPropsWithoutRef<'div'>> = (a
     const clearValues = () => {
         setDataLength('');
         setTotalItems('');
-    }
+    };
     useEffect(() => {
         if (itemResultRef.current) {
             setShowBanner(true);

@@ -26,8 +26,8 @@ const Template: StoryFn<ComponentPropsWithoutRef<'div'>> = (args) => {
         <HeaderComponent>
             {args.children}
         </HeaderComponent>
-    )
-}
+    );
+};
 
 export const Header = Template.bind({});
 Header.args = {

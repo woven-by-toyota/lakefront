@@ -75,7 +75,7 @@ const MoreActionsButton: FC<MoreActionsButtonProps> = ({ items }) => {
                                 >
                                     {item.label}
                                 </StyledMenuItem>
-                            )
+                            );
                         }))}
                     </ActionsMenuContainer>
                 )}

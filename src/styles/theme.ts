@@ -96,20 +96,20 @@ const THEME: Theme = {
     lettering: {
         primary: {
             fontSize: 16,
-            fontFamily: "Arial, sans-serif",
+            fontFamily: 'Arial, sans-serif',
             fontWeight: 400,
         },
         secondary: {
             fontSize: 14,
-            fontFamily: "Arial, sans-serif",
+            fontFamily: 'Arial, sans-serif',
             fontWeight: 400,
         },
-        h1: { fontSize: 32, fontFamily: "Arial, sans-serif", fontWeight: 700 },
-        h2: { fontSize: 28, fontFamily: "Arial, sans-serif", fontWeight: 700 },
-        h3: { fontSize: 24, fontFamily: "Arial, sans-serif", fontWeight: 700 },
-        h4: { fontSize: 20, fontFamily: "Arial, sans-serif", fontWeight: 600 },
-        h5: { fontSize: 18, fontFamily: "Arial, sans-serif", fontWeight: 600 },
-        h6: { fontSize: 16, fontFamily: "Arial, sans-serif", fontWeight: 600 },
+        h1: { fontSize: 32, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
+        h2: { fontSize: 28, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
+        h3: { fontSize: 24, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
+        h4: { fontSize: 20, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
+        h5: { fontSize: 18, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
+        h6: { fontSize: 16, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
     },
 };
 
@@ -205,20 +205,20 @@ export const DARK_THEME: Theme = {
     lettering: {
         primary: {
             fontSize: 16,
-            fontFamily: "Arial, sans-serif",
+            fontFamily: 'Arial, sans-serif',
             fontWeight: 400,
         },
         secondary: {
             fontSize: 14,
-            fontFamily: "Arial, sans-serif",
+            fontFamily: 'Arial, sans-serif',
             fontWeight: 400,
         },
-        h1: { fontSize: 32, fontFamily: "Arial, sans-serif", fontWeight: 700 },
-        h2: { fontSize: 28, fontFamily: "Arial, sans-serif", fontWeight: 700 },
-        h3: { fontSize: 24, fontFamily: "Arial, sans-serif", fontWeight: 700 },
-        h4: { fontSize: 20, fontFamily: "Arial, sans-serif", fontWeight: 600 },
-        h5: { fontSize: 18, fontFamily: "Arial, sans-serif", fontWeight: 600 },
-        h6: { fontSize: 16, fontFamily: "Arial, sans-serif", fontWeight: 600 },
+        h1: { fontSize: 32, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
+        h2: { fontSize: 28, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
+        h3: { fontSize: 24, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
+        h4: { fontSize: 20, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
+        h5: { fontSize: 18, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
+        h6: { fontSize: 16, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
     },
 };
 

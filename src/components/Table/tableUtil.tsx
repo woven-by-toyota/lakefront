@@ -1,7 +1,7 @@
 import { StyledArrowDown, StyledArrowUp, StyledUnsorted } from './tableStyles';
-import {Cell, flexRender} from "@tanstack/react-table";
-import CellErrorBoundary from "./CellErrorBoundary";
-import React from "react";
+import {Cell, flexRender} from '@tanstack/react-table';
+import CellErrorBoundary from './CellErrorBoundary';
+import React from 'react';
 
 export interface Column {
     disableSortBy: boolean;

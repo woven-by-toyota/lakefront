@@ -40,5 +40,5 @@ ItemGrid.args = {
     shouldRecalculateSize: false,
     maxColumns: 5,
     gridGap: { rowGap: 17, columnGap: 12 },
-    columnWidthMin: "100px"
+    columnWidthMin: '100px'
 };

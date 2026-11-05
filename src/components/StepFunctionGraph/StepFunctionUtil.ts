@@ -205,7 +205,7 @@ export const generateStepFunctionGraph = (json: any, graph: Digraph, connectFrom
         }
 
         // This is left open-ended as a switch to facilitate more types in the future that might need special handling
-        // eslint-disable-next-line dot-notation
+         
         switch (node[key]['Type']) {
             case WorkFlowType.PARALLEL:
                 handleParallel(node, graph, addedVertex, lastNode);
@@ -233,7 +233,7 @@ export const generateStepFunctionGraph = (json: any, graph: Digraph, connectFrom
 
         const currentVertex = graph.getVertexByData(currentFindFn);
 
-        // eslint-disable-next-line dot-notation
+         
         if (node[key]['Type'] === WorkFlowType.CHOICE) {
             const { Choices, Default } = node[key];
 

@@ -68,8 +68,8 @@ const Template: StoryFn<PageProps & ComponentPropsWithoutRef<'div'>> = (args) =>
             <br />
             <FilterPageWithCollapse pageFilters={pageFilters} />
         </PageComponent>
-    )
-}
+    );
+};
 
 export const Page = Template.bind({});
 Page.args = {

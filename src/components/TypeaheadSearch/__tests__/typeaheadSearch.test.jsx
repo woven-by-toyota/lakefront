@@ -140,7 +140,7 @@ describe('TypeaheadSearch', () => {
             expect(container.querySelector('div.searchResultsPopoverBackground')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(queryByText('Lak')).toBeInTheDocument()
+                expect(queryByText('Lak')).toBeInTheDocument();
             }); 
 
             fireEvent.click(queryByText('Lak'));
@@ -159,7 +159,7 @@ describe('TypeaheadSearch', () => {
             });
 
             await waitFor(() => {
-                expect(queryByText('Lak')).toBeInTheDocument()
+                expect(queryByText('Lak')).toBeInTheDocument();
             }); 
 
             fireEvent.click(queryByText('Lak'));

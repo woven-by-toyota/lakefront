@@ -91,5 +91,5 @@ export const TINTED_BUTTON_OPACITY = '1A';
 export const getTintedBackgroundColor = (theme: Theme, alternate?: boolean) => {
   const color = alternate ? theme.backgrounds.primary : theme.backgrounds.inverted;
 
-  return `${color}${TINTED_BUTTON_OPACITY}`
-}
+  return `${color}${TINTED_BUTTON_OPACITY}`;
+};
