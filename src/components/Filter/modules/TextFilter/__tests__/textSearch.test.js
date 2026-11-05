@@ -1,6 +1,6 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import TextSearch from '../TextSearch';
 
@@ -45,7 +45,12 @@ describe('<TextSearch />', () => {
 
     it('trims leading and trailing whitespace on submit', async () => {
         const changeCallback = jest.fn();
-        const { getByRole } = render(<TextSearch onChange={changeCallback} value='' />);
+        const { getByRole } = render(
+            <TextSearch
+                onChange={changeCallback}
+                value=''
+            />
+        );
         const input = getByRole('textbox');
 
         await typeAndSubmit(input, '  asdf  ');
@@ -56,7 +61,12 @@ describe('<TextSearch />', () => {
 
     it('clears the input when only whitespace is submitted', async () => {
         const changeCallback = jest.fn();
-        const { getByRole } = render(<TextSearch onChange={changeCallback} value='' />);
+        const { getByRole } = render(
+            <TextSearch
+                onChange={changeCallback}
+                value=''
+            />
+        );
         const input = getByRole('textbox');
 
         await typeAndSubmit(input, '   ');
@@ -67,7 +77,12 @@ describe('<TextSearch />', () => {
 
     it('does not trim whitespace between words', async () => {
         const changeCallback = jest.fn();
-        const { getByRole } = render(<TextSearch onChange={changeCallback} value='' />);
+        const { getByRole } = render(
+            <TextSearch
+                onChange={changeCallback}
+                value=''
+            />
+        );
         const input = getByRole('textbox');
 
         await typeAndSubmit(input, ' first  last ');
@@ -78,7 +93,13 @@ describe('<TextSearch />', () => {
 
     it('keeps whitespace when trimWhitespace is false', async () => {
         const changeCallback = jest.fn();
-        const { getByRole } = render(<TextSearch onChange={changeCallback} value='' trimWhitespace={false} />);
+        const { getByRole } = render(
+            <TextSearch
+                onChange={changeCallback}
+                value=''
+                trimWhitespace={false}
+            />
+        );
         const input = getByRole('textbox');
 
         await typeAndSubmit(input, '  asdf  ');
@@ -89,7 +110,12 @@ describe('<TextSearch />', () => {
 
     it('only accepts numbers when specified', () => {
         const changeCallback = jest.fn();
-        const { getByRole } = render(<TextSearch onChange={changeCallback} type='number' />);
+        const { getByRole } = render(
+            <TextSearch
+                onChange={changeCallback}
+                type='number'
+            />
+        );
         fireEvent.keyPress(getByRole('spinbutton'), { key: 'Enter', charCode: 13, target: { value: 'asdf' } });
         expect(changeCallback).toHaveBeenCalledWith('');
         fireEvent.keyPress(getByRole('spinbutton'), { key: 'Enter', charCode: 13, target: { value: '1' } });

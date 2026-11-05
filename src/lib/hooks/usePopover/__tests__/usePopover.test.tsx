@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { act, render, renderHook } from '@testing-library/react';
+import { useState } from 'react';
 import usePopover from '..';
 import type { UsePopoverProps } from '../usePopover';
 import * as usePopoverUtil from '../usePopoverUtil';
@@ -12,7 +12,12 @@ const TestComponent = (props: Omit<UsePopoverProps, 'popoverContainer'>) => {
         setPopoverContainer(node);
     };
 
-    return <div id='original-content' ref={popoverContainerMounted}></div>;
+    return (
+        <div
+            id='original-content'
+            ref={popoverContainerMounted}
+        ></div>
+    );
 };
 
 let createObserverSpy: jest.SpyInstance;
@@ -35,7 +40,7 @@ beforeEach(() => {
         scrollMargin: '0px 0px 0px 0px',
         thresholds: [],
         disconnect: () => null,
-        takeRecords: () => [],
+        takeRecords: () => []
     };
     createObserverSpy = jest.spyOn(usePopoverUtil, 'createObserver').mockImplementation((callBack) => {
         intersectionChange = jest.fn(callBack);
@@ -60,9 +65,7 @@ describe('usePopover', () => {
 
     describe('when renderInPortal is true', () => {
         it('appends portal div if one does not already exist', () => {
-            const { baseElement } = render(
-                <TestComponent renderInPortal />
-            );
+            const { baseElement } = render(<TestComponent renderInPortal />);
 
             expect(baseElement.children).toHaveLength(2);
             expect(baseElement.querySelector('#lakefront-portal-container')).toBeInTheDocument();
@@ -70,7 +73,10 @@ describe('usePopover', () => {
 
         it('assigns a portal id when provided', () => {
             const { baseElement } = render(
-                <TestComponent renderInPortal portalId='my-custom-id' />
+                <TestComponent
+                    renderInPortal
+                    portalId='my-custom-id'
+                />
             );
 
             expect(baseElement.querySelector('#my-custom-id')).toBeInTheDocument();
@@ -78,7 +84,10 @@ describe('usePopover', () => {
 
         it('assigns a portal id when provided', () => {
             const { baseElement } = render(
-                <TestComponent renderInPortal portalId='my-custom-id' />
+                <TestComponent
+                    renderInPortal
+                    portalId='my-custom-id'
+                />
             );
 
             expect(baseElement.querySelector('#my-custom-id')).toBeInTheDocument();
@@ -86,10 +95,12 @@ describe('usePopover', () => {
 
         describe('portal assignment', () => {
             it('does not observe, set portal, or set update callback when portal already exists with truthy popoverContainer', () => {
-                const { result } = renderHook(() => usePopover({
-                    renderInPortal: true,
-                    popoverContainer: null
-                }));
+                const { result } = renderHook(() =>
+                    usePopover({
+                        renderInPortal: true,
+                        popoverContainer: null
+                    })
+                );
 
                 expect(mockIntersectionObserver.observe).not.toHaveBeenCalled();
                 expect(result.current.portal).toBeNull();
@@ -99,11 +110,13 @@ describe('usePopover', () => {
             });
 
             it('observes, sets portal, and sets update callback when portal does not exist with truthy popoverContainer', () => {
-                const { container } = render(<div/>);
-                const { result } = renderHook(() => usePopover({
-                    renderInPortal: true,
-                    popoverContainer: container
-                }));
+                const { container } = render(<div />);
+                const { result } = renderHook(() =>
+                    usePopover({
+                        renderInPortal: true,
+                        popoverContainer: container
+                    })
+                );
 
                 expect(mockIntersectionObserver.observe).toHaveBeenCalledWith(container);
                 expect(result.current.portal).not.toBeNull();
@@ -113,9 +126,7 @@ describe('usePopover', () => {
             });
 
             it('stops observing and removes appended div on unmount', () => {
-                const { baseElement, unmount } = render(
-                    <TestComponent renderInPortal />
-                );
+                const { baseElement, unmount } = render(<TestComponent renderInPortal />);
 
                 expect(baseElement.children).toHaveLength(2);
                 expect(baseElement.querySelector('#lakefront-portal-container')).toBeInTheDocument();
@@ -130,17 +141,19 @@ describe('usePopover', () => {
 
         describe('portal styling', () => {
             it('does not apply provided portal styles after update when popoverContainer is null', () => {
-                const { result } = renderHook(() => usePopover({
-                    renderInPortal: true,
-                    popoverContainer: null,
-                    portalStyles: {
-                        className: 'custom-portal',
-                        styles: {
-                            display: 'flex',
-                            width: '100%'
+                const { result } = renderHook(() =>
+                    usePopover({
+                        renderInPortal: true,
+                        popoverContainer: null,
+                        portalStyles: {
+                            className: 'custom-portal',
+                            styles: {
+                                display: 'flex',
+                                width: '100%'
+                            }
                         }
-                    }
-                }));
+                    })
+                );
 
                 const portal = result.current.portal as HTMLElement;
 
@@ -148,19 +161,21 @@ describe('usePopover', () => {
             });
 
             it('applies provided portal styles after update when popoverContainer and portal are available', () => {
-                const { container } = render(<div/>);
+                const { container } = render(<div />);
 
-                const { result } = renderHook(() => usePopover({
-                    renderInPortal: true,
-                    popoverContainer: container,
-                    portalStyles: {
-                        className: 'custom-portal',
-                        styles: {
-                            display: 'flex',
-                            width: '100%'
+                const { result } = renderHook(() =>
+                    usePopover({
+                        renderInPortal: true,
+                        popoverContainer: container,
+                        portalStyles: {
+                            className: 'custom-portal',
+                            styles: {
+                                display: 'flex',
+                                width: '100%'
+                            }
                         }
-                    }
-                }));
+                    })
+                );
 
                 const portal = result.current.portal as HTMLElement;
 

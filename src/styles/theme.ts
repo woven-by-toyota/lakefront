@@ -1,8 +1,8 @@
-import colors from './lakefrontColors';
-import borders from './borders';
-import zIndex from './zIndex';
 import type { Theme } from '@emotion/react';
+import borders from './borders';
+import colors from './lakefrontColors';
 import { lightenDarkenColor } from './stylesUtil';
+import zIndex from './zIndex';
 
 const THEME: Theme = {
     colors,
@@ -16,7 +16,7 @@ const THEME: Theme = {
         h2: colors.cinder,
         h4: colors.storm,
         error: colors.saturatedRed,
-        disabled: colors.mercury,
+        disabled: colors.mercury
     },
     backgroundColors: {
         primary: colors.white,
@@ -25,11 +25,11 @@ const THEME: Theme = {
         fourth: colors.pavement,
         fifth: colors.pavement,
         primaryWidget: colors.gunpowder,
-        disabled: colors.akoya,
+        disabled: colors.akoya
     },
     buttonColors: {
         primary: colors.akoya,
-        secondary: colors.white,
+        secondary: colors.white
     },
     borderColors: {
         primary: colors.selago,
@@ -43,7 +43,7 @@ const THEME: Theme = {
         warning: colors.mustard
     },
     shadowColors: {
-        boxShadow: colors.pavement,
+        boxShadow: colors.pavement
     },
     backgrounds: {
         primary: colors.white,
@@ -51,13 +51,13 @@ const THEME: Theme = {
         tertiary: colors.akoya,
         table: {
             groupedRowPrimary: colors.white,
-            groupedRowSecondary: colors.selago,
+            groupedRowSecondary: colors.selago
         },
         widget: {
-          primary: colors.gunpowder,
-          dark: colors.storm,
-          secondaryDark: colors.gunpowder,
-          light: colors.white,
+            primary: colors.gunpowder,
+            dark: colors.storm,
+            secondaryDark: colors.gunpowder,
+            light: colors.white
         },
         disabled: colors.akoya,
         inverted: colors.storm,
@@ -68,7 +68,7 @@ const THEME: Theme = {
         warningSubtle: colors.cornsilk,
         warningTint: colors.wheat,
         selected: colors.zircon,
-        errorsInverted: colors.white,
+        errorsInverted: colors.white
     },
     foregrounds: {
         primary: colors.storm,
@@ -87,30 +87,30 @@ const THEME: Theme = {
         loading: colors.pavement,
         tableHeading: colors.pavement,
         widget: {
-          primary: colors.akoya,
-          dark: colors.akoya,
-          secondaryDark: colors.akoya,
-          light: colors.storm,
-        },
+            primary: colors.akoya,
+            dark: colors.akoya,
+            secondaryDark: colors.akoya,
+            light: colors.storm
+        }
     },
     lettering: {
         primary: {
             fontSize: 16,
             fontFamily: 'Arial, sans-serif',
-            fontWeight: 400,
+            fontWeight: 400
         },
         secondary: {
             fontSize: 14,
             fontFamily: 'Arial, sans-serif',
-            fontWeight: 400,
+            fontWeight: 400
         },
         h1: { fontSize: 32, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
         h2: { fontSize: 28, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
         h3: { fontSize: 24, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
         h4: { fontSize: 20, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
         h5: { fontSize: 18, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
-        h6: { fontSize: 16, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
-    },
+        h6: { fontSize: 16, fontFamily: 'Arial, sans-serif', fontWeight: 600 }
+    }
 };
 
 export const DARK_THEME: Theme = {
@@ -125,7 +125,7 @@ export const DARK_THEME: Theme = {
         h2: colors.pavement,
         h4: colors.akoya,
         error: colors.saturatedRed,
-        disabled: colors.mercury,
+        disabled: colors.mercury
     },
     backgroundColors: {
         primary: colors.gunpowder,
@@ -134,11 +134,11 @@ export const DARK_THEME: Theme = {
         fourth: colors.cinder,
         fifth: colors.dolphin,
         primaryWidget: colors.white,
-        disabled: lightenDarkenColor(colors.white, -40),
+        disabled: lightenDarkenColor(colors.white, -40)
     },
     buttonColors: {
         primary: colors.dolphin,
-        secondary: colors.gunpowder,
+        secondary: colors.gunpowder
     },
     borderColors: {
         primary: colors.dolphin,
@@ -152,7 +152,7 @@ export const DARK_THEME: Theme = {
         warning: colors.goldenrod
     },
     shadowColors: {
-        boxShadow: `${colors.black}80`,
+        boxShadow: `${colors.black}80`
     },
     backgrounds: {
         primary: colors.gunpowder,
@@ -160,13 +160,13 @@ export const DARK_THEME: Theme = {
         tertiary: colors.dolphin,
         table: {
             groupedRowPrimary: colors.gunpowder,
-            groupedRowSecondary: colors.dolphin,
+            groupedRowSecondary: colors.dolphin
         },
         widget: {
-          primary: colors.white,
-          dark: colors.storm,
-          secondaryDark: colors.gunpowder,
-          light: colors.white
+            primary: colors.white,
+            dark: colors.storm,
+            secondaryDark: colors.gunpowder,
+            light: colors.white
         },
         disabled: lightenDarkenColor(colors.white, -40),
         inverted: colors.white,
@@ -177,7 +177,7 @@ export const DARK_THEME: Theme = {
         warningSubtle: colors.deepOlive,
         warningTint: colors.bronzeOlive,
         selected: colors.tangaroa,
-        errorsInverted: colors.gunpowder,
+        errorsInverted: colors.gunpowder
     },
     foregrounds: {
         primary: colors.akoya,
@@ -196,31 +196,30 @@ export const DARK_THEME: Theme = {
         loading: colors.akoya,
         tableHeading: colors.pavement,
         widget: {
-          primary: colors.storm,
-          dark: colors.akoya,
-          secondaryDark: colors.akoya,
-          light: colors.storm,
-        },
+            primary: colors.storm,
+            dark: colors.akoya,
+            secondaryDark: colors.akoya,
+            light: colors.storm
+        }
     },
     lettering: {
         primary: {
             fontSize: 16,
             fontFamily: 'Arial, sans-serif',
-            fontWeight: 400,
+            fontWeight: 400
         },
         secondary: {
             fontSize: 14,
             fontFamily: 'Arial, sans-serif',
-            fontWeight: 400,
+            fontWeight: 400
         },
         h1: { fontSize: 32, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
         h2: { fontSize: 28, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
         h3: { fontSize: 24, fontFamily: 'Arial, sans-serif', fontWeight: 700 },
         h4: { fontSize: 20, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
         h5: { fontSize: 18, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
-        h6: { fontSize: 16, fontFamily: 'Arial, sans-serif', fontWeight: 600 },
-    },
+        h6: { fontSize: 16, fontFamily: 'Arial, sans-serif', fontWeight: 600 }
+    }
 };
-
 
 export default THEME;

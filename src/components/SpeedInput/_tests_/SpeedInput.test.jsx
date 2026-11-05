@@ -1,6 +1,6 @@
-import { renderWithTheme as render } from 'src/lib/testing';
 import { fireEvent } from '@testing-library/react';
-import SpeedInput, { SPEED_UNITS, Mode } from '../SpeedInput';
+import { renderWithTheme as render } from 'src/lib/testing';
+import SpeedInput, { Mode, SPEED_UNITS } from '../SpeedInput';
 
 const options = [
     {
@@ -22,7 +22,7 @@ const options = [
     {
         label: 'unit',
         value: 'm/s²'
-    },
+    }
 ];
 
 const vehicleValue = {
@@ -33,7 +33,6 @@ const vehicleValue = {
 };
 
 describe('<SpeedInput>', () => {
-
     it('Should exist', () => {
         const callback = jest.fn();
         const speedInput = render(
@@ -44,7 +43,8 @@ describe('<SpeedInput>', () => {
                 disabled={false}
                 defaultUnits={SPEED_UNITS.kilometersPerHour}
                 onChange={callback}
-            />);
+            />
+        );
         expect(speedInput).toBeDefined();
     });
 
@@ -83,6 +83,5 @@ describe('<SpeedInput>', () => {
         const kphStaysKph = getByText('Kph');
         fireEvent.click(kphStaysKph);
         expect(SPEED_UNITS.kilometersPerHour).toEqual(options[3].value);
-
     });
 });

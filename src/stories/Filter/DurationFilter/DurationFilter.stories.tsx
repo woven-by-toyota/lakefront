@@ -1,9 +1,8 @@
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import FilterPage from '../components/FilterPage';
-import DurationFilterDocs, { type DurationFilterArgs, DURATION_FILTER_SOURCE_CODE } from './DurationFilterDocs';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { DurationFilter as DurationFilterFunction } from 'src/components/Filter/modules';
+import FilterPage from '../components/FilterPage';
+import DurationFilterDocs, { DURATION_FILTER_SOURCE_CODE, type DurationFilterArgs } from './DurationFilterDocs';
 
 export default {
     title: 'Lakefront/Filter/DurationFilter',

@@ -1,4 +1,4 @@
-import MaskableImage, { type MaskableImageProps, type ImageTagProps } from './MaskableImage';
+import MaskableImage, { type ImageTagProps, type MaskableImageProps } from './MaskableImage';
 
-export type { MaskableImageProps, ImageTagProps };
+export type { ImageTagProps, MaskableImageProps };
 export default MaskableImage;

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
-import { createChips } from './filterSectionHeaderUtil';
 import type { FilterModule } from '../../types';
+import { createChips } from './filterSectionHeaderUtil';
 
 interface FilterValueChipsProps {
     value: string | string[];
@@ -12,7 +12,15 @@ interface FilterValueChipsProps {
     resetFilter?(name: string, value?: any): void;
 }
 
-const FilterValueChips: FC<FilterValueChipsProps> = ({ value, values, visible, name, resetFilter, label, notDefaultValues }) => {
+const FilterValueChips: FC<FilterValueChipsProps> = ({
+    value,
+    values,
+    visible,
+    name,
+    resetFilter,
+    label,
+    notDefaultValues
+}) => {
     if (!visible) {
         return null;
     }

@@ -1,14 +1,10 @@
 import React from 'react';
 import { renderWithTheme } from 'src/lib/testing';
+import { green, saturatedBlue, saturatedRed } from 'src/styles/lakefrontColors';
 import StatusTracker from '../StatusTracker';
-import { green, saturatedRed, saturatedBlue } from 'src/styles/lakefrontColors';
 
 describe('StatusTracker Component', () => {
-    const basicStatuses = [
-        { label: 'Started' },
-        { label: 'In Progress' },
-        { label: 'Complete' }
-    ];
+    const basicStatuses = [{ label: 'Started' }, { label: 'In Progress' }, { label: 'Complete' }];
 
     it('renders all status labels', () => {
         const { getByText } = renderWithTheme(<StatusTracker statuses={basicStatuses} />);
@@ -77,7 +73,10 @@ describe('StatusTracker Component', () => {
 
     it('applies custom className', () => {
         const { container } = renderWithTheme(
-            <StatusTracker statuses={basicStatuses} className="custom-class" />
+            <StatusTracker
+                statuses={basicStatuses}
+                className='custom-class'
+            />
         );
 
         expect(container.firstChild).toHaveClass('custom-class');

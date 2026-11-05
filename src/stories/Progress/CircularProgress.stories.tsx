@@ -1,10 +1,9 @@
-
-import type { ComponentPropsWithoutRef } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-import CircularProgressComponent, { type CircularProgressProps } from 'src/components/Progress/CircularProgress';
 import DocBlock from '.storybook/DocBlock';
-import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';
 import styled from '@emotion/styled';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import CircularProgressComponent, { type CircularProgressProps } from 'src/components/Progress/CircularProgress';
+import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';
 
 const Chips = styled.div(() => ({
     minWidth: 22,
@@ -41,20 +40,28 @@ export default {
 const Template: StoryFn<CircularProgressProps & ComponentPropsWithoutRef<'div'>> = (args) => {
     return (
         <section style={{ display: 'inline-flex' }}>
-            <CircularProgressComponent width={args.width} data={args.data} theme={args.theme} text={args.text}>
-            </CircularProgressComponent>
+            <CircularProgressComponent
+                width={args.width}
+                data={args.data}
+                theme={args.theme}
+                text={args.text}
+            ></CircularProgressComponent>
             <section style={{ marginLeft: 20 }}>
                 <ul style={{ margin: 0 }}>
                     {args.data.map((res) => {
                         return (
                             <Row key={res.label}>
                                 <span>{res.label}:</span>
-                                <Chips style={{ backgroundColor: args.theme[res.label].bgColor, color: args.theme[res.label].fgColor }}>
+                                <Chips
+                                    style={{
+                                        backgroundColor: args.theme[res.label].bgColor,
+                                        color: args.theme[res.label].fgColor
+                                    }}
+                                >
                                     {res.value}
                                 </Chips>
                             </Row>
                         );
-
                     })}
                 </ul>
             </section>

@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
-import { DrawerCloseButton, DrawerContainer } from './drawerStyles';
 import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
+import { DrawerCloseButton, DrawerContainer } from './drawerStyles';
 
 export interface DrawerProps {
     /**
@@ -35,17 +35,27 @@ export interface DrawerProps {
  *
  * The Drawer component can be used to open the drawer and show the contents of the drawer.
  * The component takes drawer props. The open prop controls the visibility of the component.
- * 
+ *
  * Usage: Place this next to a flex container that has flex: 1
  */
 
 const Drawer: FC<DrawerProps> = ({ children, className, open = false, onClose, width = '50%', toolbarClasses }) => {
     return (
-        <DrawerContainer className={className} width={width} open={open}>
-            <div className="innerDrawerContainer">
+        <DrawerContainer
+            className={className}
+            width={width}
+            open={open}
+        >
+            <div className='innerDrawerContainer'>
                 <div className={toolbarClasses}>
                     <div>
-                        <DrawerCloseButton alternate className="closeIcon" aria-label="Close" onClick={onClose} icon={<CloseIcon />} />
+                        <DrawerCloseButton
+                            alternate
+                            className='closeIcon'
+                            aria-label='Close'
+                            onClick={onClose}
+                            icon={<CloseIcon />}
+                        />
                     </div>
                 </div>
                 {children}

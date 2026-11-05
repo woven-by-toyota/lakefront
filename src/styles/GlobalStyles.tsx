@@ -1,5 +1,5 @@
-import type { FC, ReactNode } from 'react';
 import { css, Global } from '@emotion/react';
+import type { FC, ReactNode } from 'react';
 
 const styles = css({
     '*': {

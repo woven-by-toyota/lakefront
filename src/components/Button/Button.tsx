@@ -1,14 +1,14 @@
 import type { FC } from 'react';
+import { StyledDiv } from './buttonStyles';
+import {
+    type ButtonComponentProps,
+    ICON_BUTTON_COLOR,
+    ICON_SVGS,
+    InvalidButtonColorError,
+    shouldUseMappedIcon
+} from './buttonUtil';
 import ButtonVariants from './buttonVariants';
 import IconButton from './IconButton';
-import {
-  type ButtonComponentProps,
-  ICON_BUTTON_COLOR,
-  ICON_SVGS,
-  InvalidButtonColorError,
-  shouldUseMappedIcon
-} from './buttonUtil';
-import { StyledDiv } from './buttonStyles';
 
 /**
  * Button Component
@@ -23,70 +23,78 @@ import { StyledDiv } from './buttonStyles';
  * we will attempt to convert it into an icon. When icon is defined, the position can be specified via the iconPosition prop.
  */
 const Button: FC<ButtonComponentProps> = ({
-  alternate = false,
-  color = 'primary',
-  children,
-  icon = false,
-  iconPosition = 'left',
-  iconLabel = '',
-  ...props
+    alternate = false,
+    color = 'primary',
+    children,
+    icon = false,
+    iconPosition = 'left',
+    iconLabel = '',
+    ...props
 }) => {
-  // When an icon is supplied we need to render the IconButton component inside the Button
-  if (icon) {
-    // If icon is true, we need to show the icon associated with the button color type, such as add or delete
-    const defaultIcon = shouldUseMappedIcon(icon)
-      ? ICON_SVGS[color ?? 'primary']
-      : icon;
-    const isIconOnly = !children || !defaultIcon;
+    // When an icon is supplied we need to render the IconButton component inside the Button
+    if (icon) {
+        // If icon is true, we need to show the icon associated with the button color type, such as add or delete
+        const defaultIcon = shouldUseMappedIcon(icon) ? ICON_SVGS[color ?? 'primary'] : icon;
+        const isIconOnly = !children || !defaultIcon;
 
-    // Icon Buttons have a different color mapping, i.e. there is no secondary, but primary uses the secondary component
-    const ButtonComponent = isIconOnly
-      ? ButtonVariants[ICON_BUTTON_COLOR[color]]
-      : ButtonVariants[color];
+        // Icon Buttons have a different color mapping, i.e. there is no secondary, but primary uses the secondary component
+        const ButtonComponent = isIconOnly ? ButtonVariants[ICON_BUTTON_COLOR[color]] : ButtonVariants[color];
 
-    // Show a meaningful error when the color doesn't match our allowed color strings instead of crashing the page
-    if (!ButtonComponent) {
-      throw new InvalidButtonColorError(color);
-    }
+        // Show a meaningful error when the color doesn't match our allowed color strings instead of crashing the page
+        if (!ButtonComponent) {
+            throw new InvalidButtonColorError(color);
+        }
 
-    if (iconLabel) {
-      const { className, ...rest } = props;
-      return (
-          <StyledDiv className={className} disable={props.disabled ?? false}>
+        if (iconLabel) {
+            const { className, ...rest } = props;
+            return (
+                <StyledDiv
+                    className={className}
+                    disable={props.disabled ?? false}
+                >
+                    <ButtonComponent
+                        alternate={alternate}
+                        {...rest}
+                        isIconOnly={isIconOnly}
+                    >
+                        <IconButton
+                            icon={defaultIcon}
+                            iconPosition={iconPosition}
+                        >
+                            {children}
+                        </IconButton>
+                    </ButtonComponent>
+                    <div className='icon-label'>{iconLabel}</div>
+                </StyledDiv>
+            );
+        }
+        return (
             <ButtonComponent
-              alternate={alternate}
-              {...rest}
-              isIconOnly={isIconOnly}
+                alternate={alternate}
+                {...props}
+                isIconOnly={isIconOnly}
             >
-              <IconButton icon={defaultIcon} iconPosition={iconPosition}>
-                {children}
-              </IconButton>
+                <IconButton
+                    icon={defaultIcon}
+                    iconPosition={iconPosition}
+                >
+                    {children}
+                </IconButton>
             </ButtonComponent>
-            <div className="icon-label">{iconLabel}</div>
-          </StyledDiv>
-      );
-    }
-    return (
-        <ButtonComponent
-          alternate={alternate}
-          {...props}
-          isIconOnly={isIconOnly}
-        >
-          <IconButton icon={defaultIcon} iconPosition={iconPosition}>
-            {children}
-          </IconButton>
-        </ButtonComponent>
-    );
-  } else {
-    // Like in the Icon version, we return a styled component based on the color type
-    const ButtonComponent = ButtonVariants[color] || ButtonVariants.primary;
+        );
+    } else {
+        // Like in the Icon version, we return a styled component based on the color type
+        const ButtonComponent = ButtonVariants[color] || ButtonVariants.primary;
 
-    return (
-        <ButtonComponent alternate={alternate} {...props}>
-          {children}
-        </ButtonComponent>
-    );
-  }
+        return (
+            <ButtonComponent
+                alternate={alternate}
+                {...props}
+            >
+                {children}
+            </ButtonComponent>
+        );
+    }
 };
 
 export default Button;

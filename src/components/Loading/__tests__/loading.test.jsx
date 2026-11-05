@@ -42,7 +42,13 @@ describe('Loading', () => {
     });
 
     it('renders with svg prop with height and width', () => {
-        const { container } = render(<Loading height={10} width={10} svg={logo} />);
+        const { container } = render(
+            <Loading
+                height={10}
+                width={10}
+                svg={logo}
+            />
+        );
         const [svg] = container.querySelectorAll('svg');
 
         expect(svg.getAttributeNames()).toHaveLength(3);
@@ -72,14 +78,24 @@ describe('Loading', () => {
     });
 
     it('renders the Svg instead of icon variant (secondary) when "svg" is truthy', () => {
-        const { container } = render(<Loading svg={logo} iconVariant={renderTRIIcon} />);
+        const { container } = render(
+            <Loading
+                svg={logo}
+                iconVariant={renderTRIIcon}
+            />
+        );
 
         expect(container.querySelector('svg[aria-details]')).not.toBeInTheDocument();
         expect(container.querySelector('svg[aria-label="loading"]')).toBeInTheDocument();
     });
 
     it('renders the Svg instead of icon variant (primary) when "svg" is truthy', () => {
-        const { container } = render(<Loading svg={logo} iconVariant={renderWovenIcon} />);
+        const { container } = render(
+            <Loading
+                svg={logo}
+                iconVariant={renderWovenIcon}
+            />
+        );
 
         expect(container.querySelector('svg[aria-details]')).not.toBeInTheDocument();
         expect(container.querySelector('svg[aria-label="loading"]')).toBeInTheDocument();

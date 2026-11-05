@@ -15,11 +15,7 @@ export interface MinMaxInputProps {
     allowNegativeInput: boolean;
 }
 
-const MinMaxInput: FC<MinMaxInputProps> = ({
-    value,
-    onChange,
-    allowNegativeInput
-}) => {
+const MinMaxInput: FC<MinMaxInputProps> = ({ value, onChange, allowNegativeInput }) => {
     const [min, setMin] = useState<string>(value && value.min !== undefined ? value.min.toString() : '0');
     const [max, setMax] = useState<string>(value && value.max !== undefined ? value.max.toString() : '');
 
@@ -95,20 +91,24 @@ const MinMaxInput: FC<MinMaxInputProps> = ({
     return (
         <div>
             <Input
-                aria-label="min-input"
-                label="Min"
+                aria-label='min-input'
+                label='Min'
                 style={{ width: 'initial' }}
-                type="number"
-                onChange={e => { setMin(e.target.value); }}
+                type='number'
+                onChange={(e) => {
+                    setMin(e.target.value);
+                }}
                 value={min}
             />
 
             <Input
-                aria-label="max-input"
-                label="Max"
+                aria-label='max-input'
+                label='Max'
                 style={{ width: 'initial' }}
-                type="number"
-                onChange={e => { setMax(e.target.value); }}
+                type='number'
+                onChange={(e) => {
+                    setMax(e.target.value);
+                }}
                 value={max}
             />
         </div>

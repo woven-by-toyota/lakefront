@@ -1,9 +1,8 @@
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import FilterPage from '../components/FilterPage';
-import TextFilterDocs, { type TextFilterArgs, TEXT_FILTER_SOURCE_CODE } from './TextFilterDocs';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { TextFilter as TextFilterFunction } from 'src/components/Filter/modules';
+import FilterPage from '../components/FilterPage';
+import TextFilterDocs, { TEXT_FILTER_SOURCE_CODE, type TextFilterArgs } from './TextFilterDocs';
 
 export default {
     title: 'Lakefront/Filter/TextFilter',

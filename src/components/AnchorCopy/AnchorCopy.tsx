@@ -1,10 +1,9 @@
-import type { ComponentPropsWithoutRef, FC } from 'react';
-import { generateScrollToUrl } from './anchorCopyUtil';
 import styled from '@emotion/styled';
-import copyClipboard from 'src/lib/util/copy';
+import type { ComponentPropsWithoutRef, FC } from 'react';
 import Button from 'src/components/Button/Button';
+import copyClipboard from 'src/lib/util/copy';
+import { generateScrollToUrl } from './anchorCopyUtil';
 import { ReactComponent as Link } from './assets/link.svg';
-
 
 export interface AnchorCopyProps {
     /**
@@ -65,7 +64,11 @@ const AnchorCopy: FC<AnchorCopyProps & Omit<ComponentPropsWithoutRef<'div'>, 'on
     const AnchorContentComponent = AnchorContent ? (
         <AnchorContent />
     ) : (
-        <Button className="anchorCopyContent" disabled={disabled} icon={<Link className="anchorLinkIcon" />} />
+        <Button
+            className='anchorCopyContent'
+            disabled={disabled}
+            icon={<Link className='anchorLinkIcon' />}
+        />
     );
 
     return (
@@ -76,16 +79,16 @@ const AnchorCopy: FC<AnchorCopyProps & Omit<ComponentPropsWithoutRef<'div'>, 'on
                 disabled
                     ? () => null
                     : () => {
-                        const success = copyClipboard(generateScrollToUrl(hash));
+                          const success = copyClipboard(generateScrollToUrl(hash));
 
-                        if (onCopy && success) {
-                            onCopy(generateScrollToUrl(hash));
-                        }
-                    }
+                          if (onCopy && success) {
+                              onCopy(generateScrollToUrl(hash));
+                          }
+                      }
             }
         >
             {AnchorContentComponent}
-            <div className="anchorCopyTitle">{title}</div>
+            <div className='anchorCopyTitle'>{title}</div>
         </AnchorDiv>
     );
 };

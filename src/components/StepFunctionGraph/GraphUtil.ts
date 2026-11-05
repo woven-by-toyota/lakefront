@@ -1,5 +1,5 @@
-import type Digraph from './Digraph';
 import { drawCatchNode, drawStepNode, getNodeDimensions } from './canvasUtil';
+import type Digraph from './Digraph';
 import { WorkFlowType } from './StepFunctionUtil';
 
 export interface NodeDimensions {
@@ -29,18 +29,25 @@ export interface MountingPoints {
 export const getCatchVertices = (catchArray: any[], graph: Digraph): number[] => {
     const catchNodes = catchArray?.map((e: any) => e.Next) ?? [];
 
-    return catchNodes.map((catchNext: string) => {
-        const catchFindFn = (datum: any) => {
-            const [dataKey] = Object.keys(datum);
-            return dataKey === catchNext;
-        };
+    return catchNodes
+        .map((catchNext: string) => {
+            const catchFindFn = (datum: any) => {
+                const [dataKey] = Object.keys(datum);
+                return dataKey === catchNext;
+            };
 
-        return graph.getVertexByData(catchFindFn) ?? -1;
-    }).filter((v: number) => v !== -1);
+            return graph.getVertexByData(catchFindFn) ?? -1;
+        })
+        .filter((v: number) => v !== -1);
 };
 
 // Returns the total pixel width of all vertices in an array, meant for a graph depth
-export const getRange = (vertices: number[], xOffset: number, graph: Digraph, ctx: CanvasRenderingContext2D): number => {
+export const getRange = (
+    vertices: number[],
+    xOffset: number,
+    graph: Digraph,
+    ctx: CanvasRenderingContext2D
+): number => {
     return vertices.reduce((accum, current) => {
         const nodeData = graph.getDataByVertex(current);
         const [rangeKey] = Object.keys(nodeData);
@@ -48,9 +55,7 @@ export const getRange = (vertices: number[], xOffset: number, graph: Digraph, ct
 
         const { width: currentWidth } = getNodeDimensions(rangeKey, ctx, nodeData, Type === WorkFlowType.CATCH);
 
-        return accum +
-            (Type === WorkFlowType.PARALLEL ? 0 : currentWidth) +
-            xOffset;
+        return accum + (Type === WorkFlowType.PARALLEL ? 0 : currentWidth) + xOffset;
     }, 0);
 };
 
@@ -78,7 +83,7 @@ export const getDrawnRangeMiddleX = (
 ): number => {
     const xValues: number[] = vertices.reduce((accum: number[], vertex) => {
         const xVal = drawn.get(vertex)?.x;
-        if (typeof(xVal) === 'number') {
+        if (typeof xVal === 'number') {
             accum.push(xVal);
         }
 
@@ -100,18 +105,18 @@ export const generateMountingPoints = (
 ): MountingPoints => {
     const bottom: Point = {
         x: node.x,
-        y: node.y + (node.height / 2) + (bottomOffset / 2)
+        y: node.y + node.height / 2 + bottomOffset / 2
     };
     const top: Point = {
         x: node.x,
-        y: node.y - (node.height / 2) - (topOffset / 2)
+        y: node.y - node.height / 2 - topOffset / 2
     };
     const left: Point = {
-        x: node.x - (node.width / 2) - leftOffset,
+        x: node.x - node.width / 2 - leftOffset,
         y: node.y
     };
     const right: Point = {
-        x: node.x + (node.width / 2) + rightOffset,
+        x: node.x + node.width / 2 + rightOffset,
         y: node.y
     };
 
@@ -119,7 +124,7 @@ export const generateMountingPoints = (
         bottom.x += node.width / 2;
         bottom.y += node.height / 2;
         top.x += node.width / 2;
-        top.y += (node.height / 2) + (topOffset / 2);
+        top.y += node.height / 2 + topOffset / 2;
         left.x += node.width / 2;
         left.y += node.height / 2;
         right.x += node.width / 2;
@@ -140,9 +145,11 @@ export const adjustMatrixForArrows = (matrix: number[][], graph: Digraph, drawn:
     matrix.forEach((path: number[]) => {
         const adjustedPath = path.filter((vertex: number) => {
             const drawnVertex = drawn.get(vertex);
-            return drawnVertex &&
+            return (
+                drawnVertex &&
                 drawnVertex.nodeType !== WorkFlowType.PARALLEL &&
-                drawnVertex.nodeType !== WorkFlowType.MAP;
+                drawnVertex.nodeType !== WorkFlowType.MAP
+            );
         });
         adjustedMatrix.push(adjustedPath);
     });
@@ -196,24 +203,22 @@ export const adjustDepthMatrix = (matrix: number[][], graph: Digraph): number[][
                     mapEnds.push(nextVertex ?? -1);
                 }
 
-                const outDegree = graph.getOutdegree(vertex).outVertices.filter(
-                    v => v !== endVertex
-                );
+                const outDegree = graph.getOutdegree(vertex).outVertices.filter((v) => v !== endVertex);
 
                 const catchVertices = getCatchVertices(Catch, graph);
 
                 // Add any "Catch" vertices after this depth so they don't appear inside any boxes
-                if (catchVertices.length > 0 && typeof(nextVertex) === 'number') {
-                    const nextDepthIndex = workingMatrix.findIndex(depth => depth.includes(nextVertex));
+                if (catchVertices.length > 0 && typeof nextVertex === 'number') {
+                    const nextDepthIndex = workingMatrix.findIndex((depth) => depth.includes(nextVertex));
                     workingMatrix[nextDepthIndex].push(...catchVertices);
                 }
 
                 // Remove any "Catch" vertices that were moved to the next depth as well as the "Next" vertex
-                accum = accum.concat(outDegree).filter(v => v !== nextVertex && !catchVertices.includes(v));
+                accum = accum.concat(outDegree).filter((v) => v !== nextVertex && !catchVertices.includes(v));
 
                 // When this row doesn't have any overlap with the outdegrees, add them to the removalArray
-                if (!vertices.some(v => outDegree.includes(v))) {
-                    removalArray = removalArray.concat(outDegree).filter(v => v !== nextVertex);
+                if (!vertices.some((v) => outDegree.includes(v))) {
+                    removalArray = removalArray.concat(outDegree).filter((v) => v !== nextVertex);
                 }
             }
 
@@ -230,7 +235,7 @@ export const adjustDepthMatrix = (matrix: number[][], graph: Digraph): number[][
     }
 
     // We don't want any rows without values after moving vertices around
-    adjustedMatrix = adjustedMatrix.filter(depth => depth.length > 0);
+    adjustedMatrix = adjustedMatrix.filter((depth) => depth.length > 0);
 
     // This function is called recursively when there have been Parallel and Map nodes to make sure
     // there aren't nested nodes of the same type to also shift up
@@ -246,9 +251,9 @@ export const adjustDepthMatrix = (matrix: number[][], graph: Digraph): number[][
         const next = flatMatrix[index + 1];
 
         if (mapEnds.includes(v) && v > next) {
-            const largerDepth = adjustedMatrix.findIndex(depth => depth.includes(v));
+            const largerDepth = adjustedMatrix.findIndex((depth) => depth.includes(v));
             const largerIndex = adjustedMatrix[largerDepth].indexOf(v);
-            const smallerDepth = adjustedMatrix.findIndex(depth => depth.includes(next));
+            const smallerDepth = adjustedMatrix.findIndex((depth) => depth.includes(next));
             const smallerIndex = adjustedMatrix[smallerDepth].indexOf(next);
 
             adjustedMatrix[largerDepth][largerIndex] = next;
@@ -285,7 +290,7 @@ export const getNearestDrawn = (vertex: number, graph: Digraph, drawn: Map<numbe
         return vertex;
     } else {
         const [outDegree] = graph.getOutdegree(vertex).outVertices;
-        return typeof(outDegree) !== 'undefined' ? getNearestDrawn(outDegree, graph, drawn) : -1;
+        return typeof outDegree !== 'undefined' ? getNearestDrawn(outDegree, graph, drawn) : -1;
     }
 };
 
@@ -310,8 +315,7 @@ export const getGroupsAtDepth = (depthArray: number[], graph: Digraph): number[]
 
         if (Type === WorkFlowType.PARALLEL) {
             const nextVertex = getNextVertex(vertex, graph);
-            const outDegree = graph.getOutdegree(vertex).outVertices
-                .filter(v => v !== nextVertex);
+            const outDegree = graph.getOutdegree(vertex).outVertices.filter((v) => v !== nextVertex);
             group.push(...outDegree);
             groups.push(group);
             toFilter.push(vertex);
@@ -319,7 +323,7 @@ export const getGroupsAtDepth = (depthArray: number[], graph: Digraph): number[]
     });
 
     const flattenedGroups: number[] = ([] as number[]).concat(...groups);
-    const notInGroups: number[] = depthArray.filter(v => !toFilter.includes(v) && !flattenedGroups.includes(v));
+    const notInGroups: number[] = depthArray.filter((v) => !toFilter.includes(v) && !flattenedGroups.includes(v));
 
     if (notInGroups.length > 0) {
         groups.push(notInGroups);

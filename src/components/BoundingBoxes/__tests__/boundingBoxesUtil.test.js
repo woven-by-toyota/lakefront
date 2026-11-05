@@ -28,7 +28,6 @@ describe('drawSingleBox', () => {
     });
 });
 
-
 describe('getImageOffsetRatio', () => {
     const dimensions = { width: 1210, height: 418 };
 
@@ -81,12 +80,7 @@ describe('getImageOffsetRatio', () => {
     it('returns default values when dimensions are not set', () => {
         const imgDimensions = { width: 1210, height: 418 };
 
-        const offsetRatio = getImageOffsetRatio(
-            imgDimensions.width,
-            imgDimensions.height,
-            0,
-            0
-        );
+        const offsetRatio = getImageOffsetRatio(imgDimensions.width, imgDimensions.height, 0, 0);
 
         // test for default return
         expect(offsetRatio.ratio).toBe(1);

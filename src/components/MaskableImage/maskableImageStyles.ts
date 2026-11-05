@@ -11,8 +11,7 @@ export const MaskableImageContainer = styled.div<any>(({ heightToWidthRatio, the
     width: '100%',
     paddingBottom: heightToWidthRatio,
     color: theme.foregrounds.primary
-}
-));
+}));
 
 export const MaskedImage = styled.img<any>(({ imageLoaded, allLoading, showSpinnerOnLoad }) => ({
     position: 'absolute',
@@ -34,8 +33,8 @@ export const DisplayImage = styled.img<any>(({ imageLoaded, allLoading, showSpin
     // (e.g. hide small pixel value background that shows because of rounding applied to scaled size)
     height: '100.5%',
     width: '100%',
-    ...imageLoaded || !allLoading && { visibility: 'hidden' },
-    ...imageLoaded && showSpinnerOnLoad && { display: 'none' }
+    ...(imageLoaded || (!allLoading && { visibility: 'hidden' })),
+    ...(imageLoaded && showSpinnerOnLoad && { display: 'none' })
 }));
 
 export const LoadingSpinner = styled.div(({ theme }) => ({
@@ -47,7 +46,7 @@ export const LoadingSpinner = styled.div(({ theme }) => ({
 }));
 
 export const HighlightedImageStyle = styled.div<any>(({ theme, highlighted }) => ({
-    ...highlighted && {
+    ...(highlighted && {
         backgroundColor: 'rgba(55, 143, 238,0.5)',
         position: 'absolute',
         top: 0,
@@ -55,23 +54,25 @@ export const HighlightedImageStyle = styled.div<any>(({ theme, highlighted }) =>
         height: '100%',
         width: '100%',
         color: theme.foregrounds.primary
-    },
-    ...!highlighted && { display: 'none' }
+    }),
+    ...(!highlighted && { display: 'none' })
 }));
 
-export const CheckOutlinedIconStyle = styled(CheckOutlinedIcon)<any>(({ selectable, selected,
-    hovered, individuallySelected, theme }) => ({
-        ...selectable && {
+export const CheckOutlinedIconStyle = styled(CheckOutlinedIcon)<any>(
+    ({ selectable, selected, hovered, individuallySelected, theme }) => ({
+        ...(selectable && {
             position: 'absolute',
             bottom: '15px',
             right: '15px',
             fill: theme.borderColors.primary,
             borderRadius: '50%'
-        },
-        ...((!selectable || (!selected && (!hovered && !individuallySelected))) && { display: 'none' }),
-        ...(selectable && (selected || individuallySelected) && {
-            background: theme.foregrounds.success,
-            border: '1px solid', borderColor: theme.borderColors.primary
-        })
+        }),
+        ...((!selectable || (!selected && !hovered && !individuallySelected)) && { display: 'none' }),
+        ...(selectable &&
+            (selected || individuallySelected) && {
+                background: theme.foregrounds.success,
+                border: '1px solid',
+                borderColor: theme.borderColors.primary
+            })
     })
 );

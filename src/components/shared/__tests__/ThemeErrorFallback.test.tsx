@@ -14,7 +14,7 @@ describe('ThemeErrorFallback', () => {
     });
 
     it('renders error message with component name', () => {
-        render(<ThemeErrorFallback componentName="TestComponent" />);
+        render(<ThemeErrorFallback componentName='TestComponent' />);
 
         expect(screen.getByText('Theme Error:')).toBeInTheDocument();
         expect(screen.getByText(/No theme available for TestComponent/)).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('ThemeErrorFallback', () => {
     });
 
     it('logs console error with component name', () => {
-        render(<ThemeErrorFallback componentName="MyComponent" />);
+        render(<ThemeErrorFallback componentName='MyComponent' />);
 
         expect(mockConsoleError).toHaveBeenCalledWith(
             'MyComponent: No theme available. Make sure the component is wrapped in a ThemeProvider.'
@@ -30,7 +30,7 @@ describe('ThemeErrorFallback', () => {
     });
 
     it('has proper error styling', () => {
-        const { container } = render(<ThemeErrorFallback componentName="TestComponent" />);
+        const { container } = render(<ThemeErrorFallback componentName='TestComponent' />);
         const errorDiv = container.firstChild as HTMLElement;
 
         expect(errorDiv).toHaveStyle({

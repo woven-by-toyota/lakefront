@@ -1,5 +1,5 @@
 import { type ComponentPropsWithRef, type FC, forwardRef } from 'react';
-import { StyledTextArea, StyledLabel } from './textAreaStyles';
+import { StyledLabel, StyledTextArea } from './textAreaStyles';
 
 export interface TextAreaProps {
     /**
@@ -27,14 +27,23 @@ export interface TextAreaProps {
  * in this component and should be handled in the consuming app.
  *
  */
-const TextArea: FC<TextAreaProps & ComponentPropsWithRef<'textarea'>> = forwardRef(({ label, error = '', labelClassName, ...props }, ref) => {
-    return (
-        <StyledLabel error={error} className={labelClassName}>
-            {label && <span>{label}</span>}
-            <StyledTextArea ref={ref} error={error} {...props} />
-            <div>{error}</div>
-        </StyledLabel>
-    );
-});
+const TextArea: FC<TextAreaProps & ComponentPropsWithRef<'textarea'>> = forwardRef(
+    ({ label, error = '', labelClassName, ...props }, ref) => {
+        return (
+            <StyledLabel
+                error={error}
+                className={labelClassName}
+            >
+                {label && <span>{label}</span>}
+                <StyledTextArea
+                    ref={ref}
+                    error={error}
+                    {...props}
+                />
+                <div>{error}</div>
+            </StyledLabel>
+        );
+    }
+);
 
 export default TextArea;

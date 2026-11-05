@@ -8,14 +8,14 @@ export const StyledLabel = styled.label<TextAreaProps>(({ error, theme }) => ({
     fontSize: 12,
     fontWeight: 600,
     span: {
-        marginBottom: 4,
+        marginBottom: 4
     },
     div: {
         marginTop: 4,
-        minHeight: 14,
+        minHeight: 14
     },
     ...(error && {
-        color: theme.foregrounds.alert,
+        color: theme.foregrounds.alert
     })
 }));
 
@@ -41,6 +41,6 @@ export const StyledTextArea = styled.textarea<TextAreaProps>(({ error, theme, di
         border: `1px solid ${theme.borderColors.alert}`,
         ':focus': {
             border: `1px solid ${theme.borderColors.alert}`
-        },
+        }
     })
 }));

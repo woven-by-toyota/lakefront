@@ -1,7 +1,7 @@
-import React, { type ReactNode } from 'react';
-import { AttributeGrid, AttributeList, Caption, Content } from './propertyListStyles';
 import { ThemeProvider } from '@emotion/react';
+import React, { type ReactNode } from 'react';
 import theme from 'src/styles/theme';
+import { AttributeGrid, AttributeList, Caption, Content } from './propertyListStyles';
 
 export interface Property {
     /** This is to set the caption for the PropertyList */
@@ -41,30 +41,30 @@ const PropertyList: React.FC<PropertyListProps> = (props) => {
     }
 
     return (
-            <AttributeGrid>
-                {attributes.map(a => (
-                    <React.Fragment key={a.caption}>
-                        <Caption className={a.captionStyles}>{a.caption}</Caption>
-                        <Content className={a.contentStyles}>{a.content(data)}</Content>
-                    </React.Fragment>
-                ))}
-            </AttributeGrid>
+        <AttributeGrid>
+            {attributes.map((a) => (
+                <React.Fragment key={a.caption}>
+                    <Caption className={a.captionStyles}>{a.caption}</Caption>
+                    <Content className={a.contentStyles}>{a.content(data)}</Content>
+                </React.Fragment>
+            ))}
+        </AttributeGrid>
     );
 };
 
 export default PropertyList;
 
-export const PropertyListVariable: React.FC<BaseProps> = props => {
+export const PropertyListVariable: React.FC<BaseProps> = (props) => {
     const { attributes, data, className } = props;
 
     return (
-            <AttributeList className={className}>
-                {attributes.map(a => (
-                    <div key={a.caption}>
-                        <Caption className={a.captionStyles}>{a.caption}</Caption>
-                        <Content className={a.contentStyles}>{a.content(data)}</Content>
-                    </div>
-                ))}
-            </AttributeList>
+        <AttributeList className={className}>
+            {attributes.map((a) => (
+                <div key={a.caption}>
+                    <Caption className={a.captionStyles}>{a.caption}</Caption>
+                    <Content className={a.contentStyles}>{a.content(data)}</Content>
+                </div>
+            ))}
+        </AttributeList>
     );
 };

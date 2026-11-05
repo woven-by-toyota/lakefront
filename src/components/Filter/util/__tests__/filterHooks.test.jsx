@@ -1,7 +1,13 @@
 import { act, renderHook } from '@testing-library/react';
-import { useFilter } from '../filterHooks';
 import queryString from 'query-string';
-import { DEFAULT_PHRASE_DEMO, FILTERS, KEYWORD_DEMO, LOCATION, PHRASE_DEMO } from 'src/components/Filter/__tests__/filter.data';
+import {
+    DEFAULT_PHRASE_DEMO,
+    FILTERS,
+    KEYWORD_DEMO,
+    LOCATION,
+    PHRASE_DEMO
+} from 'src/components/Filter/__tests__/filter.data';
+import { useFilter } from '../filterHooks';
 
 describe('useFilter', () => {
     it('should have initial values', () => {
@@ -12,8 +18,8 @@ describe('useFilter', () => {
         expect(filterValues.phrases).toBe('');
     });
 
-    it ('should set initial preset values', () => {
-       const { result } = renderHook(() => useFilter(FILTERS, false, LOCATION, () => null));
+    it('should set initial preset values', () => {
+        const { result } = renderHook(() => useFilter(FILTERS, false, LOCATION, () => null));
 
         act(() => {
             result.current.initializePresetValues({
@@ -205,7 +211,7 @@ describe('useFilter', () => {
         });
     });
 
-    it('keeps a split filter\'s query params in the url when an unrelated filter changes', () => {
+    it("keeps a split filter's query params in the url when an unrelated filter changes", () => {
         const updateHistory = jest.fn();
         const FILTERS_WITH_SPLIT = {
             ...FILTERS,
@@ -242,7 +248,9 @@ describe('useFilter', () => {
                     required: false
                 }
             };
-            const { result } = renderHook(() => useFilter(FILTERS_WITH_NOT_REQUIRED_PHRASES, false, LOCATION, () => null));
+            const { result } = renderHook(() =>
+                useFilter(FILTERS_WITH_NOT_REQUIRED_PHRASES, false, LOCATION, () => null)
+            );
 
             act(() => {
                 result.current.updateFilter('phrases', PHRASE_DEMO);
@@ -264,7 +272,9 @@ describe('useFilter', () => {
                 }
             };
 
-            const { result } = renderHook(() => useFilter(FILTERS_WITH_NOT_REQUIRED_PHRASES, false, LOCATION, () => null));
+            const { result } = renderHook(() =>
+                useFilter(FILTERS_WITH_NOT_REQUIRED_PHRASES, false, LOCATION, () => null)
+            );
 
             act(() => {
                 result.current.updateFilter('phrases', PHRASE_DEMO);
@@ -286,7 +296,9 @@ describe('useFilter', () => {
                     clearPartialSingleFilter: undefined
                 }
             };
-            const { result } = renderHook(() => useFilter(FILTERS_WITH_NOT_REQUIRED_PHRASES, false, LOCATION, () => null));
+            const { result } = renderHook(() =>
+                useFilter(FILTERS_WITH_NOT_REQUIRED_PHRASES, false, LOCATION, () => null)
+            );
 
             act(() => {
                 result.current.updateFilter('phrases', PHRASE_DEMO);

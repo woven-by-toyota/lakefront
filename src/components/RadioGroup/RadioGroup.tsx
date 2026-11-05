@@ -1,12 +1,7 @@
-import type {
-    ChangeEvent,
-    ComponentPropsWithoutRef,
-    FC,
-    ReactElement
-  } from 'react';
-  import { StyledRadioGroup, StyledLabel, StyledCheckedIcon, StyledUncheckedIcon } from './radioGroupStyles';
+import type { ChangeEvent, ComponentPropsWithoutRef, FC, ReactElement } from 'react';
+import { StyledCheckedIcon, StyledLabel, StyledRadioGroup, StyledUncheckedIcon } from './radioGroupStyles';
 
-  export interface RadioGroupProps {
+export interface RadioGroupProps {
     /**
      * The name of the radio button group.
      */
@@ -41,15 +36,15 @@ import type {
      * The classes to pass to the radio group label.
      */
     labelClassName?: string;
-  }
+}
 
-  /**
-   * RadioGroup Component
-   *
-   * The RadioGroup component takes in native radio button props as well as its own RadioGroupProps.
-   *
-   */
-  const RadioGroup: FC<RadioGroupProps & ComponentPropsWithoutRef<'input'>> = ({
+/**
+ * RadioGroup Component
+ *
+ * The RadioGroup component takes in native radio button props as well as its own RadioGroupProps.
+ *
+ */
+const RadioGroup: FC<RadioGroupProps & ComponentPropsWithoutRef<'input'>> = ({
     name,
     options,
     value,
@@ -57,43 +52,48 @@ import type {
     onChange = () => null,
     labelClassName,
     ...props
-  }) => {
-
+}) => {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-      if (!disabled) {
-        onChange(event);
-      }
+        if (!disabled) {
+            onChange(event);
+        }
     };
 
     return (
         <>
-          {options.map((option) => {
+            {options.map((option) => {
+                const checked = value === option.value;
+                const disableOption = disabled || option.disabled;
+                const icon =
+                    value === option.value ? (
+                        <StyledCheckedIcon disabled={disableOption} />
+                    ) : (
+                        <StyledUncheckedIcon disabled={disableOption} />
+                    );
 
-            const checked = value === option.value;
-            const disableOption = disabled || option.disabled;
-            const icon = value === option.value ?
-              <StyledCheckedIcon disabled={disableOption} /> :
-              <StyledUncheckedIcon disabled={disableOption} />;
-
-            return (
-              <StyledLabel key={option.value} disabled={disableOption} className={labelClassName}>
-                <StyledRadioGroup
-                  {...props}
-                  name={name}
-                  options={options}
-                  value={option.value}
-                  disabled={disableOption}
-                  onChange={disableOption ? () => null : handleChange}
-                  type="radio"
-                  checked={checked}
-                />
-                {icon}
-                {option.label && <div className="label">{option.label}</div>}
-              </StyledLabel>
-            );
-          })}
+                return (
+                    <StyledLabel
+                        key={option.value}
+                        disabled={disableOption}
+                        className={labelClassName}
+                    >
+                        <StyledRadioGroup
+                            {...props}
+                            name={name}
+                            options={options}
+                            value={option.value}
+                            disabled={disableOption}
+                            onChange={disableOption ? () => null : handleChange}
+                            type='radio'
+                            checked={checked}
+                        />
+                        {icon}
+                        {option.label && <div className='label'>{option.label}</div>}
+                    </StyledLabel>
+                );
+            })}
         </>
     );
-  };
+};
 
-  export default RadioGroup;
+export default RadioGroup;

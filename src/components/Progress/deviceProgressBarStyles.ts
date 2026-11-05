@@ -11,7 +11,7 @@ export const TopText = styled.div(({ theme }) => ({
     gridTemplateColumns: '5fr 10fr 5fr',
     paddingBottom: '10px',
     color: theme.foregrounds.primary,
-    'span': {
+    span: {
         whiteSpace: 'nowrap'
     }
 }));

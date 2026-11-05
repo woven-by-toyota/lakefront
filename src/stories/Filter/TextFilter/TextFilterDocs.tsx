@@ -1,6 +1,6 @@
 import type { FC } from 'react';
-import type { TextFilterOverrides } from 'src/components/Filter/types';
 import type { TextFilterOptions } from 'src/components/Filter/modules/TextFilter/TextFilter';
+import type { TextFilterOverrides } from 'src/components/Filter/types';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 
 export interface TextFilterArgs {
@@ -16,7 +16,7 @@ export interface TextFilterArgs {
      * Any valid `FilterModule` property (excluding description and label)
      * which will override default text filter behaviour.
      */
-     textFilterOverrides?: TextFilterOverrides;
+    textFilterOverrides?: TextFilterOverrides;
     /**
      * Additional options for the text filter settings.
      */
@@ -26,7 +26,7 @@ export interface TextFilterArgs {
 /**
  * Example of text filter source code.
  */
- export const TEXT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
+export const TEXT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
     textFilter: TextFilter(
         'Text Filter',
         'TextFilter is a text input control meant to be used as a keyword(s) search. (Tab or Enter to apply)',
@@ -43,7 +43,7 @@ export interface TextFilterArgs {
 
 /**
  * TextFilter Component
- * 
+ *
  * The TextFilter component is a text input control meant to be used as a keyword(s) search. While the default
  * behavior should suffice, any valid `FilterModule` property (excluding description and label) can
  * be supplied via the `textFilterOverrides` parameter to change how the filter looks and acts.

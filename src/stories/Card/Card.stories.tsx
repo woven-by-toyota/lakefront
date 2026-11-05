@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { useState } from 'react';
 import CardComponent, { type CardProps } from 'src/components/Card/Card';
 import Snackbar from 'src/components/Snackbar';
 import { MESSAGE_TYPES } from 'src/components/Snackbar/Snackbar.util';
@@ -14,7 +14,7 @@ const Template: StoryFn<CardProps> = () => {
     const [showMsg, setShowMsg] = useState<boolean>(false);
 
     const showMessage = (_value: boolean) => {
-        setShowMsg(value => !value);
+        setShowMsg((value) => !value);
     };
 
     const handleClose = () => {
@@ -23,15 +23,21 @@ const Template: StoryFn<CardProps> = () => {
 
     return (
         <div>
-            <Snackbar message='Clicked' open={showMsg} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} onClose={handleClose} type={MESSAGE_TYPES.SUCCESS} />
+            <Snackbar
+                message='Clicked'
+                open={showMsg}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                onClose={handleClose}
+                type={MESSAGE_TYPES.SUCCESS}
+            />
             <CardComponent
                 title='Card Title'
                 description='A description of the card being used.'
                 disabled={false}
                 onClick={() => showMessage(true)}
-                >
+            >
                 <span>Card content</span>
-                </CardComponent>
+            </CardComponent>
         </div>
     );
 };
@@ -40,7 +46,7 @@ const MultiTemplateCard: StoryFn<CardProps> = () => {
     const [showMsg, setShowMsg] = useState<boolean>(false);
 
     const showMessage = (_value: boolean) => {
-        setShowMsg(value => !value);
+        setShowMsg((value) => !value);
     };
 
     const handleClose = () => {
@@ -49,7 +55,13 @@ const MultiTemplateCard: StoryFn<CardProps> = () => {
 
     return (
         <div>
-            <Snackbar message='Clicked' open={showMsg} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} onClose={handleClose} type={MESSAGE_TYPES.SUCCESS} />
+            <Snackbar
+                message='Clicked'
+                open={showMsg}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                onClose={handleClose}
+                type={MESSAGE_TYPES.SUCCESS}
+            />
             <StyledCard
                 title='Card 1'
                 description='A description of the card being used.'

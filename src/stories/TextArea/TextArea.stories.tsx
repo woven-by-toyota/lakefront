@@ -1,8 +1,7 @@
-import type { ComponentPropsWithoutRef } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import TextArea, { type TextAreaProps } from 'src/components/TextArea/TextArea';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import TextArea, { type TextAreaProps } from 'src/components/TextArea/TextArea';
 
 export default {
     title: 'Lakefront/TextArea',

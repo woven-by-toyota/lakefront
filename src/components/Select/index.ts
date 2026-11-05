@@ -1,5 +1,5 @@
 import Select, { type SelectProps } from './Select';
 import { getSelectOverlayStyles, type SelectOverlayStyles } from './selectStyles';
 
-export { type SelectProps, getSelectOverlayStyles, type SelectOverlayStyles };
+export { getSelectOverlayStyles, type SelectOverlayStyles, type SelectProps };
 export default Select;

@@ -1,6 +1,6 @@
-import { areSetsEqual, getUrlFromList } from 'src/components/Filter/util/filterUtil';
 import CheckboxGroup, { type CheckboxGroupOption } from 'src/components/CheckboxGroup/CheckboxGroup';
 import type { FilterModule, ListFilterOverrides } from 'src/components/Filter/types';
+import { areSetsEqual, getUrlFromList } from 'src/components/Filter/util/filterUtil';
 
 export interface ListFilterOptions {
     allLabel?: string;
@@ -46,11 +46,12 @@ const ListFilter = (
             return undefined;
         }
     },
-    getBrowserQueryUrlValue: value => value && Array.from(value),
-    getDefaultFilterValue: () => listFilterOptions.initialValue ?
-        new Set([listFilterOptions.initialValue].flat()) :
-        new Set(options.map(item => item.value)),
-    isDefaultFilterValue: value => {
+    getBrowserQueryUrlValue: (value) => value && Array.from(value),
+    getDefaultFilterValue: () =>
+        listFilterOptions.initialValue
+            ? new Set([listFilterOptions.initialValue].flat())
+            : new Set(options.map((item) => item.value)),
+    isDefaultFilterValue: (value) => {
         if (value && !listFilterOptions.initialValue) {
             if (value.size === 0) {
                 return true;
@@ -70,34 +71,33 @@ const ListFilter = (
 
         return copySetValues;
     },
-    getFilterBarLabel: value => {
+    getFilterBarLabel: (value) => {
         if (value) {
             return Array.from(value)
-                .map(item => {
-                    const itemLabel = options.find(i => i.value === item);
+                .map((item) => {
+                    const itemLabel = options.find((i) => i.value === item);
                     return itemLabel?.label;
                 })
                 .toString();
         }
         return '';
     },
-    getFilterSectionLabel: value => {
+    getFilterSectionLabel: (value) => {
         if (value) {
-            return Array.from(value)
-                .map(item => {
-                    const itemLabel = options.find(i => i.value === item);
-                    return String(itemLabel?.label);
-                });
+            return Array.from(value).map((item) => {
+                const itemLabel = options.find((i) => i.value === item);
+                return String(itemLabel?.label);
+            });
         }
         return [];
     },
-    getFilterSectionValues: value => (value ? Array.from(value) : []),
-    parseInitialFilterValue: browserQueryUrlValue => {
+    getFilterSectionValues: (value) => (value ? Array.from(value) : []),
+    parseInitialFilterValue: (browserQueryUrlValue) => {
         if (browserQueryUrlValue) {
             // initial value is either a single string or array of strings
-            return typeof browserQueryUrlValue === 'string' ?
-                new Set([browserQueryUrlValue]) :
-                new Set(browserQueryUrlValue);
+            return typeof browserQueryUrlValue === 'string'
+                ? new Set([browserQueryUrlValue])
+                : new Set(browserQueryUrlValue);
         }
         if (listFilterOptions.initialValue?.length) {
             const { initialValue } = listFilterOptions;
@@ -105,7 +105,7 @@ const ListFilter = (
 
             return new Set(initialFilterValue);
         }
-        return new Set(options.map(item => item.value));
+        return new Set(options.map((item) => item.value));
     },
     renderComponent: ({ name, value, update }) => (
         <CheckboxGroup

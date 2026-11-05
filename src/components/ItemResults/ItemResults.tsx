@@ -1,6 +1,6 @@
+import { ThemeProvider } from '@emotion/react';
 import type React from 'react';
 import theme from 'src/styles/theme';
-import { ThemeProvider } from '@emotion/react';
 import { ItemStyleContainer } from './itemResultsStyles';
 
 export interface ItemResultsProps {
@@ -30,9 +30,9 @@ const ItemResults: React.FC<ItemResultsProps> = ({ dataLength, totalItems, class
     const total = digitGroupSeparator(totalItems);
 
     return (
-            <ItemStyleContainer className={className}>
-                {dataLength > 0 && totalItems > 0 ? `1 - ${current} of ${total}` : '0 results'}
-            </ItemStyleContainer>
+        <ItemStyleContainer className={className}>
+            {dataLength > 0 && totalItems > 0 ? `1 - ${current} of ${total}` : '0 results'}
+        </ItemStyleContainer>
     );
 };
 

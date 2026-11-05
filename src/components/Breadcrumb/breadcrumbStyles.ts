@@ -2,15 +2,15 @@ import styled from '@emotion/styled';
 
 export const BreadCrumbStyle = styled.div(({ theme }) => ({
     display: 'grid',
-    'nav': {
+    nav: {
         alignSelf: 'center',
-        display: 'flex',
+        display: 'flex'
     },
-    'a': {
+    a: {
         color: theme.foregrounds.secondary,
         textDecoration: 'none',
         '&:hover': {
-            color: theme.foregrounds.primary,
+            color: theme.foregrounds.primary
         }
     }
 }));
@@ -30,7 +30,7 @@ export const Container = styled.div<any>(({ theme, standalone }) => ({
     display: 'grid',
     gridTemplateRows: '56px auto',
     color: theme.foregrounds.primary,
-    ...((standalone) && {
+    ...(standalone && {
         padding: '0 3.5rem',
         borderBottom: '1px solid',
         borderBottomColor: theme.borderColors.primary,

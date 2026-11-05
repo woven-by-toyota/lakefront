@@ -1,4 +1,4 @@
-import { fireEvent, cleanup } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import { renderWithTheme as render } from '../../../lib/testing';
 import Tabs from '../Tabs';
 
@@ -13,13 +13,18 @@ const TABS = [
         key: 'command',
         caption: 'Command Tasks'
     }
-
 ];
 
 describe('<Tabs>', () => {
     it('check tab tags and behaviour', () => {
         const callback = jest.fn();
-        const { getByText } = render(<Tabs options={TABS} value="episode" onChange={callback} />);
+        const { getByText } = render(
+            <Tabs
+                options={TABS}
+                value='episode'
+                onChange={callback}
+            />
+        );
 
         // tab items should be in the document
         expect(getByText('Episode Tasks')).toBeInTheDocument();

@@ -1,5 +1,5 @@
-import TypeaheadSearch, { type TypeaheadSearchResultProps, type TypeaheadSearchProps } from './TypeaheadSearch';
 import type { TypeaheadResultItem } from './TypeaheadResults';
+import TypeaheadSearch, { type TypeaheadSearchProps, type TypeaheadSearchResultProps } from './TypeaheadSearch';
 
-export type { TypeaheadSearchResultProps, TypeaheadSearchProps, TypeaheadResultItem };
+export type { TypeaheadResultItem, TypeaheadSearchProps, TypeaheadSearchResultProps };
 export default TypeaheadSearch;

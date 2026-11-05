@@ -1,11 +1,11 @@
-import {
-    getApiQueryUrl,
-    getApiPostBody,
-    parseInitialFilterValues,
-    getCurrentBrowserQueryParams,
-    getFilterBrowserQueryParams
-} from '../filterHooksUtil';
 import { FILTERS, KEYWORD_DEMO, PHRASE_DEMO } from 'src/components/Filter/__tests__/filter.data';
+import {
+    getApiPostBody,
+    getApiQueryUrl,
+    getCurrentBrowserQueryParams,
+    getFilterBrowserQueryParams,
+    parseInitialFilterValues
+} from '../filterHooksUtil';
 
 const FILTER_HOOKS_UTIL_VALUES = { keywords: KEYWORD_DEMO, phrases: PHRASE_DEMO };
 const FILTER_HOOKS_UTIL_LOCATION = { search: `&keywords=${KEYWORD_DEMO}&phrases=${encodeURIComponent(PHRASE_DEMO)}` };
@@ -36,7 +36,9 @@ describe('parseInitialFilterValues', () => {
     });
 
     it('overrides parsed values with preset values', () => {
-        expect(parseInitialFilterValues(FILTER_HOOKS_UTIL_LOCATION, FILTERS, { phrases: 'overridden phrase' })).toMatchObject({
+        expect(
+            parseInitialFilterValues(FILTER_HOOKS_UTIL_LOCATION, FILTERS, { phrases: 'overridden phrase' })
+        ).toMatchObject({
             keywords: KEYWORD_DEMO,
             phrases: 'overridden phrase'
         });
@@ -98,7 +100,7 @@ describe('getFilterBrowserQueryParams', () => {
             phrases: PHRASE_DEMO,
             dataRange: 'asfdsd'
         });
-        
+
         expect(
             getFilterBrowserQueryParams(FILTERS_WITH_DATERANGE_KEY, {
                 ...FILTER_HOOKS_UTIL_VALUES,

@@ -1,7 +1,7 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
-import Modal, { CANCEL_BUTTON_TEXT } from '../Modal';
+import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
+import Modal, { CANCEL_BUTTON_TEXT } from '../Modal';
 
 const MODAL_PROPS = {
     headerText: 'Small Basic Modal',
@@ -47,9 +47,7 @@ describe('Modal', () => {
     describe('rendering child text', () => {
         it('renders no cancel button text when action button undefined', () => {
             const { queryByText } = render(
-                <Modal
-                    isOpen
-                >
+                <Modal isOpen>
                     <div>modalText</div>
                 </Modal>
             );
@@ -102,9 +100,7 @@ describe('Modal', () => {
 
         it('hides dividers by default', () => {
             const { container } = render(
-                <Modal
-                    isOpen
-                >
+                <Modal isOpen>
                     <div>modalText</div>
                 </Modal>
             );
@@ -128,9 +124,7 @@ describe('Modal', () => {
 
         it('displays close icon by default', () => {
             const { container } = render(
-                <Modal
-                    isOpen
-                >
+                <Modal isOpen>
                     <div>modalText</div>
                 </Modal>
             );

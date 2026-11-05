@@ -14,7 +14,7 @@ export const DialogContainer = styled.div<Pick<ModalProps, 'isOpen'>>(({ isOpen,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: '100%',
     height: '100%',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
     position: 'fixed',
     top: 0,
@@ -30,7 +30,8 @@ export const Dialog = styled.div<Pick<ModalProps, 'dialogWidth'>>(({ dialogWidth
     color: theme.foregrounds.primary,
     ...theme.lettering.primary,
     position: 'relative',
-    boxShadow: '0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%)',
+    boxShadow:
+        '0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%)',
     borderRadius: 4
 }));
 

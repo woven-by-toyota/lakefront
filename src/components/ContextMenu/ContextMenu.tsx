@@ -1,14 +1,15 @@
 import {
-    type FC,
-    useState,
-    useEffect,
-    type MouseEvent,
     type ElementType,
+    type FC,
+    type MouseEvent,
     type ReactElement,
-    useRef, type ReactNode
+    type ReactNode,
+    useEffect,
+    useRef,
+    useState
 } from 'react';
-import { StyledContextMenu, StyledSeparator, StyledMenuItem } from './contextMenuStyles';
 import usePopover, { PopoverContent } from 'src/lib/hooks/usePopover';
+import { StyledContextMenu, StyledMenuItem, StyledSeparator } from './contextMenuStyles';
 
 type ClickableMenuItem = {
     key: string;
@@ -40,7 +41,13 @@ export interface ContextMenuProps {
     renderInPortal?: boolean;
 }
 
-export const ContextMenu: FC<ContextMenuProps> = ({ children, menuItems = [], wrapper: Wrapper = 'div', renderInPortal = false, ...props }) => {
+export const ContextMenu: FC<ContextMenuProps> = ({
+    children,
+    menuItems = [],
+    wrapper: Wrapper = 'div',
+    renderInPortal = false,
+    ...props
+}) => {
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [triggerElement, setTriggerElement] = useState<HTMLElement | null>(null);
@@ -82,15 +89,27 @@ export const ContextMenu: FC<ContextMenuProps> = ({ children, menuItems = [], wr
 
     return (
         <>
-            <Wrapper ref={setTriggerElement} onContextMenu={handleContextMenu} {...props}>
+            <Wrapper
+                ref={setTriggerElement}
+                onContextMenu={handleContextMenu}
+                {...props}
+            >
                 {children}
             </Wrapper>
-            <PopoverContent portal={portal} deps={[menuItems, isVisible, position]}>
+            <PopoverContent
+                portal={portal}
+                deps={[menuItems, isVisible, position]}
+            >
                 {isVisible && (
-                    <StyledContextMenu top={position.y} left={position.x} ref={menuRef} onContextMenu={(e) => e.stopPropagation()}>
+                    <StyledContextMenu
+                        top={position.y}
+                        left={position.x}
+                        ref={menuRef}
+                        onContextMenu={(e) => e.stopPropagation()}
+                    >
                         {menuItems.map((item, index) => {
                             if (item.isSeparator) {
-                                return <StyledSeparator key={`separator-${index}`}/>;
+                                return <StyledSeparator key={`separator-${index}`} />;
                             }
                             return (
                                 <StyledMenuItem

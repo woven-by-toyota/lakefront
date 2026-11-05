@@ -1,12 +1,12 @@
+import type { FilterModule, MultiSelectFilterOptions, MultiSelectFilterProps } from 'src/components/Filter/types';
 import { getUrlFromList } from 'src/components/Filter/util/filterUtil';
 import MultiSelect from './MultiSelect';
-import type { FilterModule, MultiSelectFilterProps, MultiSelectFilterOptions } from 'src/components/Filter/types';
 
 const INITIAL_VALUE: [] = [];
 
 /**
  * MultiSelectFilter Component
- * 
+ *
  * The MultiSelectFilter component is a multi select dropdown filter. While the default
  * behavior should suffice, any valid `FilterModule` property (excluding description and label) can
  * be supplied via the `multiSelectFilterOptions` parameter to change how the filter looks and acts.
@@ -48,7 +48,7 @@ const MultiSelectFilter = (
         }
     },
     getBrowserQueryUrlValue: (value) => value,
-    getDefaultFilterValue: () => initialValue !== INITIAL_VALUE ? initialValue : [],
+    getDefaultFilterValue: () => (initialValue !== INITIAL_VALUE ? initialValue : []),
     clearPartialSingleFilter: (originalValue, value) => originalValue.filter((original) => original !== value),
     isDefaultFilterValue: (value) => {
         // No custom initialValue provided - default is empty array or all options selected
@@ -61,8 +61,7 @@ const MultiSelectFilter = (
 
         // Custom initialValue provided - match against that value
         if (value && initialValue !== INITIAL_VALUE) {
-            return value.length === initialValue.length &&
-                   value.every((v: string) => initialValue.includes(v));
+            return value.length === initialValue.length && value.every((v: string) => initialValue.includes(v));
         }
 
         return false;

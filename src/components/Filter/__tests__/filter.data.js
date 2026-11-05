@@ -14,7 +14,13 @@ export const BASE_FILTER = {
     getFilterBarLabel: (value) => value,
     getFilterSectionLabel: (value) => value,
     parseInitialFilterValue: (browserQueryUrlValue) => browserQueryUrlValue || '',
-    renderComponent: ({ name, value, update }) => <input key={name} onChange={update} value={value} />
+    renderComponent: ({ name, value, update }) => (
+        <input
+            key={name}
+            onChange={update}
+            value={value}
+        />
+    )
 };
 
 export const FILTERS = {

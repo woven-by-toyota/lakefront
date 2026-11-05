@@ -1,6 +1,6 @@
 import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
-import { TypeaheadError, TypeaheadResultsContainer } from './typeaheadSearchStyles';
 import Loading from 'src/components/Loading/Loading';
+import { TypeaheadError, TypeaheadResultsContainer } from './typeaheadSearchStyles';
 
 export const ERROR_MESSAGE = 'An error occured when searching.';
 export const HEADER_MESSAGE = 'Results';
@@ -61,7 +61,7 @@ const TypeaheadResults: FC<TypeaheadResultsProps> = ({ debouncedText, fetchResul
     }
 
     if (error) {
-        return <TypeaheadError className="typeaheadError">{ERROR_MESSAGE}</TypeaheadError>;
+        return <TypeaheadError className='typeaheadError'>{ERROR_MESSAGE}</TypeaheadError>;
     }
 
     if (!results.length) {
@@ -70,10 +70,14 @@ const TypeaheadResults: FC<TypeaheadResultsProps> = ({ debouncedText, fetchResul
 
     return (
         <TypeaheadResultsContainer>
-            <div className="resultsHeader">{HEADER_MESSAGE}</div>
-            <ul className="resultsList">
+            <div className='resultsHeader'>{HEADER_MESSAGE}</div>
+            <ul className='resultsList'>
                 {results.map((result) => (
-                    <li key={result.value} className="resultItem" onClick={() => onResultSelect(result)}>
+                    <li
+                        key={result.value}
+                        className='resultItem'
+                        onClick={() => onResultSelect(result)}
+                    >
                         {result.label}
                     </li>
                 ))}

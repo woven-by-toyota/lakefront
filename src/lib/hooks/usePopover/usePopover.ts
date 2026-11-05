@@ -84,10 +84,7 @@ const usePopover = ({
     // renderInPortal styling
     useEffect(() => {
         if (popoverContainer && portal) {
-            const {
-                className = '',
-                styles = {}
-            } = portalStyles;
+            const { className = '', styles = {} } = portalStyles;
 
             portal.className = className;
 

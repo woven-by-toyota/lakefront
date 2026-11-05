@@ -1,8 +1,8 @@
+import DocBlock from '.storybook/DocBlock';
 import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import FilterComponent from 'src/components/Filter/Filter';
-import FilterPage from '../components/FilterPage';
-import DocBlock from '.storybook/DocBlock';
 import { DateRangeFilter } from 'src/stories/Filter/DateRangeFilter/DateRangeFilter';
+import FilterPage from '../components/FilterPage';
 
 export default {
     title: 'Lakefront/Filter/DateRangeFilter',
@@ -83,11 +83,17 @@ export default {
 const FILTERS_WITH_DATE_RANGE = {
     dateRange: DateRangeFilter({
         label: 'Date Range',
-        description: 'Select a start and end date. This filter demonstrates splitQueryParams by storing the date range as separate startDate and endDate query parameters in the URL.'
+        description:
+            'Select a start and end date. This filter demonstrates splitQueryParams by storing the date range as separate startDate and endDate query parameters in the URL.'
     })
 };
 
-const DateRangeTemplate: StoryFn = (args) => <FilterPage {...args} pageFilters={FILTERS_WITH_DATE_RANGE} />;
+const DateRangeTemplate: StoryFn = (args) => (
+    <FilterPage
+        {...args}
+        pageFilters={FILTERS_WITH_DATE_RANGE}
+    />
+);
 
 export const WithSplitQueryParams = DateRangeTemplate.bind({});
 

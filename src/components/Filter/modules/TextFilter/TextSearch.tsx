@@ -35,7 +35,7 @@ const TextSearch: FC<TextSearchProps> = ({ onChange, type = 'text', value, trimW
 
     return (
         <StyledInput
-            id="keyword"
+            id='keyword'
             type={type}
             onBlur={handleOnBlur}
             onKeyPress={handleKeyPress}

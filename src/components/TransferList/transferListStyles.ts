@@ -2,59 +2,58 @@ import styled from '@emotion/styled';
 import Button from '../Button/Button';
 
 export const Panel = styled.div(({ theme }) => ({
-  width: '100%',
-  padding: '1rem',
-  boxSizing: 'border-box',
-  display: 'flex',
-  flexFlow: 'column',
-  alignItems: 'star',
-  boxShadow:
-    '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
-  overflowY: 'auto',
-  height: 350,
-  color: theme.foregrounds.primary,
-  label: {
-    marginBottom: '1rem'
-  }
+    width: '100%',
+    padding: '1rem',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexFlow: 'column',
+    alignItems: 'star',
+    boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+    overflowY: 'auto',
+    height: 350,
+    color: theme.foregrounds.primary,
+    label: {
+        marginBottom: '1rem'
+    }
 }));
 
 export const GridContainer = styled.div(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  width: '100%',
-  color: theme.foregrounds.primary
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    color: theme.foregrounds.primary
 }));
 
 export const CheckBoxContainer = styled(Panel)(({ theme }) => ({
-  backgroundColor: theme.backgrounds.primary,
-  width: '100%'
+    backgroundColor: theme.backgrounds.primary,
+    width: '100%'
 }));
 
 export const ButtonColumnContainer = styled.div(({ theme }) => ({
-  display: 'flex',
-  flexFlow: 'column',
-  justifyContent: 'center',
-  marginLeft: '1rem',
-  marginRight: '1rem',
-  color: theme.foregrounds.primary
+    display: 'flex',
+    flexFlow: 'column',
+    justifyContent: 'center',
+    marginLeft: '1rem',
+    marginRight: '1rem',
+    color: theme.foregrounds.primary
 }));
 
 export const StyledButton = styled(Button)({
-  marginBottom: 5,
-  minWidth: 40
+    marginBottom: 5,
+    minWidth: 40
 });
 
 export const StyledH4 = styled.h4(({ theme }) => ({
-  marginLeft: 0,
-  marginBottom: '1rem',
-  fontFamily: '"Source Sans Pro", sans-serif',
-  color: theme.foregrounds.primary
+    marginLeft: 0,
+    marginBottom: '1rem',
+    fontFamily: '"Source Sans Pro", sans-serif',
+    color: theme.foregrounds.primary
 }));
 
 export const PanelContainer = styled.div(({ theme }) => ({
-  display: 'flex',
-  flexFlow: 'column',
-  width: '30%',
-  justifyContent: 'center',
-  color: theme.foregrounds.primary
+    display: 'flex',
+    flexFlow: 'column',
+    width: '30%',
+    justifyContent: 'center',
+    color: theme.foregrounds.primary
 }));

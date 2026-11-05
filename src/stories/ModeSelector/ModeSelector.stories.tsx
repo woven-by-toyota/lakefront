@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { useState } from 'react';
 import ModeSelectorComponent, { type ModeSelectorProps } from 'src/components/ModeSelector/ModeSelector';
 import type { SelectOption } from 'src/types/global';
 import lakefrontColors from '../../styles/lakefrontColors';
@@ -52,7 +51,7 @@ const MODES: SelectOption<string>[] = [
     {
         label: 'Seventh Mode',
         value: 'seventh'
-    },
+    }
 ];
 
 const LEGEND = [
@@ -62,7 +61,7 @@ const LEGEND = [
     { label: 'Fourth Mode', color: lakefrontColors.saturatedYellow },
     { label: 'Fifth Mode', color: lakefrontColors.orange },
     { label: 'Sixth Mode', color: lakefrontColors.viking },
-    { label: 'Seventh Mode', color: lakefrontColors.havelockBlue },
+    { label: 'Seventh Mode', color: lakefrontColors.havelockBlue }
 ];
 
 const Template: StoryFn<ModeSelectorProps & { height: number }> = (args) => {
@@ -90,7 +89,7 @@ const Template: StoryFn<ModeSelectorProps & { height: number }> = (args) => {
 
 export const SimpleModeSelector = Template.bind({});
 SimpleModeSelector.args = {
-    modes: MODES.slice(0,2),
+    modes: MODES.slice(0, 2),
     title: 'Available Modes',
     legend: LEGEND.slice(0, 2),
     height: 200

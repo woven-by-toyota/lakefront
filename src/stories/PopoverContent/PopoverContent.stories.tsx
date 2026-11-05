@@ -1,7 +1,7 @@
 import DocBlock from '.storybook/DocBlock';
 import type { Meta, StoryFn } from '@storybook/react-webpack5';
-import usePopover, { PopoverContent as PopoverContentComponent, type PortalStyles } from 'src/lib/hooks/usePopover';
 import { useMemo, useState } from 'react';
+import usePopover, { PopoverContent as PopoverContentComponent, type PortalStyles } from 'src/lib/hooks/usePopover';
 
 export default {
     title: 'Lakefront/PopoverContent',
@@ -65,10 +65,12 @@ const Template: StoryFn<TemplateProps> = ({ content, renderInPortal }) => {
         setPopoverContainer(node);
     };
 
-
     return (
         <div ref={popoverContainerMounted}>
-            <PopoverContentComponent portal={portal} deps={[]}>
+            <PopoverContentComponent
+                portal={portal}
+                deps={[]}
+            >
                 <div>{content}</div>
             </PopoverContentComponent>
         </div>

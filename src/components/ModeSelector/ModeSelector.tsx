@@ -48,14 +48,14 @@ export interface ModeSelectorProps {
  * For this reason, `selectedMode`, `modes`, and `onModeSelect` must be provided.
  */
 const ModeSelector: FC<ModeSelectorProps> = ({
-                                                 title = '',
-                                                 selectClassName,
-                                                 modes,
-                                                 selectedMode,
-                                                 legend,
-                                                 className,
-                                                 onModeSelect
-                                             }) => {
+    title = '',
+    selectClassName,
+    modes,
+    selectedMode,
+    legend,
+    className,
+    onModeSelect
+}) => {
     const options = modes.map(({ label, value }) => ({ label, value }));
 
     const handleModeSelect = (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,28 +63,32 @@ const ModeSelector: FC<ModeSelectorProps> = ({
     };
 
     return (
-            <ModeSelectorContainer className={className}>
-                <h3>{title}</h3>
+        <ModeSelectorContainer className={className}>
+            <h3>{title}</h3>
 
-                <Select
-                    data-testid='route-selector'
-                    className={selectClassName}
-                    options={options}
-                    value={selectedMode}
-                    onChange={handleModeSelect}
-                />
+            <Select
+                data-testid='route-selector'
+                className={selectClassName}
+                options={options}
+                value={selectedMode}
+                onChange={handleModeSelect}
+            />
 
-                {legend && (
-                    <div className='mode-selector-legend'>
-                        {legend.map(({ label, color }, idx) => (
-                            <LegendRow className={`legend-row-${idx}`} color={color} key={label}>
-                                <div className='row-key' />
-                                <div className='row-label'>{label}</div>
-                            </LegendRow>
-                        ))}
-                    </div>
-                )}
-            </ModeSelectorContainer>
+            {legend && (
+                <div className='mode-selector-legend'>
+                    {legend.map(({ label, color }, idx) => (
+                        <LegendRow
+                            className={`legend-row-${idx}`}
+                            color={color}
+                            key={label}
+                        >
+                            <div className='row-key' />
+                            <div className='row-label'>{label}</div>
+                        </LegendRow>
+                    ))}
+                </div>
+            )}
+        </ModeSelectorContainer>
     );
 };
 

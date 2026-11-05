@@ -1,7 +1,7 @@
-import type { FC, MouseEventHandler, ReactNode } from 'react';
-import { StatusRowStyle } from './statusTableStyles';
 import { ThemeProvider } from '@emotion/react';
+import type { FC, MouseEventHandler, ReactNode } from 'react';
 import theme from 'src/styles/theme';
+import { StatusRowStyle } from './statusTableStyles';
 
 export enum Status {
     RUNNING = 'Running',
@@ -35,7 +35,6 @@ export interface StatusRowProps {
  *  Status Row Component is used to render the row with various colums.
  */
 const StatusRow: FC<StatusRowProps> = ({ children, status = Status.NONE, className, onRowClick }) => {
-
     const handleOnClick: MouseEventHandler<HTMLTableRowElement> = () => {
         if (onRowClick) {
             onRowClick();
@@ -43,9 +42,14 @@ const StatusRow: FC<StatusRowProps> = ({ children, status = Status.NONE, classNa
     };
 
     return (
-            <StatusRowStyle className={className} status={status} rowClick={Boolean(onRowClick)} onClick={handleOnClick}>
-                {children}
-            </StatusRowStyle>
+        <StatusRowStyle
+            className={className}
+            status={status}
+            rowClick={Boolean(onRowClick)}
+            onClick={handleOnClick}
+        >
+            {children}
+        </StatusRowStyle>
     );
 };
 

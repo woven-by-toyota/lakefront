@@ -1,5 +1,5 @@
-import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
+import React from 'react';
 import { renderWithTheme as render } from '../../../lib/testing';
 import Card from '../Card';
 
@@ -12,7 +12,8 @@ describe('<Card />', () => {
                 content={<span>Span Content</span>}
                 disabled={false}
                 onClick={() => undefined}
-            />);
+            />
+        );
 
         getByText('My Card');
         getByText('This is a card description.');
@@ -29,7 +30,8 @@ describe('<Card />', () => {
                 content={<span>Span Content</span>}
                 disabled={false}
                 onClick={click}
-            />);
+            />
+        );
 
         const button = container.querySelector('button');
         await waitFor(() => fireEvent.click(button));
@@ -46,7 +48,8 @@ describe('<Card />', () => {
                 content={<span>Span Content</span>}
                 disabled={true}
                 onClick={click}
-            />);
+            />
+        );
 
         const button = container.querySelector('button');
         fireEvent.click(button);
@@ -64,7 +67,8 @@ describe('<Card />', () => {
                 disabled={false}
                 topRightComponent={<button>Override button</button>}
                 onClick={() => undefined}
-            />);
+            />
+        );
 
         getByText('Override button');
     });

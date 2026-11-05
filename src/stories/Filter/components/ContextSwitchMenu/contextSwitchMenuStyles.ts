@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Button from 'src/components/Button/Button';
 
 export const ButtonLabel = styled.div(({ theme }) => ({
-    fontFamily: '\'Source Sans Pro\', sans-serif',
+    fontFamily: "'Source Sans Pro', sans-serif",
     fontSize: 16,
     fontWeight: 700,
     margin: 0,
@@ -13,14 +13,14 @@ export const ButtonLabel = styled.div(({ theme }) => ({
     padding: 0,
     color: theme.foregrounds.primary,
     svg: {
-      fill: theme.foregrounds.primary
+        fill: theme.foregrounds.primary
     }
 }));
 
 export const ContextSwitchContainer = styled.div(({ theme }) => ({
-  alignSelf: 'center',
-  backgroundColor: theme.backgrounds.primary,
-  color: theme.foregrounds.primary
+    alignSelf: 'center',
+    backgroundColor: theme.backgrounds.primary,
+    color: theme.foregrounds.primary
 }));
 
 export const DropdownButton = styled(Button)(({ theme }) => ({

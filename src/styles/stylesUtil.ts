@@ -23,8 +23,8 @@ export const lightenDarkenColor = (hexColor = '', percent: number): string => {
 
     // Bit shift and Bit AND the values to add our lighten or darken amount
     const r = Math.max(Math.min((num >> 16) + amt, 255), 0);
-    const b = Math.max(Math.min(((num >> 8) & 0x00FF) + amt, 255), 0);
-    const g = Math.max(Math.min((num & 0x0000FF) + amt, 255), 0);
+    const b = Math.max(Math.min(((num >> 8) & 0x00ff) + amt, 255), 0);
+    const g = Math.max(Math.min((num & 0x0000ff) + amt, 255), 0);
 
     const value = (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
 
@@ -38,14 +38,16 @@ export const lightenDarkenColor = (hexColor = '', percent: number): string => {
  */
 export const hexToRgb = (hex: string, opacity?: number): string => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    const rgb = result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
+    const rgb = result
+        ? {
+              r: parseInt(result[1], 16),
+              g: parseInt(result[2], 16),
+              b: parseInt(result[3], 16)
+          }
+        : null;
 
     const rgbString = `${rgb?.r},${rgb?.g},${rgb?.b}`;
     const fnString = opacity ? 'rgba(' : 'rgb(';
 
-    return rgb ? `${fnString}${rgbString}${opacity ? ',' + opacity : ''})`: '';
+    return rgb ? `${fnString}${rgbString}${opacity ? ',' + opacity : ''})` : '';
 };

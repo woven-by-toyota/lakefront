@@ -1,16 +1,16 @@
-import { fireEvent, waitFor, act } from '@testing-library/react';
-import Snackbar from '../index';
-import { MESSAGE_TYPES } from '../Snackbar.util';
+import { act, fireEvent, waitFor } from '@testing-library/react';
 import { ReactComponent as CloseIcon } from 'src/stories/Snackbar/assets/closeIcon.svg';
 import { renderWithTheme as render } from '../../../lib/testing';
+import Snackbar from '../index';
+import { MESSAGE_TYPES } from '../Snackbar.util';
 
 const handleButtonClick = jest.fn();
 const button = (
     <button
-        alternate="true"
-        className="closeIcon"
-        key="close"
-        aria-label="Close"
+        alternate='true'
+        className='closeIcon'
+        key='close'
+        aria-label='Close'
         onClick={handleButtonClick}
         icon={<CloseIcon />}
     />
@@ -28,17 +28,15 @@ const snackbarPropsOpen = {
 };
 
 const snackbarPropsClosed = {
-...snackbarPropsOpen,
-    open: false,
+    ...snackbarPropsOpen,
+    open: false
 };
 
 jest.useFakeTimers('modern');
 
 describe('<Snackbar>', () => {
     it('should render component when open is true', () => {
-        const { container } = render(
-                <Snackbar {...snackbarPropsOpen} />
-        );
+        const { container } = render(<Snackbar {...snackbarPropsOpen} />);
         expect(container).toBeDefined();
     });
 
@@ -89,7 +87,12 @@ describe('<Snackbar>', () => {
 
     it('checks onClose has been called after autoHideDuration (4000ms)', () => {
         const onCloseMock = jest.fn();
-        render(<Snackbar {...snackbarPropsOpen} onClose={onCloseMock} />);
+        render(
+            <Snackbar
+                {...snackbarPropsOpen}
+                onClose={onCloseMock}
+            />
+        );
 
         act(() => {
             jest.runAllTimers();
@@ -97,9 +100,15 @@ describe('<Snackbar>', () => {
         expect(onCloseMock).toHaveBeenCalledWith('timeout');
     });
 
-    it('has autoHideDuration as null and won\'t close on timer', () => {
+    it("has autoHideDuration as null and won't close on timer", () => {
         const onCloseMock = jest.fn();
-        const { container } = render(<Snackbar {...snackbarPropsOpen} autoHideDuration={null} onClose={onCloseMock} />);
+        const { container } = render(
+            <Snackbar
+                {...snackbarPropsOpen}
+                autoHideDuration={null}
+                onClose={onCloseMock}
+            />
+        );
 
         expect(container.getElementsByClassName('snackbarOpen').length).toBe(1);
 
@@ -111,7 +120,11 @@ describe('<Snackbar>', () => {
     it('has autoHideDuration as undefined and will default timeout in 4000ms', () => {
         const onCloseMock = jest.fn();
         const { container } = render(
-            <Snackbar {...snackbarPropsOpen} autoHideDuration={undefined} onClose={onCloseMock} />
+            <Snackbar
+                {...snackbarPropsOpen}
+                autoHideDuration={undefined}
+                onClose={onCloseMock}
+            />
         );
 
         expect(container.getElementsByClassName('snackbarOpen').length).toBe(1);
@@ -122,7 +135,13 @@ describe('<Snackbar>', () => {
 
     it('overwrites autoHideDuration default value 4000ms', () => {
         const onCloseMock = jest.fn();
-        const { container } = render(<Snackbar {...snackbarPropsOpen} autoHideDuration={2000} onClose={onCloseMock} />);
+        const { container } = render(
+            <Snackbar
+                {...snackbarPropsOpen}
+                autoHideDuration={2000}
+                onClose={onCloseMock}
+            />
+        );
 
         expect(container.getElementsByClassName('snackbarOpen').length).toBe(1);
 
@@ -134,10 +153,20 @@ describe('<Snackbar>', () => {
 
     it('should check onClose has been called', () => {
         const onCloseMock = jest.fn();
-        const actionButton = <button key="close" onClick={onCloseMock} icon={<CloseIcon />} />;
+        const actionButton = (
+            <button
+                key='close'
+                onClick={onCloseMock}
+                icon={<CloseIcon />}
+            />
+        );
 
         const { container, getByRole } = render(
-            <Snackbar {...snackbarPropsOpen} onClose={onCloseMock} action={actionButton} />
+            <Snackbar
+                {...snackbarPropsOpen}
+                onClose={onCloseMock}
+                action={actionButton}
+            />
         );
 
         expect(container.getElementsByClassName('snackbarOpen').length).toBe(1);

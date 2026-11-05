@@ -1,7 +1,9 @@
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-import StatusTrackerPopover, { type StatusTrackerPopoverProps } from 'src/components/StatusTrackerPopover/StatusTrackerPopover';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import Button from 'src/components/Button/Button';
+import StatusTrackerPopover, {
+    type StatusTrackerPopoverProps
+} from 'src/components/StatusTrackerPopover/StatusTrackerPopover';
 import { green, saturatedBlue, saturatedOrange } from 'src/styles/lakefrontColors';
 
 export default {
@@ -22,7 +24,6 @@ const Template: StoryFn<StatusTrackerPopoverProps> = (args) => (
     </div>
 );
 
-
 export const WithActiveState = Template.bind({});
 WithActiveState.args = {
     visible: true,
@@ -37,12 +38,7 @@ WithActiveState.args = {
 export const BasicPopover = Template.bind({});
 BasicPopover.args = {
     visible: true,
-    statuses: [
-        { label: 'Started' },
-        { label: 'In Progress' },
-        { label: 'Review' },
-        { label: 'Complete' }
-    ]
+    statuses: [{ label: 'Started' }, { label: 'In Progress' }, { label: 'Review' }, { label: 'Complete' }]
 };
 
 export const WithDescriptions = Template.bind({});

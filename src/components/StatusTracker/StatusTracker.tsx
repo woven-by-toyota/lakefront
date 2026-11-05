@@ -1,15 +1,15 @@
 import { type FC, Fragment } from 'react';
 import {
-    StyledStatusTracker,
+    SkeletonBar,
+    SkeletonCircle,
+    StatusAboveDetails,
+    StatusContent,
+    StatusDescription,
+    StatusLabel,
+    StatusLine,
     StatusNode,
     StatusNodeCircle,
-    StatusLine,
-    StatusContent,
-    StatusLabel,
-    StatusAboveDetails,
-    StatusDescription,
-    SkeletonCircle,
-    SkeletonBar
+    StyledStatusTracker
 } from './statusTrackerStyles';
 
 export interface StatusItem {
@@ -59,8 +59,8 @@ export interface StatusTrackerProps {
  */
 const StatusTracker: FC<StatusTrackerProps> = ({ statuses, className }) => {
     // Determine if min-heights need to be applied for consistent alignment across statuses
-    const anyAboveDetails = statuses.some(status => status.aboveDetails);
-    const anyDescription = statuses.some(status => status.description);
+    const anyAboveDetails = statuses.some((status) => status.aboveDetails);
+    const anyDescription = statuses.some((status) => status.description);
 
     return (
         <StyledStatusTracker className={className}>
@@ -69,26 +69,65 @@ const StatusTracker: FC<StatusTrackerProps> = ({ statuses, className }) => {
                     <StatusNode className='status-node'>
                         {status.loading ? (
                             <StatusContent className='status-content'>
-                                {status.aboveDetails && <SkeletonBar className='skeleton-bar above-details' width={80} height={12} />}
+                                {status.aboveDetails && (
+                                    <SkeletonBar
+                                        className='skeleton-bar above-details'
+                                        width={80}
+                                        height={12}
+                                    />
+                                )}
                                 <SkeletonCircle className='status-circle' />
-                                <SkeletonBar className='skeleton-bar' width={100} height={16} />
-                                {status.description && <SkeletonBar className='skeleton-bar description' width={120} height={12} />}
+                                <SkeletonBar
+                                    className='skeleton-bar'
+                                    width={100}
+                                    height={16}
+                                />
+                                {status.description && (
+                                    <SkeletonBar
+                                        className='skeleton-bar description'
+                                        width={120}
+                                        height={12}
+                                    />
+                                )}
                             </StatusContent>
                         ) : (
                             <StatusContent className='status-content'>
                                 {anyAboveDetails && (
-                                    <StatusAboveDetails className='above-details' title={status.aboveDetails} hasDetails={Boolean(status.aboveDetails)}>{status.aboveDetails || ''}</StatusAboveDetails>
+                                    <StatusAboveDetails
+                                        className='above-details'
+                                        title={status.aboveDetails}
+                                        hasDetails={Boolean(status.aboveDetails)}
+                                    >
+                                        {status.aboveDetails || ''}
+                                    </StatusAboveDetails>
                                 )}
-                                <StatusNodeCircle className='status-circle' color={status.color} active={status.active} />
-                                <StatusLabel className='label' active={status.active}>{status.label}</StatusLabel>
+                                <StatusNodeCircle
+                                    className='status-circle'
+                                    color={status.color}
+                                    active={status.active}
+                                />
+                                <StatusLabel
+                                    className='label'
+                                    active={status.active}
+                                >
+                                    {status.label}
+                                </StatusLabel>
                                 {anyDescription && (
-                                    <StatusDescription className='description' title={status.description}>{status.description || ''}</StatusDescription>
+                                    <StatusDescription
+                                        className='description'
+                                        title={status.description}
+                                    >
+                                        {status.description || ''}
+                                    </StatusDescription>
                                 )}
                             </StatusContent>
                         )}
                     </StatusNode>
                     {index < statuses.length - 1 && (
-                        <StatusLine className='status-line' active={statuses[index + 1]?.active} />
+                        <StatusLine
+                            className='status-line'
+                            active={statuses[index + 1]?.active}
+                        />
                     )}
                 </Fragment>
             ))}

@@ -1,8 +1,8 @@
-import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
+import React from 'react';
+import Button from 'src/components/Button/Button';
 import { renderWithTheme as render } from 'src/lib/testing';
 import SelectPopover from '../SelectPopover';
-import Button from 'src/components/Button/Button';
 
 const options = [
     {
@@ -85,7 +85,7 @@ describe('SelectPopover', () => {
 
         const item1 = getByText(options[0].name);
         const item2 = getByText(options[2].name);
-        
+
         fireEvent.click(item1);
         fireEvent.click(item2);
 

@@ -1,9 +1,9 @@
-import { type FC, type ReactNode, useRef, useEffect } from 'react';
-import { useTheme, Theme } from '@emotion/react';
-import { arc as d3arc, pie as d3pie } from 'd3-shape';
+import { Theme, useTheme } from '@emotion/react';
 import { select } from 'd3-selection';
-import { CircularProgressStyle, CenterTextStyle } from './circularProgressStyles';
+import { arc as d3arc, pie as d3pie } from 'd3-shape';
+import { type FC, type ReactNode, useEffect, useRef } from 'react';
 import ThemeErrorFallback from 'src/components/shared/ThemeErrorFallback';
+import { CenterTextStyle, CircularProgressStyle } from './circularProgressStyles';
 
 export interface CircularProgressProps {
     /**
@@ -75,15 +75,15 @@ const CircularProgress: FC<CircularProgressProps> = ({
         const html = select(htmlRef.current);
 
         // for tooltips later
-        const div: any = html
-            .select('div')
-            .attr('class', 'tooltip')
-            .style('opacity', 0);
+        const div: any = html.select('div').attr('class', 'tooltip').style('opacity', 0);
 
         const g = svg.select('g');
         const radius = width / 2;
 
-        const arc = d3arc().outerRadius(radius).innerRadius(radius - 10).padAngle(0);
+        const arc = d3arc()
+            .outerRadius(radius)
+            .innerRadius(radius - 10)
+            .padAngle(0);
         const pie = d3pie<PieData>()
             .sort(null)
             .value((record) => record.value);
@@ -101,18 +101,14 @@ const CircularProgress: FC<CircularProgressProps> = ({
             // have a mouse tooltip effect
             .on('mouseover', (event: PointerEvent, d: any) => {
                 if (d.data.tooltip === undefined || d.data.tooltip === true) {
-                    div.transition()
-                        .duration(200)
-                        .style('opacity', 0.9);
+                    div.transition().duration(200).style('opacity', 0.9);
                     div.html(`${d.data.label}: ${d.value}`)
                         .style('left', `${event.pageX}px`)
                         .style('top', `${event.pageY - 28}px`);
                 }
             })
             .on('mouseout', (d: any) => {
-                div.transition()
-                    .duration(500)
-                    .style('opacity', 0);
+                div.transition().duration(500).style('opacity', 0);
             });
 
         paths.exit().remove();
@@ -122,12 +118,26 @@ const CircularProgress: FC<CircularProgressProps> = ({
         drawCircularProgress();
     });
 
-    if (!emotionTheme) return <ThemeErrorFallback componentName="CircularProgress" />;
+    if (!emotionTheme) return <ThemeErrorFallback componentName='CircularProgress' />;
 
     return (
-        <CircularProgressStyle width={width} ref={htmlRef} className={className}>
-            <svg width={width} height={width} ref={svgRef}>
-                <circle cx={radius} cy={radius} r={circleRadius} fill="transparent" stroke={emotionTheme.borderColors.primary} />
+        <CircularProgressStyle
+            width={width}
+            ref={htmlRef}
+            className={className}
+        >
+            <svg
+                width={width}
+                height={width}
+                ref={svgRef}
+            >
+                <circle
+                    cx={radius}
+                    cy={radius}
+                    r={circleRadius}
+                    fill='transparent'
+                    stroke={emotionTheme.borderColors.primary}
+                />
                 <g transform={`translate(${width / 2} ,  ${width / 2})`} />
             </svg>
             <CenterTextStyle>{text}</CenterTextStyle>

@@ -1,9 +1,7 @@
-
-import type { ComponentPropsWithoutRef } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import ItemGridComponent, { type ItemGridProps } from 'src/components/ItemGrid';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import ItemGridComponent, { type ItemGridProps } from 'src/components/ItemGrid';
 
 export default {
     title: 'Lakefront/ItemGrid',
@@ -16,7 +14,7 @@ export default {
 } as Meta;
 
 const Template: StoryFn<ItemGridProps & ComponentPropsWithoutRef<'div'>> = (args) => {
-    const showColumns = columns => {
+    const showColumns = (columns) => {
         const content = [];
         for (let i = 0; i < columns; i++) {
             content.push(<div key={i}>Column {i + 1}</div>);
@@ -29,7 +27,8 @@ const Template: StoryFn<ItemGridProps & ComponentPropsWithoutRef<'div'>> = (args
             gridGap={args.gridGap}
             columnWidthMin={args.columnWidthMin}
             shouldRecalculateSize={args.shouldRecalculateSize}
-            innerWidth={args.innerWidth}>
+            innerWidth={args.innerWidth}
+        >
             {showColumns(args.maxColumns)}
         </ItemGridComponent>
     );

@@ -1,5 +1,5 @@
-import Digraph from '../Digraph';
 import { cleanup } from '@testing-library/react';
+import Digraph from '../Digraph';
 
 afterAll(cleanup);
 

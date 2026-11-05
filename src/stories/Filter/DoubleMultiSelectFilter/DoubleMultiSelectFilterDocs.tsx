@@ -1,8 +1,5 @@
 import type { FC } from 'react';
-import type {
-    DoubleMultiSelectFilterOptions,
-    DoubleMultiSelectFilterProps
-} from 'src/components/Filter/types';
+import type { DoubleMultiSelectFilterOptions, DoubleMultiSelectFilterProps } from 'src/components/Filter/types';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 
 export interface DoubleMultiSelectFilterArgs {
@@ -10,7 +7,7 @@ export interface DoubleMultiSelectFilterArgs {
      * The props required to be supplied as the first argument of
      * the MultiSelectFilter component.
      */
-     doubleMultiSelectFilterProps: DoubleMultiSelectFilterProps;
+    doubleMultiSelectFilterProps: DoubleMultiSelectFilterProps;
     /**
      * Any valid `FilterModule` property (excluding description and label)
      * which will override default multi select filter behaviour.
@@ -21,7 +18,7 @@ export interface DoubleMultiSelectFilterArgs {
 /**
  * Example of double multi select filter source code.
  */
- export const DOUBLE_MULTI_SELECT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
+export const DOUBLE_MULTI_SELECT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
     doubleMultiSelectFilter: DoubleMultiSelectFilterArgs(
         {
             label: 'Double Multi Select Filter',

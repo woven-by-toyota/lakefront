@@ -1,7 +1,6 @@
-
 import React from 'react';
-import CheckboxGroup from '../CheckboxGroup';
 import { renderWithTheme as render } from 'src/lib/testing';
+import CheckboxGroup from '../CheckboxGroup';
 
 const JOB_TYPES = [
     { label: 'Finished', value: 'finished' },
@@ -16,7 +15,7 @@ describe('CheckboxGroup', () => {
         const onChangeCallback = jest.fn();
         const container = render(
             <CheckboxGroup
-                name="type"
+                name='type'
                 options={JOB_TYPES}
                 selected={new Set([])}
                 onHandleChange={onChangeCallback}
@@ -44,11 +43,11 @@ describe('CheckboxGroup', () => {
 
     it('check toggling of items', () => {
         // start filter will all types selected
-        const types = new Set(JOB_TYPES.map(item => item.value));
+        const types = new Set(JOB_TYPES.map((item) => item.value));
         const onChangeCallback = jest.fn();
         const container = render(
             <CheckboxGroup
-                name="type"
+                name='type'
                 options={JOB_TYPES}
                 selected={types}
                 onHandleChange={onChangeCallback}
@@ -57,7 +56,7 @@ describe('CheckboxGroup', () => {
 
         const checkBoxes = container.queryAllByRole('checkbox');
         // expect all checkboxes checked
-        checkBoxes.forEach(checkbox => {
+        checkBoxes.forEach((checkbox) => {
             expect(checkbox.hasAttribute('checked'));
         });
 
@@ -73,8 +72,8 @@ describe('CheckboxGroup', () => {
         const onChangeCallback = jest.fn();
         const container = render(
             <CheckboxGroup
-                name="type"
-                allLabel="All"
+                name='type'
+                allLabel='All'
                 options={JOB_TYPES}
                 selected={new Set([])}
                 onHandleChange={onChangeCallback}
@@ -94,14 +93,14 @@ describe('CheckboxGroup', () => {
         const newSelection = onChangeCallback.mock.calls[0][0];
         expect(newSelection.size).toBe(5);
         // expect all checkboxes to be checked
-        checkBoxes.forEach(checkbox => {
+        checkBoxes.forEach((checkbox) => {
             expect(checkbox.hasAttribute('checked'));
         });
 
         // uncheck all option
         checkBoxes[0].click();
         // expect all checkboxes to be unchecked
-        checkBoxes.forEach(checkbox => {
+        checkBoxes.forEach((checkbox) => {
             expect(checkbox.hasAttribute('checked')).toBe(false);
         });
     });
@@ -110,7 +109,7 @@ describe('CheckboxGroup', () => {
         const onChangeCallback = jest.fn();
         const container = render(
             <CheckboxGroup
-                name="type"
+                name='type'
                 options={JOB_TYPES}
                 selected={new Set(['finished', 'canceled'])}
                 onHandleChange={onChangeCallback}
@@ -130,5 +129,4 @@ describe('CheckboxGroup', () => {
         expect(checkBoxes[3].hasAttribute('checked')).toBe(false);
         expect(checkBoxes[4].hasAttribute('checked')).toBe(false);
     });
-
 });

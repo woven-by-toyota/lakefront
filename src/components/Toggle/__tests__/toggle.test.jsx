@@ -1,5 +1,5 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
+import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import Toggle from '../Toggle';
 

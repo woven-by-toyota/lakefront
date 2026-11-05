@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { useState } from 'react';
 import ToggleComponent, { type ToggleProps } from 'src/components/Toggle/Toggle';
 import type { SelectOption } from 'src/types/global';
 
@@ -33,8 +32,6 @@ const toggleOptions: SelectOption<string>[] = [
         value: 'second'
     }
 ];
-
-
 
 const Template: StoryFn<ToggleProps<string>> = (args) => {
     const [selected, setSelected] = useState(toggleOptions[0].value);

@@ -1,8 +1,8 @@
-import { type FC, useMemo, useState } from 'react';
 import { useTheme } from '@emotion/react';
-import type { SelectProps } from './Select';
+import { type FC, useMemo, useState } from 'react';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
+import type { SelectProps } from './Select';
 import { getSelectOverlayStyles } from './selectStyles';
 
 const SelectOverlay: FC<SelectProps> = ({
@@ -22,18 +22,16 @@ const SelectOverlay: FC<SelectProps> = ({
     const theme = useTheme();
     const [multiValues, setMultiValues] = useState(multiDefaultValue);
 
-    const { currentValue, defaultValue, selectId } = useMemo(
-        () => {
-            const multiSelectValue = multiValueOverride || multiValues;
-            return {
-                currentValue: !isMulti ? options.find((option: { value: any; }) => option.value === value) : multiSelectValue,
-                defaultValue: options[0],
-                selectId: id ? `select-overlay-${id}` : undefined
-            };
-        },
-        [options, value, multiValues, multiValueOverride]
-    );
-
+    const { currentValue, defaultValue, selectId } = useMemo(() => {
+        const multiSelectValue = multiValueOverride || multiValues;
+        return {
+            currentValue: !isMulti
+                ? options.find((option: { value: any }) => option.value === value)
+                : multiSelectValue,
+            defaultValue: options[0],
+            selectId: id ? `select-overlay-${id}` : undefined
+        };
+    }, [options, value, multiValues, multiValueOverride]);
 
     const handleChange = (option: any) => {
         if (!isMulti) {
@@ -42,12 +40,11 @@ const SelectOverlay: FC<SelectProps> = ({
                 target: { value: newValue },
                 currentTarget: { value: newValue }
             });
-        }
-        else {
-            const eventTargetValues = option.map((o: { value: any; }) => o.value);
+        } else {
+            const eventTargetValues = option.map((o: { value: any }) => o.value);
             onChange({
-                target: {value: eventTargetValues},
-                currentTarget: {value: eventTargetValues}
+                target: { value: eventTargetValues },
+                currentTarget: { value: eventTargetValues }
             });
             setMultiValues(option);
         }
@@ -68,9 +65,9 @@ const SelectOverlay: FC<SelectProps> = ({
                 primary: theme.backgrounds.primary,
                 primary25: theme.backgrounds.hover,
                 neutral0: theme.backgrounds.primary,
-                neutral80: theme.foregrounds.primary,    // Main text color
-                neutral20: theme.foregrounds.secondary,  // Secondary text
-                neutral10: theme.backgrounds.secondary   // Chip background
+                neutral80: theme.foregrounds.primary, // Main text color
+                neutral20: theme.foregrounds.secondary, // Secondary text
+                neutral10: theme.backgrounds.secondary // Chip background
             }
         }),
         isSearchable: isSearchable,
@@ -87,8 +84,8 @@ const SelectOverlay: FC<SelectProps> = ({
         return (
             // @ts-expect-error see above: SelectProps leaves Option as unknown
             <AsyncSelect
-              {...commonProps}
-              {...asyncConfig}
+                {...commonProps}
+                {...asyncConfig}
             />
         );
     }
@@ -96,8 +93,8 @@ const SelectOverlay: FC<SelectProps> = ({
     return (
         // @ts-expect-error see above: SelectProps leaves Option as unknown
         <Select
-          {...commonProps}
-          {...rest}
+            {...commonProps}
+            {...rest}
         />
     );
 };

@@ -1,9 +1,8 @@
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
 import DocBlock from '.storybook/DocBlock';
-import StepFunctionGraph, { type GraphProps } from 'src/components/StepFunctionGraph/Graph';
-import { choiceJson, mapInMap, longJson, simpleJson, complexJson } from './stepFunctionGraphData';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { useState } from 'react';
+import StepFunctionGraph, { type GraphProps } from 'src/components/StepFunctionGraph/Graph';
+import { choiceJson, complexJson, longJson, mapInMap, simpleJson } from './stepFunctionGraphData';
 
 export default {
     title: 'Lakefront/StepFunctionGraph',
@@ -34,7 +33,7 @@ const Template: StoryFn<GraphProps> = (args) => {
         args.handleSelectedNode(node);
     };
     return (
-        <div style={{height: 700, width: '100%', maxWidth: 1000}}>
+        <div style={{ height: 700, width: '100%', maxWidth: 1000 }}>
             <StepFunctionGraph
                 highlightedKey={highlighted}
                 json={args.json}

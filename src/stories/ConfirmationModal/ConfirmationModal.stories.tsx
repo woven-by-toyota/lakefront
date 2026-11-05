@@ -1,9 +1,8 @@
-import { type ComponentPropsWithoutRef, useState } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import ConfirmationModalComponent, { type ConfirmationModalProps } from 'src/components/Modal/ConfirmationModal';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
 import Button from 'src/components/Button/Button';
+import ConfirmationModalComponent, { type ConfirmationModalProps } from 'src/components/Modal/ConfirmationModal';
 
 export default {
     title: 'Lakefront/Modal/ConfirmationModal',
@@ -52,7 +51,9 @@ export default {
     }
 } as Meta;
 
-const Template: StoryFn<ConfirmationModalProps & ComponentPropsWithoutRef<'div'> & { buttonLabel: string }> = (args) => {
+const Template: StoryFn<ConfirmationModalProps & ComponentPropsWithoutRef<'div'> & { buttonLabel: string }> = (
+    args
+) => {
     const [visible, setVisible] = useState(false);
 
     const updateConfirmationModalVisibility = () => {

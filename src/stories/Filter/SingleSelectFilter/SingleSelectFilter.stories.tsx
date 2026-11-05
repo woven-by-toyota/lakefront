@@ -1,9 +1,11 @@
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import FilterPage, { SINGLE_SELECT_FILTER_OPTIONS } from '../components/FilterPage';
-import SingleSelectFilterDocs, { type SingleSelectFilterArgs, SINGLE_SELECT_FILTER_SOURCE_CODE } from './SingleSelectFilterDocs';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { SingleSelectFilter as SingleSelectFilterFunction } from 'src/components/Filter/modules';
+import FilterPage, { SINGLE_SELECT_FILTER_OPTIONS } from '../components/FilterPage';
+import SingleSelectFilterDocs, {
+    SINGLE_SELECT_FILTER_SOURCE_CODE,
+    type SingleSelectFilterArgs
+} from './SingleSelectFilterDocs';
 
 export default {
     title: 'Lakefront/Filter/SingleSelectFilter',

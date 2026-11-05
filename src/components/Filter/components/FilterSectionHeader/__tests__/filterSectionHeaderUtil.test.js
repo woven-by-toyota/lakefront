@@ -60,7 +60,10 @@ describe('createChips', () => {
         const { container } = render(
             <div>
                 chips
-                {createChips(['Chip A', 'Chip B'], 'Some Filter', onCloseMock, 'Item Label', true, ['value-a', 'value-b'])}
+                {createChips(['Chip A', 'Chip B'], 'Some Filter', onCloseMock, 'Item Label', true, [
+                    'value-a',
+                    'value-b'
+                ])}
             </div>
         );
 

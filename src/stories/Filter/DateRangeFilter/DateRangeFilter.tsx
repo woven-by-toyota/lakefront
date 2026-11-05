@@ -35,13 +35,13 @@ export const DateRangeFilter = ({ label, description }: DateRangeFilterProps): F
 
         return undefined;
     },
-    getBrowserQueryUrlValue: value => {
+    getBrowserQueryUrlValue: (value) => {
         // Return the value object directly - the filter system will handle splitting it
         return value || {};
     },
     getDefaultFilterValue: () => null,
-    isDefaultFilterValue: value => value === null,
-    getFilterBarLabel: value => {
+    isDefaultFilterValue: (value) => value === null,
+    getFilterBarLabel: (value) => {
         if (value) {
             const startStr = value?.startDate ? `${value.startDate}` : '';
             const endStr = value?.endDate ? `${value.endDate}` : '';
@@ -49,7 +49,7 @@ export const DateRangeFilter = ({ label, description }: DateRangeFilterProps): F
         }
         return '';
     },
-    getFilterSectionLabel: value => {
+    getFilterSectionLabel: (value) => {
         if (value) {
             const startStr = value?.startDate ? `${value.startDate}` : '';
             const endStr = value?.endDate ? `${value.endDate}` : '';
@@ -67,5 +67,10 @@ export const DateRangeFilter = ({ label, description }: DateRangeFilterProps): F
         }
         return null;
     },
-    renderComponent: ({ value, update }) => <DateRangeInput onChange={update} value={value} />
+    renderComponent: ({ value, update }) => (
+        <DateRangeInput
+            onChange={update}
+            value={value}
+        />
+    )
 });

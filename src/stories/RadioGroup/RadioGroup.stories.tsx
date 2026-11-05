@@ -1,8 +1,7 @@
-import { type ChangeEvent, type ComponentPropsWithoutRef, useState } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import RadioGroup, { type RadioGroupProps } from 'src/components/RadioGroup/RadioGroup';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ChangeEvent, type ComponentPropsWithoutRef, useState } from 'react';
+import RadioGroup, { type RadioGroupProps } from 'src/components/RadioGroup/RadioGroup';
 import { blue } from 'src/styles/lakefrontColors';
 
 export default {
@@ -21,7 +20,7 @@ export default {
                     .replace('onChange={function noRefCheck() {}}', '')
                     .replace(/\n/g, '')
                     .replace(/[ ]{2}/g, ' ');
-            },
+            }
         }
     }
 } as Meta;
@@ -61,7 +60,7 @@ SingleDisabledRadioGroupOption.args = {
         { label: 'A1', value: 'A1' },
         { label: 'B2', value: 'B2', disabled: true },
         { label: 'C3', value: 'C3' }
-    ],
+    ]
 };
 
 export const AllDisabledRadioGroup = Template.bind({});
@@ -78,32 +77,36 @@ AllDisabledRadioGroup.args = {
 export const MixedContentRadioGroup = Template.bind({});
 const contentStyle = { height: '2em', width: '4em', borderRadius: 2 };
 MixedContentRadioGroup.args = {
-  name: 'mixedContent',
-  options: [
-    { label: 'A', value: 'A' },
-    {
-      label: <div style={{ ...contentStyle, backgroundColor: blue }} />,
-      value: 'B'
-    },
-    {
-      label: (
-        <div style={{ display: 'flex', flexDirection: 'column', width: '8em' }}>
-            <div>
-                Choose A Game
-            </div>
-            <div>
-            <select style={{ ...contentStyle, width: '9em', marginTop: 5 }}>
-                <option key={'C1'} value={1}>
-                    {'Chess'}
-                </option>
-                <option key={'C2'} value={1}>
-                    {'Checkers'}
-                </option>
-            </select>
-            </div>
-        </div>
-      ),
-      value: 'C'
-    }
-  ]
+    name: 'mixedContent',
+    options: [
+        { label: 'A', value: 'A' },
+        {
+            label: <div style={{ ...contentStyle, backgroundColor: blue }} />,
+            value: 'B'
+        },
+        {
+            label: (
+                <div style={{ display: 'flex', flexDirection: 'column', width: '8em' }}>
+                    <div>Choose A Game</div>
+                    <div>
+                        <select style={{ ...contentStyle, width: '9em', marginTop: 5 }}>
+                            <option
+                                key={'C1'}
+                                value={1}
+                            >
+                                {'Chess'}
+                            </option>
+                            <option
+                                key={'C2'}
+                                value={1}
+                            >
+                                {'Checkers'}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            ),
+            value: 'C'
+        }
+    ]
 };

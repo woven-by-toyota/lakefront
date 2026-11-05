@@ -1,5 +1,5 @@
-import { Bar, Icon, IconWrapper, Label, ToggleWrapper } from './toggleStyles';
 import type { SelectOption } from 'src/types/global';
+import { Bar, Icon, IconWrapper, Label, ToggleWrapper } from './toggleStyles';
 
 export interface ToggleProps<T> {
     /**
@@ -36,14 +36,7 @@ export interface ToggleProps<T> {
  * It has a position prop to change the layout of the label. State for the value needs to be maintained in a parent
  * component and passed in as a prop.
  */
-const Toggle = <T, >({
-        className,
-        disabled,
-        options,
-        onChange,
-        position = 'RIGHT',
-        value
-    }: ToggleProps<T>) => {
+const Toggle = <T,>({ className, disabled, options, onChange, position = 'RIGHT', value }: ToggleProps<T>) => {
     const [firstOption, secondOption] = options;
     const isFirstOption = value === firstOption.value;
     const iconPosition = isFirstOption ? 0 : 16;
@@ -63,10 +56,27 @@ const Toggle = <T, >({
 
     return (
         <ToggleWrapper className={className}>
-            <Label disabled={disabled} style={{ order: labelOrder }} onClick={handleToggleClick}>{label}</Label>
-            <IconWrapper disabled={disabled} position={position} onClick={handleToggleClick}>
-                <Bar disabled={disabled} options={options} value={value} />
-                <Icon disabled={disabled} style={{ left: iconPosition }} />
+            <Label
+                disabled={disabled}
+                style={{ order: labelOrder }}
+                onClick={handleToggleClick}
+            >
+                {label}
+            </Label>
+            <IconWrapper
+                disabled={disabled}
+                position={position}
+                onClick={handleToggleClick}
+            >
+                <Bar
+                    disabled={disabled}
+                    options={options}
+                    value={value}
+                />
+                <Icon
+                    disabled={disabled}
+                    style={{ left: iconPosition }}
+                />
             </IconWrapper>
         </ToggleWrapper>
     );

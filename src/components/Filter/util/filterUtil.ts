@@ -1,6 +1,6 @@
-import { FilterMode, type FilterSet, type FilterValues, type UrlParameters } from '../types';
 import { humanizeCamelCase } from 'src/lib/format.js';
 import type { SelectOption } from 'src/types/global';
+import { FilterMode, type FilterSet, type FilterValues, type UrlParameters } from '../types';
 
 /**
  * FILTER_MODE_OPTIONS
@@ -53,7 +53,12 @@ export const getFilterAppliedCount = (filters: FilterSet, filterValues: FilterVa
  * Given a list (Array or Set) of string, return a query string representation.
  * Default behavior is that when all items are selected, nothing is returned.
  */
-export const getUrlFromList = (name: string, list: string[] | Set<string>, count: number, hasInitialValue: boolean = false) => {
+export const getUrlFromList = (
+    name: string,
+    list: string[] | Set<string>,
+    count: number,
+    hasInitialValue: boolean = false
+) => {
     const listSize = Array.isArray(list) ? list.length : list.size;
 
     // if all items in list selected, pass empty string in url filter
@@ -71,17 +76,17 @@ export const getUrlFromList = (name: string, list: string[] | Set<string>, count
 
 // compare Set values
 export const areSetsEqual = (xs: Set<string>, ys: Set<string>) => {
-   return xs.size === ys.size && [...xs].every((x) => ys.has(x));
+    return xs.size === ys.size && [...xs].every((x) => ys.has(x));
 };
 
-export const convertToFilterDropdownOptions = (filterMapping?: { [key: string]: any; }): SelectOption<string>[] => {
+export const convertToFilterDropdownOptions = (filterMapping?: { [key: string]: any }): SelectOption<string>[] => {
     if (!filterMapping) {
         return [];
     }
 
     const filterNames = Object.keys(filterMapping);
 
-    return filterNames.map(value => ({
+    return filterNames.map((value) => ({
         label: humanizeCamelCase(value),
         value
     }));

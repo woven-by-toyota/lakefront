@@ -1,4 +1,4 @@
-import React, { type FC, useEffect, type CSSProperties } from 'react';
+import React, { type CSSProperties, type FC, useEffect } from 'react';
 
 export interface ThemeErrorFallbackProps {
     /** The name of the component that failed to receive a theme */

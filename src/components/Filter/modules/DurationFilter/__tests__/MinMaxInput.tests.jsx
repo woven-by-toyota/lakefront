@@ -5,7 +5,13 @@ import MinMaxInput from '../MinMaxInput';
 describe('<MinMaxInput />', () => {
     it('number entry works', async () => {
         const onChangeCallback = jest.fn();
-        render(<MinMaxInput value={{}} onChange={onChangeCallback} allowNegativeInput={false} />);
+        render(
+            <MinMaxInput
+                value={{}}
+                onChange={onChangeCallback}
+                allowNegativeInput={false}
+            />
+        );
 
         const minInput = screen.getByLabelText('min-input');
         fireEvent.change(minInput, { target: { value: '10' } });
@@ -36,7 +42,13 @@ describe('<MinMaxInput />', () => {
 
     it('number checking works', async () => {
         const onChangeCallback = jest.fn();
-        render(<MinMaxInput value={{ min: 10, max: 20 }} onChange={onChangeCallback} allowNegativeInput={true} />);
+        render(
+            <MinMaxInput
+                value={{ min: 10, max: 20 }}
+                onChange={onChangeCallback}
+                allowNegativeInput={true}
+            />
+        );
 
         const minInput = screen.getByLabelText('min-input');
 

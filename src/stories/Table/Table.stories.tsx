@@ -1,598 +1,611 @@
-import { type ComponentPropsWithoutRef, useState } from 'react';
+import DocBlock from '.storybook/DocBlock';
 import type { Meta, StoryFn } from '@storybook/react-webpack5';
-import { action } from 'storybook/actions';
+import { type ComponentPropsWithoutRef, useState } from 'react';
 import Button from 'src/components/Button/Button';
 import TableComponent, { type TableColumnPreset, type TableProps } from 'src/components/Table';
 import useTableColumnPresets, { createLocalStorageColumnPreferences } from 'src/lib/hooks/useTableColumnPresets';
-import DocBlock from '.storybook/DocBlock';
+import { action } from 'storybook/actions';
 import {
-  COLUMN_PRESETS,
-  CUSTOM_DATA,
-  EXPORT_DATA,
-  FAULTY_DATA,
-  GROUPED_ROWS_DATA,
-  INFINITE_SCROLL_DATA,
-  INITIAL_SORT_BY_DATA,
-  USER_DEFINED_COLUMN_PRESETS
+    COLUMN_PRESETS,
+    CUSTOM_DATA,
+    EXPORT_DATA,
+    FAULTY_DATA,
+    GROUPED_ROWS_DATA,
+    INFINITE_SCROLL_DATA,
+    INITIAL_SORT_BY_DATA,
+    USER_DEFINED_COLUMN_PRESETS
 } from './tableStoryData';
-import {
-  COLUMNS,
-  COLUMNS_WITH_WIDTH,
-  COLUMNS_WITH_WIDTH_AND_EXPANDER,
-  COLUMNS_WITH_RESIZING,
-  FAULTY_COLUMNS,
-  EXPORT_COLUMNS,
-  GROUPED_ROWS_COLUMNS,
-  renderRowSubComponent,
-} from './tableStoryUtil';
 import { StyledTableComponent } from './tableStoryStyles';
+import {
+    COLUMNS,
+    COLUMNS_WITH_RESIZING,
+    COLUMNS_WITH_WIDTH,
+    COLUMNS_WITH_WIDTH_AND_EXPANDER,
+    EXPORT_COLUMNS,
+    FAULTY_COLUMNS,
+    GROUPED_ROWS_COLUMNS,
+    renderRowSubComponent
+} from './tableStoryUtil';
 
 interface StoryInfo {
-  storyTitle?: string;
-  storyDescription?: string;
+    storyTitle?: string;
+    storyDescription?: string;
 }
 
 export default {
-  title: 'Lakefront/Table',
-  component: TableComponent,
-  parameters: {
-    docs: {
-      page: DocBlock
+    title: 'Lakefront/Table',
+    component: TableComponent,
+    parameters: {
+        docs: {
+            page: DocBlock
+        }
     }
-  }
 } as Meta;
 
 const Template: StoryFn<TableProps & ComponentPropsWithoutRef<'div'> & StoryInfo> = (args) => {
-  const [data, setData] = useState(args.data);
-  const [dataToggle, setDataToggle] = useState(false);
-  const [sortMsg, setSortMsg] = useState('');
+    const [data, setData] = useState(args.data);
+    const [dataToggle, setDataToggle] = useState(false);
+    const [sortMsg, setSortMsg] = useState('');
 
-  const resetData = () => {
-    const newData = dataToggle ? CUSTOM_DATA : [];
-    setData(newData);
-    setDataToggle(dataToggle => !dataToggle);
-  };
+    const resetData = () => {
+        const newData = dataToggle ? CUSTOM_DATA : [];
+        setData(newData);
+        setDataToggle((dataToggle) => !dataToggle);
+    };
 
-  const handleSort = (_, sortedBy) => {
-    const newMsg = 'Sorting is applied on column name(s): ';
-    const columnNamesAndSortDirection = sortedBy.map((sortedColumn) => {
-      const colName = COLUMNS.find(col => col.accessorKey === sortedColumn.id)?.header || sortedColumn.id;
-      const sortDirection = sortedColumn.desc ? '(Descending Order)' : '(Ascending Order)';
-      return ` ${colName} ${sortDirection}`;
-    });
+    const handleSort = (_, sortedBy) => {
+        const newMsg = 'Sorting is applied on column name(s): ';
+        const columnNamesAndSortDirection = sortedBy.map((sortedColumn) => {
+            const colName = COLUMNS.find((col) => col.accessorKey === sortedColumn.id)?.header || sortedColumn.id;
+            const sortDirection = sortedColumn.desc ? '(Descending Order)' : '(Ascending Order)';
+            return ` ${colName} ${sortDirection}`;
+        });
 
-    setSortMsg(`${newMsg} ${columnNamesAndSortDirection}`);
-  };
+        setSortMsg(`${newMsg} ${columnNamesAndSortDirection}`);
+    };
 
-  const RenderTableComponent = args.renderRowSubComponent ? StyledTableComponent : TableComponent;
+    const RenderTableComponent = args.renderRowSubComponent ? StyledTableComponent : TableComponent;
 
-  return (
-    <>
-      <div style={{ marginTop: 10, marginLeft: 10 }}>
-        <h2>{args.storyTitle || ''}</h2>
-        <p>{args.storyDescription || ''}</p>
-        <Button color="secondary" onClick={resetData}>
-          {dataToggle ? 'Load Data' : 'Clear Data'}</Button><br /><br />
-        {!dataToggle && <b>{sortMsg}</b>
-        }
-      </div>
-      <RenderTableComponent {...args} data={data} onChangeSort={handleSort} />
-    </>
-  );
+    return (
+        <>
+            <div style={{ marginTop: 10, marginLeft: 10 }}>
+                <h2>{args.storyTitle || ''}</h2>
+                <p>{args.storyDescription || ''}</p>
+                <Button
+                    color='secondary'
+                    onClick={resetData}
+                >
+                    {dataToggle ? 'Load Data' : 'Clear Data'}
+                </Button>
+                <br />
+                <br />
+                {!dataToggle && <b>{sortMsg}</b>}
+            </div>
+            <RenderTableComponent
+                {...args}
+                data={data}
+                onChangeSort={handleSort}
+            />
+        </>
+    );
 };
 
 // initialSortBy one column
 export const Table = Template.bind({});
 Table.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  initialSortBy: { id: 'title', desc: false },
-  noDataMessage: 'No data found',
-  options: {
-    disableSortRemove: true,
-    autoResetSortBy: true,
-    disableMultiSort: false
-  }
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    initialSortBy: { id: 'title', desc: false },
+    noDataMessage: 'No data found',
+    options: {
+        disableSortRemove: true,
+        autoResetSortBy: true,
+        disableMultiSort: false
+    }
 };
-
 
 // initialSortBy array of which columns to sort in order
 export const TableWithInitialSortByArray = Template.bind({});
 TableWithInitialSortByArray.args = {
-  columns: COLUMNS,
-  data: INITIAL_SORT_BY_DATA,
-  initialSortBy: [
-    { id: 'value', desc: false },
-    { id: 'title', desc: true },
-    { id: 'percentage', desc: true }
-  ],
-  noDataMessage: 'No data found',
-  options: {
-    disableSortRemove: true,
-    autoResetSortBy: true,
-    disableMultiSort: false
-  }
+    columns: COLUMNS,
+    data: INITIAL_SORT_BY_DATA,
+    initialSortBy: [
+        { id: 'value', desc: false },
+        { id: 'title', desc: true },
+        { id: 'percentage', desc: true }
+    ],
+    noDataMessage: 'No data found',
+    options: {
+        disableSortRemove: true,
+        autoResetSortBy: true,
+        disableMultiSort: false
+    }
 };
 
 export const TableWithMultiSortDisabled = Template.bind({});
 TableWithMultiSortDisabled.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  initialSortBy: { id: 'title', desc: false },
-  noDataMessage: 'No data found',
-  options: {
-    disableMultiSort: true
-  }
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    initialSortBy: { id: 'title', desc: false },
+    noDataMessage: 'No data found',
+    options: {
+        disableMultiSort: true
+    }
 };
 
 export const TableWithCustomWidth = Template.bind({});
 TableWithCustomWidth.args = {
-  columns: COLUMNS_WITH_WIDTH,
-  data: CUSTOM_DATA,
-  initialSortBy: { id: 'title', desc: false },
-  noDataMessage: 'No data found',
-  options: {
-    disableMultiSort: false
-  }
+    columns: COLUMNS_WITH_WIDTH,
+    data: CUSTOM_DATA,
+    initialSortBy: { id: 'title', desc: false },
+    noDataMessage: 'No data found',
+    options: {
+        disableMultiSort: false
+    }
 };
 
 export const TableWithExpandableRows = Template.bind({});
 TableWithExpandableRows.args = {
-  columns: COLUMNS_WITH_WIDTH_AND_EXPANDER,
-  data: INITIAL_SORT_BY_DATA,
-  noDataMessage: 'No data found',
-  renderRowSubComponent
+    columns: COLUMNS_WITH_WIDTH_AND_EXPANDER,
+    data: INITIAL_SORT_BY_DATA,
+    noDataMessage: 'No data found',
+    renderRowSubComponent
 };
 
 const InfiniteScrollTemplate: StoryFn<TableProps & StoryInfo> = (args) => {
-  const [data, setData] = useState(INFINITE_SCROLL_DATA.slice(0, 5));
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+    const [data, setData] = useState(INFINITE_SCROLL_DATA.slice(0, 5));
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
 
-  const loadMore = async () => {
-    setIsLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const loadMore = async () => {
+        setIsLoading(true);
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const nextPageData = INFINITE_SCROLL_DATA.slice(page * 5, (page + 1) * 5);
+        const nextPageData = INFINITE_SCROLL_DATA.slice(page * 5, (page + 1) * 5);
 
-    if (nextPageData.length > 0) {
-      setData(prevData => [...prevData, ...nextPageData]);
-      setPage(prevPage => prevPage + 1);
-    }
+        if (nextPageData.length > 0) {
+            setData((prevData) => [...prevData, ...nextPageData]);
+            setPage((prevPage) => prevPage + 1);
+        }
 
-    // Check if we've loaded all data
-    if ((page + 1) * 5 >= INFINITE_SCROLL_DATA.length) {
-      setHasMore(false);
-    }
+        // Check if we've loaded all data
+        if ((page + 1) * 5 >= INFINITE_SCROLL_DATA.length) {
+            setHasMore(false);
+        }
 
-    setIsLoading(false);
-  };
+        setIsLoading(false);
+    };
 
-  return (
-    <div style={{ height: 400 }}>
-      <h2>{args.storyTitle || ''}</h2>
-      <p>{args.storyDescription || ''}</p>
-      <div style={{ height: '100%', overflow: 'auto' }}>
-        <div style={{ position: 'relative' }}>
-          <TableComponent
-            {...args}
-            data={data}
-            infiniteScroll={{
-              onLoadMore: loadMore,
-              isLoading,
-              hasMore,
-            }}
-          />
+    return (
+        <div style={{ height: 400 }}>
+            <h2>{args.storyTitle || ''}</h2>
+            <p>{args.storyDescription || ''}</p>
+            <div style={{ height: '100%', overflow: 'auto' }}>
+                <div style={{ position: 'relative' }}>
+                    <TableComponent
+                        {...args}
+                        data={data}
+                        infiniteScroll={{
+                            onLoadMore: loadMore,
+                            isLoading,
+                            hasMore
+                        }}
+                    />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export const TableWithInfiniteScroll = InfiniteScrollTemplate.bind({});
 TableWithInfiniteScroll.args = {
-  columns: COLUMNS,
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Infinite Scroll',
-  storyDescription: 'Scroll down to load more data.'
+    columns: COLUMNS,
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Infinite Scroll',
+    storyDescription: 'Scroll down to load more data.'
 };
 
-const StickyHeadersTemplate: StoryFn<TableProps & { storyTitle?: string; storyDescription?: string; }> = (args) => {
-  return (
-    <div style={{ height: 300, overflow: 'auto' }}>
-      <h2>{args.storyTitle || ''}</h2>
-      <p>{args.storyDescription || ''}</p>
-      <TableComponent {...args} />
-    </div>
-  );
+const StickyHeadersTemplate: StoryFn<TableProps & { storyTitle?: string; storyDescription?: string }> = (args) => {
+    return (
+        <div style={{ height: 300, overflow: 'auto' }}>
+            <h2>{args.storyTitle || ''}</h2>
+            <p>{args.storyDescription || ''}</p>
+            <TableComponent {...args} />
+        </div>
+    );
 };
 
 export const TableWithStickyHeaders = StickyHeadersTemplate.bind({});
 TableWithStickyHeaders.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  stickyHeaders: true,
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Sticky Headers',
-  storyDescription: 'Scroll down to see more data. Table headers will stick to the top.'
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    stickyHeaders: true,
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Sticky Headers',
+    storyDescription: 'Scroll down to see more data. Table headers will stick to the top.'
 };
 
 export const TableWithInfiniteScrollNoStickyHeaders = InfiniteScrollTemplate.bind({});
 TableWithInfiniteScrollNoStickyHeaders.args = {
-  columns: COLUMNS,
-  noDataMessage: 'No data found',
-  stickyHeaders: false,
-  // story props
-  storyTitle: 'Table with Infinite Scroll and No Sticky Headers',
-  storyDescription: 'Scroll down to load more data. Table headers will not stick to the top.'
+    columns: COLUMNS,
+    noDataMessage: 'No data found',
+    stickyHeaders: false,
+    // story props
+    storyTitle: 'Table with Infinite Scroll and No Sticky Headers',
+    storyDescription: 'Scroll down to load more data. Table headers will not stick to the top.'
 };
 
 export const TableWithSettings = InfiniteScrollTemplate.bind({});
 TableWithSettings.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  tableSettings: {
-    columnConfig: {
-      enableColumnHiding: true
-    }
-  } as TableProps['tableSettings'],
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Settings',
-  storyDescription: 'Click the settings icon in the top-left corner to show/hide columns.'
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    tableSettings: {
+        columnConfig: {
+            enableColumnHiding: true
+        }
+    } as TableProps['tableSettings'],
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Settings',
+    storyDescription: 'Click the settings icon in the top-left corner to show/hide columns.'
 };
 
 export const TableWithDownload = Template.bind({});
 TableWithDownload.args = {
-  columns: EXPORT_COLUMNS,
-  data: EXPORT_DATA,
-  tableSettings: {
-    columnConfig: {
-      enableColumnHiding: true
-    },
-    enableDownload: true,
-    downloadFilename: 'my-table-export.csv'
-  } as TableProps['tableSettings'],
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Download',
-  storyDescription: 'Click the download icon to export the current table data as CSV. Only visible columns will be included in the export. In this example, the "COMPARE_TOTAL" column demonstrates custom cell rendering and custom CSV export value.'
+    columns: EXPORT_COLUMNS,
+    data: EXPORT_DATA,
+    tableSettings: {
+        columnConfig: {
+            enableColumnHiding: true
+        },
+        enableDownload: true,
+        downloadFilename: 'my-table-export.csv'
+    } as TableProps['tableSettings'],
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Download',
+    storyDescription:
+        'Click the download icon to export the current table data as CSV. Only visible columns will be included in the export. In this example, the "COMPARE_TOTAL" column demonstrates custom cell rendering and custom CSV export value.'
 };
 
 const CustomDownloadIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M12 3v10m0 0-4-4m4 4 4-4M4 19h16"
-      stroke="#2E7D32"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
+    <svg
+        width='16'
+        height='16'
+        viewBox='0 0 24 24'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+    >
+        <path
+            d='M12 3v10m0 0-4-4m4 4 4-4M4 19h16'
+            stroke='#2E7D32'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+        />
+    </svg>
 );
 
 export const TableWithCustomDownload = Template.bind({});
 TableWithCustomDownload.args = {
-  columns: EXPORT_COLUMNS,
-  data: EXPORT_DATA,
-  tableSettings: {
-    columnConfig: {
-      enableColumnHiding: true
-    },
-    enableDownload: true,
-    downloadIcon: <CustomDownloadIcon />,
-    onDownloadPress: ({ rows, columns }) => {
-      action('onDownloadPress')(`${rows.length} row(s), ${columns.length} column(s)`);
-    }
-  } as TableProps['tableSettings'],
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Custom Download',
-  storyDescription: 'The download button uses a custom icon, and onDownloadPress intercepts the click instead of downloading a CSV immediately - check the Actions panel below to see the currently visible rows/columns it received. Use this to run a custom export flow (e.g. a column/rename picker) instead of the built-in download.'
+    columns: EXPORT_COLUMNS,
+    data: EXPORT_DATA,
+    tableSettings: {
+        columnConfig: {
+            enableColumnHiding: true
+        },
+        enableDownload: true,
+        downloadIcon: <CustomDownloadIcon />,
+        onDownloadPress: ({ rows, columns }) => {
+            action('onDownloadPress')(`${rows.length} row(s), ${columns.length} column(s)`);
+        }
+    } as TableProps['tableSettings'],
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Custom Download',
+    storyDescription:
+        'The download button uses a custom icon, and onDownloadPress intercepts the click instead of downloading a CSV immediately - check the Actions panel below to see the currently visible rows/columns it received. Use this to run a custom export flow (e.g. a column/rename picker) instead of the built-in download.'
 };
 
 export const TableWithTextButtonStyle = InfiniteScrollTemplate.bind({});
 TableWithTextButtonStyle.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  tableSettings: {
-    columnConfig: {
-      enableColumnHiding: true
-    },
-    enableDownload: true,
-    downloadFilename: 'my-table-export.csv',
-    buttonDisplayStyle: 'text'
-  } as TableProps['tableSettings'],
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Text Button Style',
-  storyDescription: 'Table settings and download buttons are displayed as text buttons with borders. Hide a column to see the hyperlink color on the Settings button.'
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    tableSettings: {
+        columnConfig: {
+            enableColumnHiding: true
+        },
+        enableDownload: true,
+        downloadFilename: 'my-table-export.csv',
+        buttonDisplayStyle: 'text'
+    } as TableProps['tableSettings'],
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Text Button Style',
+    storyDescription:
+        'Table settings and download buttons are displayed as text buttons with borders. Hide a column to see the hyperlink color on the Settings button.'
 };
 
 export const TableWithSettingsAndMoreActions = InfiniteScrollTemplate.bind({});
 TableWithSettingsAndMoreActions.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  stickyHeaders: true,
-  tableSettings: {
-    columnConfig: {
-      enableColumnHiding: true
-    }
-  } as TableProps['tableSettings'],
-  moreActionsConfig: {
-    getRowActionItems: (row) => [
-      {
-        label: 'Edit',
-        onClick: () => alert(`Edit row: ${row.original.title}`)
-      },
-      {
-        label: 'Delete',
-        onClick: () => alert(`Delete row: ${row.original.title}`)
-      }
-    ]
-  },
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Settings and More Actions',
-  storyDescription: 'Click the ellipsis at the far right to reveal row actions.'
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    stickyHeaders: true,
+    tableSettings: {
+        columnConfig: {
+            enableColumnHiding: true
+        }
+    } as TableProps['tableSettings'],
+    moreActionsConfig: {
+        getRowActionItems: (row) => [
+            {
+                label: 'Edit',
+                onClick: () => alert(`Edit row: ${row.original.title}`)
+            },
+            {
+                label: 'Delete',
+                onClick: () => alert(`Delete row: ${row.original.title}`)
+            }
+        ]
+    },
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Settings and More Actions',
+    storyDescription: 'Click the ellipsis at the far right to reveal row actions.'
 };
 
 export const TableWithInitialColumnVisibility = InfiniteScrollTemplate.bind({});
 TableWithInitialColumnVisibility.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  tableSettings: {
-    columnConfig: {
-      enableColumnHiding: true,
-      initialColumnVisibility: {
-        percentage: false,
-        percentage_change: false
-      }
-    },
-  } as TableProps['tableSettings'],
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Initial Column Visibility',
-  storyDescription: 'Some columns are hidden by default. Use the settings icon to show/hide columns.'
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    tableSettings: {
+        columnConfig: {
+            enableColumnHiding: true,
+            initialColumnVisibility: {
+                percentage: false,
+                percentage_change: false
+            }
+        }
+    } as TableProps['tableSettings'],
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Initial Column Visibility',
+    storyDescription: 'Some columns are hidden by default. Use the settings icon to show/hide columns.'
 };
 
 export const TableWithErrorHandling = InfiniteScrollTemplate.bind({});
 TableWithErrorHandling.args = {
-  columns: FAULTY_COLUMNS,
-  data: FAULTY_DATA,
-  // story props
-  storyTitle: 'Table with Faulty Data and Error Handling',
-  storyDescription: 'Incomplete data has been provided to table.'
+    columns: FAULTY_COLUMNS,
+    data: FAULTY_DATA,
+    // story props
+    storyTitle: 'Table with Faulty Data and Error Handling',
+    storyDescription: 'Incomplete data has been provided to table.'
 };
 
 export const TableWithResizableColumns = InfiniteScrollTemplate.bind({});
 TableWithResizableColumns.args = {
-  columns: COLUMNS_WITH_RESIZING,
-  data: CUSTOM_DATA,
-  initialSortBy: { id: 'title', desc: false },
-  // story props
-  storyTitle: 'Table with Resizable Columns',
-  storyDescription: 'Drag the edges of the column headers to resize columns. Resize handles are visible on hover or when a column is actively being resized. In this example, all columns except the last one can be resized.'
+    columns: COLUMNS_WITH_RESIZING,
+    data: CUSTOM_DATA,
+    initialSortBy: { id: 'title', desc: false },
+    // story props
+    storyTitle: 'Table with Resizable Columns',
+    storyDescription:
+        'Drag the edges of the column headers to resize columns. Resize handles are visible on hover or when a column is actively being resized. In this example, all columns except the last one can be resized.'
 };
 
 // Prompting for a name is one option - a modal, an inline input, or an auto-generated name all work.
 const promptForPresetName = (sourcePreset: TableColumnPreset | null): TableColumnPreset | null => {
-  const label = window.prompt('Name this column configuration', `${sourcePreset?.label ?? 'Custom'} copy`);
+    const label = window.prompt('Name this column configuration', `${sourcePreset?.label ?? 'Custom'} copy`);
 
-  return label ? { id: `user-${label}`, label, columns: [] } : null;
+    return label ? { id: `user-${label}`, label, columns: [] } : null;
 };
 
 const ColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({ storyTitle, storyDescription, ...args }) => {
-  const [presets, setPresets] = useState<TableColumnPreset[]>([
-    ...COLUMN_PRESETS,
-    ...USER_DEFINED_COLUMN_PRESETS
-  ]);
+    const [presets, setPresets] = useState<TableColumnPreset[]>([...COLUMN_PRESETS, ...USER_DEFINED_COLUMN_PRESETS]);
 
-  // Naming and storing a new preset is the consumer's job - here it just goes into component state.
-  // Returning its id tells the table to select it, which clears the unsaved changes callout.
-  const handleSavePreset = (columnIds: string[], sourcePreset: TableColumnPreset | null) => {
-    action('onSavePreset')(columnIds, sourcePreset);
+    // Naming and storing a new preset is the consumer's job - here it just goes into component state.
+    // Returning its id tells the table to select it, which clears the unsaved changes callout.
+    const handleSavePreset = (columnIds: string[], sourcePreset: TableColumnPreset | null) => {
+        action('onSavePreset')(columnIds, sourcePreset);
 
-    const named = promptForPresetName(sourcePreset);
+        const named = promptForPresetName(sourcePreset);
 
-    if (!named) {
-      return;
-    }
+        if (!named) {
+            return;
+        }
 
-    const saved = { ...named, columns: columnIds, userDefined: true };
-    setPresets(current => [...current.filter(({ id }) => id !== saved.id), saved]);
+        const saved = { ...named, columns: columnIds, userDefined: true };
+        setPresets((current) => [...current.filter(({ id }) => id !== saved.id), saved]);
 
-    return saved.id;
-  };
+        return saved.id;
+    };
 
-  // Overwriting only ever happens on a user defined preset - the table disables Save for built in ones
-  const handleUpdatePreset = (presetId: string, columnIds: string[]) => {
-    action('onUpdatePreset')(presetId, columnIds);
+    // Overwriting only ever happens on a user defined preset - the table disables Save for built in ones
+    const handleUpdatePreset = (presetId: string, columnIds: string[]) => {
+        action('onUpdatePreset')(presetId, columnIds);
 
-    setPresets(current =>
-      current.map(preset => (preset.id === presetId ? { ...preset, columns: columnIds } : preset))
+        setPresets((current) =>
+            current.map((preset) => (preset.id === presetId ? { ...preset, columns: columnIds } : preset))
+        );
+    };
+
+    // lakefront does not confirm the deletion, so prompt here
+    const handleDeletePreset = (presetId: string) => {
+        action('onDeletePreset')(presetId);
+
+        const preset = presets.find(({ id }) => id === presetId);
+
+        if (!window.confirm(`Delete "${preset?.label}"?`)) {
+            throw new Error('cancelled');
+        }
+
+        setPresets((current) => current.filter(({ id }) => id !== presetId));
+    };
+
+    return (
+        <div style={{ height: 400 }}>
+            <h2>{storyTitle || ''}</h2>
+            <p>{storyDescription || ''}</p>
+            <TableComponent
+                {...args}
+                tableSettings={{
+                    columnConfig: {
+                        enableColumnHiding: true,
+                        presets,
+                        initialPresetId: 'percentages',
+                        presetChangeSubscriber: action('presetChangeSubscriber'),
+                        onSavePreset: handleSavePreset,
+                        onUpdatePreset: handleUpdatePreset,
+                        onDeletePreset: handleDeletePreset
+                    }
+                }}
+            />
+        </div>
     );
-  };
-
-  // lakefront does not confirm the deletion, so prompt here
-  const handleDeletePreset = (presetId: string) => {
-    action('onDeletePreset')(presetId);
-
-    const preset = presets.find(({ id }) => id === presetId);
-
-    if (!window.confirm(`Delete "${preset?.label}"?`)) {
-      throw new Error('cancelled');
-    }
-
-    setPresets(current => current.filter(({ id }) => id !== presetId));
-  };
-
-  return (
-    <div style={{ height: 400 }}>
-      <h2>{storyTitle || ''}</h2>
-      <p>{storyDescription || ''}</p>
-      <TableComponent
-        {...args}
-        tableSettings={{
-          columnConfig: {
-            enableColumnHiding: true,
-            presets,
-            initialPresetId: 'percentages',
-            presetChangeSubscriber: action('presetChangeSubscriber'),
-            onSavePreset: handleSavePreset,
-            onUpdatePreset: handleUpdatePreset,
-            onDeletePreset: handleDeletePreset
-          }
-        }}
-      />
-    </div>
-  );
 };
 
 export const TableWithColumnPresets = ColumnPresetsTemplate.bind({});
 TableWithColumnPresets.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Column Presets',
-  storyDescription: 'Open the settings panel and pick a configuration under COLUMN CONFIGURATION to show exactly that preset\'s columns. Toggling an individual column afterwards keeps the preset selected but marks it Modified, and offers Save / Save New / Revert - Save overwrites the applied preset and is only enabled for the user\'s own presets. Presets with userDefined: true render in the group below the divider, and hovering one reveals a delete control.'
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Column Presets',
+    storyDescription:
+        "Open the settings panel and pick a configuration under COLUMN CONFIGURATION to show exactly that preset's columns. Toggling an individual column afterwards keeps the preset selected but marks it Modified, and offers Save / Save New / Revert - Save overwrites the applied preset and is only enabled for the user's own presets. Presets with userDefined: true render in the group below the divider, and hovering one reveals a delete control."
 };
 
 const PERSISTED_PRESETS_STORAGE = createLocalStorageColumnPreferences('lakefront-story-table-columns');
 
-const PersistedColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({
-  storyTitle,
-  storyDescription,
-  ...args
-}) => {
-  const {
-    ready,
-    presets,
-    initialPresetId,
-    initialPresetModified,
-    initialColumnVisibility,
-    presetChangeSubscriber,
-    onSavePreset,
-    onUpdatePreset,
-    onDeletePreset
-  } = useTableColumnPresets({
-    presets: COLUMN_PRESETS,
-    // Swap this for an adapter that calls your own user preferences API
-    storage: PERSISTED_PRESETS_STORAGE,
-    defaultPresetId: 'summary',
-    createPreset: (columnIds, sourcePreset) => {
-      const named = promptForPresetName(sourcePreset);
+const PersistedColumnPresetsTemplate: StoryFn<TableProps & StoryInfo> = ({ storyTitle, storyDescription, ...args }) => {
+    const {
+        ready,
+        presets,
+        initialPresetId,
+        initialPresetModified,
+        initialColumnVisibility,
+        presetChangeSubscriber,
+        onSavePreset,
+        onUpdatePreset,
+        onDeletePreset
+    } = useTableColumnPresets({
+        presets: COLUMN_PRESETS,
+        // Swap this for an adapter that calls your own user preferences API
+        storage: PERSISTED_PRESETS_STORAGE,
+        defaultPresetId: 'summary',
+        createPreset: (columnIds, sourcePreset) => {
+            const named = promptForPresetName(sourcePreset);
 
-      return named ? { ...named, columns: columnIds } : null;
-    },
-    updatePreset: action('updatePreset'),
-    // Confirming is the consumer's job - throwing keeps the preset
-    deletePreset: (preset) => {
-      action('deletePreset')(preset);
+            return named ? { ...named, columns: columnIds } : null;
+        },
+        updatePreset: action('updatePreset'),
+        // Confirming is the consumer's job - throwing keeps the preset
+        deletePreset: (preset) => {
+            action('deletePreset')(preset);
 
-      if (!window.confirm(`Delete "${preset.label}"?`)) {
-        throw new Error('cancelled');
-      }
-    },
-    onError: action('onError')
-  });
-
-  return (
-    <div style={{ height: 400 }}>
-      <h2>{storyTitle || ''}</h2>
-      <p>{storyDescription || ''}</p>
-      {/* The table's initial* props only seed state on mount, so wait for the stored config */}
-      {ready && (
-        <TableComponent
-          {...args}
-          tableSettings={{
-            columnConfig: {
-              enableColumnHiding: true,
-              presets,
-              initialPresetId,
-              initialPresetModified,
-              initialColumnVisibility,
-              presetChangeSubscriber,
-              onSavePreset,
-              onUpdatePreset,
-              onDeletePreset
+            if (!window.confirm(`Delete "${preset.label}"?`)) {
+                throw new Error('cancelled');
             }
-          }}
-        />
-      )}
-    </div>
-  );
+        },
+        onError: action('onError')
+    });
+
+    return (
+        <div style={{ height: 400 }}>
+            <h2>{storyTitle || ''}</h2>
+            <p>{storyDescription || ''}</p>
+            {/* The table's initial* props only seed state on mount, so wait for the stored config */}
+            {ready && (
+                <TableComponent
+                    {...args}
+                    tableSettings={{
+                        columnConfig: {
+                            enableColumnHiding: true,
+                            presets,
+                            initialPresetId,
+                            initialPresetModified,
+                            initialColumnVisibility,
+                            presetChangeSubscriber,
+                            onSavePreset,
+                            onUpdatePreset,
+                            onDeletePreset
+                        }
+                    }}
+                />
+            )}
+        </div>
+    );
 };
 
 export const TableWithPersistedColumnPresets = PersistedColumnPresetsTemplate.bind({});
 TableWithPersistedColumnPresets.args = {
-  columns: COLUMNS,
-  data: CUSTOM_DATA,
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Persisted Column Presets',
-  storyDescription: 'useTableColumnPresets keeps the column configuration in a storage adapter of your choosing - this story uses the bundled localStorage reference adapter, so changing the configuration and reloading the page restores it. An unsaved modification survives the reload too: the preset stays selected, still Modified, with the tweaked columns intact. Saved presets appear under the divider, where they can be overwritten with Save or removed with the delete control. Implement TableColumnPreferencesStorage against your own preferences API to persist per user instead.'
+    columns: COLUMNS,
+    data: CUSTOM_DATA,
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Persisted Column Presets',
+    storyDescription:
+        'useTableColumnPresets keeps the column configuration in a storage adapter of your choosing - this story uses the bundled localStorage reference adapter, so changing the configuration and reloading the page restores it. An unsaved modification survives the reload too: the preset stays selected, still Modified, with the tweaked columns intact. Saved presets appear under the divider, where they can be overwritten with Save or removed with the delete control. Implement TableColumnPreferencesStorage against your own preferences API to persist per user instead.'
 };
 
 const GroupedRowsTemplate: StoryFn<TableProps & StoryInfo> = (args) => {
-  return (
-    <>
-      <div style={{ marginTop: 10, marginLeft: 10 }}>
-        <h2>{args.storyTitle || ''}</h2>
-        <p>{args.storyDescription || ''}</p>
-      </div>
-      <TableComponent {...args} />
-    </>
-  );
+    return (
+        <>
+            <div style={{ marginTop: 10, marginLeft: 10 }}>
+                <h2>{args.storyTitle || ''}</h2>
+                <p>{args.storyDescription || ''}</p>
+            </div>
+            <TableComponent {...args} />
+        </>
+    );
 };
 
 export const TableWithGroupedRows = GroupedRowsTemplate.bind({});
 TableWithGroupedRows.args = {
-
-  columns: GROUPED_ROWS_COLUMNS,
-  data: GROUPED_ROWS_DATA,
-  tableSettings: {
-    columnConfig: {
-      enableColumnHiding: true
-    },
-    enableDownload: true,
-    downloadFilename: 'my-table-export.csv'
-  } as TableProps['tableSettings'],
-  groupedRows: {
-    enabled: true,
-    groupBy: 'genre',
-    alternatingColors: true
-  } as TableProps['groupedRows'],
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Grouped Rows (Excel-style merged cells)',
-  storyDescription: 'Genre values are merged in Excel-style with rowspan, showing each genre name only once per group. Each genre (Fiction, Non-Fiction, Science, Biography) shows multiple books underneath with their titles, authors, page counts, and ratings. Alternating colors are enabled to distinguish between different groups, and border separators appear between groups.'
+    columns: GROUPED_ROWS_COLUMNS,
+    data: GROUPED_ROWS_DATA,
+    tableSettings: {
+        columnConfig: {
+            enableColumnHiding: true
+        },
+        enableDownload: true,
+        downloadFilename: 'my-table-export.csv'
+    } as TableProps['tableSettings'],
+    groupedRows: {
+        enabled: true,
+        groupBy: 'genre',
+        alternatingColors: true
+    } as TableProps['groupedRows'],
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Grouped Rows (Excel-style merged cells)',
+    storyDescription:
+        'Genre values are merged in Excel-style with rowspan, showing each genre name only once per group. Each genre (Fiction, Non-Fiction, Science, Biography) shows multiple books underneath with their titles, authors, page counts, and ratings. Alternating colors are enabled to distinguish between different groups, and border separators appear between groups.'
 };
 
 export const TableWithGroupedRowsNoAlternating = GroupedRowsTemplate.bind({});
 TableWithGroupedRowsNoAlternating.args = {
-  columns: GROUPED_ROWS_COLUMNS,
-  data: GROUPED_ROWS_DATA,
-  tableSettings: {
-    columnConfig: {
-      enableColumnHiding: true
-    },
-    enableDownload: true,
-    downloadFilename: 'my-table-export.csv'
-  } as TableProps['tableSettings'],
-  groupedRows: {
-    enabled: true,
-    groupBy: 'genre',
-    alternatingColors: false
-  } as TableProps['groupedRows'],
-  noDataMessage: 'No data found',
-  // story props
-  storyTitle: 'Table with Grouped Rows (No Alternating Colors)',
-  storyDescription: 'Same as above but with alternatingColors set to false, showing grouped rows with consistent background colors and only border separators between groups.'
+    columns: GROUPED_ROWS_COLUMNS,
+    data: GROUPED_ROWS_DATA,
+    tableSettings: {
+        columnConfig: {
+            enableColumnHiding: true
+        },
+        enableDownload: true,
+        downloadFilename: 'my-table-export.csv'
+    } as TableProps['tableSettings'],
+    groupedRows: {
+        enabled: true,
+        groupBy: 'genre',
+        alternatingColors: false
+    } as TableProps['groupedRows'],
+    noDataMessage: 'No data found',
+    // story props
+    storyTitle: 'Table with Grouped Rows (No Alternating Colors)',
+    storyDescription:
+        'Same as above but with alternatingColors set to false, showing grouped rows with consistent background colors and only border separators between groups.'
 };
-

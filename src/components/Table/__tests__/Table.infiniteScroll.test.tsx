@@ -1,12 +1,12 @@
-import { waitFor, cleanup } from '@testing-library/react';
-import Table from '../Table';
+import { cleanup, waitFor } from '@testing-library/react';
 import { renderWithTheme as render } from '../../../lib/testing';
+import Table from '../Table';
 
 afterAll(cleanup);
 
 class MockIntersectionObserver {
-  private readonly callback: any;
-  private options: any;
+    private readonly callback: any;
+    private options: any;
     constructor(callback: any, options: any) {
         this.callback = callback;
         this.options = options;
@@ -15,23 +15,28 @@ class MockIntersectionObserver {
     observe(target: any) {
         // Simulate immediate intersection
         setTimeout(() => {
-            this.callback([
-                {
-                    isIntersecting: true,
-                    target,
-                    boundingClientRect: {},
-                    intersectionRatio: 1,
-                    intersectionRect: {},
-                    rootBounds: null,
-                    time: Date.now()
-                }
-            ], this);
+            this.callback(
+                [
+                    {
+                        isIntersecting: true,
+                        target,
+                        boundingClientRect: {},
+                        intersectionRatio: 1,
+                        intersectionRect: {},
+                        rootBounds: null,
+                        time: Date.now()
+                    }
+                ],
+                this
+            );
         }, 0);
     }
 
     unobserve() {}
     disconnect() {}
-    takeRecords() { return []; }
+    takeRecords() {
+        return [];
+    }
 }
 
 // Setup IntersectionObserver mock
@@ -43,18 +48,18 @@ describe('Table Infinite Scroll', () => {
     const columns = [
         {
             header: 'Name',
-            accessorKey: 'name',
+            accessorKey: 'name'
         },
         {
             header: 'Value',
-            accessorKey: 'value',
+            accessorKey: 'value'
         }
     ];
 
     const mockData = [
         { name: 'Item 1', value: 100 },
         { name: 'Item 2', value: 200 },
-        { name: 'Item 3', value: 300 },
+        { name: 'Item 3', value: 300 }
     ];
 
     it('should render table without infinite scroll', () => {
@@ -105,9 +110,12 @@ describe('Table Infinite Scroll', () => {
         );
 
         // Wait for IntersectionObserver to trigger
-        await waitFor(() => {
-            expect(onLoadMore).toHaveBeenCalled();
-        }, { timeout: 100 });
+        await waitFor(
+            () => {
+                expect(onLoadMore).toHaveBeenCalled();
+            },
+            { timeout: 100 }
+        );
     });
 
     it('should not call onLoadMore when isLoading is true', () => {

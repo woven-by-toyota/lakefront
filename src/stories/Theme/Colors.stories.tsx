@@ -1,7 +1,5 @@
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import Preview, { type PreviewProps } from './Preview';
 
 export default {

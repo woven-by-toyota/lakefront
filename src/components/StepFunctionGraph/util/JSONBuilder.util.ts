@@ -20,7 +20,7 @@ export interface JSONStateObject {
     Metadata?: {
         SortOrder?: number;
         NodePath?: string;
-    }
+    };
 }
 
 export interface JSONState {
@@ -63,7 +63,7 @@ export const convertToArrayPath = (path: string | (string | number)[]) => {
  * The JSONBuilderUtil class consist of various methods and standalone helper
  * functions to build valid StepFunction JSON. Initial step function configuration
  * can be provided to the constructor.
- * 
+ *
  *❗❗**NOTE: This class will mutate the provided initial JSON.**
  */
 export class JSONBuilderUtil {
@@ -270,7 +270,10 @@ export class JSONBuilderUtil {
         return this.json.States[state];
     }
 
-    getNodeJsonAtPath(path: string | (string | number)[], startAtStates: boolean = true): JSONStateObject | StepFunctionJSON | undefined {
+    getNodeJsonAtPath(
+        path: string | (string | number)[],
+        startAtStates: boolean = true
+    ): JSONStateObject | StepFunctionJSON | undefined {
         const nodePath = convertToArrayPath(path);
 
         if (startAtStates) {

@@ -1,7 +1,7 @@
 import type { FC, ReactNode, RefAttributes } from 'react';
+import type { LinkProps } from 'react-router-dom';
 import Breadcrumb, { type RouteProp } from './Breadcrumb';
 import { Container, Content } from './breadcrumbStyles';
-import type { LinkProps } from 'react-router-dom';
 
 export interface BreadcrumbHeaderProps {
     /**
@@ -14,12 +14,12 @@ export interface BreadcrumbHeaderProps {
      */
     className?: string;
     /**
-     * This is to set the standalone property. If set to true, this will add full width with margin 
+     * This is to set the standalone property. If set to true, this will add full width with margin
      * and a bottom border.
      */
     standalone?: boolean;
     /**
-     * If set to true, this will not display any routes. 
+     * If set to true, this will not display any routes.
      */
     hideRoutes?: boolean;
     /**
@@ -40,11 +40,23 @@ export interface BreadcrumbHeaderProps {
  * prop or a wrapper). Set [standalone] to true to add full-width behavior with margins and
  * a bottom border (to function as a standalone header). Defaults to true.
  */
-const BreadcrumbHeader: FC<BreadcrumbHeaderProps> = ({ routes, className,
-    standalone = true, hideRoutes = false, children, Link }) => {
+const BreadcrumbHeader: FC<BreadcrumbHeaderProps> = ({
+    routes,
+    className,
+    standalone = true,
+    hideRoutes = false,
+    children,
+    Link
+}) => {
     return (
-        <Container className={className} standalone={standalone}>
-            <Breadcrumb routes={hideRoutes ? [] : routes} Link={Link} />
+        <Container
+            className={className}
+            standalone={standalone}
+        >
+            <Breadcrumb
+                routes={hideRoutes ? [] : routes}
+                Link={Link}
+            />
             {children && <Content>{children}</Content>}
         </Container>
     );

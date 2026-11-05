@@ -1,7 +1,7 @@
-import type { ComponentPropsWithoutRef } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-import DeviceProgressBarComponent, { type DeviceProgressProps } from 'src/components/Progress/DeviceProgressBar';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import DeviceProgressBarComponent, { type DeviceProgressProps } from 'src/components/Progress/DeviceProgressBar';
 import colors from 'src/styles/lakefrontColors';
 
 export default {
@@ -56,6 +56,6 @@ BarWithThresholds.args = {
             id: 'danger',
             percentage: '80%',
             color: colors.red
-        },
+        }
     ]
 };

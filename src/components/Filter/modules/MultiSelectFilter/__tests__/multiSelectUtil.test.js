@@ -1,6 +1,5 @@
 import { createOption, createUniqueOptions, getUniqueOptions, parseItems } from '../multiSelectUtil';
 
-
 describe('createOption', () => {
     it('returns an object with the correct label and value.', () => {
         const label = 'label';
@@ -66,28 +65,34 @@ describe('parseItems', () => {
         const items = ' spaceInFront,trailingSpace , space around and in between ';
 
         expect(parseItems(items, ',')).toMatchObject(['spaceInFront', 'trailingSpace', 'space around and in between']);
-        expect(parseItems(items, ' ')).toMatchObject(['spaceInFront,trailingSpace', ',', 'space', 'around', 'and', 'in', 'between']);
+        expect(parseItems(items, ' ')).toMatchObject([
+            'spaceInFront,trailingSpace',
+            ',',
+            'space',
+            'around',
+            'and',
+            'in',
+            'between'
+        ]);
     });
 });
 
 describe('getUniqueOptions', () => {
     it('returns an array of unique options when duplicated values exist.', () => {
-        const itemsStateMock =
-            [
-                { 'label': 'colors', 'value': 'colors' },
-                { 'label': 'sizes', 'value': 'sizes' },
-                { 'label': 'shapes', 'value': 'shapes' },
-                { 'label': 'colors', 'value': 'colors' },
-                { 'label': 'colors', 'value': 'colors' }
-            ];
+        const itemsStateMock = [
+            { label: 'colors', value: 'colors' },
+            { label: 'sizes', value: 'sizes' },
+            { label: 'shapes', value: 'shapes' },
+            { label: 'colors', value: 'colors' },
+            { label: 'colors', value: 'colors' }
+        ];
         const availableOptionsResult = getUniqueOptions(itemsStateMock);
 
-        expect(availableOptionsResult).toMatchObject(
-            [
-                { 'label': 'colors', 'value': 'colors' },
-                { 'label': 'sizes', 'value': 'sizes' },
-                { 'label': 'shapes', 'value': 'shapes' }
-            ]);
+        expect(availableOptionsResult).toMatchObject([
+            { label: 'colors', value: 'colors' },
+            { label: 'sizes', value: 'sizes' },
+            { label: 'shapes', value: 'shapes' }
+        ]);
 
         expect(availableOptionsResult).toHaveLength(3);
     });

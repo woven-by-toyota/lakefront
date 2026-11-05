@@ -51,9 +51,18 @@ const FilterJSONInput: FC<FilterJSONInputProps> = ({ filterHooks, onInputModifie
 
     return (
         <>
-            <JSONEditor value={jsonInput} onChange={handleInputChange} error={error} />
+            <JSONEditor
+                value={jsonInput}
+                onChange={handleInputChange}
+                error={error}
+            />
             <ButtonWrapper>
-                <Button color="secondary" onClick={resetInput}>Cancel</Button>
+                <Button
+                    color='secondary'
+                    onClick={resetInput}
+                >
+                    Cancel
+                </Button>
                 <Button onClick={handleApply}>Apply JSON</Button>
             </ButtonWrapper>
         </>

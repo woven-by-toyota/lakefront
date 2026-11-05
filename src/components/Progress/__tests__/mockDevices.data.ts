@@ -6,8 +6,7 @@ export interface BlockDevice {
     device: string;
 }
 
-export const mockDeviceData: BlockDevice =
-{
+export const mockDeviceData: BlockDevice = {
     space_total: 1374389534720,
     space_used: 1175916642304,
     space_available: 198472892416,

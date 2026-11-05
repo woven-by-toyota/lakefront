@@ -1,12 +1,12 @@
-import {
-    convertToArrayPath,
-    numberOrIdentity,
-    JSONBuilderUtil,
-    type JSONState,
-    type StepFunctionJSON
-} from '../JSONBuilder.util';
 import { cleanup } from '@testing-library/react';
 import * as R from 'ramda';
+import {
+    convertToArrayPath,
+    JSONBuilderUtil,
+    type JSONState,
+    numberOrIdentity,
+    type StepFunctionJSON
+} from '../JSONBuilder.util';
 
 const { path: RPath } = R;
 
@@ -533,7 +533,7 @@ describe('JSONBuilderUtil', () => {
     });
 
     describe('getNodeParentPath', () => {
-        it('returns the parent path of a nested node\'s path.', () => {
+        it("returns the parent path of a nested node's path.", () => {
             const parentPath = ['root', 'parent'];
 
             expect(JSONBuilderUtil.getNodeParentPath('root.parent.child')).toMatchObject(parentPath);

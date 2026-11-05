@@ -1,7 +1,7 @@
-import { StyledArrowDown, StyledArrowUp, StyledUnsorted } from './tableStyles';
-import {type Cell, flexRender} from '@tanstack/react-table';
-import CellErrorBoundary from './CellErrorBoundary';
+import { type Cell, flexRender } from '@tanstack/react-table';
 import React from 'react';
+import CellErrorBoundary from './CellErrorBoundary';
+import { StyledArrowDown, StyledArrowUp, StyledUnsorted } from './tableStyles';
 
 export interface Column {
     disableSortBy: boolean;
@@ -14,13 +14,28 @@ export const getSortBySVG = ({ disableSortBy, isSorted, isSortedDesc }: Column) 
         return null;
     }
 
-    return (
-        isSorted ? getSortDirectionSVG(isSortedDesc) : <StyledUnsorted aria-label='unsorted-icon' className='sort-icon' />
+    return isSorted ? (
+        getSortDirectionSVG(isSortedDesc)
+    ) : (
+        <StyledUnsorted
+            aria-label='unsorted-icon'
+            className='sort-icon'
+        />
     );
 };
 
 export const getSortDirectionSVG = (isSortedDesc: boolean) =>
-    isSortedDesc ? <StyledArrowDown aria-label='arrow-down' className='sort-icon' /> : <StyledArrowUp aria-label='arrow-up' className='sort-icon' />;
+    isSortedDesc ? (
+        <StyledArrowDown
+            aria-label='arrow-down'
+            className='sort-icon'
+        />
+    ) : (
+        <StyledArrowUp
+            aria-label='arrow-up'
+            className='sort-icon'
+        />
+    );
 
 export const getTitleForMultiSort = (disableMultiSort: boolean, title: string = '', disableSortBy: boolean): string => {
     return disableMultiSort ? title : getTitleForColumn(disableSortBy);
@@ -32,12 +47,7 @@ export const getTitleForColumn = (disableSortBy: boolean): string => {
     return disableSortBy ? '' : MULTI_SORT_TITLE;
 };
 
-export const isLastHeader = (
-    header: any,
-    idx: number,
-    totalHeaders: number,
-    hasMoreActions: boolean
-): boolean => {
+export const isLastHeader = (header: any, idx: number, totalHeaders: number, hasMoreActions: boolean): boolean => {
     if (header.id === 'more-actions') {
         return true;
     }
@@ -50,9 +60,9 @@ export const isLastHeader = (
 };
 
 export const getCellContent = (cell: Cell<unknown, unknown>, onRenderError?: () => void) => (
-  <CellErrorBoundary onError={onRenderError}>
-      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-  </CellErrorBoundary>
+    <CellErrorBoundary onError={onRenderError}>
+        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+    </CellErrorBoundary>
 );
 
 export const getRowIndex = (allRows: any[], rowId: string): number => {
@@ -63,6 +73,7 @@ export const getRowIndex = (allRows: any[], rowId: string): number => {
 };
 
 export const getGroupValue = (row: any, groupByColumn: string) =>
-  row?.getVisibleCells?.()
-    ?.find((c: any) => c.column.id === groupByColumn)
-    ?.getValue();
+    row
+        ?.getVisibleCells?.()
+        ?.find((c: any) => c.column.id === groupByColumn)
+        ?.getValue();

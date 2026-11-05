@@ -158,9 +158,14 @@ export const isReservedKeyName = (name: string) => {
     return RESERVED_KEYS.includes(name);
 };
 
-
 // Main parsing function for populating a Digraph from a given step function JSON
-export const generateStepFunctionGraph = (json: any, graph: Digraph, connectFrom?: number, lastStateKey?: string, updateMetaData: boolean = true) => {
+export const generateStepFunctionGraph = (
+    json: any,
+    graph: Digraph,
+    connectFrom?: number,
+    lastStateKey?: string,
+    updateMetaData: boolean = true
+) => {
     let isLastNode = false;
 
     // Add the start node if we don't have any vertices yet. V is the vertex count in the graph
@@ -170,11 +175,11 @@ export const generateStepFunctionGraph = (json: any, graph: Digraph, connectFrom
 
     const nodeKeys = Object.keys(json.States);
     const nodes = nodeKeys
-        .filter(key => !isReservedKeyName(key))
+        .filter((key) => !isReservedKeyName(key))
         .map((key) => {
             if (updateMetaData) {
                 addMetadata('', key, json.States[key]);
-            };
+            }
 
             return {
                 [key]: json.States[key]
@@ -205,7 +210,7 @@ export const generateStepFunctionGraph = (json: any, graph: Digraph, connectFrom
         }
 
         // This is left open-ended as a switch to facilitate more types in the future that might need special handling
-         
+
         switch (node[key]['Type']) {
             case WorkFlowType.PARALLEL:
                 handleParallel(node, graph, addedVertex, lastNode);
@@ -233,7 +238,6 @@ export const generateStepFunctionGraph = (json: any, graph: Digraph, connectFrom
 
         const currentVertex = graph.getVertexByData(currentFindFn);
 
-         
         if (node[key]['Type'] === WorkFlowType.CHOICE) {
             const { Choices, Default } = node[key];
 
@@ -309,18 +313,18 @@ export const generateStepFunctionGraph = (json: any, graph: Digraph, connectFrom
 
             if (foundCatchVertex && typeof currentVertex === 'number') {
                 const catchData = graph.getDataByVertex(foundCatchVertex);
-                graph.setVertexData(
-                    {
-                        vertex: foundCatchVertex,
-                        data: {
-                            ...{ [catchNext]: {
+                graph.setVertexData({
+                    vertex: foundCatchVertex,
+                    data: {
+                        ...{
+                            [catchNext]: {
                                 ...catchData[catchNext],
-                                    Type: WorkFlowType.CATCH,
-                                    ErrorEquals: catchNode.ErrorEquals
-                            }}
+                                Type: WorkFlowType.CATCH,
+                                ErrorEquals: catchNode.ErrorEquals
+                            }
                         }
                     }
-                );
+                });
                 graph.addEdge(currentVertex, foundCatchVertex);
             }
         });

@@ -1,6 +1,6 @@
-import { type FC, useState, type ChangeEvent } from 'react';
-import RadioGroup from 'src/components/RadioGroup/RadioGroup';
+import { type ChangeEvent, type FC, useState } from 'react';
 import MinMaxInput from 'src/components/Filter/modules/DurationFilter/MinMaxInput';
+import RadioGroup from 'src/components/RadioGroup/RadioGroup';
 import { RadioGroupWrapper } from 'src/components/SpeedInput/speedInputStyles';
 
 export enum Mode {
@@ -31,42 +31,49 @@ const unitOptions = [
 
 export interface SpeedInputProps {
     /**
-    *  The value prop is assigned to 'VehicleSpeed', which is made up of a 'min', 'max' for the input values. A 'unit'(SPEED_UNITS) which is currently a toggle between 'kph', 'mph', or 'm/s²'. And 'mode' which uses 'minmax' for both input values. 
-    */
+     *  The value prop is assigned to 'VehicleSpeed', which is made up of a 'min', 'max' for the input values. A 'unit'(SPEED_UNITS) which is currently a toggle between 'kph', 'mph', or 'm/s²'. And 'mode' which uses 'minmax' for both input values.
+     */
     value: VehicleSpeed | null;
     /**
-    * The function that should run when a radio button is selected.
-    */
+     * The function that should run when a radio button is selected.
+     */
     onChange(speedRange: VehicleSpeed | null): void;
     /**
-    * Toggle true, to have speed units validated for selected unit.
-    */
+     * Toggle true, to have speed units validated for selected unit.
+     */
     unitConversionRequired: boolean;
     /**
-    * Toggle to accept negative input values or not.  
-    */
+     * Toggle to accept negative input values or not.
+     */
     allowNegativeInput: boolean;
     /**
-    * We can set our defaultUnits with (kilometersPerHour(kph), milesPerHour(mph), metersPerSecondSquared(m/s²)). 
-    * These values determine if the unitConversionRequired needs to validate the conversion or not.   
-    */
+     * We can set our defaultUnits with (kilometersPerHour(kph), milesPerHour(mph), metersPerSecondSquared(m/s²)).
+     * These values determine if the unitConversionRequired needs to validate the conversion or not.
+     */
     defaultUnits: SPEED_UNITS;
     /**
-    * If true, this prop will disable the radio buttons. 
-    */
+     * If true, this prop will disable the radio buttons.
+     */
     disabled: boolean;
 }
 type Output = null | {
-    min?: number,
-    max?: number
-}
+    min?: number;
+    max?: number;
+};
 /**
  *
- * The SpeedInput component takes in RadioGroup and MinMaxInput to create one component. 
- * This component is used for input values also to toggle between radio buttons to convert input to a range. 
+ * The SpeedInput component takes in RadioGroup and MinMaxInput to create one component.
+ * This component is used for input values also to toggle between radio buttons to convert input to a range.
  *
  */
-const SpeedInput: FC<SpeedInputProps> = ({ value, onChange, unitConversionRequired, allowNegativeInput, defaultUnits, disabled }) => {
+const SpeedInput: FC<SpeedInputProps> = ({
+    value,
+    onChange,
+    unitConversionRequired,
+    allowNegativeInput,
+    defaultUnits,
+    disabled
+}) => {
     const [unit, setUnit] = useState<string>(() => {
         if (unitConversionRequired) {
             return value && value.unit ? value.unit : defaultUnits;
@@ -105,13 +112,17 @@ const SpeedInput: FC<SpeedInputProps> = ({ value, onChange, unitConversionRequir
 
     return (
         <>
-            <MinMaxInput value={value} onChange={submitSearch} allowNegativeInput={allowNegativeInput} />
+            <MinMaxInput
+                value={value}
+                onChange={submitSearch}
+                allowNegativeInput={allowNegativeInput}
+            />
             {unitConversionRequired && (
                 <>
                     <div className='unitOfSpeed'>Unit of Speed</div>
                     <RadioGroupWrapper>
                         <RadioGroup
-                            name="SpeedUnits"
+                            name='SpeedUnits'
                             options={unitOptions}
                             value={unit}
                             disabled={disabled}

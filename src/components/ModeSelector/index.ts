@@ -1,4 +1,4 @@
-import ModeSelector, { type ModeSelectorProps, type ModeSelectorLegendRowProps } from './ModeSelector';
+import ModeSelector, { type ModeSelectorLegendRowProps, type ModeSelectorProps } from './ModeSelector';
 
-export type { ModeSelectorProps, ModeSelectorLegendRowProps };
+export type { ModeSelectorLegendRowProps, ModeSelectorProps };
 export default ModeSelector;

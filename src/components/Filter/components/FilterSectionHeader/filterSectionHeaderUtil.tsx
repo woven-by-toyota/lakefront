@@ -1,12 +1,23 @@
-import { FilterLabels, FilterValueChip } from './filterSectionHeaderStyles';
 import type { FilterModule } from 'src/components/Filter/types';
 import { ReactComponent as CloseIcon } from '../../../Modal/assets/closeIcon.svg';
+import { FilterLabels, FilterValueChip } from './filterSectionHeaderStyles';
 
 export const DEFAULT_FILTER_COUNT = 1;
 
-export const createChips = (values: string | string[], name: string, onClose?: (name: string, value: any) => void, label?: FilterModule<any>['label'], showX?: boolean, sectionValues?: string | string[]) => {
+export const createChips = (
+    values: string | string[],
+    name: string,
+    onClose?: (name: string, value: any) => void,
+    label?: FilterModule<any>['label'],
+    showX?: boolean,
+    sectionValues?: string | string[]
+) => {
     const chips = Array.isArray(values) ? values : [values];
-    const chipValues = Array.isArray(sectionValues) ? sectionValues : (sectionValues !== undefined ? [sectionValues] : undefined);
+    const chipValues = Array.isArray(sectionValues)
+        ? sectionValues
+        : sectionValues !== undefined
+          ? [sectionValues]
+          : undefined;
 
     if (!chips?.length) {
         return null;
@@ -19,13 +30,17 @@ export const createChips = (values: string | string[], name: string, onClose?: (
                     return null;
                 }
 
-                return <FilterValueChip key={`${content}-${idx}`}>
-                    <div>
-                        {content}
-                    </div>
-                    <FilterLabels>{label}</FilterLabels>
-                    {showX && onClose && <span onClick={() => onClose(name, chipValues?.[idx] ?? content)}><CloseIcon/></span>}
-                </FilterValueChip>;
+                return (
+                    <FilterValueChip key={`${content}-${idx}`}>
+                        <div>{content}</div>
+                        <FilterLabels>{label}</FilterLabels>
+                        {showX && onClose && (
+                            <span onClick={() => onClose(name, chipValues?.[idx] ?? content)}>
+                                <CloseIcon />
+                            </span>
+                        )}
+                    </FilterValueChip>
+                );
             })}
         </>
     );

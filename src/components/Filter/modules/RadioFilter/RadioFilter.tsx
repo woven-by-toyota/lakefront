@@ -1,5 +1,5 @@
+import type { FilterModule, RadioFilterOptions, RadioFilterProps } from 'src/components/Filter/types';
 import RadioGroup from 'src/components/RadioGroup/RadioGroup';
-import type { FilterModule, RadioFilterProps, RadioFilterOptions } from 'src/components/Filter/types';
 import { RadioGroupContainer } from './radioFilterStyles';
 
 /**

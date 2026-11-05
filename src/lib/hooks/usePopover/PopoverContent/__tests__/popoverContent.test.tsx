@@ -1,8 +1,8 @@
-import { type FC, useState } from 'react';
 import { render, within } from '@testing-library/react';
-import PopoverContent from '../PopoverContent';
+import { type FC, useState } from 'react';
 import usePopover from 'src/lib/hooks/usePopover';
 import * as usePopoverUtil from 'src/lib/hooks/usePopover/usePopoverUtil';
+import PopoverContent from '../PopoverContent';
 
 beforeAll(() => {
     jest.spyOn(usePopoverUtil, 'createObserver').mockImplementation(() => ({
@@ -13,7 +13,7 @@ beforeAll(() => {
         scrollMargin: '0px 0px 0px 0px',
         thresholds: [],
         disconnect: () => null,
-        takeRecords: () => [],
+        takeRecords: () => []
     }));
 });
 
@@ -42,8 +42,14 @@ const TestComponent: FC<TestComponentProps> = ({ renderInPortal, content, deps }
     };
 
     return (
-        <div id='popover-container' ref={popoverContainerMounted}>
-            <PopoverContent portal={portal} deps={deps}>
+        <div
+            id='popover-container'
+            ref={popoverContainerMounted}
+        >
+            <PopoverContent
+                portal={portal}
+                deps={deps}
+            >
                 <div>{content}</div>
             </PopoverContent>
         </div>
@@ -53,9 +59,7 @@ const TestComponent: FC<TestComponentProps> = ({ renderInPortal, content, deps }
 describe('PopoverContent', () => {
     describe('container behavior', () => {
         it('displays content in portal if portal is available', () => {
-            const { baseElement } = render(
-                <TestComponent {...PROPS} />
-            );
+            const { baseElement } = render(<TestComponent {...PROPS} />);
 
             const portalDiv = baseElement.querySelector('#portal-div') as HTMLDivElement;
             const popoverContainerDiv = baseElement.querySelector('#popover-container') as HTMLDivElement;
@@ -68,7 +72,10 @@ describe('PopoverContent', () => {
 
         it('displays content in closest parent (popover container) if portal is unavailable', () => {
             const { baseElement } = render(
-                <TestComponent {...PROPS} renderInPortal={false} />
+                <TestComponent
+                    {...PROPS}
+                    renderInPortal={false}
+                />
             );
 
             const portalDiv = baseElement.querySelector('#portal-div') as HTMLDivElement;
@@ -80,33 +87,41 @@ describe('PopoverContent', () => {
         });
     });
 
-   describe('content memoization', () => {
-       it('memoizes provided content', () => {
-           const { queryByText, rerender } = render(
-               <TestComponent {...PROPS} />
-           );
+    describe('content memoization', () => {
+        it('memoizes provided content', () => {
+            const { queryByText, rerender } = render(<TestComponent {...PROPS} />);
 
-           expect(queryByText('content')).toBeInTheDocument();
+            expect(queryByText('content')).toBeInTheDocument();
 
-           rerender(
-               <TestComponent {...PROPS} content='new content' />
-           );
+            rerender(
+                <TestComponent
+                    {...PROPS}
+                    content='new content'
+                />
+            );
 
-           expect(queryByText('content')).toBeInTheDocument();
-       });
+            expect(queryByText('content')).toBeInTheDocument();
+        });
 
-       it('updates memoized content when deps are updated', () => {
-           const { queryByText, rerender } = render(
-               <TestComponent {...PROPS} deps={['a']} />
-           );
+        it('updates memoized content when deps are updated', () => {
+            const { queryByText, rerender } = render(
+                <TestComponent
+                    {...PROPS}
+                    deps={['a']}
+                />
+            );
 
-           expect(queryByText('content')).toBeInTheDocument();
+            expect(queryByText('content')).toBeInTheDocument();
 
-           rerender(
-               <TestComponent {...PROPS} content='new content' deps={['b']} />
-           );
+            rerender(
+                <TestComponent
+                    {...PROPS}
+                    content='new content'
+                    deps={['b']}
+                />
+            );
 
-           expect(queryByText('new content')).toBeInTheDocument();
-       });
-   });
+            expect(queryByText('new content')).toBeInTheDocument();
+        });
+    });
 });

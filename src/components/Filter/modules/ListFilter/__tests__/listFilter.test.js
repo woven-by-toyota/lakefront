@@ -1,8 +1,8 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
+import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
-import ListFilter from '../ListFilter';
 import { listFilterOptions } from 'src/stories/Filter/ListFilter/listFilterUtil';
+import ListFilter from '../ListFilter';
 
 const options = [
     {
@@ -41,8 +41,10 @@ describe('ListFilter', () => {
 
     describe('getApiQueryUrl', () => {
         it('returns the proper url when initialValue and option values are equal', () => {
-            const { getApiQueryUrl } = ListFilter(options, '', '', { initialValue: options.map(initial => initial.value) });
-            const setValue = new Set(options.map(initial => initial.value));
+            const { getApiQueryUrl } = ListFilter(options, '', '', {
+                initialValue: options.map((initial) => initial.value)
+            });
+            const setValue = new Set(options.map((initial) => initial.value));
             expect(getApiQueryUrl('a', setValue)).toBe('&a=test+1&a=test+2');
         });
 
@@ -139,14 +141,18 @@ describe('ListFilter', () => {
         });
 
         it('returns true when value and initialValue are truthy', () => {
-            const { isDefaultFilterValue } = ListFilter(options, '', '', { initialValue: [options[0].value, options[1].value] });
+            const { isDefaultFilterValue } = ListFilter(options, '', '', {
+                initialValue: [options[0].value, options[1].value]
+            });
             const defaultValues = new Set(['test 1', 'test 2']);
 
             expect(isDefaultFilterValue(defaultValues)).toBe(true);
         });
 
         it('returns false when value and initialValue are falsy', () => {
-            const { isDefaultFilterValue } = ListFilter(options, '', '', { initialValue: [options[0].value, options[1].value] });
+            const { isDefaultFilterValue } = ListFilter(options, '', '', {
+                initialValue: [options[0].value, options[1].value]
+            });
             const defaultValues = new Set(['a', 'b']);
 
             expect(isDefaultFilterValue(defaultValues)).toBe(false);
@@ -279,7 +285,10 @@ describe('ListFilter', () => {
     describe('clearPartialSingleFilter', () => {
         // clearPartialSingleFilter now receives the underlying value (not the display label) --
         // this is the contract change that fixes chips whose label differs from their value.
-        const options = [{ value: 'a', label: 'A [b]' }, { value: 'b', label: 'B [a]' }];
+        const options = [
+            { value: 'a', label: 'A [b]' },
+            { value: 'b', label: 'B [a]' }
+        ];
         const { clearPartialSingleFilter } = ListFilter(options, '', '');
         const allOptions = new Set([options[0].value, options[1].value]);
 

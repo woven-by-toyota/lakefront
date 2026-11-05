@@ -1,13 +1,13 @@
 import {
-    formatNumber,
     addDistanceLabel,
     digitGroupSeparator,
     formatBytes,
-    humanize,
-    pascalToCamelCase,
-    formatLatLong,
     formatCelsiusTemperature,
-    humanizeCamelCase
+    formatLatLong,
+    formatNumber,
+    humanize,
+    humanizeCamelCase,
+    pascalToCamelCase
 } from '../format';
 
 describe('format', () => {
@@ -58,21 +58,21 @@ describe('format', () => {
     });
 
     describe('formatBytes', () => {
-        it ('should format to large tb', () => {
+        it('should format to large tb', () => {
             const largeTB = formatBytes(69531149402112);
 
             expect(largeTB.value).toBe('63.24');
             expect(largeTB.size).toBe('TB');
         });
 
-        it ('should show TB instead of GB', () => {
+        it('should show TB instead of GB', () => {
             const num = formatBytes(1099511496704);
 
             expect(num.value).toBe('1.00');
             expect(num.size).toBe('TB');
         });
 
-        it ('should still show TB instead of GB', () => {
+        it('should still show TB instead of GB', () => {
             const num = formatBytes(1099511627776);
 
             expect(num.value).toBe('1.00');

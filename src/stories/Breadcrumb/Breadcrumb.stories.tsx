@@ -1,9 +1,8 @@
-
-import type { ComponentPropsWithoutRef } from 'react';
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-import BreadcrumbHeaderComponent, { type BreadcrumbHeaderProps } from 'src/components/Breadcrumb';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import BreadcrumbHeaderComponent, { type BreadcrumbHeaderProps } from 'src/components/Breadcrumb';
 
 export default {
     title: 'Lakefront/Breadcrumb',
@@ -16,7 +15,6 @@ export default {
 } as Meta;
 
 const Template: StoryFn<BreadcrumbHeaderProps & ComponentPropsWithoutRef<'div'>> = (args) => {
-
     return (
         <MemoryRouter>
             <BreadcrumbHeaderComponent {...args} />
@@ -29,19 +27,18 @@ BreadcrumbHeaderStandalone.args = {
     routes: [
         { name: 'Overview', url: '/Overview' },
         { name: 'Details', url: '/Details' },
-        { name: 'Detail Overview', url: '/Details/DetailsOverview' },
+        { name: 'Detail Overview', url: '/Details/DetailsOverview' }
     ],
     standalone: true,
     hideRoutes: false
 };
-
 
 export const BreadcrumbHeader = Template.bind({});
 BreadcrumbHeader.args = {
     routes: [
         { name: 'Overview', url: '/Overview' },
         { name: 'Details', url: '/Details' },
-        { name: 'Detail Overview', url: '/Details/DetailsOverview' },
+        { name: 'Detail Overview', url: '/Details/DetailsOverview' }
     ],
     standalone: false,
     hideRoutes: false
@@ -52,7 +49,7 @@ BreadcrumbHeaderCustom.args = {
     routes: [
         { name: 'Overview', url: '/Overview' },
         { name: 'Details', url: '/Details' },
-        { name: 'Detail Overview', url: '/Details/DetailsOverview' },
+        { name: 'Detail Overview', url: '/Details/DetailsOverview' }
     ],
     standalone: true,
     hideRoutes: true,

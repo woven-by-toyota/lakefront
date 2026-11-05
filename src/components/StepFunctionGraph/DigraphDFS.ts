@@ -68,7 +68,7 @@ class DigraphDFS {
     validateVertex(v: number): void {
         const V: number = this.marked.length;
         if (v < 0 || v >= V) {
-            throw new Error(`vertex ${v} is not between 0 and ${(V - 1)}`);
+            throw new Error(`vertex ${v} is not between 0 and ${V - 1}`);
         }
     }
 
@@ -78,12 +78,14 @@ class DigraphDFS {
         exclusionArray: number[] = [],
         hasEndVertex = false
     ): number[][] {
-        const endVertex: number = paths.reduce((accum: number, path) => (
-            Math.max(...path) > accum ? Math.max(...path) : accum
-        ), 0);
-        const maxDepth: number = paths.reduce((accum: number, path) => (
-            path.filter(v => v !== endVertex).length > accum ? path.length : accum
-        ), 0);
+        const endVertex: number = paths.reduce(
+            (accum: number, path) => (Math.max(...path) > accum ? Math.max(...path) : accum),
+            0
+        );
+        const maxDepth: number = paths.reduce(
+            (accum: number, path) => (path.filter((v) => v !== endVertex).length > accum ? path.length : accum),
+            0
+        );
         const verticesAtDepth: number[][] = new Array(maxDepth).fill([]);
 
         for (let depth = 0; depth <= maxDepth; depth++) {
@@ -91,7 +93,11 @@ class DigraphDFS {
             for (let path = 0; path < paths.length; path++) {
                 const vertex = paths[path][depth];
 
-                if (typeof vertex !== 'undefined' && !(hasEndVertex && vertex === endVertex) && !uniqueVertices.includes(vertex)) {
+                if (
+                    typeof vertex !== 'undefined' &&
+                    !(hasEndVertex && vertex === endVertex) &&
+                    !uniqueVertices.includes(vertex)
+                ) {
                     uniqueVertices.push(vertex);
                 }
             }
@@ -102,9 +108,11 @@ class DigraphDFS {
         // The end vertex should be at its own depth
         hasEndVertex && verticesAtDepth.push([endVertex]);
 
-        return verticesAtDepth.map((depth: number[]) => {
-            return depth.filter(v => !exclusionArray.includes(v));
-        }).filter(depth => depth.length > 0);
+        return verticesAtDepth
+            .map((depth: number[]) => {
+                return depth.filter((v) => !exclusionArray.includes(v));
+            })
+            .filter((depth) => depth.length > 0);
     }
 }
 

@@ -1,8 +1,8 @@
 import { fireEvent } from '@testing-library/react';
-import { renderWithTheme as render } from 'src/lib/testing';
-import ModeSelector from '../ModeSelector';
 import * as Select from 'src/components/Select/Select';
+import { renderWithTheme as render } from 'src/lib/testing';
 import lakefrontColors from 'src/styles/lakefrontColors';
+import ModeSelector from '../ModeSelector';
 
 const PROPS = {
     title: 'Mode',
@@ -50,7 +50,12 @@ describe('ModeSelector', () => {
 
         it('calls provided callback with selected option on mode select', () => {
             const onModeSelect = jest.fn();
-            const { container } = render(<ModeSelector {...PROPS} onModeSelect={onModeSelect} />);
+            const { container } = render(
+                <ModeSelector
+                    {...PROPS}
+                    onModeSelect={onModeSelect}
+                />
+            );
 
             fireEvent.change(container.getElementsByTagName('select')[0], {
                 target: { value: '1' }
@@ -63,7 +68,12 @@ describe('ModeSelector', () => {
 
     describe('mode selector legend', () => {
         it('does not display if left undefined', () => {
-            const { container } = render(<ModeSelector {...PROPS} legend={undefined} />);
+            const { container } = render(
+                <ModeSelector
+                    {...PROPS}
+                    legend={undefined}
+                />
+            );
 
             expect(container.querySelector('.mode-selector-legend')).not.toBeInTheDocument();
         });

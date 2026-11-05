@@ -1,10 +1,7 @@
 import styled from '@emotion/styled';
+import type { GroupBase, StylesConfig } from 'react-select';
 import type { SelectOption } from 'src/types/global';
 import { ReactComponent as baselineExpandSvg } from './baseline-expand_more-24px.svg';
-import type {
-    StylesConfig,
-    GroupBase,
-} from 'react-select';
 
 export const SelectStyles = styled.div({
     select: {
@@ -20,9 +17,7 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
         flexWrap: undefined,
         display: 'flex',
         color: theme.foregrounds.primary,
-        backgroundColor: state.selectProps.isDisabled ?
-            theme.backgrounds.disabled :
-            theme.backgrounds.primary,
+        backgroundColor: state.selectProps.isDisabled ? theme.backgrounds.disabled : theme.backgrounds.primary,
         cursor: state.selectProps.isDisabled ? 'not-allowed' : 'pointer',
         alignItems: 'center',
         minWidth: 160,
@@ -66,9 +61,7 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
     option: (defaultStyles, state) => ({
         ...defaultStyles,
         alignItems: 'center',
-        color: state.selectProps.isDisabled ?
-            theme.foregrounds.disabled :
-            theme.foregrounds.primary,
+        color: state.selectProps.isDisabled ? theme.foregrounds.disabled : theme.foregrounds.primary,
         cursor: 'pointer',
         display: 'flex',
         ...theme.lettering.primary,
@@ -79,9 +72,7 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
         ...(state.isSelected && {
             backgroundColor: theme.backgrounds.primary,
             ':hover': {
-                backgroundColor: state.selectProps.isDisabled ?
-                    theme.backgrounds.primary :
-                    theme.backgrounds.hover,
+                backgroundColor: state.selectProps.isDisabled ? theme.backgrounds.primary : theme.backgrounds.hover,
                 cursor: state.selectProps.isDisabled ? 'not-allowed' : undefined
             }
         }),
@@ -91,9 +82,7 @@ export const getSelectOverlayStyles = (theme: any): SelectOverlayStyles => ({
     }),
     singleValue: (defaultStyles, state) => ({
         ...defaultStyles,
-        color: state.selectProps.isDisabled ?
-            theme.foregrounds.disabled :
-            theme.foregrounds.primary
+        color: state.selectProps.isDisabled ? theme.foregrounds.disabled : theme.foregrounds.primary
     }),
     multiValue: (defaultStyles) => ({
         ...defaultStyles,
@@ -134,6 +123,6 @@ export const SelectStyledComponent = styled.select(({ theme }) => ({
     backgroundPosition: '97% center',
     backgroundRepeat: 'no-repeat',
     svg: {
-      fill: theme.foregrounds.primary
+        fill: theme.foregrounds.primary
     }
 }));

@@ -14,7 +14,7 @@ describe('FilterValueChips', () => {
                 visible={false}
             />
         );
-        
+
         expect(queryByText(VALUE[0])).not.toBeInTheDocument();
     });
 
@@ -27,7 +27,7 @@ describe('FilterValueChips', () => {
                 visible
             />
         );
-        
+
         expect(queryByText(VALUE[0])).toBeInTheDocument();
     });
 

@@ -1,8 +1,7 @@
-import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import FilterPage from '../components/FilterPage';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { ListFilter as ListFilterFunction } from 'src/components/Filter/modules';
+import FilterPage from '../components/FilterPage';
 import ListFilterDocs, { LIST_FILTER_SOURCE_CODE, type ListFilterArgs } from './ListFilterDocs';
 import { listFilterOptions } from './listFilterUtil';
 
@@ -57,7 +56,7 @@ ListFilterOneInitialValue.args = {
     label: 'List Filter One Initial Value',
     description: 'ListFilter is a checkbox group control meant to be used for multiple filter value combinations.',
     listFilterOptions: {
-        initialValue: 'better',
+        initialValue: 'better'
     },
     options: [
         {

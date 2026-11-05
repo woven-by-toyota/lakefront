@@ -1,15 +1,21 @@
-import { type FC, type MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@emotion/react';
-
-import { generateStepFunctionGraph, WorkFlowType } from './StepFunctionUtil';
+import { type FC, type MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
+import resizeObserver from 'src/lib/hooks/resizeObserver.js';
+import throttled from 'src/lib/hooks/throttle.js';
+import { collides } from './canvasUtil';
 import Digraph from './Digraph';
 import DigraphDFS from './DigraphDFS';
 import { drawGraph } from './GraphRenderer';
-import resizeObserver from 'src/lib/hooks/resizeObserver.js';
-import throttled from 'src/lib/hooks/throttle.js';
 import type { NodeDimensions } from './GraphUtil';
-import { collides } from './canvasUtil';
-import { GraphControls, GraphContainer, StyledCanvas, StyledGpsFixedIcon, StyledAddIcon, StyledRemoveIcon } from './graphStyles';
+import {
+    GraphContainer,
+    GraphControls,
+    StyledAddIcon,
+    StyledCanvas,
+    StyledGpsFixedIcon,
+    StyledRemoveIcon
+} from './graphStyles';
+import { generateStepFunctionGraph, WorkFlowType } from './StepFunctionUtil';
 
 export interface GraphProps {
     /**
@@ -20,7 +26,12 @@ export interface GraphProps {
     /**
      * Handle a right-click on any drawn node. This can be used to configure a context menu.
      */
-    handleContextClickNode?(key: string, vertex: number, e: MouseEvent<HTMLCanvasElement>, ctx: CanvasRenderingContext2D): void;
+    handleContextClickNode?(
+        key: string,
+        vertex: number,
+        e: MouseEvent<HTMLCanvasElement>,
+        ctx: CanvasRenderingContext2D
+    ): void;
     /**
      * Action to run when a node context menu is closed.
      */
@@ -98,7 +109,7 @@ export const StepFunctionGraph: FC<GraphProps> = ({
     const [clickedNode, setClickedNode] = useState<NodeDimensions | null>(null);
     const [jsonHighlightedNode, setJsonHighlightedNode] = useState<NodeDimensions | null>(null);
     const clickHandler = useRef<any | null>(null);
-    const contextMenuHandler = useRef<(any | null)>(null);
+    const contextMenuHandler = useRef<any | null>(null);
 
     const graphRef = useRef<HTMLDivElement | null>(null);
     const initialDraw = useRef<boolean>(true);
@@ -115,12 +126,16 @@ export const StepFunctionGraph: FC<GraphProps> = ({
         }
     };
 
-    const handleContextMenuClick = (node: NodeDimensions | null, e: MouseEvent<HTMLCanvasElement>, ctx: CanvasRenderingContext2D) => {
+    const handleContextMenuClick = (
+        node: NodeDimensions | null,
+        e: MouseEvent<HTMLCanvasElement>,
+        ctx: CanvasRenderingContext2D
+    ) => {
         if (node) {
             const nodeData = graph.getDataByVertex(node.vertex);
             const [key] = Object.keys(nodeData);
 
-            typeof(handleContextClickNode) !== 'undefined' && handleContextClickNode(key, node.vertex, e, ctx);
+            typeof handleContextClickNode !== 'undefined' && handleContextClickNode(key, node.vertex, e, ctx);
         }
     };
 
@@ -171,7 +186,12 @@ export const StepFunctionGraph: FC<GraphProps> = ({
         };
     };
 
-    const getClickHandler = (drawn: Map<number, NodeDimensions>, ctx: CanvasRenderingContext2D, canvasRef: any, menuHandler = false) => {
+    const getClickHandler = (
+        drawn: Map<number, NodeDimensions>,
+        ctx: CanvasRenderingContext2D,
+        canvasRef: any,
+        menuHandler = false
+    ) => {
         // This function checks for any clicks inside the bounds of any drawn rectangles
         return function nodeClickHandler(e: any) {
             e.preventDefault();
@@ -235,7 +255,6 @@ export const StepFunctionGraph: FC<GraphProps> = ({
     );
 
     const calculateAndDraw = () => {
-        
         if (canvasContainer.current && json && json.States) {
             const { height, width } = canvasContainer.current.getBoundingClientRect();
             const ctx = canvasContainer.current.getContext('2d');
@@ -269,7 +288,11 @@ export const StepFunctionGraph: FC<GraphProps> = ({
                         // Remove any existing click handlers since this gets called a lot
                         if (clickHandler.current) {
                             canvasContainer.current.removeEventListener('click', clickHandler.current, false);
-                            canvasContainer.current.removeEventListener('contextmenu', contextMenuHandler.current, false);
+                            canvasContainer.current.removeEventListener(
+                                'contextmenu',
+                                contextMenuHandler.current,
+                                false
+                            );
                         }
 
                         clickHandler.current = getClickHandler(drawn, ctx, canvasContainer.current);
@@ -441,7 +464,10 @@ export const StepFunctionGraph: FC<GraphProps> = ({
     }, []);
 
     return (
-        <GraphContainer ref={graphRef} className={className}>
+        <GraphContainer
+            ref={graphRef}
+            className={className}
+        >
             <StyledCanvas ref={canvasContainer} />
             <GraphControls>
                 <div onClick={handleRecenter}>

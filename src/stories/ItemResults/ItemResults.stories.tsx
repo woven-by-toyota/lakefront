@@ -1,12 +1,10 @@
-
-import { type ComponentPropsWithoutRef, useState, useEffect, useRef } from 'react';
+import DocBlock from '.storybook/DocBlock';
 import type { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import Input from 'src/components/Input/Input';
+import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
 import Button from 'src/components/Button/Button';
+import Input from 'src/components/Input/Input';
 import ItemResultComponent, { type ItemResultsProps } from 'src/components/ItemResults';
 import { emerald } from 'src/styles/lakefrontColors';
-import DocBlock from '.storybook/DocBlock';
 
 export default {
     title: 'Lakefront/ItemResults',
@@ -60,8 +58,16 @@ const Template: StoryFn<ItemResultsProps & ComponentPropsWithoutRef<'div'>> = (a
             >
                 {showBanner && 'This notification is displayed when the Item Result value changes.'}
             </div>
-            Enter Data Length : <Input value={dataLengthValue} onChange={handleDataLengthChange} />
-            Enter Total Items :<Input value={totalItemsValue} onChange={handleTotalitemsChange} />
+            Enter Data Length :{' '}
+            <Input
+                value={dataLengthValue}
+                onChange={handleDataLengthChange}
+            />
+            Enter Total Items :
+            <Input
+                value={totalItemsValue}
+                onChange={handleTotalitemsChange}
+            />
             <Button onClick={clearValues}>Clear Value</Button>
             <br />
             <br />
@@ -70,8 +76,8 @@ const Template: StoryFn<ItemResultsProps & ComponentPropsWithoutRef<'div'>> = (a
             <br />
             <ItemResultComponent
                 dataLength={Number(dataLengthValue)}
-                totalItems={Number(totalItemsValue)} >
-            </ItemResultComponent>
+                totalItems={Number(totalItemsValue)}
+            ></ItemResultComponent>
         </div>
     );
 };

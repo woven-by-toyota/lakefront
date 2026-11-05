@@ -1,11 +1,11 @@
+import { cleanup, fireEvent, getAllByText, within } from '@testing-library/react';
 import React from 'react';
-import { fireEvent, cleanup, within, getAllByText } from '@testing-library/react';
+import * as FilterSectionHeader from 'src/components/Filter/components/FilterSectionHeader';
 import { renderWithTheme as render } from 'src/lib/testing';
 import { Filter } from '../Filter';
-import { FILTERS, LOCATION } from './filter.data';
-import { useFilter } from '../util';
-import * as FilterSectionHeader from 'src/components/Filter/components/FilterSectionHeader';
 import MultiSelectFilter from '../modules/MultiSelectFilter/MultiSelectFilter';
+import { useFilter } from '../util';
+import { FILTERS, LOCATION } from './filter.data';
 
 const mockUseFilter = jest.fn(useFilter);
 
@@ -16,8 +16,9 @@ beforeEach(() => {
 afterAll(cleanup);
 
 const mockBadges = () => {
-    jest.spyOn(FilterSectionHeader, 'default')
-        .mockImplementation(({ badgeThreshold }) => <div>badge: {badgeThreshold}</div>);
+    jest.spyOn(FilterSectionHeader, 'default').mockImplementation(({ badgeThreshold }) => (
+        <div>badge: {badgeThreshold}</div>
+    ));
 };
 
 const TestComponent = (props = {}) => {
@@ -25,16 +26,29 @@ const TestComponent = (props = {}) => {
     const updateHistory = jest.fn;
     const filterHooks = mockUseFilter(FILTERS, false, location, updateHistory);
 
-    return <Filter filterHooks={filterHooks} location={location} updateHistory={updateHistory} {...props} />;
+    return (
+        <Filter
+            filterHooks={filterHooks}
+            location={location}
+            updateHistory={updateHistory}
+            {...props}
+        />
+    );
 };
 
 const ContextSwitchMenu = ({ onChange, value, options }) => {
     return (
         <>
             <div>ContextSwitchMenu</div>
-            <select onChange={(e) => onChange(e.target.value)} value={value}>
+            <select
+                onChange={(e) => onChange(e.target.value)}
+                value={value}
+            >
                 {Array.from(options.entries()).map(([key, label]) => (
-                    <option key={key} value={key}>
+                    <option
+                        key={key}
+                        value={key}
+                    >
                         {label}
                     </option>
                 ))}
@@ -74,7 +88,7 @@ describe('Filter', () => {
         const { getByText } = render(<TestComponent />);
 
         const keywordSection = getByText(FILTERS.keywords.label).parentElement;
-    
+
         expect(keywordSection.querySelector('svg[aria-label="add"]')).toBeInTheDocument();
         expect(keywordSection.querySelector('svg[aria-label="remove"]')).not.toBeInTheDocument();
 
@@ -117,7 +131,12 @@ describe('Filter', () => {
 
     describe('when components are passed in', () => {
         it('displays the context switch menu when provided', () => {
-            const { getByText } = render(<TestComponent isJSONInputAllowed ContextSwitchMenu={ContextSwitchMenu} />);
+            const { getByText } = render(
+                <TestComponent
+                    isJSONInputAllowed
+                    ContextSwitchMenu={ContextSwitchMenu}
+                />
+            );
 
             getByText('ContextSwitchMenu');
         });
@@ -143,9 +162,15 @@ describe('Filter', () => {
         it('displays the JSON confirmation modal when provided', () => {
             const ContextSwitchMenu = ({ onChange, value, options }) => {
                 return (
-                    <select onChange={(e) => onChange(e.target.value)} value={value}>
+                    <select
+                        onChange={(e) => onChange(e.target.value)}
+                        value={value}
+                    >
                         {Array.from(options.entries()).map(([key, label]) => (
-                            <option key={key} value={key}>
+                            <option
+                                key={key}
+                                value={key}
+                            >
                                 {label}
                             </option>
                         ))}
@@ -183,7 +208,11 @@ describe('Filter', () => {
 
         it('displays the filter bar when provided', () => {
             const { getByText } = render(
-                <TestComponent isJSONInputAllowed FilterBar={FilterBar} hideFilterBar={false} />
+                <TestComponent
+                    isJSONInputAllowed
+                    FilterBar={FilterBar}
+                    hideFilterBar={false}
+                />
             );
 
             getByText('FilterBar');
@@ -192,17 +221,13 @@ describe('Filter', () => {
 
     describe('preset filter dropdown functionality', () => {
         it('does not display dropdown when there is not a filter mapping', () => {
-            const { container } = render(
-                <TestComponent  />
-            );
+            const { container } = render(<TestComponent />);
 
             expect(container.querySelector('select[aria-label="preset-filter-dropdown"]')).toBeNull();
         });
 
         it('does not display dropdown if the filter mapping is empty', () => {
-            const { container } = render(
-                <TestComponent  filterMapping={{}} />
-            );
+            const { container } = render(<TestComponent filterMapping={{}} />);
             expect(container.querySelector('select[aria-label="preset-filter-dropdown"]')).toBeNull();
         });
 
@@ -215,9 +240,7 @@ describe('Filter', () => {
                     phrases: ''
                 }
             };
-            const { container } = render(
-                <TestComponent filterMapping={filterMapping}/>
-            );
+            const { container } = render(<TestComponent filterMapping={filterMapping} />);
 
             expect(container.querySelector('select[aria-label="preset-filter-dropdown"]')).toBeInTheDocument();
         });
@@ -231,9 +254,7 @@ describe('Filter', () => {
                     phrases: 'hard'
                 }
             };
-            const { container, getAllByText } = render(
-                <TestComponent filterMapping={filterMapping}/>
-            );
+            const { container, getAllByText } = render(<TestComponent filterMapping={filterMapping} />);
             fireEvent.change(container.getElementsByTagName('select')[0], {
                 target: { value: 'prodMode' }
             });
@@ -244,7 +265,11 @@ describe('Filter', () => {
     describe('reset filters functionality', () => {
         it('displays a "Reset Filters" control in container after filter chips container', () => {
             const { container } = render(
-                <TestComponent isJSONInputAllowed FilterBar={FilterBar} hideFilterBar={false} />
+                <TestComponent
+                    isJSONInputAllowed
+                    FilterBar={FilterBar}
+                    hideFilterBar={false}
+                />
             );
 
             const filterChipsContainer = container.querySelector('.filter-chips-container');
@@ -267,7 +292,11 @@ describe('Filter', () => {
                 initializePresetValues: () => null
             });
             const { getByText } = render(
-                <TestComponent isJSONInputAllowed FilterBar={FilterBar} hideFilterBar={false} />
+                <TestComponent
+                    isJSONInputAllowed
+                    FilterBar={FilterBar}
+                    hideFilterBar={false}
+                />
             );
 
             expect(resetAllFilters).not.toHaveBeenCalled();
@@ -280,9 +309,7 @@ describe('Filter', () => {
     describe('badge display', () => {
         it('defaults to 1 as the threshold if left undefined', () => {
             mockBadges();
-            const { getAllByText } = render(
-                <TestComponent FilterBar={FilterBar} />
-            );
+            const { getAllByText } = render(<TestComponent FilterBar={FilterBar} />);
 
             expect(getAllByText('badge: 1')).toHaveLength(2);
         });
@@ -290,7 +317,10 @@ describe('Filter', () => {
         it('makes use of provided badge threshold', () => {
             mockBadges();
             const { getAllByText } = render(
-                <TestComponent FilterBar={FilterBar} badgeThreshold={4} />
+                <TestComponent
+                    FilterBar={FilterBar}
+                    badgeThreshold={4}
+                />
             );
 
             expect(getAllByText('badge: 4')).toHaveLength(2);
@@ -298,7 +328,7 @@ describe('Filter', () => {
     });
 
     describe('chip value clearing', () => {
-        it('removes only the clicked chip\'s value, by value rather than its (possibly reformatted) label', () => {
+        it("removes only the clicked chip's value, by value rather than its (possibly reformatted) label", () => {
             const statusOptions = [
                 { value: 'DMV_PROCESSING', label: 'Dmv Processing' },
                 { value: 'ACTIVE', label: 'Active' },
@@ -316,7 +346,13 @@ describe('Filter', () => {
 
             const TestComponentWithStatuses = () => {
                 const filterHooks = useFilter(FILTERS_WITH_STATUSES, false, location, updateHistory);
-                return <Filter filterHooks={filterHooks} location={location} updateHistory={updateHistory} />;
+                return (
+                    <Filter
+                        filterHooks={filterHooks}
+                        location={location}
+                        updateHistory={updateHistory}
+                    />
+                );
             };
 
             const { getByText, queryByText } = render(<TestComponentWithStatuses />);

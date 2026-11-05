@@ -1,11 +1,17 @@
+import { ThemeProvider } from '@emotion/react';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import BoundingBoxes from 'src/components/BoundingBoxes';
 import Loading from 'src/components/Loading/Loading';
 import resizeObserver from 'src/lib/hooks/resizeObserver.js';
-import { MaskableImageContainer, MaskedImage, LoadingSpinner, DisplayImage, HighlightedImageStyle, CheckOutlinedIconStyle }
-    from './maskableImageStyles';
-import { ThemeProvider } from '@emotion/react';
 import theme from 'src/styles/theme';
+import {
+    CheckOutlinedIconStyle,
+    DisplayImage,
+    HighlightedImageStyle,
+    LoadingSpinner,
+    MaskableImageContainer,
+    MaskedImage
+} from './maskableImageStyles';
 
 export interface ImageTagProps {
     id: number;
@@ -87,7 +93,7 @@ const transparentPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEA
 
 /**
  * Maskable Image Component
- *  
+ *
  * This Component is used to render an image. The image can be selected and highlighted. The showSpinnerOnLoad when set
  * to true will show the loading spinner until the image is loaded.
  */
@@ -134,14 +140,17 @@ const MaskableImage: FC<MaskableImageProps> = ({
         onSelect && onSelect(selectedState);
     };
 
-    const containerRef = useCallback((node: { getBoundingClientRect: () => { height: number; width: number; }; }) => {
-        if (node && boundingBoxTags) {
-            const { height, width } = node.getBoundingClientRect();
-            setBoundingBoxDimensions({ height, width });
-        }
+    const containerRef = useCallback(
+        (node: { getBoundingClientRect: () => { height: number; width: number } }) => {
+            if (node && boundingBoxTags) {
+                const { height, width } = node.getBoundingClientRect();
+                setBoundingBoxDimensions({ height, width });
+            }
 
-        setAllLoading(showSpinner || (showSpinnerOnLoad && !imageLoaded));
-    }, [imageLoaded, innerWidth, fullSizeDimensions, observedElement]);
+            setAllLoading(showSpinner || (showSpinnerOnLoad && !imageLoaded));
+        },
+        [imageLoaded, innerWidth, fullSizeDimensions, observedElement]
+    );
 
     useEffect(() => {
         const resizeCallback = (entries: any) => {
@@ -179,34 +188,35 @@ const MaskableImage: FC<MaskableImageProps> = ({
                 className={className}
                 heightToWidthRatio={heightToWidthRatio * 100 + '%'}
             >
-                {
-                    boundingBoxTags && imageLoaded && !allLoading && (
-                        <BoundingBoxes
-                            activeBBox=""
-                            boundingBoxItems={boundingBoxTags}
-                            imageWidth={fullSizeDimensions.width}
-                            imageHeight={fullSizeDimensions.height}
-                            outputWidth={boundingBoxDimensions.width}
-                            outputHeight={boundingBoxDimensions.height}
-                        />
-                    )
-                }
+                {boundingBoxTags && imageLoaded && !allLoading && (
+                    <BoundingBoxes
+                        activeBBox=''
+                        boundingBoxItems={boundingBoxTags}
+                        imageWidth={fullSizeDimensions.width}
+                        imageHeight={fullSizeDimensions.height}
+                        outputWidth={boundingBoxDimensions.width}
+                        outputHeight={boundingBoxDimensions.height}
+                    />
+                )}
 
-                {
-                    allLoading && (
-                        <LoadingSpinner>
-                            <Loading
-                                animated
-                                height={24}
-                                label="Loading"
-                                labelPosition="RIGHT"
-                                width={24}
-                            />
-                        </LoadingSpinner>
-                    )
-                }
-                <DisplayImage imageLoaded={imageLoaded} allLoading={allLoading} showSpinnerOnLoad={showSpinnerOnLoad}
-                    src={transparentPixel} alt='Loading' />
+                {allLoading && (
+                    <LoadingSpinner>
+                        <Loading
+                            animated
+                            height={24}
+                            label='Loading'
+                            labelPosition='RIGHT'
+                            width={24}
+                        />
+                    </LoadingSpinner>
+                )}
+                <DisplayImage
+                    imageLoaded={imageLoaded}
+                    allLoading={allLoading}
+                    showSpinnerOnLoad={showSpinnerOnLoad}
+                    src={transparentPixel}
+                    alt='Loading'
+                />
                 <MaskedImage
                     imageLoaded={imageLoaded}
                     allLoading={allLoading}
@@ -218,8 +228,13 @@ const MaskableImage: FC<MaskableImageProps> = ({
                 />
 
                 <HighlightedImageStyle highlighted={highlighted} />
-                <CheckOutlinedIconStyle onClick={handleIndividualSelection} selectable={selectable}
-                    selected={selected} hovered={hovered} individuallySelected={individuallySelected} />
+                <CheckOutlinedIconStyle
+                    onClick={handleIndividualSelection}
+                    selectable={selectable}
+                    selected={selected}
+                    hovered={hovered}
+                    individuallySelected={individuallySelected}
+                />
             </MaskableImageContainer>
         </ThemeProvider>
     );

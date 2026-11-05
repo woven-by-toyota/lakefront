@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const StyledStatusTracker = styled.div(({ theme }) => ({
     display: 'flex',
@@ -8,7 +8,7 @@ export const StyledStatusTracker = styled.div(({ theme }) => ({
     color: theme.foregrounds.primary,
     padding: '16px 0',
     gap: 16,
-    fontFamily: theme.lettering.h1.fontFamily,
+    fontFamily: theme.lettering.h1.fontFamily
 }));
 
 export const StatusNode = styled.div({
@@ -16,7 +16,7 @@ export const StatusNode = styled.div({
     flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    flexShrink: 0,
+    flexShrink: 0
 });
 
 export const StatusContent = styled.div({
@@ -25,7 +25,7 @@ export const StatusContent = styled.div({
     alignItems: 'center',
     gap: 8,
     position: 'relative',
-    maxWidth: 240,
+    maxWidth: 240
 });
 
 const pulseRing = keyframes`
@@ -122,7 +122,7 @@ export const StatusAboveDetails = styled.div<{ hasDetails: boolean }>(({ theme, 
     borderRadius: 4,
     backgroundColor: hasDetails ? theme.backgrounds.secondary : undefined,
     minHeight: hasDetails ? undefined : 34,
-    boxSizing: 'border-box',
+    boxSizing: 'border-box'
 }));
 
 export const StatusDescription = styled.div(({ theme }) => ({
@@ -134,7 +134,6 @@ export const StatusDescription = styled.div(({ theme }) => ({
     textOverflow: 'ellipsis',
     maxWidth: '100%',
     minHeight: 18
-
 }));
 
 const skeletonPulse = keyframes`
