@@ -1,4 +1,4 @@
 import ItemResults, { ItemResultsProps } from './ItemResults';
 
-export { ItemResultsProps };
+export { type ItemResultsProps };
 export default ItemResults;

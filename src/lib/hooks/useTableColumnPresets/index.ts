@@ -8,11 +8,11 @@ import useTableColumnPresets, {
 import createLocalStorageColumnPreferences from './localStorageColumnPreferences';
 
 export {
-  TableColumnPreferences,
-  TableColumnPreferencesOperation,
-  TableColumnPreferencesStorage,
-  UseTableColumnPresetsProps,
-  UseTableColumnPresetsResult,
+  type TableColumnPreferences,
+  type TableColumnPreferencesOperation,
+  type TableColumnPreferencesStorage,
+  type UseTableColumnPresetsProps,
+  type UseTableColumnPresetsResult,
   createLocalStorageColumnPreferences
 };
 export default useTableColumnPresets;

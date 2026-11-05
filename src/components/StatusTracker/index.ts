@@ -1,4 +1,4 @@
 import StatusTracker, { StatusTrackerProps, StatusItem } from './StatusTracker';
 
-export { StatusTrackerProps, StatusItem };
+export { type StatusTrackerProps, type StatusItem };
 export default StatusTracker;

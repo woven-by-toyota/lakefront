@@ -1,4 +1,4 @@
-import typescript from '@rollup/plugin-typescript';
+import swc from '@rollup/plugin-swc';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import del from 'rollup-plugin-delete';
@@ -8,6 +8,32 @@ import svgr from '@svgr/rollup';
 import terser from '@rollup/plugin-terser';
 import pkg from './package.json' with { type: 'json' };
 import { readFileSync, writeFileSync } from 'fs';
+import { execFileSync } from 'child_process';
+
+/*
+ * swc transpiles but emits no types, so tsc writes the .d.ts files. In writeBundle so it runs after
+ * del() has cleared dist and before addEmotionReference reads dist/index.d.ts, and guarded because
+ * writeBundle fires once per output.
+ */
+const emitDeclarations = () => {
+    let emitted = false;
+
+    return {
+        name: 'emit-declarations',
+        writeBundle() {
+            if (emitted) {
+                return;
+            }
+
+            emitted = true;
+            execFileSync(
+                process.execPath,
+                ['node_modules/typescript/bin/tsc', '-p', 'tsconfig.json', '--emitDeclarationOnly'],
+                { stdio: 'inherit' }
+            );
+        }
+    };
+};
 
 // Custom plugin to add emotion.d.ts reference to generated types
 const addEmotionReference = () => ({
@@ -54,16 +80,26 @@ export default [
             del({ targets: ['dist/*'] }),
             resolve({
                 extensions: ['.ts', '.tsx', '.js', '.jsx'],
-                // Support absolute imports from project root (matching tsconfig baseUrl)
+                // Support absolute imports from project root (matching the tsconfig paths entry)
                 moduleDirectories: ['node_modules', '.']
             }),
             commonjs(),
-            typescript({
-                tsconfig: './tsconfig.json',
-                exclude: ['node_modules/**', '**/*.d.ts', '**/*.d.mts', 'src/stories/**'],
-                outputToFilesystem: true,
-                compilerOptions: {
-                    noEmitOnError: false  // Continue building despite type errors
+            /*
+             * swc rather than @rollup/plugin-typescript, which destructures ts.ModuleKind at import
+             * time and TypeScript 7 no longer exposes it. Parser syntax comes from the file
+             * extension, so a .ts generic is not read as jsx.
+             */
+            swc({
+                exclude: 'node_modules/**',
+                swc: {
+                    jsc: {
+                        target: 'es2022',
+                        transform: {
+                            react: {
+                                runtime: 'automatic'
+                            }
+                        }
+                    }
                 }
             }),
             url(),
@@ -71,6 +107,7 @@ export default [
                 svgo: false  // Disable SVGO optimization to avoid plugin config issues
             }),
             terser(),
+            emitDeclarations(),
             copy({
                 targets: [
                     { src: 'src/emotion.d.ts', dest: 'dist' }

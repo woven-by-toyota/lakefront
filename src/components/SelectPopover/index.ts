@@ -1,4 +1,4 @@
 import SelectPopover, { SelectPopoverProps, SelectPopoverOption } from './SelectPopover';
 
-export { SelectPopoverProps, SelectPopoverOption };
+export { type SelectPopoverProps, type SelectPopoverOption };
 export default SelectPopover;

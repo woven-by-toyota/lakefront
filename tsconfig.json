@@ -14,6 +14,7 @@
 
     /* Strict Type-Checking Options */
     "strict": true,                                 /* Enable all strict type-checking options. */
+    "isolatedModules": true,                        /* swc transpiles a file at a time and cannot infer what is a type */
 
     /* Module Resolution Options */
     "moduleResolution": "bundler",                  /* Specify module resolution strategy */

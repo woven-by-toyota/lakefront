@@ -142,4 +142,4 @@ export { default as colors } from './styles/lakefrontColors';
 export { default as theme, DARK_THEME as darkTheme } from './styles/theme';
 
 // Global Types
-export { SelectOption, TabDef, LakefrontTheme } from './types/global';
+export { type SelectOption, type TabDef, type LakefrontTheme } from './types/global';

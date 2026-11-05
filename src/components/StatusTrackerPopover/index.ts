@@ -1,4 +1,4 @@
 import StatusTrackerPopover, { StatusTrackerPopoverProps } from './StatusTrackerPopover';
 
-export { StatusTrackerPopoverProps };
+export { type StatusTrackerPopoverProps };
 export default StatusTrackerPopover;

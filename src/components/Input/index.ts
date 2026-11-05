@@ -1,4 +1,4 @@
 import Input, { InputProps } from './Input';
 
-export { InputProps };
+export { type InputProps };
 export default Input;

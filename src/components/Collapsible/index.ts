@@ -1,4 +1,4 @@
 import Collapsible, { CollapsibleProps } from './Collapsible';
 
-export { CollapsibleProps };
+export { type CollapsibleProps };
 export default Collapsible;

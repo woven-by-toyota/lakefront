@@ -1,4 +1,4 @@
 import ConfirmationModal, { ConfirmationModalProps } from './ConfirmationModal';
 
-export { ConfirmationModalProps };
+export { type ConfirmationModalProps };
 export default ConfirmationModal;

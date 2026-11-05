@@ -1,4 +1,4 @@
 import RadioGroup, { RadioGroupProps } from './RadioGroup';
 
-export { RadioGroupProps };
+export { type RadioGroupProps };
 export default RadioGroup;

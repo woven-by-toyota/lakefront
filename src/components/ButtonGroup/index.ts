@@ -1,4 +1,4 @@
 import ButtonGroup, { ButtonGroupProps } from './ButtonGroup';
 
-export { ButtonGroupProps };
+export { type ButtonGroupProps };
 export default ButtonGroup;

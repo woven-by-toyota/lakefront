@@ -3,11 +3,11 @@ import CircularProgress, { CircularProgressProps } from './CircularProgress';
 import DeviceProgressBar, { DeviceProgressProps, DeviceProgressBarThreshold } from './DeviceProgressBar';
 
 export {
-    ProgressBarProps,
+    type ProgressBarProps,
     CircularProgress,
-    CircularProgressProps,
+    type CircularProgressProps,
     DeviceProgressBar,
-    DeviceProgressProps,
-    DeviceProgressBarThreshold
+    type DeviceProgressProps,
+    type DeviceProgressBarThreshold
 };
 export default ProgressBar;

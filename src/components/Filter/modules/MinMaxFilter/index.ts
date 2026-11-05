@@ -1,5 +1,5 @@
 import { MinMaxFilter, MinMaxFilterProps } from './MinMaxFilter';
 
-export { MinMaxFilterProps };
+export { type MinMaxFilterProps };
 
 export default MinMaxFilter;

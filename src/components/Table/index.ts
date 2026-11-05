@@ -4,13 +4,13 @@ import { TableColumnPreset, TableColumnPresetState } from './tableColumnPresetUt
 import { resolveCsvCellValue } from './tableDownloadUtils';
 
 export {
-  TableProps,
-  TableSortByOptions,
-  TableSettingsConfig,
-  GroupedRowsConfig,
-  TableColumnPreset,
-  TableColumnPresetState,
-  ColumnDef as TableColumn,
+  type TableProps,
+  type TableSortByOptions,
+  type TableSettingsConfig,
+  type GroupedRowsConfig,
+  type TableColumnPreset,
+  type TableColumnPresetState,
+  type ColumnDef as TableColumn,
   resolveCsvCellValue
 };
 export default Table;

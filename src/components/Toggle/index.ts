@@ -1,4 +1,4 @@
 import Toggle, { ToggleProps } from './Toggle';
 
-export { ToggleProps };
+export { type ToggleProps };
 export default Toggle;
