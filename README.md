@@ -68,8 +68,8 @@ ticket. Version 9 replaces the imperative table instance with a store and atoms 
 `getHeaderGroups`, `getAllLeafColumns` and `getState` are all gone, and those are what `Table.tsx` renders from.
 It also makes features opt-in, so `TableFeatures` becomes the first type argument on nearly every type and
 `ColumnDef` turns into a union of per-feature shapes. `ColumnDef` is re-exported from here as `TableColumn`, so
-the public surface is involved too. It needs a visual pass in Storybook and a `build-copy` check against
-`lakehouse-ui`, which renders this component in 86 files.
+the public surface is involved too, so it is a breaking change for anyone typing their columns with it. It
+needs a visual pass in Storybook and a `build-copy` check against a consuming application before release.
 
 ### Toolchain notes worth keeping
 Two constraints are easy to trip over when touching the build:
@@ -78,7 +78,7 @@ Two constraints are easy to trip over when touching the build:
   `biome check`, which covers lint, format and import order together; `npm run lint:fix` writes the fixes.
   Biome parses TypeScript itself, so linting is not tied to the compiler version the way ESLint was:
   typescript-eslint refuses TypeScript 7 outright, from a runtime guard, with no release or canary that
-  allows it. The config is lakehouse-ui's with two deliberate differences, both commented in the file.
+  allows it. Each non-default choice in the config carries a comment explaining itself.
 - **`isolatedModules` is required, not optional.** swc transpiles one file at a time and cannot tell an interface
   from a value, so every type re-export needs the inline `type` modifier. Removing the flag would let the build
   break at bundle time rather than at type-check time.

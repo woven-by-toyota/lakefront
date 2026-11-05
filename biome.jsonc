@@ -16,7 +16,7 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    // 4, unlike lakehouse-ui's 2: it is what 167 of this repo's 219 source files already use
+    // 4 is what 167 of this repo's 219 source files already used before the formatter arrived
     "indentWidth": 4,
     "lineWidth": 120
   },
@@ -25,7 +25,7 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        // on, unlike lakehouse-ui, to replace the react-hooks rule eslint-plugin-storybook gave us
+        // replaces the react-hooks rule eslint-plugin-storybook used to contribute
         "useHookAtTopLevel": "error",
         "useExhaustiveDependencies": {
           "level": "info",
@@ -49,7 +49,11 @@
         }
       },
       "a11y": {
-        // these four match lakehouse-ui, whose team already settled them
+        /*
+         * The first two are off because several components here are built on interactive divs,
+         * which the rules flag wholesale; replacing those is a design job, not a lint fix. The
+         * other two are warnings so that a genuine omission is visible without failing the run.
+         */
         "useKeyWithClickEvents": "off",
         "noStaticElementInteractions": "off",
         "useAltText": "warn",
