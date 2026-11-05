@@ -18,7 +18,9 @@ permissions:
 jobs:
   check_push_version_bump:
     name: 'Check Push Version Bump'
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    # Stops this job bumping its own bump commit. The marker is [bump] because GitHub acts on
+    # [skip ci] itself and would stop every other workflow from running on that commit too.
+    if: "!contains(github.event.head_commit.message, '[bump]')"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout source code"

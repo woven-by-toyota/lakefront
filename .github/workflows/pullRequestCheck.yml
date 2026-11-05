@@ -61,7 +61,9 @@ jobs:
         if: steps.check.outputs.changed == 'false'
         uses: ./.github/actions/bump-version
         with:
-          commit-range: ${{ github.event.pull_request.base.sha }}..${{ github.sha }}
+          # head.sha, not github.sha: on a pull_request event github.sha is the temporary merge commit
+          # under refs/pull, which checking out head_ref above does not fetch, so git cannot resolve it
+          commit-range: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
           ref: ${{ github.head_ref }}
           default-bump: 'patch'
           skip-tag: 'true'
