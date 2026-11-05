@@ -1,0 +1,88 @@
+name: Check Dependencies
+on:
+  workflow_dispatch:
+  schedule:
+    # every day at midnight
+    - cron: '0 0 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  # Shared with storybook.yml: both publish to gh-pages, and the Storybook deploy cleans the branch,
+  # so they must not run at the same time.
+  group: 'gh-pages-publish'
+  cancel-in-progress: false
+
+jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+    env:
+      APP_NAME: 'lakefront'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '26.x'
+
+      - name: Install packages
+        run: npm ci
+
+      # No --dep filter: the default covers devDependencies too, which is where most of the drift is.
+      - name: Run update checker
+        run: |
+          mkdir dep_report
+          npx --yes npm-check-updates --target latest --format group > dep_report/root.txt
+
+      - name: Generate report
+        run: |
+          node ./scripts/generate-outdated-report.js
+          rm dep_report/root.txt
+
+      # Kept alongside the Pages publish below so a failed publish still leaves the report somewhere.
+      - name: Upload report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-report
+          path: dep_report/
+          retention-days: 7
+
+      - name: Check out the pages branch
+        if: always()
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # Published with plain git rather than a publishing action: only actions under the actions/
+      # namespace run in this organisation. Touches dependencies/ alone, so the Storybook at the
+      # branch root is left as it is. The default GITHUB_TOKEN is used deliberately, because a push
+      # with any other token would trigger the workflows that watch this branch.
+      - name: Publish report to GitHub Pages
+        if: always()
+        working-directory: gh-pages
+        run: |
+          rm -rf dependencies
+          mkdir -p dependencies
+          cp -r ../dep_report/. dependencies/
+
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add dependencies
+
+          if git diff --cached --quiet; then
+            echo "no report changes to publish"
+            exit 0
+          fi
+
+          git commit -m 'Publish the dependency report'
+
+          # One rebase retry, in case the Storybook deploy landed on this branch in the meantime.
+          git push origin HEAD:gh-pages || {
+            git pull --rebase origin gh-pages
+            git push origin HEAD:gh-pages
+          }

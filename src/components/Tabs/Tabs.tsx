@@ -27,7 +27,11 @@ export interface TabProps {
  * The Tab Component is used to render multiple tabs. The onChange event is called whenever the user clicks a different tab.
  * The value will set the selection of the tab by default.
  */
-const Tabs: FC<TabProps & ComponentProps<'div'>> = ({
+/*
+ * The div's onChange is omitted so TabProps' own onChange is the only one. Intersecting the two makes
+ * onChange satisfy both a value handler and a DOM event handler at once, which nothing can.
+ */
+const Tabs: FC<TabProps & Omit<ComponentProps<'div'>, 'onChange'>> = ({
   options,
   value,
   onChange,

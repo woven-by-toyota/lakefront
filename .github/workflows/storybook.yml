@@ -8,6 +8,12 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  # Shared with dependency-check.yml: both publish to gh-pages and this one force-pushes it, so
+  # they must not run at the same time.
+  group: 'gh-pages-publish'
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -26,6 +32,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | # Force-push the built folder as the whole content of gh-pages
+          # The push below replaces the branch wholesale, so anything on it the Storybook build does
+          # not produce has to be carried across first. dependencies/ is the nightly report from
+          # dependency-check.yml, and is absent until that workflow has run once, hence the guards.
+          if git fetch --depth 1 origin gh-pages; then
+            git archive FETCH_HEAD dependencies | tar -x -C docs-build || true
+          fi
           cd docs-build
           git init -q
           git config user.name "github-actions[bot]"
