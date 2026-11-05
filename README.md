@@ -62,16 +62,24 @@ Review it **once per sprint**, at planning:
 3. Check the repository's security alerts as well. The report shows versions, not vulnerabilities, so it will not
    surface a CVE on a package that is otherwise current.
 
-### Majors the report will keep listing
-Four will stay on the report until something outside this repository changes. They are listed here so each sprint
-does not rediscover them:
+### The one major still outstanding
+`@tanstack/react-table` 9 is the only one left, and it is a rewrite rather than an upgrade, so it has its own
+ticket. Version 9 replaces the imperative table instance with a store and atoms model: `getRowModel`,
+`getHeaderGroups`, `getAllLeafColumns` and `getState` are all gone, and those are what `Table.tsx` renders from.
+It also makes features opt-in, so `TableFeatures` becomes the first type argument on nearly every type and
+`ColumnDef` turns into a union of per-feature shapes. `ColumnDef` is re-exported from here as `TableColumn`, so
+the public surface is involved too. It needs a visual pass in Storybook and a `build-copy` check against
+`lakehouse-ui`, which renders this component in 86 files.
 
-| Package | Why it is held |
-|---|---|
-| `typescript` 7 | `@rollup/plugin-typescript` destructures `ts.ModuleKind`, which 7 no longer exposes, so `rollup` fails before reading a file. 12.3.1 is the latest. `tsc` itself is clean on 7. |
-| `@babel/*` 8 | `babel-jest` and `@storybook/addon-webpack5-compiler-babel` both require `@babel/core` ^7, and they are the only things here that use Babel. |
-| `@tanstack/react-table` 9 | Restructures the APIs `Table.tsx` is built on. `lakehouse-ui` renders that component, so it needs its own ticket and a `build-copy` check against the consumer. |
-| `eslint` 10 | Needs the flat-config migration, `@typescript-eslint` 5 to 8, a `lint` script without the removed `--ext` flag, and the 95 existing errors under `src/stories` resolved. Worth considering Biome instead, which the other two repositories use. |
+### Toolchain notes worth keeping
+Two constraints are easy to trip over when touching the build:
+
+- **typescript-eslint cannot be used on TypeScript 7.** It throws from a runtime guard in both the meta package
+  and the parser, and no release or canary allows it. ESLint parses the TypeScript with `@babel/eslint-parser`
+  instead, through the preset in `babel.config.cjs`. That works because no type-aware rule is enabled.
+- **`isolatedModules` is required, not optional.** swc transpiles one file at a time and cannot tell an interface
+  from a value, so every type re-export needs the inline `type` modifier. Removing the flag would let the build
+  break at bundle time rather than at type-check time.
 
 Three high findings also have no published fix: `@storybook/builder-webpack5`, `@storybook/react-webpack5` and
 `webpack-dev-middleware`, all reached only through the Storybook dev server.
