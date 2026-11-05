@@ -1,4 +1,4 @@
-import { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef } from '@tanstack/react-table';
 import {
   getConfigurableColumnIds,
   getConfigurableColumnIdsFromDefs,
@@ -7,7 +7,7 @@ import {
   isPresetModified,
   MORE_ACTIONS_COLUMN_ID,
   presetToVisibility,
-  TableColumnPreset
+  type TableColumnPreset
 } from '../tableColumnPresetUtil';
 
 interface TestRow {

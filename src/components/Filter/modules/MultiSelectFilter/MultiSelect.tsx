@@ -1,8 +1,8 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect, type FC } from 'react';
 
-import Select, { OnChangeValue, components } from 'react-select';
+import Select, { type OnChangeValue, type components } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { SelectOption } from 'src/types/global';
+import type { SelectOption } from 'src/types/global';
 import { getMultiSelectStyles } from './multiSelectStyles';
 import { createUniqueOptions, getUniqueOptions, parseItems } from './multiSelectUtil';
 import { useTheme } from '@emotion/react';
@@ -10,6 +10,9 @@ import MultiValueInput from './MultiValueInput';
 import ThemeErrorFallback from 'src/components/shared/ThemeErrorFallback';
 
 export type MultiSelectOption = SelectOption<string>;
+
+// at module scope so react-select sees one identity rather than a new component every render
+const EmptyMenu = () => <></>;
 
 /**
  * `MultiSelectProps` are the props to be provided to the MultiSelect
@@ -77,12 +80,17 @@ export const MultiSelect: FC<MultiSelectProps> = ({
     const disabledMenuComponents = disableMenu
         ? {
             DropdownIndicator: null,
-            Menu: () => <></>
+            Menu: EmptyMenu
         }
         : {};
 
     const parseMultiValueComponents: Partial<typeof components> | undefined = delimiter
         ? {
+            /*
+             * biome-ignore lint/correctness/noComponentHookFactories: this closes over handleCreate,
+             * which is rebuilt every render along with the selectItem and setItems calls it makes, so
+             * giving it a stable identity means stabilising that whole chain first.
+             */
             Input: (props: any) => (
                 <MultiValueInput {...props} handleCreate={handleCreate} />
             )

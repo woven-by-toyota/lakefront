@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { FilterJSONConfirmationModalProps } from 'src/components/Filter/types';
+import type { FC } from 'react';
+import type { FilterJSONConfirmationModalProps } from 'src/components/Filter/types';
 import Button from 'src/components/Button/Button';
 import { ButtonWrapper, ModalContainer, ModalContent } from './filterJSONConfirmationModalStyles';
 

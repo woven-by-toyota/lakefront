@@ -2,8 +2,8 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import { humanize } from 'src/lib/format.js';
 import useTableColumnPresets from 'src/lib/hooks/useTableColumnPresets/useTableColumnPresets';
-import Table, { TableSettingsConfig } from '../Table';
-import { TableColumnPreset } from '../tableColumnPresetUtil';
+import Table, { type TableSettingsConfig } from '../Table';
+import type { TableColumnPreset } from '../tableColumnPresetUtil';
 
 const columns = [
   { header: 'TITLE', accessorKey: 'title', cell: ({ getValue }: any) => getValue() },

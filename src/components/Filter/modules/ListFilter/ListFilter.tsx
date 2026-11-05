@@ -1,6 +1,6 @@
 import { areSetsEqual, getUrlFromList } from 'src/components/Filter/util/filterUtil';
-import CheckboxGroup, { CheckboxGroupOption } from 'src/components/CheckboxGroup/CheckboxGroup';
-import { FilterModule, ListFilterOverrides } from 'src/components/Filter/types';
+import CheckboxGroup, { type CheckboxGroupOption } from 'src/components/CheckboxGroup/CheckboxGroup';
+import type { FilterModule, ListFilterOverrides } from 'src/components/Filter/types';
 
 export interface ListFilterOptions {
     allLabel?: string;

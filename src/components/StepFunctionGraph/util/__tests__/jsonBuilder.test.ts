@@ -2,8 +2,8 @@ import {
     convertToArrayPath,
     numberOrIdentity,
     JSONBuilderUtil,
-    JSONState,
-    StepFunctionJSON
+    type JSONState,
+    type StepFunctionJSON
 } from '../JSONBuilder.util';
 import { cleanup } from '@testing-library/react';
 import * as R from 'ramda';

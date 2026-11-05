@@ -1,4 +1,4 @@
-import { NodeDimensions } from './GraphUtil';
+import type { NodeDimensions } from './GraphUtil';
 import { Y_OFFSET } from './GraphRenderer';
 
 export const NODE_HEIGHT = 38;
@@ -237,7 +237,7 @@ const getLowestBarrierPoint = (from: Point, to: Point, drawn: Map<number, NodeDi
 
 // Gives a single number representing the distance from one point to another
 const calculateDistance = (from: Point, to: Point): number => {
-    return Math.sqrt(Math.pow(to.x - from.x, 2) + Math.pow(to.y - from.y, 2));
+    return Math.sqrt((to.x - from.x) ** 2 + (to.y - from.y) ** 2);
 };
 
 export const drawArrow = (

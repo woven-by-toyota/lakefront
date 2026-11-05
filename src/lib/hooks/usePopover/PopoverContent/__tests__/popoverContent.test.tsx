@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 import { render, within } from '@testing-library/react';
 import PopoverContent from '../PopoverContent';
 import usePopover from 'src/lib/hooks/usePopover';

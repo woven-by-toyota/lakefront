@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ModalProps } from './Modal';
+import type { ModalProps } from './Modal';
 
 const DIALOG_WIDTHS = {
     xs: '20%',

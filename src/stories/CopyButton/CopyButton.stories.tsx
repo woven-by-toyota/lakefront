@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import CopyButtonComponent, { CopyButtonProps } from 'src/components/CopyButton';
-import { ButtonComponentProps, COLORS } from 'src/components/Button/buttonUtil';
+import CopyButtonComponent, { type CopyButtonProps } from 'src/components/CopyButton';
+import { type ButtonComponentProps, COLORS } from 'src/components/Button/buttonUtil';
 import Input from 'src/components/Input/Input';
 import DocBlock from '.storybook/DocBlock';
 import { green, saturatedRed } from 'src/styles/lakefrontColors';

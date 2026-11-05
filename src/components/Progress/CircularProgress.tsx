@@ -1,4 +1,4 @@
-import { FC, ReactNode, useRef, useEffect } from 'react';
+import { type FC, type ReactNode, useRef, useEffect } from 'react';
 import { useTheme, Theme } from '@emotion/react';
 import { arc as d3arc, pie as d3pie } from 'd3-shape';
 import { select } from 'd3-selection';
@@ -50,10 +50,17 @@ interface PieData {
  *
  * The Circular Progress component is used to render the arcs depending on the value provided for each label.
  */
-const CircularProgress: FC<CircularProgressProps> = ({ width, text, data, theme: colorScheme, className }) => {
+const CircularProgress: FC<CircularProgressProps> = ({
+    width: widthProp,
+    text,
+    data,
+    theme: colorScheme,
+    className
+}) => {
     const emotionTheme = useTheme();
 
-    var width = Math.abs(width);
+    // the prop is renamed so this is a declaration rather than a var redeclaring the parameter
+    const width = Math.abs(widthProp);
     const svgRef = useRef<SVGSVGElement>(null);
     const htmlRef = useRef<HTMLDivElement>(null);
     const radius = width / 2;
@@ -92,7 +99,7 @@ const CircularProgress: FC<CircularProgressProps> = ({ width, text, data, theme:
                 return colorScheme[key] ? colorScheme[key].bgColor : 'transparent';
             })
             // have a mouse tooltip effect
-            .on('mouseover', function (event: PointerEvent, d: any) {
+            .on('mouseover', (event: PointerEvent, d: any) => {
                 if (d.data.tooltip === undefined || d.data.tooltip === true) {
                     div.transition()
                         .duration(200)
@@ -102,7 +109,7 @@ const CircularProgress: FC<CircularProgressProps> = ({ width, text, data, theme:
                         .style('top', `${event.pageY - 28}px`);
                 }
             })
-            .on('mouseout', function (d: any) {
+            .on('mouseout', (d: any) => {
                 div.transition()
                     .duration(500)
                     .style('opacity', 0);

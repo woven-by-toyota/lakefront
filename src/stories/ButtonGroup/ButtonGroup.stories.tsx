@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, useState, MouseEventHandler } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import ButtonGroupComponent, { ButtonGroupProps } from 'src/components/ButtonGroup';
-import Button, { ButtonProps } from 'src/components/Button';
+import { type ComponentPropsWithoutRef, useState, type MouseEventHandler } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import ButtonGroupComponent, { type ButtonGroupProps } from 'src/components/ButtonGroup';
+import Button, { type ButtonProps } from 'src/components/Button';
 import colors from 'src/styles/lakefrontColors';
 
 export default {

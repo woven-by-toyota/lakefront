@@ -1,7 +1,7 @@
 
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import PropertyListComponent, { PropertyListProps, Property } from 'src/components/PropertyList';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import PropertyListComponent, { type PropertyListProps, type Property } from 'src/components/PropertyList';
 import DocBlock from '.storybook/DocBlock';
 export default {
     title: 'Lakefront/PropertyList',

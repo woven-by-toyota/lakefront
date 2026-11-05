@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react';
+import React, { type ReactElement } from 'react';
 import { ReactComponent as Flag } from './assets/flag.svg';
-import { Theme } from '@emotion/react';
+import type { Theme } from '@emotion/react';
 
 export const NORMAL_SEVERITY = 'normal';
 export const WARNING_SEVERITY = 'warning';

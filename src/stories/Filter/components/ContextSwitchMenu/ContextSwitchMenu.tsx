@@ -1,6 +1,6 @@
-import { FC, useState } from 'react';
-import SelectPopover, { SelectPopoverOption } from 'src/components/SelectPopover/SelectPopover';
-import { ContextSwitchMenuProps } from 'src/components/Filter/types';
+import { type FC, useState } from 'react';
+import SelectPopover, { type SelectPopoverOption } from 'src/components/SelectPopover/SelectPopover';
+import type { ContextSwitchMenuProps } from 'src/components/Filter/types';
 import { ButtonLabel, ContextSwitchContainer, DropdownButton } from './contextSwitchMenuStyles';
 import { ReactComponent as DownArrow } from '../assets/downArrow.svg';
 

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import { DividerRow } from './statusTableStyles';
 import { ThemeProvider } from '@emotion/react';
 import theme from 'src/styles/theme';

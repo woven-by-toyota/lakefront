@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { ListFilterOverrides } from 'src/components/Filter/types';
+import type { FC } from 'react';
+import type { ListFilterOverrides } from 'src/components/Filter/types';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
-import { ListFilterOptions } from 'src/components/Filter/modules/ListFilter/ListFilter';
-import { CheckboxGroupOption } from 'src/components/CheckboxGroup/CheckboxGroup';
+import type { ListFilterOptions } from 'src/components/Filter/modules/ListFilter/ListFilter';
+import type { CheckboxGroupOption } from 'src/components/CheckboxGroup/CheckboxGroup';
 
 export interface ListFilterArgs {
     /**

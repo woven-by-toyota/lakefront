@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import queryString from 'query-string';
 
 import { AdditionalJSONFilter } from '../modules';
-import { FilterHooks, FilterPostBody, FilterSet, FilterValues, Location, UpdateHistory } from '../types';
+import type { FilterHooks, FilterPostBody, FilterSet, FilterValues, Location, UpdateHistory } from '../types';
 import { USER_JSON_QUERY_PARAM } from './filterUtil';
 import {
     getApiQueryUrl,
@@ -50,8 +50,7 @@ export const useFilter = <T extends FilterPostBody>(
         const splitFilters = Object
           .values(filters)
           .filter(filter => filter.splitQueryParams)
-          .map(filter => filter.splitQueryParams)
-          .flat() as string[];
+          .flatMap(filter => filter.splitQueryParams) as string[];
         const nonFilterQueryParams = getCurrentBrowserQueryParams(location, [...Object.keys(filters), ...splitFilters]);
         const filterQueryParams = getFilterBrowserQueryParams(filters, values);
         const newQueryParams = { ...nonFilterQueryParams, ...filterQueryParams };

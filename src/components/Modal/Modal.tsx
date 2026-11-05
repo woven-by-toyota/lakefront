@@ -1,11 +1,11 @@
-import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { type FC, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
 import Button from 'src/components/Button/Button';
 import theme from 'src/styles/theme';
 import {
   Dialog, DialogButtonContainer, DialogContainer, DialogContent, DialogDivider, DialogSubHeader, DialogTitleContainer
 } from './modalStyles';
-import usePopover, { PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
+import usePopover, { type PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
 
 export const CANCEL_BUTTON_TEXT = 'Cancel';
 

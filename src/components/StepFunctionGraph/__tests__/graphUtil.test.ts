@@ -16,8 +16,8 @@ import {
     getRange,
     isInParallel,
     isSameLevelType,
-    MountingPoints,
-    NodeDimensions,
+    type MountingPoints,
+    type NodeDimensions,
     redrawNode
 } from '../GraphUtil';
 import * as CanvasUtilModule from '../canvasUtil';
@@ -521,7 +521,7 @@ describe('graphUtil', () => {
         });
     });
 
-    describe('getDrawnRangeMiddleX', function () {
+    describe('getDrawnRangeMiddleX', () => {
         const json = new JSONBuilderUtil()
             .addTask('StartNode', 'ParallelNode')
             .addParallel('ParallelNode', [

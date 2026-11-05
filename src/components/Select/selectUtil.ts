@@ -1,5 +1,5 @@
-import { SelectProps } from 'src/components/Select/Select';
-import { ComponentProps } from 'react';
+import type { SelectProps } from 'src/components/Select/Select';
+import type { ComponentProps } from 'react';
 
 // Keys of native select attributes to be extracted from props
 // This is not exhaustive of all native select attributes, only a few common ones

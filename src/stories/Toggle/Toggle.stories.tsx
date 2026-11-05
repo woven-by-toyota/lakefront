@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import DocBlock from '.storybook/DocBlock';
-import ToggleComponent, { ToggleProps } from 'src/components/Toggle/Toggle';
-import { SelectOption } from 'src/types/global';
+import ToggleComponent, { type ToggleProps } from 'src/components/Toggle/Toggle';
+import type { SelectOption } from 'src/types/global';
 
 export default {
     title: 'Lakefront/Toggle',

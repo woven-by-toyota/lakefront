@@ -1,6 +1,6 @@
 import { getUrlFromList } from 'src/components/Filter/util/filterUtil';
 import MultiSelect from './MultiSelect';
-import { FilterModule, MultiSelectFilterProps, MultiSelectFilterOptions } from 'src/components/Filter/types';
+import type { FilterModule, MultiSelectFilterProps, MultiSelectFilterOptions } from 'src/components/Filter/types';
 
 const INITIAL_VALUE: [] = [];
 

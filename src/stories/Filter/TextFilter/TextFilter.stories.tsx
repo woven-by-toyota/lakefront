@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage from '../components/FilterPage';
-import TextFilterDocs, { TextFilterArgs, TEXT_FILTER_SOURCE_CODE } from './TextFilterDocs';
+import TextFilterDocs, { type TextFilterArgs, TEXT_FILTER_SOURCE_CODE } from './TextFilterDocs';
 import DocBlock from '.storybook/DocBlock';
 import { TextFilter as TextFilterFunction } from 'src/components/Filter/modules';
 

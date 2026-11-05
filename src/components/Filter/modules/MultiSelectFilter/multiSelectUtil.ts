@@ -1,4 +1,4 @@
-import { MultiSelectOption } from './MultiSelect';
+import type { MultiSelectOption } from './MultiSelect';
 import * as R from 'ramda';
 
 export const createOption = (label: string): MultiSelectOption => ({

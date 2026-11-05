@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage from '../components/FilterPage';
-import DurationFilterDocs, { DurationFilterArgs, DURATION_FILTER_SOURCE_CODE } from './DurationFilterDocs';
+import DurationFilterDocs, { type DurationFilterArgs, DURATION_FILTER_SOURCE_CODE } from './DurationFilterDocs';
 import DocBlock from '.storybook/DocBlock';
 import { DurationFilter as DurationFilterFunction } from 'src/components/Filter/modules';
 

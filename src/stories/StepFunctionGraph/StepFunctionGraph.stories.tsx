@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import DocBlock from '.storybook/DocBlock';
-import StepFunctionGraph, { GraphProps } from 'src/components/StepFunctionGraph/Graph';
+import StepFunctionGraph, { type GraphProps } from 'src/components/StepFunctionGraph/Graph';
 import { choiceJson, mapInMap, longJson, simpleJson, complexJson } from './stepFunctionGraphData';
 import { useState } from 'react';
 

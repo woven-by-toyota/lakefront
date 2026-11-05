@@ -1,7 +1,7 @@
 import {
-  ComponentPropsWithoutRef,
-  FC,
-  ReactElement,
+  type ComponentPropsWithoutRef,
+  type FC,
+  type ReactElement,
   useState
 } from 'react';
 import { StyledCollapsible } from './collapsibleStyles';

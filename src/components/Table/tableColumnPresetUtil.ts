@@ -1,4 +1,4 @@
-import { Column, ColumnDef, VisibilityState } from '@tanstack/react-table';
+import type { Column, ColumnDef, VisibilityState } from '@tanstack/react-table';
 
 /**
  * A named set of columns that can be applied to the table in one click.

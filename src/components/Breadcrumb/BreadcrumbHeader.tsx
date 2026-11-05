@@ -1,7 +1,7 @@
-import { FC, ReactNode, RefAttributes } from 'react';
-import Breadcrumb, { RouteProp } from './Breadcrumb';
+import type { FC, ReactNode, RefAttributes } from 'react';
+import Breadcrumb, { type RouteProp } from './Breadcrumb';
 import { Container, Content } from './breadcrumbStyles';
-import { LinkProps } from 'react-router-dom';
+import type { LinkProps } from 'react-router-dom';
 
 export interface BreadcrumbHeaderProps {
     /**

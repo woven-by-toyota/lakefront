@@ -1,4 +1,4 @@
-import { ElementType, FC, ReactElement } from 'react';
+import type { ElementType, FC, ReactElement } from 'react';
 import { StyledLoadingContainer } from './loadingStyles';
 import { displayIcon, iconOptions } from './loadingUtil';
 

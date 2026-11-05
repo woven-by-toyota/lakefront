@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import {
+import type { FC } from 'react';
+import type {
     DoubleMultiSelectFilterOptions,
     DoubleMultiSelectFilterProps
 } from 'src/components/Filter/types';

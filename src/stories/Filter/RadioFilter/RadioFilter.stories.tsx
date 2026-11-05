@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage from '../components/FilterPage';
-import RadioFilterDocs, { RadioFilterArgs, RADIO_FILTER_SOURCE_CODE } from './RadioFilterDocs';
+import RadioFilterDocs, { type RadioFilterArgs, RADIO_FILTER_SOURCE_CODE } from './RadioFilterDocs';
 import DocBlock from '.storybook/DocBlock';
 import { RadioFilter as RadioFilterFunction } from 'src/components/Filter/modules';
 

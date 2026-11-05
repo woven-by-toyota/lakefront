@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CheckboxProps } from './Checkbox';
+import type { CheckboxProps } from './Checkbox';
 
 interface StyledLabelProps {
   disabled?: boolean;

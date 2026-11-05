@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { lightenDarkenColor } from 'src/styles/stylesUtil';
-import { ButtonComponentProps, ComponentStyles, getTintedBackgroundColor } from './buttonUtil';
-import { css, Theme } from '@emotion/react';
+import { type ButtonComponentProps, type ComponentStyles, getTintedBackgroundColor } from './buttonUtil';
+import { css, type Theme } from '@emotion/react';
 import { getIconStyles } from './iconButtonVariants';
 
 // Helper function to determine if a color is light or dark

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { act, render, renderHook } from '@testing-library/react';
 import usePopover from '..';
-import { UsePopoverProps } from '../usePopover';
+import type { UsePopoverProps } from '../usePopover';
 import * as usePopoverUtil from '../usePopoverUtil';
 
 const TestComponent = (props: Omit<UsePopoverProps, 'popoverContainer'>) => {

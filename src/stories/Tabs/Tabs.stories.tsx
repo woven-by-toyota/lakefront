@@ -1,8 +1,8 @@
 
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import TabComponent, { TabProps } from 'src/components/Tabs';
+import TabComponent, { type TabProps } from 'src/components/Tabs';
 import DocBlock from '.storybook/DocBlock';
 
 export default {

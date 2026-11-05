@@ -1,19 +1,19 @@
-import React, { ComponentPropsWithoutRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { type ComponentPropsWithoutRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
   getExpandedRowModel,
   flexRender,
-  SortingState,
-  ColumnDef,
-  ColumnSort,
-  Column,
-  ExpandedState,
-  Row,
-  TableOptions,
-  VisibilityState,
-  ColumnSizingState
+  type SortingState,
+  type ColumnDef,
+  type ColumnSort,
+  type Column,
+  type ExpandedState,
+  type Row,
+  type TableOptions,
+  type VisibilityState,
+  type ColumnSizingState
 } from '@tanstack/react-table';
 import {
   ColumnResizeHandle,
@@ -26,7 +26,7 @@ import {
   TableStyle
 } from './tableStyles';
 import { getSortBySVG, getTitleForMultiSort, isLastHeader } from './tableUtil';
-import { MenuItem } from '../ContextMenu';
+import type { MenuItem } from '../ContextMenu';
 import TableRow from './TableRow';
 import { MoreActionsButton } from '../../index';
 import { useRowHover } from './RowHoverContext';
@@ -40,8 +40,8 @@ import {
   getVisibleColumnIds,
   isPresetModified,
   presetToVisibility,
-  TableColumnPreset,
-  TableColumnPresetState
+  type TableColumnPreset,
+  type TableColumnPresetState
 } from './tableColumnPresetUtil';
 
 export interface TableSortByOptions {
@@ -464,7 +464,11 @@ const Table: React.FC<TableProps> = ({
           header: '',
           enableSorting: false,
           cell: ({ row }: { row: any }) => {
-            // hook to get the hover state for this specific row
+            /*
+             * biome-ignore lint/correctness/useHookAtTopLevel: react-table renders a cell through
+             * flexRender, which calls this as a component, so the hook does run at a component's top
+             * level even though the rule cannot see that through the column definition.
+             */
             const isHovered = useRowHover();
             // Determine if the button should be visible
             const isButtonVisible = !moreActionsConfig?.visibleOnHover || isHovered;

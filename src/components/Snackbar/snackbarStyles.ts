@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Button from 'src/components/Button/Button';
-import { generateAnchorOrigin, SnackbarOrigin } from './Snackbar.util';
+import { generateAnchorOrigin, type SnackbarOrigin } from './Snackbar.util';
 import { lightenDarkenColor } from 'src/styles/stylesUtil';
 
 export const TRANSITION_CLOSE_TIME = 0;

@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, useState, useRef, useEffect } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState, useRef, useEffect } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import PlaybackBarComponent, { PlaybackBarProps } from 'src/components/PlaybackBar';
+import PlaybackBarComponent, { type PlaybackBarProps } from 'src/components/PlaybackBar';
 import DocBlock from '.storybook/DocBlock';
 import { emerald } from 'src/styles/lakefrontColors';
 
@@ -66,7 +66,7 @@ const Template: StoryFn<PlaybackBarProps & ComponentPropsWithoutRef<'div'>> = (a
                 setSlider={handleSetSlider}>
             </PlaybackBarComponent>
             {args.highlights.map(highlight => {
-                return (<div style={{ textAlign: 'center' }}>
+                return (<div key={`${highlight.start}-${highlight.end}`} style={{ textAlign: 'center' }}>
                     <b>Start Index:</b><span> {highlight.start}</span>&nbsp;
                     <b>End Index:</b><span> {highlight.end}</span>&nbsp;
                     <b>Playback:</b><span> {highlight.playback ? 'True' : 'False'}</span>

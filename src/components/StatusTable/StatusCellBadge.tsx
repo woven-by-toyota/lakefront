@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { humanize } from 'src/lib/format.js';
 import { Status } from './StatusRow';
 import { StatusCellBadgeStyle } from './statusTableStyles';

@@ -1,4 +1,5 @@
-import React, { ReactNode, RefCallback, useCallback, useState } from 'react';
+import type React from 'react';
+import { type ReactNode, type RefCallback, useCallback, useState } from 'react'
 import { ItemGridContainer } from './itemGridStyles';
 
 export interface ItemGridProps {

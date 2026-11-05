@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage from '../components/FilterPage';
-import AdditionalJSONFilterDocs, { AdditionalJSONFilterArgs, ADDITIONAL_JSON_SELECT_FILTER_SOURCE_CODE } from './AdditionalJSONFilterDocs';
+import AdditionalJSONFilterDocs, { type AdditionalJSONFilterArgs, ADDITIONAL_JSON_SELECT_FILTER_SOURCE_CODE } from './AdditionalJSONFilterDocs';
 import DocBlock from '.storybook/DocBlock';
 import { AdditionalJSONFilter as AdditionalJSONFilterFunction } from 'src/components/Filter/modules';
 

@@ -3,7 +3,7 @@ import { renderWithTheme as render } from 'src/lib/testing';
 import DoubleMultiSelect from '../DoubleMultiSelect';
 
 describe('DoubleMultiSelect', () => {
-    let onChange = jest.fn();
+    const onChange = jest.fn();
     const defaultValues = {
         firstSelect: [],
         secondSelect: []

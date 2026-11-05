@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { type FC, type MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@emotion/react';
 
 import { generateStepFunctionGraph, WorkFlowType } from './StepFunctionUtil';
@@ -7,7 +7,7 @@ import DigraphDFS from './DigraphDFS';
 import { drawGraph } from './GraphRenderer';
 import resizeObserver from 'src/lib/hooks/resizeObserver.js';
 import throttled from 'src/lib/hooks/throttle.js';
-import { NodeDimensions } from './GraphUtil';
+import type { NodeDimensions } from './GraphUtil';
 import { collides } from './canvasUtil';
 import { GraphControls, GraphContainer, StyledCanvas, StyledGpsFixedIcon, StyledAddIcon, StyledRemoveIcon } from './graphStyles';
 

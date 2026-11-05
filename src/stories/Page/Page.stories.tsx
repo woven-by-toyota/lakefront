@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import PageComponent, { PageProps } from 'src/components/Page/Page';
+import PageComponent, { type PageProps } from 'src/components/Page/Page';
 import HeaderComponent from 'src/components/Page/Header';
 import DocBlock from '.storybook/DocBlock';
 import FilterPageWithCollapse from '../Filter/components/FilterPage/FilterPageWithCollapse';

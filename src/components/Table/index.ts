@@ -1,6 +1,6 @@
-import { ColumnDef } from '@tanstack/react-table';
-import Table, { TableProps, TableSortByOptions, TableSettingsConfig, GroupedRowsConfig } from './Table';
-import { TableColumnPreset, TableColumnPresetState } from './tableColumnPresetUtil';
+import type { ColumnDef } from '@tanstack/react-table';
+import Table, { type TableProps, type TableSortByOptions, type TableSettingsConfig, type GroupedRowsConfig } from './Table';
+import type { TableColumnPreset, TableColumnPresetState } from './tableColumnPresetUtil';
 import { resolveCsvCellValue } from './tableDownloadUtils';
 
 export {

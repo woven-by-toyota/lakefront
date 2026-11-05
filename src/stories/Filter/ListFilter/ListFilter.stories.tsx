@@ -1,9 +1,9 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage from '../components/FilterPage';
 import DocBlock from '.storybook/DocBlock';
 import { ListFilter as ListFilterFunction } from 'src/components/Filter/modules';
-import ListFilterDocs, { LIST_FILTER_SOURCE_CODE, ListFilterArgs } from './ListFilterDocs';
+import ListFilterDocs, { LIST_FILTER_SOURCE_CODE, type ListFilterArgs } from './ListFilterDocs';
 import { listFilterOptions } from './listFilterUtil';
 
 export default {

@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { IconComponentProps } from './buttonUtil';
+import type { FC } from 'react';
+import type { IconComponentProps } from './buttonUtil';
 import styled from '@emotion/styled';
 
 interface IconSpanProps {

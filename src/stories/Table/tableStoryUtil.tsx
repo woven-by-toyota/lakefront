@@ -1,7 +1,7 @@
 import { ChevronContainer, SubComponentTr, TableWrapperTd } from 'src/stories/Table/tableStoryStyles';
 import { ReactComponent as ChevronUp } from 'src/components/Collapsible/assets/chevron-up.svg';
 import { ReactComponent as ChevronDown } from 'src/components/Collapsible/assets/chevron-down.svg';
-import TableComponent, { TableProps } from 'src/components/Table';
+import TableComponent, { type TableProps } from 'src/components/Table';
 
 export const COLUMNS = [
   {

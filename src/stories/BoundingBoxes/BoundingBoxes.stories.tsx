@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import BoundingBoxesComponent, { BoundingBoxesProps } from 'src/components/BoundingBoxes';
+import BoundingBoxesComponent, { type BoundingBoxesProps } from 'src/components/BoundingBoxes';
 import DocBlock from '.storybook/DocBlock';
 import { emerald, mediumPurple, saturatedOrange } from 'src/styles/lakefrontColors';
 import styled from '@emotion/styled';

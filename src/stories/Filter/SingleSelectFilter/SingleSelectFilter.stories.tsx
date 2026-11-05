@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage, { SINGLE_SELECT_FILTER_OPTIONS } from '../components/FilterPage';
-import SingleSelectFilterDocs, { SingleSelectFilterArgs, SINGLE_SELECT_FILTER_SOURCE_CODE } from './SingleSelectFilterDocs';
+import SingleSelectFilterDocs, { type SingleSelectFilterArgs, SINGLE_SELECT_FILTER_SOURCE_CODE } from './SingleSelectFilterDocs';
 import DocBlock from '.storybook/DocBlock';
 import { SingleSelectFilter as SingleSelectFilterFunction } from 'src/components/Filter/modules';
 

@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import Slider from './Slider';
 import { PlaybackStyle, PlaySlider } from './playbackStyle';
-import { HighlightsProp } from './playbackUtil';
+import type { HighlightsProp } from './playbackUtil';
 import { ThemeProvider } from '@emotion/react';
 import theme from 'src/styles/theme';
 

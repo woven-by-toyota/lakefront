@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { createChips } from './filterSectionHeaderUtil';
-import { FilterModule } from '../../types';
+import type { FilterModule } from '../../types';
 
 interface FilterValueChipsProps {
     value: string | string[];

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import Button from 'src/components/Button/Button';
 import styled from '@emotion/styled';
 

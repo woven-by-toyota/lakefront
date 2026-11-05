@@ -1,5 +1,5 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import {
   NORMAL_SEVERITY,
   WARNING_SEVERITY,
@@ -8,7 +8,7 @@ import {
 } from 'src/components/StackBanner/stackBannerUtil';
 
 import StackBannerComponent, {
-  StackBannerProps,
+  type StackBannerProps,
 } from 'src/components/StackBanner/StackBanner';
 import DocBlock from '.storybook/DocBlock';
 

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import Modal from 'src/components/Modal/Modal';
 import { ReactComponent as ErrorIcon } from './assets/errorIcon.svg';
 import Button from 'src/components/Button/Button';

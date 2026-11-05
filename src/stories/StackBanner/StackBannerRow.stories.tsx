@@ -1,5 +1,5 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import {
   NORMAL_SEVERITY,
   WARNING_SEVERITY,
@@ -8,7 +8,7 @@ import {
 } from 'src/components/StackBanner/stackBannerUtil';
 
 import StackBannerRowComponent, {
-  StackBannerRowProps,
+  type StackBannerRowProps,
 } from 'src/components/StackBanner/StackBannerRow';
 import DocBlock from '.storybook/DocBlock';
 
@@ -34,8 +34,10 @@ const Template: StoryFn<StackBannerRowProps & ComponentPropsWithoutRef<'div'>> =
   args
 ) => <StackBannerRowComponent {...args} />;
 
-export const Error = Template.bind({});
-Error.args = {
+// named ErrorStory so it does not shadow the global Error; storyName keeps the Storybook label
+export const ErrorStory = Template.bind({});
+ErrorStory.storyName = 'Error';
+ErrorStory.args = {
   content: <div>{StackBannerStoryContent.Error}</div>,
   severity: ERROR_SEVERITY,
   key: '1',

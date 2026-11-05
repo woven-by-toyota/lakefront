@@ -1,8 +1,8 @@
-import React, {FC, Fragment, ReactElement, ReactNode, useState} from 'react';
-import {Cell} from '@tanstack/react-table';
+import React, {type FC, Fragment, type ReactElement, type ReactNode, useState} from 'react';
+import type {Cell} from '@tanstack/react-table';
 import ContextMenu from '../ContextMenu';
 import { RowHoverContext } from './RowHoverContext';
-import { ContextMenuConfig, GroupedRowsConfig, MoreActionsConfig } from './Table';
+import type { ContextMenuConfig, GroupedRowsConfig, MoreActionsConfig } from './Table';
 import { GroupedCell, GroupedRowCell } from './tableStyles';
 import {getCellContent, getGroupValue, getRowIndex} from './tableUtil';
 

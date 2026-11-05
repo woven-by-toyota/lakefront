@@ -1,4 +1,4 @@
-import { generateAnchorOrigin, SnackbarOrigin, MESSAGE_TYPES, getIcon, createDefaultAction } from '../Snackbar.util';
+import { generateAnchorOrigin, type SnackbarOrigin, MESSAGE_TYPES, getIcon, createDefaultAction } from '../Snackbar.util';
 
 const anchorOriginMock: SnackbarOrigin = {
     vertical: 'bottom',

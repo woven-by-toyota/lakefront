@@ -1,6 +1,6 @@
-import { FC, useMemo, useState } from 'react';
+import { type FC, useMemo, useState } from 'react';
 import { useTheme } from '@emotion/react';
-import { SelectProps } from './Select';
+import type { SelectProps } from './Select';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { getSelectOverlayStyles } from './selectStyles';

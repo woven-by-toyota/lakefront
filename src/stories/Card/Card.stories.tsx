@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import CardComponent, { CardProps } from 'src/components/Card/Card';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import CardComponent, { type CardProps } from 'src/components/Card/Card';
 import Snackbar from 'src/components/Snackbar';
 import { MESSAGE_TYPES } from 'src/components/Snackbar/Snackbar.util';
 import { StyledCard } from './CardStyles';

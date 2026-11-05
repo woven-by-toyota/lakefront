@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { TextFilterOverrides } from 'src/components/Filter/types';
-import { TextFilterOptions } from 'src/components/Filter/modules/TextFilter/TextFilter';
+import type { FC } from 'react';
+import type { TextFilterOverrides } from 'src/components/Filter/types';
+import type { TextFilterOptions } from 'src/components/Filter/modules/TextFilter/TextFilter';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 
 export interface TextFilterArgs {

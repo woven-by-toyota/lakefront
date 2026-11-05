@@ -1,5 +1,5 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import SnackbarComponent, { SnackbarProps } from 'src/components/Snackbar/index';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import SnackbarComponent, { type SnackbarProps } from 'src/components/Snackbar/index';
 import DocBlock from '.storybook/DocBlock';
 import { MESSAGE_TYPES } from 'src/components/Snackbar/Snackbar.util';
 import { StyledSnackbarButton } from 'src/components/Snackbar/snackbarStyles';

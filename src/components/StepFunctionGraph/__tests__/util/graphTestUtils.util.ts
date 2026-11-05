@@ -1,7 +1,7 @@
-import { StepFunctionJSON } from '../../util/JSONBuilder.util';
+import type { StepFunctionJSON } from '../../util/JSONBuilder.util';
 import Digraph from '../../Digraph';
 import { generateStepFunctionGraph } from '../../StepFunctionUtil';
-import { adjustDepthMatrix, getGroupsAtDepth, NodeDimensions } from '../../GraphUtil';
+import { adjustDepthMatrix, getGroupsAtDepth, type NodeDimensions } from '../../GraphUtil';
 import DigraphDFS from '../../DigraphDFS';
 
 export const CANVAS_DEFAULTS = {

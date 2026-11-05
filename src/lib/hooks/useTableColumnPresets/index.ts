@@ -1,9 +1,9 @@
 import useTableColumnPresets, {
-  TableColumnPreferences,
-  TableColumnPreferencesOperation,
-  TableColumnPreferencesStorage,
-  UseTableColumnPresetsProps,
-  UseTableColumnPresetsResult
+  type TableColumnPreferences,
+  type TableColumnPreferencesOperation,
+  type TableColumnPreferencesStorage,
+  type UseTableColumnPresetsProps,
+  type UseTableColumnPresetsResult
 } from './useTableColumnPresets';
 import createLocalStorageColumnPreferences from './localStorageColumnPreferences';
 

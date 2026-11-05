@@ -1,5 +1,5 @@
-import { ButtonConfig } from 'src/components/ButtonGroup/ButtonGroup';
-import { CSSProperties } from 'react';
+import type { ButtonConfig } from 'src/components/ButtonGroup/ButtonGroup';
+import type { CSSProperties } from 'react';
 import { HOVER_OFFSET } from 'src/components/ButtonGroup/buttonGroupStyles';
 
 const isFirstButton = (idx: number) => idx === 0;

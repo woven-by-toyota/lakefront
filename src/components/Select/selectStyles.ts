@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { SelectOption } from 'src/types/global';
+import type { SelectOption } from 'src/types/global';
 import { ReactComponent as baselineExpandSvg } from './baseline-expand_more-24px.svg';
-import {
+import type {
     StylesConfig,
     GroupBase,
 } from 'react-select';

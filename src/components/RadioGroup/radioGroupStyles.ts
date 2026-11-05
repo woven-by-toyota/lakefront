@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { RadioGroupProps } from './RadioGroup';
+import type { RadioGroupProps } from './RadioGroup';
 import { ReactComponent as CheckedIcon } from './assets/radioChecked.svg';
 import { ReactComponent as UncheckedIcon } from './assets/radioUnchecked.svg';
 

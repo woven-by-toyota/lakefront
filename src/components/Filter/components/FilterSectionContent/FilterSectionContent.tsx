@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import FilterSectionHeader from '../FilterSectionHeader';
 import { FilterSectionBody, FilterSectionDescription } from '../../filterStyles';
 

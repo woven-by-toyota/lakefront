@@ -1,5 +1,5 @@
-import { ComponentPropsWithRef, FC, forwardRef, ReactNode } from 'react';
-import { getIcon, MESSAGE_TYPES } from './Snackbar.util';
+import { type ComponentPropsWithRef, type FC, forwardRef, type ReactNode } from 'react';
+import { getIcon, type MESSAGE_TYPES } from './Snackbar.util';
 import { StyledSnackbarContent, StyledSnackbarMessage, StyledMessageTypeIcons } from './snackbarStyles';
 import { useTheme } from '@emotion/react';
 

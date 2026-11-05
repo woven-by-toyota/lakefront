@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ContextMenu, { MenuItem } from '../ContextMenu';
+import ContextMenu, { type MenuItem } from '../ContextMenu';
 import { ThemeProvider } from '@emotion/react';
 import theme from '../../../styles/theme';
 

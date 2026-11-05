@@ -1,5 +1,5 @@
-import { FC, MouseEventHandler } from 'react';
-import { FilterSectionHeaderProps } from 'src/components/Filter/types';
+import type { FC, MouseEventHandler } from 'react';
+import type { FilterSectionHeaderProps } from 'src/components/Filter/types';
 import { ReactComponent as Add } from '../../assets/add.svg';
 import { ReactComponent as Remove } from '../../assets/remove.svg';
 import { ReactComponent as PinActive } from '../../assets/pinActive.svg';

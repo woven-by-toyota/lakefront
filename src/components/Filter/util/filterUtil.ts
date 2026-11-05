@@ -1,6 +1,6 @@
-import { FilterMode, FilterSet, FilterValues, UrlParameters } from '../types';
+import { FilterMode, type FilterSet, type FilterValues, type UrlParameters } from '../types';
 import { humanizeCamelCase } from 'src/lib/format.js';
-import { SelectOption } from 'src/types/global';
+import type { SelectOption } from 'src/types/global';
 
 /**
  * FILTER_MODE_OPTIONS

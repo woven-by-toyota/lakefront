@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import ButtonVariants from './buttonVariants';
 import IconButton from './IconButton';
 import {
-  ButtonComponentProps,
+  type ButtonComponentProps,
   ICON_BUTTON_COLOR,
   ICON_SVGS,
   InvalidButtonColorError,

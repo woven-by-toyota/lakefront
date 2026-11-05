@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import Filter from 'src/components/Filter/Filter';
 import { useFilter } from 'src/components/Filter/util';
 import { ContextSwitchMenu, FilterBar, FilterJSONConfirmationModal, FilterJSONInput, UrlPreview } from '..';
-import { FilterComponentProps, FilterSet } from 'src/components/Filter/types';
+import type { FilterComponentProps, FilterSet } from 'src/components/Filter/types';
 import { PageWrapper, PageBodyWithCollapseSection } from './filterPageStyles';
 import { FILTERS, LOCATION } from './filterPageUtil';
 import CollapsibleComponent from 'src/components/Collapsible/Collapsible';

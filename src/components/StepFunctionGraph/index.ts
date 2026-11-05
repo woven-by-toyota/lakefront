@@ -1,4 +1,4 @@
-import StepFunctionGraph, { GraphProps as StepFunctionGraphProps } from './Graph';
+import StepFunctionGraph, { type GraphProps as StepFunctionGraphProps } from './Graph';
 
-export { type StepFunctionGraphProps };
+export type { StepFunctionGraphProps };
 export default StepFunctionGraph;

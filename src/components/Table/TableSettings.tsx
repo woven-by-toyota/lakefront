@@ -1,6 +1,7 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Column } from '@tanstack/react-table';
-import CheckboxGroup, { CheckboxGroupOption } from '../CheckboxGroup/CheckboxGroup';
+import type React from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
+import type { Column } from '@tanstack/react-table';
+import CheckboxGroup, { type CheckboxGroupOption } from '../CheckboxGroup/CheckboxGroup';
 import { ReactComponent as SettingsIcon } from './assets/settings.svg';
 import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
 import { ReactComponent as DownloadIcon } from './assets/download.svg';
@@ -27,8 +28,8 @@ import {
 } from './tableSettingsStyles';
 import Button from 'src/components/Button';
 import type { Icon } from 'src/components/Button/buttonUtil';
-import { TableSettingsConfig } from 'src/components/Table/Table';
-import { getConfigurableColumns, TableColumnPreset } from './tableColumnPresetUtil';
+import type { TableSettingsConfig } from 'src/components/Table/Table';
+import { getConfigurableColumns, type TableColumnPreset } from './tableColumnPresetUtil';
 
 export interface TableSettingsProps<T = any> extends TableSettingsConfig {
   columns: Column<T, any>[];
@@ -322,6 +323,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
     return (
       <TextButtonContainer ref={containerRef} sticky={stickyHeaders} hasModifiedSettings={hasModifiedSettings}>
         <button
+          type="button"
           onClick={handleToggle}
           className="text-button settings-button"
           aria-label="Table settings"
@@ -331,6 +333,7 @@ const TableSettings: React.FC<TableSettingsProps> = ({
         </button>
         {onDownload && (
           <button
+            type="button"
             onClick={onDownload}
             className="text-button download-button"
             aria-label="Download table data"

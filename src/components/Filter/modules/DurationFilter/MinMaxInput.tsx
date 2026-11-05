@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import Input from 'src/components/Input/Input';
 import useDebounce from 'src/lib/hooks/useDebounce';

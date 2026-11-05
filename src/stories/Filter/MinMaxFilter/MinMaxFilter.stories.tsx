@@ -1,10 +1,10 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage from '../components/FilterPage';
 import DocBlock from '.storybook/DocBlock';
 import MinMaxFilterDocs, {
   MIN_MAX_FILTER_SOURCE_CODE,
-  MinMaxFilterArgs
+  type MinMaxFilterArgs
 } from './MinMaxFilterDocs';
 import { MinMaxFilter as MinMaxFilterFunction } from 'src/components/Filter/modules';
 

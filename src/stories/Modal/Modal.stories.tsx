@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import ModalComponent, { ModalProps } from 'src/components/Modal/Modal';
+import ModalComponent, { type ModalProps } from 'src/components/Modal/Modal';
 import DocBlock from '.storybook/DocBlock';
 import Button from 'src/components/Button/Button';
 

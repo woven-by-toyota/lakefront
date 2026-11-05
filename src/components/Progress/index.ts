@@ -1,6 +1,6 @@
-import ProgressBar, { ProgressBarProps } from './ProgressBar';
-import CircularProgress, { CircularProgressProps } from './CircularProgress';
-import DeviceProgressBar, { DeviceProgressProps, DeviceProgressBarThreshold } from './DeviceProgressBar';
+import ProgressBar, { type ProgressBarProps } from './ProgressBar';
+import CircularProgress, { type CircularProgressProps } from './CircularProgress';
+import DeviceProgressBar, { type DeviceProgressProps, type DeviceProgressBarThreshold } from './DeviceProgressBar';
 
 export {
     type ProgressBarProps,

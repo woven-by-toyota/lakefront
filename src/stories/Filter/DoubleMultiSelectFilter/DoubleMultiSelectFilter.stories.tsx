@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage from '../components/FilterPage';
-import DoubleMultiSelectFilterDocs, { DoubleMultiSelectFilterArgs, DOUBLE_MULTI_SELECT_FILTER_SOURCE_CODE } from './DoubleMultiSelectFilterDocs';
+import DoubleMultiSelectFilterDocs, { type DoubleMultiSelectFilterArgs, DOUBLE_MULTI_SELECT_FILTER_SOURCE_CODE } from './DoubleMultiSelectFilterDocs';
 import DocBlock from '.storybook/DocBlock';
 import { DoubleMultiSelectFilter as DoubleMultiSelectFilterFunction } from 'src/components/Filter/modules';
 

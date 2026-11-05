@@ -1,7 +1,7 @@
 
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import BreadcrumbHeaderComponent, { BreadcrumbHeaderProps } from 'src/components/Breadcrumb';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import BreadcrumbHeaderComponent, { type BreadcrumbHeaderProps } from 'src/components/Breadcrumb';
 import DocBlock from '.storybook/DocBlock';
 import { MemoryRouter } from 'react-router-dom';
 

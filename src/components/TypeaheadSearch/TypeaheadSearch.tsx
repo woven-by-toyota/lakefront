@@ -1,9 +1,9 @@
 import {
-    ChangeEvent,
-    ComponentPropsWithoutRef,
-    FC,
-    FormEvent,
-    ReactNode,
+    type ChangeEvent,
+    type ComponentPropsWithoutRef,
+    type FC,
+    type FormEvent,
+    type ReactNode,
     createRef,
     useEffect,
     useMemo,
@@ -13,8 +13,8 @@ import { ReactComponent as SearchIcon } from './assets/search.svg';
 import useDebounce from 'src/lib/hooks/useDebounce';
 import Input from 'src/components/Input/Input';
 import { SearchResultsPopover, TypeaheadSearchContainer } from './typeaheadSearchStyles';
-import TypeaheadResults, { TypeaheadResultItem } from './TypeaheadResults';
-import usePopover, { PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
+import TypeaheadResults, { type TypeaheadResultItem } from './TypeaheadResults';
+import usePopover, { type PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
 
 export interface TypeaheadSearchResultProps {
     searchText: string;

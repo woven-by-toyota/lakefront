@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import Button from '../Button';
 
 export const HOVER_OFFSET = -2;

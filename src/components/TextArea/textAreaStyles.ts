@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { TextAreaProps } from './TextArea';
+import type { TextAreaProps } from './TextArea';
 
 export const StyledLabel = styled.label<TextAreaProps>(({ error, theme }) => ({
     color: theme.foregrounds.primary,

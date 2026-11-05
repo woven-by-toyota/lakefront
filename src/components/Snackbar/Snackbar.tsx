@@ -1,5 +1,5 @@
-import { FC, ReactNode, useEffect, useRef, useState } from 'react';
-import { createDefaultAction, generateAnchorOrigin, MESSAGE_TYPES, SnackbarCloseReason, SnackbarOrigin } from './Snackbar.util';
+import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
+import { createDefaultAction, generateAnchorOrigin, MESSAGE_TYPES, type SnackbarCloseReason, type SnackbarOrigin } from './Snackbar.util';
 import SnackbarContent from './SnackbarContent';
 import { SnackbarWrapper, TRANSITION_CLOSE_TIME } from './snackbarStyles';
 import usePopover, { PopoverContent } from 'src/lib/hooks/usePopover';

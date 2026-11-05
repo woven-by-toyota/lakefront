@@ -1,7 +1,7 @@
-import { ChangeEvent, ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ChangeEvent, type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import RadioGroup, { RadioGroupProps } from 'src/components/RadioGroup/RadioGroup';
+import RadioGroup, { type RadioGroupProps } from 'src/components/RadioGroup/RadioGroup';
 import DocBlock from '.storybook/DocBlock';
 import { blue } from 'src/styles/lakefrontColors';
 

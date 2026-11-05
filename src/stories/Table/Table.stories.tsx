@@ -1,8 +1,8 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { action } from 'storybook/actions';
 import Button from 'src/components/Button/Button';
-import TableComponent, { TableColumnPreset, TableProps } from 'src/components/Table';
+import TableComponent, { type TableColumnPreset, type TableProps } from 'src/components/Table';
 import useTableColumnPresets, { createLocalStorageColumnPreferences } from 'src/lib/hooks/useTableColumnPresets';
 import DocBlock from '.storybook/DocBlock';
 import {

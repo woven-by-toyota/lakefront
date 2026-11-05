@@ -1,5 +1,5 @@
 // Main draw function for the graph
-import Digraph from './Digraph';
+import type Digraph from './Digraph';
 import DigraphDFS from './DigraphDFS';
 import {
     drawArrow,
@@ -25,7 +25,7 @@ import {
     getNextVertex,
     getRange,
     isSameLevelType,
-    NodeDimensions,
+    type NodeDimensions,
     redrawNode
 } from './GraphUtil';
 
@@ -485,7 +485,7 @@ export function renderVertex(
     const previous = drawn.get(previousVertex);
 
     // Calculates the end of the previously drawn node so we can place the current node laterally
-    let previousEnd = previous ? previous.collisionBox.right.x : -1;
+    const previousEnd = previous ? previous.collisionBox.right.x : -1;
     const node = graph.getDataByVertex(vertex);
     const [key] = Object.keys(node);
     const { Type, End } = node[key];

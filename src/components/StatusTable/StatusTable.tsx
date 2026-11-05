@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import {SortIcon, StatusTableStyle} from './statusTableStyles';
 import { v4 as uuid } from 'uuid';
 

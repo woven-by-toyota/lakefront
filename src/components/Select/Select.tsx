@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { SelectStyles, SelectStyledComponent } from './selectStyles';
 import SelectOverlay from './SelectOverlay';
-import { StylesConfig, GroupBase, Props as ReactSelectProps } from 'react-select';
+import type { StylesConfig, GroupBase, Props as ReactSelectProps } from 'react-select';
 import type { AsyncProps as ReactAsyncSelectProps } from 'react-select/async';
 import { extractNativeSelectProps } from 'src/components/Select/selectUtil';
 

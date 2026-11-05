@@ -1,6 +1,6 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import SpeedInputComponent, { Mode, SpeedInputProps, SPEED_UNITS, VehicleSpeed } from 'src/components/SpeedInput/SpeedInput';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import SpeedInputComponent, { Mode, type SpeedInputProps, SPEED_UNITS, type VehicleSpeed } from 'src/components/SpeedInput/SpeedInput';
 import { emerald } from 'src/styles/lakefrontColors';
 
 export default {
@@ -49,7 +49,7 @@ const Template: StoryFn<SpeedInputProps & ComponentPropsWithoutRef<'div'>> = (ar
     const [speedRange, setSpeedrange] = useState<VehicleSpeed | null>(null);
     const [showBanner, setShowBanner] = useState(false);
 
-    let vehicleValue: VehicleSpeed = {
+    const vehicleValue: VehicleSpeed = {
         min: speedRange?.min,
         max: speedRange?.max,
         unit: null,

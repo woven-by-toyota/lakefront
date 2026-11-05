@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import FilterComponent from 'src/components/Filter/Filter';
 import FilterPage from '../components/FilterPage';
 import DocBlock from '.storybook/DocBlock';

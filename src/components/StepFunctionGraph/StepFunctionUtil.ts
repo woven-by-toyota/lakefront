@@ -1,6 +1,6 @@
-import Digraph from './Digraph';
+import type Digraph from './Digraph';
 import DigraphDFS from './DigraphDFS';
-import { JSONStateObject } from './util/JSONBuilder.util';
+import type { JSONStateObject } from './util/JSONBuilder.util';
 
 export enum WorkFlowType {
     TASK = 'Task',
@@ -102,9 +102,9 @@ export const addMetadata = (parentPath: string, currentKey: string | number, sta
     switch (Type) {
         case 'Choice': {
             if (state?.Choices) {
-                state.Choices.forEach((choiceState, choiceStateIdx) =>
-                    addMetadata(`${nodePath}.Choices`, choiceStateIdx, choiceState)
-                );
+                state.Choices.forEach((choiceState, choiceStateIdx) => {
+                    addMetadata(`${nodePath}.Choices`, choiceStateIdx, choiceState);
+                });
             }
             break;
         }

@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useRef, useState } from 'react';
+import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
 import { TypeaheadError, TypeaheadResultsContainer } from './typeaheadSearchStyles';
 import Loading from 'src/components/Loading/Loading';
 

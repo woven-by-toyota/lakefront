@@ -1,5 +1,5 @@
 import TextSearch from './TextSearch';
-import { FilterModule, TextFilterOverrides } from 'src/components/Filter/types';
+import type { FilterModule, TextFilterOverrides } from 'src/components/Filter/types';
 
 export interface TextFilterOptions {
     type?: 'text' | 'number';

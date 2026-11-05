@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import FilterPage from './components/FilterPage';
 import FilterComponent from 'src/components/Filter/Filter';

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { InputProps } from './Input';
+import type { InputProps } from './Input';
 
 export const INPUT_WIDTH = 300;
 

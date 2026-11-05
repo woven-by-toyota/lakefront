@@ -1,6 +1,6 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import DeviceProgressBarComponent, { DeviceProgressProps } from 'src/components/Progress/DeviceProgressBar';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import DeviceProgressBarComponent, { type DeviceProgressProps } from 'src/components/Progress/DeviceProgressBar';
 import DocBlock from '.storybook/DocBlock';
 import colors from 'src/styles/lakefrontColors';
 

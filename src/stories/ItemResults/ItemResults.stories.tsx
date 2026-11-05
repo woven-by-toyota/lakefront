@@ -1,10 +1,10 @@
 
-import { ComponentPropsWithoutRef, useState, useEffect, useRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState, useEffect, useRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import Input from 'src/components/Input/Input';
 import Button from 'src/components/Button/Button';
-import ItemResultComponent, { ItemResultsProps } from 'src/components/ItemResults';
+import ItemResultComponent, { type ItemResultsProps } from 'src/components/ItemResults';
 import { emerald } from 'src/styles/lakefrontColors';
 import DocBlock from '.storybook/DocBlock';
 

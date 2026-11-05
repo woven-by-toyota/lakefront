@@ -1,7 +1,7 @@
 
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import CircularProgressComponent, { CircularProgressProps } from 'src/components/Progress/CircularProgress';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import CircularProgressComponent, { type CircularProgressProps } from 'src/components/Progress/CircularProgress';
 import DocBlock from '.storybook/DocBlock';
 import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';
 import styled from '@emotion/styled';
@@ -47,7 +47,7 @@ const Template: StoryFn<CircularProgressProps & ComponentPropsWithoutRef<'div'>>
                 <ul style={{ margin: 0 }}>
                     {args.data.map((res) => {
                         return (
-                            <Row>
+                            <Row key={res.label}>
                                 <span>{res.label}:</span>
                                 <Chips style={{ backgroundColor: args.theme[res.label].bgColor, color: args.theme[res.label].fgColor }}>
                                     {res.value}

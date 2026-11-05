@@ -1,4 +1,4 @@
-import Tabs, { TabProps } from './Tabs';
+import Tabs, { type TabProps } from './Tabs';
 
-export { type TabProps };
+export type { TabProps };
 export default Tabs;

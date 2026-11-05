@@ -1,4 +1,4 @@
-import { FC, FocusEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { type FC, type FocusEvent, type KeyboardEvent, useEffect, useState } from 'react';
 import { StyledInput } from './textSearchStyles';
 
 interface TextSearchProps {

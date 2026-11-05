@@ -1,4 +1,4 @@
-import { FC, forwardRef, ComponentPropsWithRef } from 'react';
+import { type FC, forwardRef, type ComponentPropsWithRef } from 'react';
 import { StyledInput, StyledLabel } from './inputStyles';
 
 export interface InputProps {

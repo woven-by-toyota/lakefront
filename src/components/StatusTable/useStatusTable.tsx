@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { FilterValues, FilterMap } from 'src/components/Filter/types';
-import { SortOptions, mapTableFilters, filterData, sortData } from './useStatusTableUtil';
+import type { FilterValues, FilterMap } from 'src/components/Filter/types';
+import { type SortOptions, mapTableFilters, filterData, sortData } from './useStatusTableUtil';
 import pipe from 'src/lib/pipe';
 
 export interface StatusTableHooks<T> {
@@ -16,7 +16,7 @@ export interface StatusTableOptions {
     sort?: SortOptions;
 }
 
-export const useStatusTable = <T extends unknown>(
+export const useStatusTable = <T,>(
     inboundData: T[] | null,
     { filters: filterOptions, sort: sortOptions }: StatusTableOptions = {}
 ): StatusTableHooks<T> => {

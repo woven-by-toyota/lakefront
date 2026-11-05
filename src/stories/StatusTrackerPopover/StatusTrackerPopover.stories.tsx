@@ -1,5 +1,5 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import StatusTrackerPopover, { StatusTrackerPopoverProps } from 'src/components/StatusTrackerPopover/StatusTrackerPopover';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import StatusTrackerPopover, { type StatusTrackerPopoverProps } from 'src/components/StatusTrackerPopover/StatusTrackerPopover';
 import DocBlock from '.storybook/DocBlock';
 import Button from 'src/components/Button/Button';
 import { green, saturatedBlue, saturatedOrange } from 'src/styles/lakefrontColors';

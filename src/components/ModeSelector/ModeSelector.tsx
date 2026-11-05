@@ -1,6 +1,6 @@
-import { ChangeEvent, FC, ReactNode } from 'react';
+import type { ChangeEvent, FC, ReactNode } from 'react';
 import Select from 'src/components/Select/Select';
-import { SelectOption } from 'src/types/global';
+import type { SelectOption } from 'src/types/global';
 import { LegendRow, ModeSelectorContainer } from './modeSelectorStyles';
 
 export interface ModeSelectorLegendRowProps {

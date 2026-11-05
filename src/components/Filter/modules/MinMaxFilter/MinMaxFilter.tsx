@@ -1,6 +1,6 @@
-import { FilterModule } from 'src/components/Filter/types';
+import type { FilterModule } from 'src/components/Filter/types';
 import { getMinMaxFromKey } from '../../util/durationFilterUtil';
-import MinMaxInput, { MinMax } from '../DurationFilter/MinMaxInput';
+import MinMaxInput, { type MinMax } from '../DurationFilter/MinMaxInput';
 import { camalize } from 'src/lib/format.js';
 
 export interface MinMaxFilterProps {

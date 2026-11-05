@@ -1,6 +1,6 @@
-import colors from '../styles/lakefrontColors';
-import borders from '../styles/borders';
-import zIndex from '../styles/zIndex';
+import type colors from '../styles/lakefrontColors';
+import type borders from '../styles/borders';
+import type zIndex from '../styles/zIndex';
 
 /**
  * JSONObject is a wrapper for a generic JSON object structure.

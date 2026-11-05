@@ -1,5 +1,5 @@
-import MoreActionsButton, {  MoreActionsButtonProps } from '../../components/MoreActionsButton/MoreActionsButton';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import MoreActionsButton, {  type MoreActionsButtonProps } from '../../components/MoreActionsButton/MoreActionsButton';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 
 export default {

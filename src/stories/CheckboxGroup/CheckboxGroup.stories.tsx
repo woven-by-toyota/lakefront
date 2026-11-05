@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, useState, useEffect } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState, useEffect } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import CheckboxGroupComponent, { CheckboxGroupProps } from 'src/components/CheckboxGroup/CheckboxGroup';
+import CheckboxGroupComponent, { type CheckboxGroupProps } from 'src/components/CheckboxGroup/CheckboxGroup';
 import DocBlock from '.storybook/DocBlock';
 import { emerald } from 'src/styles/lakefrontColors';
 
@@ -50,7 +50,7 @@ const Template: StoryFn<CheckboxGroupProps & ComponentPropsWithoutRef<'input'>> 
 
     const getValue = (): any => {
         var values = [];
-        value.forEach(function (element) {
+        value.forEach((element) => {
             values.push(element + ' ');
         });
         return values;
@@ -62,7 +62,7 @@ const Template: StoryFn<CheckboxGroupProps & ComponentPropsWithoutRef<'input'>> 
 
     return (
         <div>
-            {value.size != 0 && <div
+            {value.size !== 0 && <div
                 style={{
                     minHeight: 20,
                     backgroundColor: emerald,

@@ -1,4 +1,4 @@
-import { FilterMap, FilterValues } from 'src/components/Filter/types';
+import type { FilterMap, FilterValues } from 'src/components/Filter/types';
 
 export interface SortOptions {
     orderBy: string | string[];
@@ -32,7 +32,7 @@ export const getCompareFormat = (value: any): number | string => {
     return value?.toString()?.toUpperCase();
 };
 
-export const sortByField = <T extends unknown>(
+export const sortByField = <T>(
     ascending: boolean,
     inboundData: T[],
     field: string
@@ -57,7 +57,7 @@ export const sortByField = <T extends unknown>(
 
 export const filterData = (
     filters: FilterMap
-) => <T extends unknown>(inboundData: T[] | null): T[] | null => {
+) => <T>(inboundData: T[] | null): T[] | null => {
     const filterPairs = Object.entries(filters || []);
 
     const filteredData = filterPairs.reduce((currentData, filterPair) => {
@@ -73,7 +73,7 @@ export const filterData = (
 
 export const sortData = (
     sortOptions: SortOptions
-) => <T extends unknown>(inboundData: T[]): T[] => {
+) => <T>(inboundData: T[]): T[] => {
     const orderBy = typeof sortOptions.orderBy === 'string' ? [sortOptions.orderBy] : sortOptions.orderBy;
     const ascending = Boolean(sortOptions.ascending);
 

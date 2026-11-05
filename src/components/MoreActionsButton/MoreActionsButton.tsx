@@ -1,5 +1,5 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import { MenuItem, PopoverContent, usePopover } from '../../index';
+import { type FC, useEffect, useRef, useState } from 'react';
+import { type MenuItem, PopoverContent, usePopover } from '../../index';
 import Button from '../Button';
 import { ActionsMenuContainer } from './moreActionsButonStyles';
 import { ReactComponent as MoreIcon } from './assets/more_horiz.svg';

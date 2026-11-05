@@ -1,6 +1,6 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import LoadingComponent, { LoadingProps } from 'src/components/Loading/Loading';
+import LoadingComponent, { type LoadingProps } from 'src/components/Loading/Loading';
 import DocBlock from '.storybook/DocBlock';
 import {ReactComponent as CycleDemo} from './assets/cycle-demo.svg';
 

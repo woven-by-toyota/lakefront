@@ -1,5 +1,5 @@
-import { getPercentage, HighlightsProp } from './playbackUtil';
-import { FC } from 'react';
+import { getPercentage, type HighlightsProp } from './playbackUtil';
+import type { FC } from 'react';
 import { Highlight } from './playbackStyle';
 
 interface Props {

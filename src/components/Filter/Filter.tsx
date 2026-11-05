@@ -1,6 +1,6 @@
-import { ChangeEvent, ComponentProps, FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { type ChangeEvent, type ComponentProps, type FC, useCallback, useEffect, useMemo, useState } from 'react';
 import queryString from 'query-string';
-import { ContextSwitchMenuValue, FilterComponentProps, FilterMode, UrlParameters } from './types';
+import { type ContextSwitchMenuValue, type FilterComponentProps, FilterMode, type UrlParameters } from './types';
 import {
   FILTER_MODE_OPTIONS,
   getCurrentBrowserQueryParams,

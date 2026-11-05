@@ -1,6 +1,6 @@
-import { ComponentPropsWithRef, FC, forwardRef, ReactNode } from 'react';
+import { type ComponentPropsWithRef, type FC, forwardRef, type ReactNode } from 'react';
 import { ButtonGroupContainer, SelectedStylesButton } from 'src/components/ButtonGroup/buttonGroupStyles';
-import ButtonComponent, { ButtonProps } from 'src/components/Button';
+import ButtonComponent, { type ButtonProps } from 'src/components/Button';
 import { identity } from 'ramda';
 import { addSelectedStyles } from 'src/components/ButtonGroup/buttonGroupUtil';
 

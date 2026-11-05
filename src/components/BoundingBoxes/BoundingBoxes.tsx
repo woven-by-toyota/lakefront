@@ -1,7 +1,7 @@
-import { FC, useEffect, useRef, useMemo } from 'react';
+import { type FC, useEffect, useRef, useMemo } from 'react';
 
 import { BoundingBoxesContainer } from './boundingBoxesStyles';
-import { BoundingBoxItemProp, drawSingleBox, getImageOffsetRatio } from './boundingBoxesUtil';
+import { type BoundingBoxItemProp, drawSingleBox, getImageOffsetRatio } from './boundingBoxesUtil';
 
 export interface BoundingBoxesProps {
     /**

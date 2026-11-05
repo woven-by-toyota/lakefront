@@ -1,7 +1,7 @@
 import colors from './lakefrontColors';
 import borders from './borders';
 import zIndex from './zIndex';
-import { Theme } from '@emotion/react';
+import type { Theme } from '@emotion/react';
 import { lightenDarkenColor } from './stylesUtil';
 
 const THEME: Theme = {

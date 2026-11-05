@@ -1,5 +1,5 @@
 import { FilterLabels, FilterValueChip } from './filterSectionHeaderStyles';
-import { FilterModule } from 'src/components/Filter/types';
+import type { FilterModule } from 'src/components/Filter/types';
 import { ReactComponent as CloseIcon } from '../../../Modal/assets/closeIcon.svg';
 
 export const DEFAULT_FILTER_COUNT = 1;

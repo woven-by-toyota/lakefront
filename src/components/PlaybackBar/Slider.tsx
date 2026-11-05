@@ -1,6 +1,6 @@
-import { FC, useMemo, useRef } from 'react';
+import { type FC, useMemo, useRef } from 'react';
 
-import { getLeft, getPercentage, getValue, throttled, HighlightsProp } from './playbackUtil';
+import { getLeft, getPercentage, getValue, throttled, type HighlightsProp } from './playbackUtil';
 import { SliderContainer, SliderBar, SliderStyle, ThumbStyle } from './playbackStyle';
 import HighlightSections from './HighlightSections';
 

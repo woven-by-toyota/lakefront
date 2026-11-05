@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler, ReactNode } from 'react';
+import type { FC, MouseEventHandler, ReactNode } from 'react';
 import { StatusRowStyle } from './statusTableStyles';
 import { ThemeProvider } from '@emotion/react';
 import theme from 'src/styles/theme';

@@ -1,6 +1,6 @@
-import ContextMenu, { ContextMenuProps, MenuItem } from 'src/components/ContextMenu/ContextMenu';
+import ContextMenu, { type ContextMenuProps, type MenuItem } from 'src/components/ContextMenu/ContextMenu';
 import DocBlock from '.storybook/DocBlock';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 export default {
     title: 'Lakefront/ContextMenu',

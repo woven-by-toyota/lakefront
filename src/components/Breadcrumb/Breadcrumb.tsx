@@ -1,5 +1,5 @@
-import { FC, RefAttributes } from 'react';
-import { LinkProps, Link as ReactRouterDomLink } from 'react-router-dom';
+import type { FC, RefAttributes } from 'react';
+import { type LinkProps, Link as ReactRouterDomLink } from 'react-router-dom';
 
 import { BreadCrumbStyle, Current, Divider } from './breadcrumbStyles';
 import { ThemeProvider } from '@emotion/react';

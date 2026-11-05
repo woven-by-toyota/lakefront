@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import MultiSelect from 'src/components/Filter/modules/MultiSelectFilter/MultiSelect';
 import styled from '@emotion/styled';
-import { DoubleMultiSelectOptions, DoubleMultiSelectValues } from 'src/components/Filter/types';
+import type { DoubleMultiSelectOptions, DoubleMultiSelectValues } from 'src/components/Filter/types';
 
 const FilterTitle = styled.div(({ theme }) => ({
   display: 'flex',

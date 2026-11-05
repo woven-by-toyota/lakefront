@@ -1,6 +1,6 @@
-import { FC, ReactElement, ReactNode, useMemo, useState } from 'react';
+import { type FC, type ReactElement, type ReactNode, useMemo, useState } from 'react';
 import { SelectPopoverItem, StyledSelectPopover, StyledSelectPopoverWrapper } from './selectPopoverStyles';
-import usePopover, { PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
+import usePopover, { type PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
 
 export interface SelectPopoverOption {
     name: ReactElement | string;

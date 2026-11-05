@@ -1,4 +1,4 @@
-import Digraph from './Digraph';
+import type Digraph from './Digraph';
 import { drawCatchNode, drawStepNode, getNodeDimensions } from './canvasUtil';
 import { WorkFlowType } from './StepFunctionUtil';
 

@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { type FC, useRef, useState } from 'react';
 import { useSortable } from '@dnd-kit/react/sortable';
 
 interface SortableSectionProps {

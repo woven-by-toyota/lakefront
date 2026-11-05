@@ -1,4 +1,4 @@
-import Digraph from './Digraph';
+import type Digraph from './Digraph';
 
 class DigraphDFS {
     marked: boolean[];

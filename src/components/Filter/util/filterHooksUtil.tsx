@@ -1,5 +1,5 @@
-import queryString, { ParsedQuery } from 'query-string';
-import { FilterPostBody, FilterSet, FilterValues, Location, UrlParameters } from '../types';
+import queryString, { type ParsedQuery } from 'query-string';
+import type { FilterPostBody, FilterSet, FilterValues, Location, UrlParameters } from '../types';
 
 /**
  * Return the filter query string to be appended to API endpoint URL.

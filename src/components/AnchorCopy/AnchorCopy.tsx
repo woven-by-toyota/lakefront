@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, FC } from 'react';
+import type { ComponentPropsWithoutRef, FC } from 'react';
 import { generateScrollToUrl } from './anchorCopyUtil';
 import styled from '@emotion/styled';
 import copyClipboard from 'src/lib/util/copy';
@@ -62,7 +62,7 @@ const AnchorCopy: FC<AnchorCopyProps & Omit<ComponentPropsWithoutRef<'div'>, 'on
 }) => {
     const hash = hashId || title;
 
-    const AnchorContentComponent = Boolean(AnchorContent) ? (
+    const AnchorContentComponent = AnchorContent ? (
         <AnchorContent />
     ) : (
         <Button className="anchorCopyContent" disabled={disabled} icon={<Link className="anchorLinkIcon" />} />

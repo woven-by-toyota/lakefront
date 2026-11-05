@@ -16,7 +16,7 @@ const mockTableHeaders = [
     }
 ];
 
-describe('<StatusTable />', function () {
+describe('<StatusTable />', () => {
     it('should render properly', () => {
       const { container } = render(
             <StatusTable headers={mockTableHeaders} handleSort={jest.fn()}>

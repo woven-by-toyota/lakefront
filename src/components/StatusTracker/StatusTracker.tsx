@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { type FC, Fragment } from 'react';
 import {
     StyledStatusTracker,
     StatusNode,

@@ -1,4 +1,4 @@
-import { TableColumnPreferences, TableColumnPreferencesStorage } from './useTableColumnPresets';
+import type { TableColumnPreferences, TableColumnPreferencesStorage } from './useTableColumnPresets';
 
 /**
  * A reference `TableColumnPreferencesStorage` implementation backed by `localStorage`.

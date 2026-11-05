@@ -1,6 +1,6 @@
-import { FC, useRef, useState, useEffect } from 'react';
+import { type FC, useRef, useState, useEffect } from 'react';
 import { getFilterAppliedCount } from 'src/components/Filter/util';
-import { FilterBarProps, FilterModule } from 'src/components/Filter/types';
+import type { FilterBarProps, FilterModule } from 'src/components/Filter/types';
 import { FilterBarContainer } from './filterBarStyles';
 
 interface FilterItemProps {

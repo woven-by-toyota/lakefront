@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FilterJSONConfirmationModalProps } from 'src/components/Filter/types';
+import type { FilterJSONConfirmationModalProps } from 'src/components/Filter/types';
 
 export const ButtonWrapper = styled.div(({ theme }) => ({
     display: 'flex',

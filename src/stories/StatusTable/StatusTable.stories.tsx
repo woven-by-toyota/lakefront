@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import { StatusTable as StatusTableComponent, StatusRow, StatusCellBadge, StatusTableProps, Status } from 'src/components/StatusTable';
+import { StatusTable as StatusTableComponent, StatusRow, StatusCellBadge, type StatusTableProps, Status } from 'src/components/StatusTable';
 import DocBlock from '.storybook/DocBlock';
 
 export default {

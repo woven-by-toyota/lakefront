@@ -1,10 +1,10 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { useTheme } from '@emotion/react';
-import SelectComponent, { getSelectOverlayStyles, SelectProps } from 'src/components/Select';
+import SelectComponent, { getSelectOverlayStyles, type SelectProps } from 'src/components/Select';
 import DocBlock from '.storybook/DocBlock';
 import { emerald } from 'src/styles/lakefrontColors';
-import { SelectOption } from 'src/components/Select/Select';
+import type { SelectOption } from 'src/components/Select/Select';
 
 export default {
     title: 'Lakefront/Select',
@@ -28,7 +28,7 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
             return value !== undefined;
         }
         else {
-            return value != undefined && Array.isArray(value) && value.length > 0;
+            return value != null && Array.isArray(value) && value.length > 0;
         }
     };
 

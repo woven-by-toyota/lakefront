@@ -1,5 +1,5 @@
-import { JSONObject } from 'src/types/global';
-import { AdditionalJSONFilterOptions, FilterModule } from 'src/components/Filter/types';
+import type { JSONObject } from 'src/types/global';
+import type { AdditionalJSONFilterOptions, FilterModule } from 'src/components/Filter/types';
 import { ADDITIONAL_JSON_FILTER_BAR_LABEL, ADDITIONAL_JSON_FILTER_LABEL, isActualValue } from './additionalJSONFilterUtil';
 
 /**

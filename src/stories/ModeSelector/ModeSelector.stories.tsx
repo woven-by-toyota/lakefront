@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import DocBlock from '.storybook/DocBlock';
-import ModeSelectorComponent, { ModeSelectorProps } from 'src/components/ModeSelector/ModeSelector';
-import { SelectOption } from 'src/types/global';
+import ModeSelectorComponent, { type ModeSelectorProps } from 'src/components/ModeSelector/ModeSelector';
+import type { SelectOption } from 'src/types/global';
 import lakefrontColors from '../../styles/lakefrontColors';
 
 export default {

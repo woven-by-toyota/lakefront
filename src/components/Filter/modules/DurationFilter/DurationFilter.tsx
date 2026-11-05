@@ -1,5 +1,5 @@
-import { FilterModule } from 'src/components/Filter/types';
-import MinMaxInput, { MinMax } from './MinMaxInput';
+import type { FilterModule } from 'src/components/Filter/types';
+import MinMaxInput, { type MinMax } from './MinMaxInput';
 import { getMinMaxFromKey } from '../../util/durationFilterUtil';
 
 export interface DurationFilterProps {

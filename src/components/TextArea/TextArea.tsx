@@ -1,4 +1,4 @@
-import { ComponentPropsWithRef, FC, forwardRef } from 'react';
+import { type ComponentPropsWithRef, type FC, forwardRef } from 'react';
 import { StyledTextArea, StyledLabel } from './textAreaStyles';
 
 export interface TextAreaProps {

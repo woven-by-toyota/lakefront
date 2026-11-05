@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import BoundingBoxes from 'src/components/BoundingBoxes';
 import Loading from 'src/components/Loading/Loading';
 import resizeObserver from 'src/lib/hooks/resizeObserver.js';

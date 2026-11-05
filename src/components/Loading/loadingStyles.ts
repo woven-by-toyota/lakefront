@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
-import { LoadingProps } from './Loading';
+import type { LoadingProps } from './Loading';
 
 const spinAnimation = keyframes`
     0% { transform: rotate(0deg); }

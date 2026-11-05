@@ -1,6 +1,6 @@
-import { css, Theme } from '@emotion/react';
+import { css, type Theme } from '@emotion/react';
 import { lightenDarkenColor } from 'src/styles/stylesUtil';
-import { ComponentStyles, getTintedBackgroundColor } from './buttonUtil';
+import { type ComponentStyles, getTintedBackgroundColor } from './buttonUtil';
 
 const MAIN_STYLES = {
   border: 'none',

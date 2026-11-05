@@ -1,7 +1,7 @@
-import { Dispatch, FC, MouseEventHandler, ReactElement, ReactNode, SetStateAction } from 'react';
-import { MultiSelectOption } from 'src/components/Filter/modules/MultiSelectFilter/MultiSelect';
-import { JSONObject } from 'src/types/global';
-import { SelectOption } from 'src/components/Select/Select';
+import type { Dispatch, FC, MouseEventHandler, ReactElement, ReactNode, SetStateAction } from 'react';
+import type { MultiSelectOption } from 'src/components/Filter/modules/MultiSelectFilter/MultiSelect';
+import type { JSONObject } from 'src/types/global';
+import type { SelectOption } from 'src/components/Select/Select';
 
 /**
  * FilterRenderProps are the required props of the renderComponent

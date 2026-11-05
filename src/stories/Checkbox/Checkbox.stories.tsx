@@ -1,7 +1,7 @@
-import { ChangeEvent, ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ChangeEvent, type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import CheckboxComponent, { CheckboxProps } from 'src/components/Checkbox/Checkbox';
+import CheckboxComponent, { type CheckboxProps } from 'src/components/Checkbox/Checkbox';
 import DocBlock from '.storybook/DocBlock';
 import { action } from 'storybook/actions';
 

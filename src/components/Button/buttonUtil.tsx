@@ -1,5 +1,6 @@
-import React, { ComponentPropsWithoutRef, ElementType, ReactElement, ReactNode } from 'react';
-import { SerializedStyles, Theme } from '@emotion/react';
+import type React from 'react';
+import type { ComponentPropsWithoutRef, ElementType, ReactElement, ReactNode } from 'react';
+import type { SerializedStyles, Theme } from '@emotion/react';
 import { ReactComponent as Add } from './assets/add.svg';
 import { ReactComponent as Delete } from './assets/delete.svg';
 

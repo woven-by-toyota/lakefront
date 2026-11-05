@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 import { AttributeGrid, AttributeList, Caption, Content } from './propertyListStyles';
 import { ThemeProvider } from '@emotion/react';
 import theme from 'src/styles/theme';

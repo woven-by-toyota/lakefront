@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FilterContainerProps } from './types';
+import type { FilterContainerProps } from './types';
 import Button from '../Button';
 
 const FILTER_BAR_HEIGHT = 48;

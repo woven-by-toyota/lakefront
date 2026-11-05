@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import TransferListComponent, {
-  ListItem,
-  TransferListProps
+  type ListItem,
+  type TransferListProps
 } from 'src/components/TransferList';
 import DocBlock from '.storybook/DocBlock';
 import { useState } from 'react';

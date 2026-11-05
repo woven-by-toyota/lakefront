@@ -1,6 +1,6 @@
-import { ComponentProps, FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 import { TabBar, TabStyle } from './tabStyles';
-import { TabDef } from 'src/types/global';
+import type { TabDef } from 'src/types/global';
 
 export interface TabProps {
   /**

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import theme from 'src/styles/theme';
 import { ThemeProvider } from '@emotion/react';
 import { ItemStyleContainer } from './itemResultsStyles';

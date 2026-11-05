@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, ReactNode } from 'react';
+import React, { type FC, type ReactElement, type ReactNode } from 'react';
 import styled from '@emotion/styled';
 import Checkbox from 'src/components/Checkbox/Checkbox';
 import colors from 'src/styles/lakefrontColors';
@@ -103,7 +103,7 @@ const CheckboxGroup: FC<CheckboxGroupProps> = ({
     onHandleChange(newSelection);
   };
 
-  const isAllSelected = selected.size != 0 && selected.size === options.length;
+  const isAllSelected = selected.size !== 0 && selected.size === options.length;
 
   return (
     <CheckboxGroupWrapper className={className}>

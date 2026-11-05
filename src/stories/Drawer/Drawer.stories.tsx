@@ -1,8 +1,8 @@
-import { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import styled from '@emotion/styled';
 
-import DrawerComponent, { DrawerProps } from 'src/components/Drawer';
+import DrawerComponent, { type DrawerProps } from 'src/components/Drawer';
 import DocBlock from '.storybook/DocBlock';
 import Button from 'src/components/Button/Button';
 import { emerald } from 'src/styles/lakefrontColors';

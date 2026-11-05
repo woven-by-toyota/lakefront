@@ -1,6 +1,6 @@
-import { ComponentPropsWithoutRef, useEffect, useState, useRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import RefreshToolbarComponent, { RefreshToolbarProps } from 'src/components/RefreshToolbar';
+import { type ComponentPropsWithoutRef, useEffect, useState, useRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import RefreshToolbarComponent, { type RefreshToolbarProps } from 'src/components/RefreshToolbar';
 import Button from 'src/components/Button/Button';
 import DocBlock from '.storybook/DocBlock';
 import { useTheme } from '@emotion/react';

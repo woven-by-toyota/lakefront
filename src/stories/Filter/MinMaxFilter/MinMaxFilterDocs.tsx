@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 export interface MinMaxFilterArgs {
   /**

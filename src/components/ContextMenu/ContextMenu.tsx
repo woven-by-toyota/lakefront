@@ -1,11 +1,11 @@
 import {
-    FC,
+    type FC,
     useState,
     useEffect,
-    MouseEvent,
-    ElementType,
-    ReactElement,
-    useRef, ReactNode
+    type MouseEvent,
+    type ElementType,
+    type ReactElement,
+    useRef, type ReactNode
 } from 'react';
 import { StyledContextMenu, StyledSeparator, StyledMenuItem } from './contextMenuStyles';
 import usePopover, { PopoverContent } from 'src/lib/hooks/usePopover';

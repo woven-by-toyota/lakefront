@@ -1,5 +1,5 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import StatusTracker, { StatusTrackerProps } from 'src/components/StatusTracker/StatusTracker';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import StatusTracker, { type StatusTrackerProps } from 'src/components/StatusTracker/StatusTracker';
 import DocBlock from '.storybook/DocBlock';
 import { dolphin, green, saturatedBlue, saturatedGreen, saturatedOrange, saturatedRed } from 'src/styles/lakefrontColors';
 import styled from '@emotion/styled';

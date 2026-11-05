@@ -3,7 +3,7 @@ import { CANVAS_DEFAULTS, graphContext } from './util/graphTestUtils.util';
 import { JSONBuilderUtil } from '../util/JSONBuilder.util';
 import { getX, getY, renderVertex, X_OFFSET } from '../GraphRenderer';
 import { WorkFlowType } from '../StepFunctionUtil';
-import { NodeDimensions } from '../GraphUtil';
+import type { NodeDimensions } from '../GraphUtil';
 import * as CanvasUtilModule from '../canvasUtil';
 
 describe('graphRenderer', () => {

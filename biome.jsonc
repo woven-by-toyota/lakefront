@@ -1,0 +1,101 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.5/schema.json",
+  // version control system (e.g. git)
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true,
+    // .gitignore
+    "defaultBranch": "main"
+  },
+  "files": {
+    "ignoreUnknown": false,
+    // .svg here is an asset imported through svgr, not source, and Biome parses it as markup
+    "includes": ["**", "!**/*.svg", "!docs-build/**", "!dist/**"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    // 4, unlike lakehouse-ui's 2: it is what 167 of this repo's 219 source files already use
+    "indentWidth": 4,
+    "lineWidth": 120
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        // on, unlike lakehouse-ui, to replace the react-hooks rule eslint-plugin-storybook gave us
+        "useHookAtTopLevel": "error",
+        "useExhaustiveDependencies": {
+          "level": "info",
+          "fix": "none",
+          "options": {}
+        },
+        "noPrecisionLoss": "warn",
+        "noEmptyPattern": "warn"
+      },
+      "suspicious": {
+        "noImplicitAnyLet": "warn",
+        "noAssignInExpressions": "warn",
+        "noArrayIndexKey": "warn",
+        "noExportsInTest": "warn"
+      },
+      "style": {
+        "noNonNullAssertion": {
+          "fix": "none",
+          "level": "warn",
+          "options": {}
+        }
+      },
+      "a11y": {
+        // these four match lakehouse-ui, whose team already settled them
+        "useKeyWithClickEvents": "off",
+        "noStaticElementInteractions": "off",
+        "useAltText": "warn",
+        "noLabelWithoutControl": "warn",
+        // this is an icon library: a decorative glyph has nothing meaningful to title
+        "noSvgWithoutTitle": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "none",
+      "attributePosition": "multiline",
+      "expand": "always"
+    },
+    "globals": ["jest"]
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "overrides": [
+    {
+      // Test fixtures build throwaway components inline and render bare buttons. Both are what the
+      // test is for, and neither ships, so these three stay visible as warnings rather than failing.
+      "includes": ["**/__tests__/**", "**/_tests_/**", "**/*.test.*", "**/*.tests.*"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useButtonType": "warn"
+          },
+          "correctness": {
+            "noComponentHookFactories": "warn"
+          },
+          "suspicious": {
+            "useIterableCallbackReturn": "warn"
+          }
+        }
+      }
+    }
+  ]
+}

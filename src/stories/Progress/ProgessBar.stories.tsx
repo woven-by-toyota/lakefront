@@ -1,6 +1,6 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import ProgressBarComponent, { ProgressBarProps } from 'src/components/Progress/ProgressBar';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import ProgressBarComponent, { type ProgressBarProps } from 'src/components/Progress/ProgressBar';
 import DocBlock from '.storybook/DocBlock';
 import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';
 import styled from '@emotion/styled';
@@ -46,7 +46,7 @@ const Template: StoryFn<ProgressBarProps & ComponentPropsWithoutRef<'div'>> = (a
                 <ul style={{ margin: 0 }}>
                     {args.data.map((res) => {
                         return (
-                            <Row>
+                            <Row key={res.label}>
                                 <span>{res.label}:</span>
                                 <Chips style={{ backgroundColor: args.theme[res.label].bgColor, color: args.theme[res.label].fgColor }}>
                                     {res.value}

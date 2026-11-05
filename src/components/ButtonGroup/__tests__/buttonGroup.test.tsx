@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import ButtonGroup from '../ButtonGroup';
 import { renderWithTheme } from 'src/lib/testing';
-import Button, { ButtonProps } from 'src/components/Button';
+import Button, { type ButtonProps } from 'src/components/Button';
 
 const buttonConfigs = [
   { id: '1', label: 'Button 1' },

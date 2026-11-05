@@ -1,7 +1,7 @@
-import { FC, ReactNode, useMemo, useState } from 'react';
-import StatusTracker, { StatusItem } from '../StatusTracker';
+import { type FC, type ReactNode, useMemo, useState } from 'react';
+import StatusTracker, { type StatusItem } from '../StatusTracker';
 import { StyledStatusTrackerPopoverWrapper, StyledStatusTrackerPopover } from './statusTrackerPopoverStyles';
-import usePopover, { PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
+import usePopover, { type PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
 
 export interface StatusTrackerPopoverProps {
     /**

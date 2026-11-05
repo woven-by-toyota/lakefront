@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent } from 'react';
+import { type FC, useState, type ChangeEvent } from 'react';
 import RadioGroup from 'src/components/RadioGroup/RadioGroup';
 import MinMaxInput from 'src/components/Filter/modules/DurationFilter/MinMaxInput';
 import { RadioGroupWrapper } from 'src/components/SpeedInput/speedInputStyles';
@@ -91,7 +91,7 @@ const SpeedInput: FC<SpeedInputProps> = ({ value, onChange, unitConversionRequir
         const min = output && output?.min;
         const max = output && output?.max;
         if (min || max) {
-            let speedRange: VehicleSpeed = {
+            const speedRange: VehicleSpeed = {
                 min: min || 0,
                 max: max || undefined,
                 unit: unit as SPEED_UNITS,

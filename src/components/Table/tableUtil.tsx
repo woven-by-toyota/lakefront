@@ -1,5 +1,5 @@
 import { StyledArrowDown, StyledArrowUp, StyledUnsorted } from './tableStyles';
-import {Cell, flexRender} from '@tanstack/react-table';
+import {type Cell, flexRender} from '@tanstack/react-table';
 import CellErrorBoundary from './CellErrorBoundary';
 import React from 'react';
 

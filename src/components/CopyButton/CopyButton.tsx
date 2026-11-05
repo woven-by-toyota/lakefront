@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import Button from 'src/components/Button/Button';
-import { ButtonComponentProps } from 'src/components/Button/buttonUtil';
+import type { ButtonComponentProps } from 'src/components/Button/buttonUtil';
 import copyClipboard from 'src/lib/util/copy';
 import { ReactComponent as FileCopy } from './assets/fileCopy.svg';
 import { CopyButtonContent } from './copyButtonStyles';

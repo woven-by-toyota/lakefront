@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, FC } from 'react';
+import type { ComponentPropsWithoutRef, FC } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { StackBannerListDiv } from './stackBannerStyles';
-import StackBannerRow, { StackBannerRowProps } from './StackBannerRow';
+import StackBannerRow, { type StackBannerRowProps } from './StackBannerRow';
 import theme from 'src/styles/theme';
 
 export interface StackBannerProps {
@@ -26,8 +26,9 @@ const StackBanner: FC<StackBannerProps & ComponentPropsWithoutRef<'div'>> = ({ r
   return (
     <ThemeProvider theme={theme}>
       <StackBannerListDiv {...props}>
+        {/* key is set after the spread: React 19 does not take a key arriving through one */}
         {rows.map((stackBannerRowProps: StackBannerRowProps) => {
-          return <StackBannerRow {...stackBannerRowProps} />;
+          return <StackBannerRow {...stackBannerRowProps} key={stackBannerRowProps.key} />;
         })}
       </StackBannerListDiv>
     </ThemeProvider>

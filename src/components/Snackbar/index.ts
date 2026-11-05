@@ -1,4 +1,4 @@
-import Snackbar, { SnackbarProps } from './Snackbar';
+import Snackbar, { type SnackbarProps } from './Snackbar';
 import { MESSAGE_TYPES } from './Snackbar.util';
 
 export { type SnackbarProps, MESSAGE_TYPES as SNACKBAR_MESSAGE_TYPES };

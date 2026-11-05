@@ -1,5 +1,5 @@
 import { Bar, Icon, IconWrapper, Label, ToggleWrapper } from './toggleStyles';
-import { SelectOption } from 'src/types/global';
+import type { SelectOption } from 'src/types/global';
 
 export interface ToggleProps<T> {
     /**

@@ -1,6 +1,6 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import MaskableImageComponent, { MaskableImageProps } from 'src/components/MaskableImage';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import MaskableImageComponent, { type MaskableImageProps } from 'src/components/MaskableImage';
 import DocBlock from '.storybook/DocBlock';
 import { emerald } from 'src/styles/lakefrontColors';
 import imageFile from './__assets__/Nature.jpg';

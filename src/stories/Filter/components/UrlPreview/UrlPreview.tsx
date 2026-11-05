@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { PreviewBar, UrlPreviewContainer } from './urlPreviewStyles';
 
 interface UrlPreviewProps {
@@ -10,7 +10,7 @@ const UrlPreview: FC<UrlPreviewProps> = ({ baseUrl = 'https://localhost/reposito
     return (
         <UrlPreviewContainer>
             <PreviewBar
-                value={`${baseUrl}${Boolean(queryParams) ? '?' : ''}${queryParams}`}
+                value={`${baseUrl}${queryParams ? '?' : ''}${queryParams}`}
                 disabled
                 label={'Example of the effects filters can have on the current URL.'}
             />

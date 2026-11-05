@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CollapsibleProps } from './Collapsible';
+import type { CollapsibleProps } from './Collapsible';
 
 export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
     color: theme.foregrounds.primary,

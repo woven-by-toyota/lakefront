@@ -1,7 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
 import Button from 'src/components/Button/Button';
-import { ButtonComponentProps, COLORS } from 'src/components/Button/buttonUtil';
+import { type ButtonComponentProps, COLORS } from 'src/components/Button/buttonUtil';
 import ButtonsPage from './ButtonsPage';
 import DocBlock from '.storybook/DocBlock';
 

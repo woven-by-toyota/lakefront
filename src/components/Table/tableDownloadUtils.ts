@@ -1,4 +1,4 @@
-import { Row } from '@tanstack/react-table';
+import type { Row } from '@tanstack/react-table';
 
 /**
  * Safely converts a value to string, using custom toString() if available

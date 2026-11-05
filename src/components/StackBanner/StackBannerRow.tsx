@@ -1,6 +1,6 @@
-import { ComponentPropsWithoutRef, FC, MouseEvent, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, FC, MouseEvent, ReactNode } from 'react';
 import { StackBannerRowDiv } from './stackBannerStyles';
-import { StackBannerIcon, getStackBannerIcon } from './stackBannerUtil';
+import { type StackBannerIcon, getStackBannerIcon } from './stackBannerUtil';
 
 export interface StackBannerRowProps {
   /**

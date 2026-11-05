@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import ConfirmationModalComponent, { ConfirmationModalProps } from 'src/components/Modal/ConfirmationModal';
+import ConfirmationModalComponent, { type ConfirmationModalProps } from 'src/components/Modal/ConfirmationModal';
 import DocBlock from '.storybook/DocBlock';
 import Button from 'src/components/Button/Button';
 

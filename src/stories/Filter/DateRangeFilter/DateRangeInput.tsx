@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, ChangeEvent } from 'react';
+import { type FC, useState, useEffect, type ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import Input from 'src/components/Input/Input';
 

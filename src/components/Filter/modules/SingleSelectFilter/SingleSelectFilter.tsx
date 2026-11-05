@@ -1,5 +1,5 @@
 import Select from 'src/components/Select';
-import { FilterModule, SingleSelectFilterProps, SingleSelectFilterOptions } from 'src/components/Filter/types';
+import type { FilterModule, SingleSelectFilterProps, SingleSelectFilterOptions } from 'src/components/Filter/types';
 
 /**
  * SingleSelectFilter Component

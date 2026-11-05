@@ -1,10 +1,10 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import { FC, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type FC, useState } from 'react';
 
 import FilterComponent from 'src/components/Filter/Filter';
 import { useFilter } from 'src/components/Filter/util';
 import { ContextSwitchMenu, FilterBar, FilterJSONConfirmationModal, FilterJSONInput, UrlPreview } from './components';
-import { FilterComponentProps } from 'src/components/Filter/types';
+import type { FilterComponentProps } from 'src/components/Filter/types';
 import { DefaultWrapper, PageBody } from './components/FilterPage/filterPageStyles';
 import { FILTERS, LOCATION } from './components/FilterPage/filterPageUtil';
 import DocBlock from '.storybook/DocBlock';

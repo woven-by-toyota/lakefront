@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { TableColumnPreset } from 'src/components/Table/tableColumnPresetUtil';
-import useTableColumnPresets, { TableColumnPreferences, TableColumnPreferencesStorage } from '../useTableColumnPresets';
+import type { TableColumnPreset } from 'src/components/Table/tableColumnPresetUtil';
+import useTableColumnPresets, { type TableColumnPreferences, type TableColumnPreferencesStorage } from '../useTableColumnPresets';
 import createLocalStorageColumnPreferences from '../localStorageColumnPreferences';
 
 const SUMMARY_PRESET: TableColumnPreset = { id: 'summary', label: 'Summary', columns: ['title', 'value'] };

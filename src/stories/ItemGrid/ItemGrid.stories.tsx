@@ -1,8 +1,8 @@
 
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import ItemGridComponent, { ItemGridProps } from 'src/components/ItemGrid';
+import ItemGridComponent, { type ItemGridProps } from 'src/components/ItemGrid';
 import DocBlock from '.storybook/DocBlock';
 
 export default {
@@ -17,7 +17,7 @@ export default {
 
 const Template: StoryFn<ItemGridProps & ComponentPropsWithoutRef<'div'>> = (args) => {
     const showColumns = columns => {
-        let content = [];
+        const content = [];
         for (let i = 0; i < columns; i++) {
             content.push(<div key={i}>Column {i + 1}</div>);
         }

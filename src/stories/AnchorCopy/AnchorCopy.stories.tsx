@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 
-import AnchorCopyComponent, { AnchorCopyProps } from 'src/components/AnchorCopy';
+import AnchorCopyComponent, { type AnchorCopyProps } from 'src/components/AnchorCopy';
 import Input from 'src/components/Input/Input';
 import DocBlock from '.storybook/DocBlock';
 import { green, saturatedRed, blue, storm } from 'src/styles/lakefrontColors';

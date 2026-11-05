@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import Button from 'src/components/Button/Button';
-import { FilterJSONInputProps } from 'src/components/Filter/types';
+import type { FilterJSONInputProps } from 'src/components/Filter/types';
 import { ButtonWrapper, JSONEditor } from './filterJSONInputStyles';
 
 const JSON_INDENT_SPACES = 4;

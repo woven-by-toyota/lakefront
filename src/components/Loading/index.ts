@@ -1,4 +1,4 @@
-import Loading, { LoadingProps } from './Loading';
+import Loading, { type LoadingProps } from './Loading';
 
-export { type LoadingProps };
+export type { LoadingProps };
 export default Loading;

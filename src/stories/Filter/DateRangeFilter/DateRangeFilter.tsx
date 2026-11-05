@@ -1,5 +1,5 @@
-import { FilterModule } from 'src/components/Filter/types';
-import DateRangeInput, { DateRange } from 'src/stories/Filter/DateRangeFilter/DateRangeInput';
+import type { FilterModule } from 'src/components/Filter/types';
+import DateRangeInput, { type DateRange } from 'src/stories/Filter/DateRangeFilter/DateRangeInput';
 
 export interface DateRangeFilterProps {
     label: string;
