@@ -74,9 +74,11 @@ the public surface is involved too. It needs a visual pass in Storybook and a `b
 ### Toolchain notes worth keeping
 Two constraints are easy to trip over when touching the build:
 
-- **typescript-eslint cannot be used on TypeScript 7.** It throws from a runtime guard in both the meta package
-  and the parser, and no release or canary allows it. ESLint parses the TypeScript with `@babel/eslint-parser`
-  instead, through the preset in `babel.config.cjs`. That works because no type-aware rule is enabled.
+- **Linting and formatting are Biome, not ESLint**, configured in `biome.jsonc`. `npm run lint` runs
+  `biome check`, which covers lint, format and import order together; `npm run lint:fix` writes the fixes.
+  Biome parses TypeScript itself, so linting is not tied to the compiler version the way ESLint was:
+  typescript-eslint refuses TypeScript 7 outright, from a runtime guard, with no release or canary that
+  allows it. The config is lakehouse-ui's with two deliberate differences, both commented in the file.
 - **`isolatedModules` is required, not optional.** swc transpiles one file at a time and cannot tell an interface
   from a value, so every type re-export needs the inline `type` modifier. Removing the flag would let the build
   break at bundle time rather than at type-check time.
