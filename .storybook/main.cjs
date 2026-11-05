@@ -9,7 +9,9 @@ module.exports = {
     addons: [
         '@storybook/addon-links',
         '@storybook/addon-docs',
-        '@storybook/addon-webpack5-compiler-babel'
+        // swc rather than babel: the babel compiler pins @babel/core 7 as a dependency, and mixing
+        // that with the Babel 8 at the root breaks transform-typescript on enum declarations
+        '@storybook/addon-webpack5-compiler-swc'
     ],
 
     webpackFinal: async config => {
