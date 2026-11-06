@@ -1,13 +1,13 @@
-import {
-    DoubleMultiSelectFilterProps,
-    DoubleMultiSelectValues,
-    DoubleMultiSelectFilterOptions,
-    FilterModule
-} from 'src/components/Filter/types';
-import DoubleMultiSelect from './DoubleMultiSelect';
 import { FilterSectionHeader } from 'src/components/Filter/components';
 import FilterValueChips from 'src/components/Filter/components/FilterSectionHeader/FilterValueChips';
 import { FilterBadge } from 'src/components/Filter/components/FilterSectionHeader/filterSectionHeaderStyles';
+import type {
+    DoubleMultiSelectFilterOptions,
+    DoubleMultiSelectFilterProps,
+    DoubleMultiSelectValues,
+    FilterModule
+} from 'src/components/Filter/types';
+import DoubleMultiSelect from './DoubleMultiSelect';
 import { FilterCount, FilterSection } from './doubleMultiSelectFilterStyles';
 
 export const getValuesFromKey = (key: string): DoubleMultiSelectValues | undefined => {
@@ -15,8 +15,8 @@ export const getValuesFromKey = (key: string): DoubleMultiSelectValues | undefin
 
     if (first || second) {
         return {
-            firstSelect: first?.split(',').filter(s => s),
-            secondSelect: second?.split(',').filter(s => s)
+            firstSelect: first?.split(',').filter((s) => s),
+            secondSelect: second?.split(',').filter((s) => s)
         };
     }
 
@@ -46,7 +46,7 @@ const DoubleMultiSelectFilter = (
     getApiPostBody: (key, value) => {
         if (value && (value?.firstSelect?.length > 0 || value?.secondSelect?.length > 0)) {
             const { firstSelect, secondSelect } = selectOptions;
-            const postBody: {[key: string]: string[]} = {
+            const postBody: { [key: string]: string[] } = {
                 [firstSelect.apiField]: [],
                 [secondSelect.apiField]: []
             };
@@ -63,16 +63,14 @@ const DoubleMultiSelectFilter = (
 
         return undefined;
     },
-    getBrowserQueryUrlValue: value => {
-        return value &&
-        (value?.firstSelect?.length > 0 ||
-            value?.secondSelect?.length > 0) ?
-            `${value.firstSelect ?? ''}~${value.secondSelect ?? ''}` :
-            '';
+    getBrowserQueryUrlValue: (value) => {
+        return value && (value?.firstSelect?.length > 0 || value?.secondSelect?.length > 0)
+            ? `${value.firstSelect ?? ''}~${value.secondSelect ?? ''}`
+            : '';
     },
     getDefaultFilterValue: () => null,
-    isDefaultFilterValue: value => value === null,
-    getFilterBarLabel: value => {
+    isDefaultFilterValue: (value) => value === null,
+    getFilterBarLabel: (value) => {
         if (value && (value?.firstSelect?.length > 0 || value?.secondSelect?.length > 0)) {
             const firstStr = value?.firstSelect ? `${value.firstSelect}` : '';
             const secondStr = value?.secondSelect ? `${value.secondSelect}` : '';
@@ -80,7 +78,7 @@ const DoubleMultiSelectFilter = (
         }
         return '';
     },
-    getFilterSectionLabel: value => {
+    getFilterSectionLabel: (value) => {
         if (value && (value?.firstSelect?.length > 0 || value?.secondSelect?.length > 0)) {
             const firstStr = value?.firstSelect ? `${value.firstSelect}` : '';
             const secondStr = value?.secondSelect ? `${value.secondSelect}` : '';
@@ -132,38 +130,34 @@ const DoubleMultiSelectFilter = (
                     getFilterCount: hideBadgeOverride
                 }}
             >
-                {
-                    firstVisible && (
-                        <FilterSection>
-                            <FilterCount>
-                                <span>{firstLabel}</span>&nbsp;
-                                { firstBadge }
-                            </FilterCount>
-                            <FilterValueChips
-                                visible={firstVisible && firstLength < badgeThreshold}
-                                value={value?.firstSelect}
-                                resetFilter={() => undefined}
-                                name=''
-                            />
-                        </FilterSection>
-                    )
-                }
-                {
-                    secondVisible && (
-                        <FilterSection>
-                            <FilterCount>
-                                <span>{secondLabel}</span>&nbsp;
-                                { secondBadge }
-                            </FilterCount>
-                            <FilterValueChips
-                                visible={secondVisible && secondLength < badgeThreshold}
-                                value={value?.secondSelect}
-                                resetFilter={() => undefined}
-                                name=''
-                            />
-                        </FilterSection>
-                    )
-                }
+                {firstVisible && (
+                    <FilterSection>
+                        <FilterCount>
+                            <span>{firstLabel}</span>&nbsp;
+                            {firstBadge}
+                        </FilterCount>
+                        <FilterValueChips
+                            visible={firstVisible && firstLength < badgeThreshold}
+                            value={value?.firstSelect}
+                            resetFilter={() => undefined}
+                            name=''
+                        />
+                    </FilterSection>
+                )}
+                {secondVisible && (
+                    <FilterSection>
+                        <FilterCount>
+                            <span>{secondLabel}</span>&nbsp;
+                            {secondBadge}
+                        </FilterCount>
+                        <FilterValueChips
+                            visible={secondVisible && secondLength < badgeThreshold}
+                            value={value?.secondSelect}
+                            resetFilter={() => undefined}
+                            name=''
+                        />
+                    </FilterSection>
+                )}
             </FilterSectionHeader>
         );
     },

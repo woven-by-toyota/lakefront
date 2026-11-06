@@ -1,5 +1,5 @@
-import BoundingBoxes, { BoundingBoxesProps } from './BoundingBoxes';
-import { BoundingBoxItemProp } from './boundingBoxesUtil'
+import BoundingBoxes, { type BoundingBoxesProps } from './BoundingBoxes';
+import type { BoundingBoxItemProp } from './boundingBoxesUtil';
 
-export { BoundingBoxesProps, BoundingBoxItemProp };
+export type { BoundingBoxesProps, BoundingBoxItemProp };
 export default BoundingBoxes;

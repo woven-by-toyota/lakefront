@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Button from 'src/components/Button/Button';
-import { generateAnchorOrigin, SnackbarOrigin } from './Snackbar.util';
 import { lightenDarkenColor } from 'src/styles/stylesUtil';
+import { generateAnchorOrigin, type SnackbarOrigin } from './Snackbar.util';
 
 export const TRANSITION_CLOSE_TIME = 0;
 
@@ -9,7 +9,7 @@ export interface SnackbarPropsStyles {
     anchorOrigin: { horizontal: SnackbarOrigin['horizontal']; vertical: SnackbarOrigin['vertical'] };
 }
 
-export const SnackbarWrapper = styled.div<SnackbarPropsStyles>(({ anchorOrigin, theme  }) => {
+export const SnackbarWrapper = styled.div<SnackbarPropsStyles>(({ anchorOrigin, theme }) => {
     const portal = { style: { left: '', bottom: '', right: '', top: '' } };
     // set horizontal properties
     generateAnchorOrigin(anchorOrigin, portal);
@@ -46,17 +46,17 @@ export const SnackbarWrapper = styled.div<SnackbarPropsStyles>(({ anchorOrigin, 
     };
 });
 
-export const StyledSnackbarCloseButton = styled(Button)(({theme}) => ({
+export const StyledSnackbarCloseButton = styled(Button)(({ theme }) => ({
     alignSelf: 'center',
     transform: 'scale(0.8)',
     svg: {
         fill: theme.foregrounds.widget.secondaryDark
     },
     '&:hover': {
-      backgroundColor: lightenDarkenColor(theme.backgrounds.widget.secondaryDark, 20),
-      svg: {
-        fill: theme.foregrounds.widget.secondaryDark
-      }
+        backgroundColor: lightenDarkenColor(theme.backgrounds.widget.secondaryDark, 20),
+        svg: {
+            fill: theme.foregrounds.widget.secondaryDark
+        }
     }
 }));
 
@@ -68,7 +68,7 @@ export const StyledSnackbarButton = styled.span(({ theme }) => ({
     padding: 5
 }));
 
-export const StyledSnackbarContent = styled.div(({theme }) => ({
+export const StyledSnackbarContent = styled.div(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     minWidth: 80,
@@ -81,7 +81,7 @@ export const StyledSnackbarContent = styled.div(({theme }) => ({
     color: theme.foregrounds.widget.secondaryDark
 }));
 
-export const StyledSnackbarMessage = styled.div(({theme }) => ({
+export const StyledSnackbarMessage = styled.div(({ theme }) => ({
     color: theme.foregrounds.widget.secondaryDark,
     alignSelf: 'center'
 }));

@@ -1,5 +1,5 @@
-import PlaybackBar, { PlaybackBarProps } from './Playbackbar';
-import { HighlightsProp } from './playbackUtil';
+import PlaybackBar, { type PlaybackBarProps } from './Playbackbar';
+import type { HighlightsProp } from './playbackUtil';
 
-export { PlaybackBarProps, HighlightsProp };
+export type { HighlightsProp, PlaybackBarProps };
 export default PlaybackBar;

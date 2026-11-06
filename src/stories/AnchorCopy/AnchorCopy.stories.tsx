@@ -1,10 +1,9 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import AnchorCopyComponent, { AnchorCopyProps } from 'src/components/AnchorCopy';
-import Input from 'src/components/Input/Input';
 import DocBlock from '.storybook/DocBlock';
-import { green, saturatedRed, blue, storm } from 'src/styles/lakefrontColors';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import AnchorCopyComponent, { type AnchorCopyProps } from 'src/components/AnchorCopy';
+import Input from 'src/components/Input/Input';
+import { blue, green, saturatedRed, storm } from 'src/styles/lakefrontColors';
 
 export default {
     title: 'Lakefront/AnchorCopy',
@@ -50,7 +49,11 @@ const Template: StoryFn<AnchorCopyProps & ComponentPropsWithoutRef<'div'>> = (ar
                 hashId={args.hashId || title}
                 onCopy={handleCopy}
             />
-            <Input value={args.hashId || title} onChange={handleChange} style={{ marginTop: 8 }} />
+            <Input
+                value={args.hashId || title}
+                onChange={handleChange}
+                style={{ marginTop: 8 }}
+            />
             <div style={{ color: green, minHeight: 24 }}>
                 {copied}
                 <span style={{ color: saturatedRed, minHeight: 24 }}>

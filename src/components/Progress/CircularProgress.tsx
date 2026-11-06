@@ -1,9 +1,9 @@
-import { FC, ReactNode, useRef, useEffect } from 'react';
-import { useTheme, Theme } from '@emotion/react';
-import { arc as d3arc, pie as d3pie } from 'd3-shape';
+import { Theme, useTheme } from '@emotion/react';
 import { select } from 'd3-selection';
-import { CircularProgressStyle, CenterTextStyle } from './circularProgressStyles';
+import { arc as d3arc, pie as d3pie } from 'd3-shape';
+import { type FC, type ReactNode, useEffect, useRef } from 'react';
 import ThemeErrorFallback from 'src/components/shared/ThemeErrorFallback';
+import { CenterTextStyle, CircularProgressStyle } from './circularProgressStyles';
 
 export interface CircularProgressProps {
     /**
@@ -50,10 +50,17 @@ interface PieData {
  *
  * The Circular Progress component is used to render the arcs depending on the value provided for each label.
  */
-const CircularProgress: FC<CircularProgressProps> = ({ width, text, data, theme: colorScheme, className }) => {
+const CircularProgress: FC<CircularProgressProps> = ({
+    width: widthProp,
+    text,
+    data,
+    theme: colorScheme,
+    className
+}) => {
     const emotionTheme = useTheme();
 
-    var width = Math.abs(width);
+    // the prop is renamed so this is a declaration rather than a var redeclaring the parameter
+    const width = Math.abs(widthProp);
     const svgRef = useRef<SVGSVGElement>(null);
     const htmlRef = useRef<HTMLDivElement>(null);
     const radius = width / 2;
@@ -68,15 +75,15 @@ const CircularProgress: FC<CircularProgressProps> = ({ width, text, data, theme:
         const html = select(htmlRef.current);
 
         // for tooltips later
-        const div: any = html
-            .select('div')
-            .attr('class', 'tooltip')
-            .style('opacity', 0);
+        const div: any = html.select('div').attr('class', 'tooltip').style('opacity', 0);
 
         const g = svg.select('g');
         const radius = width / 2;
 
-        const arc = d3arc().outerRadius(radius).innerRadius(radius - 10).padAngle(0);
+        const arc = d3arc()
+            .outerRadius(radius)
+            .innerRadius(radius - 10)
+            .padAngle(0);
         const pie = d3pie<PieData>()
             .sort(null)
             .value((record) => record.value);
@@ -92,20 +99,16 @@ const CircularProgress: FC<CircularProgressProps> = ({ width, text, data, theme:
                 return colorScheme[key] ? colorScheme[key].bgColor : 'transparent';
             })
             // have a mouse tooltip effect
-            .on('mouseover', function (event: PointerEvent, d: any) {
+            .on('mouseover', (event: PointerEvent, d: any) => {
                 if (d.data.tooltip === undefined || d.data.tooltip === true) {
-                    div.transition()
-                        .duration(200)
-                        .style('opacity', 0.9);
+                    div.transition().duration(200).style('opacity', 0.9);
                     div.html(`${d.data.label}: ${d.value}`)
                         .style('left', `${event.pageX}px`)
                         .style('top', `${event.pageY - 28}px`);
                 }
             })
-            .on('mouseout', function (d: any) {
-                div.transition()
-                    .duration(500)
-                    .style('opacity', 0);
+            .on('mouseout', (d: any) => {
+                div.transition().duration(500).style('opacity', 0);
             });
 
         paths.exit().remove();
@@ -115,12 +118,26 @@ const CircularProgress: FC<CircularProgressProps> = ({ width, text, data, theme:
         drawCircularProgress();
     });
 
-    if (!emotionTheme) return <ThemeErrorFallback componentName="CircularProgress" />;
+    if (!emotionTheme) return <ThemeErrorFallback componentName='CircularProgress' />;
 
     return (
-        <CircularProgressStyle width={width} ref={htmlRef} className={className}>
-            <svg width={width} height={width} ref={svgRef}>
-                <circle cx={radius} cy={radius} r={circleRadius} fill="transparent" stroke={emotionTheme.borderColors.primary} />
+        <CircularProgressStyle
+            width={width}
+            ref={htmlRef}
+            className={className}
+        >
+            <svg
+                width={width}
+                height={width}
+                ref={svgRef}
+            >
+                <circle
+                    cx={radius}
+                    cy={radius}
+                    r={circleRadius}
+                    fill='transparent'
+                    stroke={emotionTheme.borderColors.primary}
+                />
                 <g transform={`translate(${width / 2} ,  ${width / 2})`} />
             </svg>
             <CenterTextStyle>{text}</CenterTextStyle>

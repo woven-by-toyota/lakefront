@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import Slider from './Slider';
-import { PlaybackStyle, PlaySlider } from './playbackStyle';
-import { HighlightsProp } from './playbackUtil';
 import { ThemeProvider } from '@emotion/react';
+import type { FC } from 'react';
 import theme from 'src/styles/theme';
+import { PlaybackStyle, PlaySlider } from './playbackStyle';
+import type { HighlightsProp } from './playbackUtil';
+import Slider from './Slider';
 
 export interface PlaybackBarProps {
     /**
@@ -44,7 +44,8 @@ export interface PlaybackBarProps {
  *  The slider can be moved between the start point and the end point depending upon the playback property.
  *  The playback property determines whether the slider can be moved freely or whether it is constrained to the highlighted areas.
  */
-const PlaybackBar: FC<PlaybackBarProps> = ({ currentDuration,
+const PlaybackBar: FC<PlaybackBarProps> = ({
+    currentDuration,
     currentSlider,
     endDuration,
     highlights,
@@ -52,20 +53,19 @@ const PlaybackBar: FC<PlaybackBarProps> = ({ currentDuration,
     setSlider,
     className
 }) => {
-
     return (
-            <PlaybackStyle className={className}>
-                <PlaySlider>
-                    <span>{currentDuration}</span>
-                    <Slider
-                        value={currentSlider}
-                        max={maxSlider}
-                        highlights={highlights}
-                        onChange={setSlider}
-                    />
-                    <span>{endDuration}</span>
-                </PlaySlider>
-            </PlaybackStyle>
+        <PlaybackStyle className={className}>
+            <PlaySlider>
+                <span>{currentDuration}</span>
+                <Slider
+                    value={currentSlider}
+                    max={maxSlider}
+                    highlights={highlights}
+                    onChange={setSlider}
+                />
+                <span>{endDuration}</span>
+            </PlaySlider>
+        </PlaybackStyle>
     );
 };
 

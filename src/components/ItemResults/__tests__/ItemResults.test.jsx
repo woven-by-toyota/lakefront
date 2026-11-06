@@ -1,5 +1,5 @@
-import React from 'react';
 import { cleanup } from '@testing-library/react';
+import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import ItemResult from '../ItemResults';
 
@@ -8,8 +8,10 @@ afterAll(cleanup);
 describe('<ItemResult />', () => {
     it('renders properly', () => {
         const { container } = render(
-            <ItemResult dataLength={1} totalItems={5}>
-            </ItemResult>
+            <ItemResult
+                dataLength={1}
+                totalItems={5}
+            ></ItemResult>
         );
 
         expect(container.querySelectorAll('div')).toHaveLength(1);
@@ -17,8 +19,10 @@ describe('<ItemResult />', () => {
 
     it('confirms styles are present', () => {
         const { container } = render(
-            <ItemResult dataLength={1} totalItems={5}>
-            </ItemResult>
+            <ItemResult
+                dataLength={1}
+                totalItems={5}
+            ></ItemResult>
         );
         const firstDiv = container.firstChild;
         expect(firstDiv).toHaveStyle({ marginRight: '13px' });
@@ -27,9 +31,11 @@ describe('<ItemResult />', () => {
 
     it('confirms grid styles are present when set', () => {
         const { container } = render(
-            <ItemResult dataLength={2} totalItems={5}>
-            </ItemResult>
-        )
-        expect(container).toHaveTextContent('1 - 2 of 5')
+            <ItemResult
+                dataLength={2}
+                totalItems={5}
+            ></ItemResult>
+        );
+        expect(container).toHaveTextContent('1 - 2 of 5');
     });
 });

@@ -1,7 +1,7 @@
-import StatusTable from '../StatusTable';
-import StatusRow, { Status } from '../StatusRow';
-import StatusCellBadge from '../StatusCellBadge';
 import { renderWithTheme as render } from 'src/lib/testing';
+import StatusCellBadge from '../StatusCellBadge';
+import StatusRow, { Status } from '../StatusRow';
+import StatusTable from '../StatusTable';
 
 const mockTableHeaders = [
     {
@@ -16,29 +16,42 @@ const mockTableHeaders = [
     }
 ];
 
-describe('<StatusTable />', function () {
+describe('<StatusTable />', () => {
     it('should render properly', () => {
-      const { container } = render(
-            <StatusTable headers={mockTableHeaders} handleSort={jest.fn()}>
+        const { container } = render(
+            <StatusTable
+                headers={mockTableHeaders}
+                handleSort={jest.fn()}
+            >
                 <StatusRow status={Status.RUNNING}>
                     <td>First</td>
-                    <td><StatusCellBadge status={'RUNNING'} /></td>
+                    <td>
+                        <StatusCellBadge status={'RUNNING'} />
+                    </td>
                 </StatusRow>
                 <StatusRow status={Status.ENQUEUED}>
                     <td>First</td>
-                    <td><StatusCellBadge status={'ENQUEUED'} /></td>
+                    <td>
+                        <StatusCellBadge status={'ENQUEUED'} />
+                    </td>
                 </StatusRow>
                 <StatusRow status={Status.FAILED}>
                     <td>First</td>
-                    <td><StatusCellBadge status={'FAILED'} /></td>
+                    <td>
+                        <StatusCellBadge status={'FAILED'} />
+                    </td>
                 </StatusRow>
                 <StatusRow>
                     <td>First</td>
-                    <td><StatusCellBadge status={'FINISHED'} /></td>
+                    <td>
+                        <StatusCellBadge status={'FINISHED'} />
+                    </td>
                 </StatusRow>
                 <StatusRow status={Status.NONE}>
                     <td>First</td>
-                    <td><StatusCellBadge status={'NONE'} /></td>
+                    <td>
+                        <StatusCellBadge status={'NONE'} />
+                    </td>
                 </StatusRow>
             </StatusTable>
         );

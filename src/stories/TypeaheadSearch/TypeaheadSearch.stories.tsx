@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import TypeaheadSearch, { TypeaheadSearchProps } from 'src/components/TypeaheadSearch';
 import DocBlock from '.storybook/DocBlock';
-import { TypeaheadResultItem } from 'src/components/TypeaheadSearch/TypeaheadResults';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { useState } from 'react';
+import TypeaheadSearch, { type TypeaheadSearchProps } from 'src/components/TypeaheadSearch';
+import type { TypeaheadResultItem } from 'src/components/TypeaheadSearch/TypeaheadResults';
 import TypeaheadCustom, { LAKEFRONT_NAMES } from './TypeaheadCustomDemo';
 
 export default {
@@ -84,7 +83,11 @@ const Template: StoryFn<TypeaheadSearchProps> = (args) => {
                         Type the word <strong>error</strong> to demo error state.
                     </div>
                     <div style={{ height: 250, display: 'flex', justifyContent: 'center' }}>
-                        <TypeaheadSearch {...args} submitSearch={submitSearch} fetchResults={fetchResults} />
+                        <TypeaheadSearch
+                            {...args}
+                            submitSearch={submitSearch}
+                            fetchResults={fetchResults}
+                        />
                     </div>
                 </>
             )}
@@ -97,10 +100,11 @@ const Template: StoryFn<TypeaheadSearchProps> = (args) => {
                         Type the words <strong>log-error</strong> or <strong>file-error</strong> to demo error state.
                     </div>
                     <div style={{ height: 250, display: 'flex', justifyContent: 'center' }}>
-                        <TypeaheadSearch {...args} submitSearch={submitSearch}>
-                            {(options) => (
-                                <TypeaheadCustom {...options} />
-                            )}
+                        <TypeaheadSearch
+                            {...args}
+                            submitSearch={submitSearch}
+                        >
+                            {(options) => <TypeaheadCustom {...options} />}
                         </TypeaheadSearch>
                     </div>
                 </>

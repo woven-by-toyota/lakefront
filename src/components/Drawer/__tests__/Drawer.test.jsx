@@ -1,5 +1,5 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
+import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import Drawer from '../Drawer';
 
@@ -22,18 +22,22 @@ describe('Drawer', () => {
 
     it('calls the onClose action on button click', () => {
         const onClose = jest.fn();
-        const { getByRole } = render(<Drawer {...PROPS} onClose={onClose} />);
+        const { getByRole } = render(
+            <Drawer
+                {...PROPS}
+                onClose={onClose}
+            />
+        );
         fireEvent.click(getByRole('button'));
         expect(onClose).toHaveBeenCalled();
     });
 
     it('renders child component', () => {
         const { getByText } = render(
-            <Drawer {...PROPS} >
+            <Drawer {...PROPS}>
                 <div>This is child component</div>
             </Drawer>
         );
         expect(getByText('This is child component')).toBeInTheDocument();
     });
-
 });

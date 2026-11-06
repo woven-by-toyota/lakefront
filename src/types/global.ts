@@ -1,6 +1,6 @@
-import colors from '../styles/lakefrontColors';
-import borders from '../styles/borders';
-import zIndex from '../styles/zIndex';
+import type borders from '../styles/borders';
+import type colors from '../styles/lakefrontColors';
+import type zIndex from '../styles/zIndex';
 
 /**
  * JSONObject is a wrapper for a generic JSON object structure.
@@ -30,10 +30,10 @@ type BordersType = typeof borders;
 type ZIndexType = typeof zIndex;
 
 interface WidgetStyles {
-  primary: string;
-  dark: string;
-  secondaryDark: string;
-  light: string;
+    primary: string;
+    dark: string;
+    secondaryDark: string;
+    light: string;
 }
 
 export interface LakefrontTheme {
@@ -138,4 +138,3 @@ export interface LakefrontTheme {
         h6: { fontSize: number; fontFamily: string; fontWeight: number };
     };
 }
-

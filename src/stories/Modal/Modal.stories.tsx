@@ -1,9 +1,8 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import ModalComponent, { ModalProps } from 'src/components/Modal/Modal';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
 import Button from 'src/components/Button/Button';
+import ModalComponent, { type ModalProps } from 'src/components/Modal/Modal';
 
 export default {
     title: 'Lakefront/Modal',
@@ -84,7 +83,7 @@ SimpleModal.args = {
     dialogWidth: 'xs',
     renderInPortal: false,
     additionalText:
-        'If you have a really long statement and a smaller dialogWidth is specified, the dialog won\'t be as long. Longer statements or content will wrap.'
+        "If you have a really long statement and a smaller dialogWidth is specified, the dialog won't be as long. Longer statements or content will wrap."
 };
 
 export const PortalModal = Template.bind({});

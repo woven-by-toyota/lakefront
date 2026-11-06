@@ -187,8 +187,9 @@ export default {
     '^.+\\.(m?js|jsx|ts|tsx)$': 'babel-jest'
   },
 
+  // query-string and uuid are ESM only, as are filter-obj and split-on-first, query-string's deps
   transformIgnorePatterns: [
-    '/node_modules/(?!d3)',
+    '/node_modules/(?!(?:d3|query-string|filter-obj|split-on-first|uuid))',
   ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them

@@ -55,7 +55,7 @@ describe('MultiSelectFilter', () => {
         });
 
         it('returns an empty string when value length matches options length', () => {
-            expect(getApiQueryUrl('a', ['1','2','3'])).toBe('');
+            expect(getApiQueryUrl('a', ['1', '2', '3'])).toBe('');
         });
     });
 
@@ -127,24 +127,38 @@ describe('MultiSelectFilter', () => {
             });
 
             it('returns label of values array when provided values do not exist in provided options', () => {
-                const { getFilterBarLabel } = MultiSelectFilter({ options: MULTI_SELECT_FILTER_OPTIONS, label: 'label' }, {});
+                const { getFilterBarLabel } = MultiSelectFilter(
+                    { options: MULTI_SELECT_FILTER_OPTIONS, label: 'label' },
+                    {}
+                );
                 expect(getFilterBarLabel(['a', 'b', 'c'])).toBe('label: a,b,c');
             });
 
             it('returns label of labels array when provided values exist in provided options', () => {
-                const options = [{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }, { value: 'c', label: 'C' }];
+                const options = [
+                    { value: 'a', label: 'A' },
+                    { value: 'b', label: 'B' },
+                    { value: 'c', label: 'C' }
+                ];
                 const { getFilterBarLabel } = MultiSelectFilter({ options: options, label: 'label' }, {});
                 expect(getFilterBarLabel(['a', 'b', 'c'])).toBe('label: A,B,C');
             });
 
             it('returns mixed label of labels and values array when some values exist in provided options', () => {
-                const options = [{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }, { value: 'c', label: 'C' }];
+                const options = [
+                    { value: 'a', label: 'A' },
+                    { value: 'b', label: 'B' },
+                    { value: 'c', label: 'C' }
+                ];
                 const { getFilterBarLabel } = MultiSelectFilter({ options: options, label: 'label' }, {});
                 expect(getFilterBarLabel(['a', 'b', 'd', 'e'])).toBe('label: A,B,d,e');
             });
 
             it('properly formats labels with "["', () => {
-                const options = [{ value: 'a', label: 'A [b]' }, { value: 'b', label: 'B [a]' }];
+                const options = [
+                    { value: 'a', label: 'A [b]' },
+                    { value: 'b', label: 'B [a]' }
+                ];
                 const { getFilterBarLabel } = MultiSelectFilter({ options: options, label: 'label' }, {});
                 expect(getFilterBarLabel(['a', 'b'])).toBe('label: A,B');
             });
@@ -167,24 +181,38 @@ describe('MultiSelectFilter', () => {
             });
 
             it('returns values array when provided values do not exist in provided options', () => {
-                const { getFilterSectionLabel } = MultiSelectFilter({ options: MULTI_SELECT_FILTER_OPTIONS, label: 'label' }, {});
+                const { getFilterSectionLabel } = MultiSelectFilter(
+                    { options: MULTI_SELECT_FILTER_OPTIONS, label: 'label' },
+                    {}
+                );
                 expect(getFilterSectionLabel(['a', 'b', 'c'])).toMatchObject(['a', 'b', 'c']);
             });
 
             it('returns labels array when provided values exist in provided options', () => {
-                const options = [{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }, { value: 'c', label: 'C' }];
+                const options = [
+                    { value: 'a', label: 'A' },
+                    { value: 'b', label: 'B' },
+                    { value: 'c', label: 'C' }
+                ];
                 const { getFilterSectionLabel } = MultiSelectFilter({ options: options, label: 'label' }, {});
                 expect(getFilterSectionLabel(['a', 'b', 'c'])).toMatchObject(['A', 'B', 'C']);
             });
 
             it('returns mixed label of labels and values array when some values exist in provided options', () => {
-                const options = [{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }, { value: 'c', label: 'C' }];
+                const options = [
+                    { value: 'a', label: 'A' },
+                    { value: 'b', label: 'B' },
+                    { value: 'c', label: 'C' }
+                ];
                 const { getFilterSectionLabel } = MultiSelectFilter({ options: options, label: 'label' }, {});
                 expect(getFilterSectionLabel(['a', 'b', 'd', 'e'])).toMatchObject(['A', 'B', 'd', 'e']);
             });
 
             it('properly formats labels with "["', () => {
-                const options = [{ value: 'a', label: 'A [b]' }, { value: 'b', label: 'B [a]' }];
+                const options = [
+                    { value: 'a', label: 'A [b]' },
+                    { value: 'b', label: 'B [a]' }
+                ];
                 const { getFilterSectionLabel } = MultiSelectFilter({ options: options, label: 'label' }, {});
                 expect(getFilterSectionLabel(['a', 'b'])).toMatchObject(['A', 'B']);
             });
@@ -235,7 +263,9 @@ describe('MultiSelectFilter', () => {
 
         it('returns the expected component', () => {
             const update = () => null;
-            const { getByRole, getByText } = render(<div>{renderComponent({ name: 'name', value: ['colors'], update })}</div>);
+            const { getByRole, getByText } = render(
+                <div>{renderComponent({ name: 'name', value: ['colors'], update })}</div>
+            );
             getByRole('combobox');
             getByText('colors');
         });
@@ -295,7 +325,9 @@ describe('MultiSelectFilter', () => {
             expect(parseInitialFilterValue('a')).toBeNull();
 
             const update = () => null;
-            const { queryByRole, queryByText } = render(<div>{renderComponent({ name: 'name', value: ['colors'], update })}</div>);
+            const { queryByRole, queryByText } = render(
+                <div>{renderComponent({ name: 'name', value: ['colors'], update })}</div>
+            );
 
             expect(queryByRole('combobox')).not.toBeInTheDocument();
             expect(queryByText('colors')).not.toBeInTheDocument();
@@ -303,7 +335,10 @@ describe('MultiSelectFilter', () => {
     });
 
     describe('clearPartialSingleFilter', () => {
-        const options = [{ value: 'a', label: 'A [b]' }, { value: 'b', label: 'B [a]' }];
+        const options = [
+            { value: 'a', label: 'A [b]' },
+            { value: 'b', label: 'B [a]' }
+        ];
         const { clearPartialSingleFilter } = MultiSelectFilter({ options });
 
         it('clears part of the filter if value exists', () => {
@@ -328,7 +363,10 @@ describe('MultiSelectFilter', () => {
         });
 
         it('removes the right entry when two options render identical "["-truncated labels', () => {
-            const readyOptions = [{ value: 'a', label: 'Ready [A]' }, { value: 'b', label: 'Ready [B]' }];
+            const readyOptions = [
+                { value: 'a', label: 'Ready [A]' },
+                { value: 'b', label: 'Ready [B]' }
+            ];
             const { clearPartialSingleFilter } = MultiSelectFilter({ options: readyOptions });
 
             const result = clearPartialSingleFilter(['a', 'b'], 'a');

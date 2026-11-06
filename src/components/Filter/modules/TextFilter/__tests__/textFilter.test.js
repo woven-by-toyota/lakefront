@@ -1,5 +1,5 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
+import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import TextFilter from '../TextFilter';
 
@@ -110,17 +110,17 @@ describe('TextFilter', () => {
         });
     });
 
-    describe('renderComponent', () => {    
+    describe('renderComponent', () => {
         it('returns the expected component', () => {
             const { renderComponent } = TextFilter('', '');
-            
+
             const update = jest.fn();
             const { getByRole } = render(<div>{renderComponent({ name: 'name', value: '1', update })}</div>);
             expect(getByRole('textbox')).toHaveValue('1');
             fireEvent.blur(getByRole('textbox'), { target: { value: 'asdf' } });
             expect(update).toHaveBeenCalledWith('asdf');
         });
-        
+
         it('limits input to numbers only when specified', () => {
             const { renderComponent } = TextFilter('', '', {}, { type: 'number' });
 
@@ -212,9 +212,14 @@ describe('TextFilter', () => {
         });
 
         it('keeps whitespace when trimWhitespace is false', () => {
-            const { getApiQueryUrl, getApiPostBody, isDefaultFilterValue, getFilterCount } = TextFilter('', '', {}, {
-                trimWhitespace: false
-            });
+            const { getApiQueryUrl, getApiPostBody, isDefaultFilterValue, getFilterCount } = TextFilter(
+                '',
+                '',
+                {},
+                {
+                    trimWhitespace: false
+                }
+            );
 
             expect(getApiQueryUrl('a', '  a  ')).toBe('&a=%20%20a%20%20');
             expect(getApiPostBody('a', '  a  ')).toMatchObject({ a: '  a  ' });

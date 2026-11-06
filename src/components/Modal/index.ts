@@ -1,5 +1,5 @@
-import Modal, { ModalProps } from './Modal';
-import ConfirmationModal, { ConfirmationModalProps } from './ConfirmationModal';
+import ConfirmationModal, { type ConfirmationModalProps } from './ConfirmationModal';
+import Modal, { type ModalProps } from './Modal';
 
-export { ConfirmationModal, ConfirmationModalProps, ModalProps };
+export { ConfirmationModal, type ConfirmationModalProps, type ModalProps };
 export default Modal;

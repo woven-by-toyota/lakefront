@@ -1,19 +1,25 @@
 import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
-import ProgressBar from '../ProgressBar';
 import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';
+import ProgressBar from '../ProgressBar';
+
 const items = [
     { label: 'finished', value: 5 },
     { label: 'failed', value: 30 },
     { label: 'running', value: 10 },
     { label: 'pending', value: 5 }
-]
+];
 
 describe('<ProgressBar />', () => {
     describe('general rendering', () => {
         it('renders default items', () => {
             const { container } = render(
-                <ProgressBar theme={PROGRESS_COLOR_SCHEME} data={items} total={50} width={100} />
+                <ProgressBar
+                    theme={PROGRESS_COLOR_SCHEME}
+                    data={items}
+                    total={50}
+                    width={100}
+                />
             );
             // check width of bar container
             expect(container.getElementsByTagName('div')[0]).toHaveAttribute('width', '100');
@@ -42,20 +48,28 @@ describe('<ProgressBar />', () => {
                 { label: 'pending', value: 5 }
             ];
             const { container } = render(
-                <ProgressBar theme={PROGRESS_COLOR_SCHEME} data={items} total={50} width={100} />
+                <ProgressBar
+                    theme={PROGRESS_COLOR_SCHEME}
+                    data={items}
+                    total={50}
+                    width={100}
+                />
             );
             expect(container.getElementsByTagName('span')).toHaveLength(1);
-            expect(container.getElementsByTagName('span')[0]).toHaveStyle('width:50px')
+            expect(container.getElementsByTagName('span')[0]).toHaveStyle('width:50px');
         });
         it('renders transparent color for a non existing label ', () => {
-            const items = [
-                { label: 'testlabel', value: 25 }
-            ];
+            const items = [{ label: 'testlabel', value: 25 }];
             const { container } = render(
-                <ProgressBar theme={PROGRESS_COLOR_SCHEME} data={items} total={50} width={100} />
+                <ProgressBar
+                    theme={PROGRESS_COLOR_SCHEME}
+                    data={items}
+                    total={50}
+                    width={100}
+                />
             );
             expect(container.getElementsByTagName('span')).toHaveLength(1);
-            expect(container.getElementsByTagName('span')[0]).toHaveStyle('background-color:#e1e1e8')
+            expect(container.getElementsByTagName('span')[0]).toHaveStyle('background-color:#e1e1e8');
         });
-    })
+    });
 });

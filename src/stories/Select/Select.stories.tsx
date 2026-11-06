@@ -1,10 +1,10 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import { useTheme } from '@emotion/react';
-import SelectComponent, { getSelectOverlayStyles, SelectProps } from 'src/components/Select';
 import DocBlock from '.storybook/DocBlock';
+import { useTheme } from '@emotion/react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import SelectComponent, { getSelectOverlayStyles, type SelectProps } from 'src/components/Select';
+import type { SelectOption } from 'src/components/Select/Select';
 import { emerald } from 'src/styles/lakefrontColors';
-import { SelectOption } from 'src/components/Select/Select';
 
 export default {
     title: 'Lakefront/Select',
@@ -24,11 +24,10 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
     };
 
     const areValuesSelected = () => {
-        if (!args.isMulti){
+        if (!args.isMulti) {
             return value !== undefined;
-        }
-        else {
-            return value != undefined && Array.isArray(value) && value.length > 0;
+        } else {
+            return value != null && Array.isArray(value) && value.length > 0;
         }
     };
 
@@ -45,20 +44,24 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
                 }}
             >
                 {areValuesSelected() && !args.isMulti && `The selected value is ${value}`}
-                {areValuesSelected() && Array.isArray(value) && value.length > 0 && args.isMulti && `The selected values are: ${value.map((v: any) => ` ${v}`)}`}
+                {areValuesSelected() &&
+                    Array.isArray(value) &&
+                    value.length > 0 &&
+                    args.isMulti &&
+                    `The selected values are: ${value.map((v: any) => ` ${v}`)}`}
             </div>
             <section style={{ display: 'inline-flex', height: '150px' }}>
                 <SelectComponent
-                  value={value}
-                  onChange={handleOnChange}
-                  styles={{
-                    ...getSelectOverlayStyles(theme),
-                    control: (baseStyles: any, state: any) => ({
-                      ...getSelectOverlayStyles(theme).control?.(baseStyles, state),
-                      minWidth: 300
-                    })
-                  }}
-                  {...args}
+                    value={value}
+                    onChange={handleOnChange}
+                    styles={{
+                        ...getSelectOverlayStyles(theme),
+                        control: (baseStyles: any, state: any) => ({
+                            ...getSelectOverlayStyles(theme).control?.(baseStyles, state),
+                            minWidth: 300
+                        })
+                    }}
+                    {...args}
                 />
             </section>
         </>
@@ -67,56 +70,76 @@ const Template: StoryFn<SelectProps & ComponentPropsWithoutRef<'div'>> = (args) 
 
 export const Select = Template.bind({});
 Select.args = {
-    options: [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperial' }],
+    options: [
+        { label: 'Km', value: 'metric' },
+        { label: 'Mi', value: 'imperial' }
+    ],
     value: 'imperial',
-    isMulti: false,
+    isMulti: false
 };
 
 export const DisabledSelect = Template.bind({});
 DisabledSelect.args = {
-  options: [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperial' }],
-  value: 'imperial',
-  isMulti: false,
-  disabled: true
+    options: [
+        { label: 'Km', value: 'metric' },
+        { label: 'Mi', value: 'imperial' }
+    ],
+    value: 'imperial',
+    isMulti: false,
+    disabled: true
 };
 
 export const MultiSelect = Template.bind({});
 MultiSelect.args = {
-    options: [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperial' }, {label: 'Made up system', value: 'made up'}],
+    options: [
+        { label: 'Km', value: 'metric' },
+        { label: 'Mi', value: 'imperial' },
+        { label: 'Made up system', value: 'made up' }
+    ],
     value: '',
-    isMulti: true,
+    isMulti: true
 };
 
 export const MultiSelectWithDefaultValues = Template.bind({});
 MultiSelectWithDefaultValues.args = {
-  options: [{ label: 'Km', value: 'metric' }, { label: 'Mi', value: 'imperial' }, {label: 'Made up system', value: 'made up'}],
-  multiDefaultValue: [{ label: 'Mi', value: 'imperial' }, {label: 'Made up system', value: 'made up'}],
-  isMulti: true
+    options: [
+        { label: 'Km', value: 'metric' },
+        { label: 'Mi', value: 'imperial' },
+        { label: 'Made up system', value: 'made up' }
+    ],
+    multiDefaultValue: [
+        { label: 'Mi', value: 'imperial' },
+        { label: 'Made up system', value: 'made up' }
+    ],
+    isMulti: true
 };
 
 export const AsyncSelect = Template.bind({});
 AsyncSelect.args = {
-  options: [],
-  multiDefaultValue: [],
-  isMulti: true,
-  openMenuOnClick: false,
-  isSearchable: true,
-  asyncConfig: {
-    placeholder: 'Start typing to fetch options.',
-    noOptionsMessage: ({ inputValue }) => inputValue.length < 3 ? 'Input at least 3 characters.' : 'No matching options. Try typing "Some"',
-    loadOptions: (inputValue: string, callback: (options: SelectOption[]) => void) => {
-      if (inputValue.length < 3) {
-        callback([]);
-        return;
-      }
-      // Simulate an async call to fetch options based on the input value
-      setTimeout(() => {
-        // Here you would typically make an API call to fetch options
-        const filteredOptions = [{ label: 'Some', value: 'some' }, {label: 'Something', value: 'something'}, {label: 'Some things', value: 'some_things'}].filter((option) =>
-          option.label.toLowerCase().includes(inputValue.toLowerCase())
-        );
-        callback(filteredOptions);
-      }, 1000); // Simulate network delay
+    options: [],
+    multiDefaultValue: [],
+    isMulti: true,
+    openMenuOnClick: false,
+    isSearchable: true,
+    asyncConfig: {
+        placeholder: 'Start typing to fetch options.',
+        noOptionsMessage: ({ inputValue }) =>
+            inputValue.length < 3 ? 'Input at least 3 characters.' : 'No matching options. Try typing "Some"',
+        loadOptions: (inputValue: string, callback: (options: SelectOption[]) => void) => {
+            if (inputValue.length < 3) {
+                callback([]);
+                return;
+            }
+            // Simulate an async call to fetch options based on the input value
+            setTimeout(() => {
+                // Here you would typically make an API call to fetch options
+                const filteredOptions = [
+                    { label: 'Some', value: 'some' },
+                    { label: 'Something', value: 'something' },
+                    { label: 'Some things', value: 'some_things' }
+                ].filter((option) => option.label.toLowerCase().includes(inputValue.toLowerCase()));
+                callback(filteredOptions);
+            }, 1000); // Simulate network delay
+        }
     }
-  }
 };

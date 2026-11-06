@@ -1,8 +1,7 @@
-import { ComponentPropsWithoutRef, useState, useEffect } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import CheckboxGroupComponent, { CheckboxGroupProps } from 'src/components/CheckboxGroup/CheckboxGroup';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useEffect, useState } from 'react';
+import CheckboxGroupComponent, { type CheckboxGroupProps } from 'src/components/CheckboxGroup/CheckboxGroup';
 import { emerald } from 'src/styles/lakefrontColors';
 
 export default {
@@ -42,7 +41,7 @@ const JOB_TYPES = [
 ];
 
 const Template: StoryFn<CheckboxGroupProps & ComponentPropsWithoutRef<'input'>> = (args) => {
-    const [value, setValue] = useState(new Set(JOB_TYPES.map(item => item.value)));
+    const [value, setValue] = useState(new Set(JOB_TYPES.map((item) => item.value)));
 
     const handleClick = (option: any) => {
         setValue(option);
@@ -50,28 +49,30 @@ const Template: StoryFn<CheckboxGroupProps & ComponentPropsWithoutRef<'input'>> 
 
     const getValue = (): any => {
         var values = [];
-        value.forEach(function (element) {
+        value.forEach((element) => {
             values.push(element + ' ');
         });
         return values;
     };
 
     useEffect(() => {
-        setValue(new Set(args.options.map(item => item.value)));
+        setValue(new Set(args.options.map((item) => item.value)));
     }, [args.options]);
 
     return (
         <div>
-            {value.size != 0 && <div
-                style={{
-                    minHeight: 20,
-                    backgroundColor: emerald,
-                    padding: 8,
-                    margin: '8px 0',
-                }}
-            >
-                Selected Values :    {getValue()}
-            </div>}
+            {value.size !== 0 && (
+                <div
+                    style={{
+                        minHeight: 20,
+                        backgroundColor: emerald,
+                        padding: 8,
+                        margin: '8px 0'
+                    }}
+                >
+                    Selected Values : {getValue()}
+                </div>
+            )}
             <CheckboxGroupComponent
                 options={args.options}
                 allLabel={args.allLabel}

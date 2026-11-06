@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import CopyButtonComponent, { CopyButtonProps } from 'src/components/CopyButton';
-import { ButtonComponentProps, COLORS } from 'src/components/Button/buttonUtil';
-import Input from 'src/components/Input/Input';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { useState } from 'react';
+import { type ButtonComponentProps, COLORS } from 'src/components/Button/buttonUtil';
+import CopyButtonComponent, { type CopyButtonProps } from 'src/components/CopyButton';
+import Input from 'src/components/Input/Input';
 import { green, saturatedRed } from 'src/styles/lakefrontColors';
 
 export default {
@@ -24,8 +23,8 @@ export default {
         color: {
             control: {
                 type: 'select',
-                options: [COLORS.PRIMARY, COLORS.SECONDARY, COLORS.DESTRUCTIVE],
-            },
+                options: [COLORS.PRIMARY, COLORS.SECONDARY, COLORS.DESTRUCTIVE]
+            }
         },
         disabled: {
             control: 'boolean',
@@ -75,7 +74,11 @@ const Template: StoryFn<CopyButtonProps & Omit<ButtonComponentProps, 'onCopy'>> 
                 disabled={args.disabled || !copyText}
                 onCopy={handleCopy}
             />
-            <Input value={args.valueToCopy || copyText} onChange={handleChange} style={{ marginTop: 8 }} />
+            <Input
+                value={args.valueToCopy || copyText}
+                onChange={handleChange}
+                style={{ marginTop: 8 }}
+            />
             <div style={{ color: green, minHeight: 24 }}>
                 {copied}
                 <span style={{ color: saturatedRed, minHeight: 24 }}>

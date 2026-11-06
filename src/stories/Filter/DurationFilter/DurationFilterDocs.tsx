@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 export interface DurationFilterArgs {
     /**
@@ -23,8 +23,8 @@ export const DURATION_FILTER_SOURCE_CODE = createFilterSourceCode(`{
 
 /**
  * Duration Filter Component
- * 
- * The Duration Filter Component meant to be used to filter according to the minimum and maximum input. 
+ *
+ * The Duration Filter Component meant to be used to filter according to the minimum and maximum input.
  * You can specify the minimum value and maximum value in the input control. The default value for Min is set as 0.
  */
 const DurationFilterDocs: FC<DurationFilterArgs> = () => null;

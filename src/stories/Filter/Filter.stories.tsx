@@ -1,8 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import FilterPage from './components/FilterPage';
-import FilterComponent from 'src/components/Filter/Filter';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import FilterComponent from 'src/components/Filter/Filter';
+import FilterPage from './components/FilterPage';
 
 export default {
     title: 'Lakefront/Filter/AllFilters',

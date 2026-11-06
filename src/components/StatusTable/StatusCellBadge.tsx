@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { ThemeProvider } from '@emotion/react';
+import type { FC } from 'react';
 import { humanize } from 'src/lib/format.js';
+import theme from 'src/styles/theme';
 import { Status } from './StatusRow';
 import { StatusCellBadgeStyle } from './statusTableStyles';
-import { ThemeProvider } from '@emotion/react';
-import theme from 'src/styles/theme';
 
 export interface StatusCellBadgeProps {
     /**
@@ -17,16 +17,19 @@ export interface StatusCellBadgeProps {
 }
 
 /**
- *  Status Cell Badge Component will display a round bullet colored according to the status and 
- *  display the status. 
+ *  Status Cell Badge Component will display a round bullet colored according to the status and
+ *  display the status.
  */
 const StatusCellBadge: FC<StatusCellBadgeProps> = ({ status = Status.NONE, className }) => {
     const styleKey = (Status as any)[status];
 
     return (
-            <StatusCellBadgeStyle className={className} status={styleKey}>
-                {humanize(status)}
-            </StatusCellBadgeStyle>
+        <StatusCellBadgeStyle
+            className={className}
+            status={styleKey}
+        >
+            {humanize(status)}
+        </StatusCellBadgeStyle>
     );
 };
 

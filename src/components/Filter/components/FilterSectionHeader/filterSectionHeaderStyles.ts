@@ -15,7 +15,7 @@ export const FilterValueChip = styled.div(({ theme }) => ({
     fontWeight: 600,
     color: theme.foregrounds.secondary,
     svg: {
-      fill: theme.foregrounds.primary
+        fill: theme.foregrounds.primary
     },
     minHeight: 28,
     div: {
@@ -25,14 +25,14 @@ export const FilterValueChip = styled.div(({ theme }) => ({
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap'
     },
-    'span': {
+    span: {
         display: 'flex',
         alignItems: 'flex-start',
         gridArea: '1 / 2',
         cursor: 'pointer',
         fontWeight: 100,
         paddingLeft: 10,
-        'svg': {
+        svg: {
             height: 10,
             width: 10,
             padding: 2
@@ -120,7 +120,7 @@ export const FilterActions = styled.div(({ theme }) => ({
     alignItems: 'center',
     color: theme.foregrounds.primary,
     svg: {
-      fill: theme.foregrounds.primary
+        fill: theme.foregrounds.primary
     }
 }));
 

@@ -1,5 +1,5 @@
+import type { FilterModule, TextFilterOverrides } from 'src/components/Filter/types';
 import TextSearch from './TextSearch';
-import { FilterModule, TextFilterOverrides } from 'src/components/Filter/types';
 
 export interface TextFilterOptions {
     type?: 'text' | 'number';
@@ -8,18 +8,18 @@ export interface TextFilterOptions {
 
 /**
  * TextFilter Component
- * 
+ *
  * The TextFilter component is a text input control meant to be used as a keyword(s) search. While the default
  * behaviour should suffice, any valid `FilterModule` property (excluding description and label) can
  * be supplied via the `textFilterOverrides` parameter to change how the filter looks and acts. TextFilter arguments include:
- * 
+ *
  * `label` - The label to display for the text filter component.
- * 
+ *
  * `description` - The description/help text to display above the text filter component.
- * 
+ *
  * `textFilterOverrides` - Any valid `FilterModule` property (excluding description and label)
  * which will override default text filter behaviour.
- * 
+ *
  * `textFilterOptions` - Used to set additional textFilter options such as the type of text input and whether
  * leading/trailing whitespace is trimmed (`trimWhitespace`, which defaults to `true`).
  */
@@ -71,4 +71,3 @@ const TextFilter = (
 };
 
 export default TextFilter;
-

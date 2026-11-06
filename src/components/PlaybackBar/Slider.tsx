@@ -1,8 +1,7 @@
-import { FC, useMemo, useRef } from 'react';
-
-import { getLeft, getPercentage, getValue, throttled, HighlightsProp } from './playbackUtil';
-import { SliderContainer, SliderBar, SliderStyle, ThumbStyle } from './playbackStyle';
+import { type FC, useMemo, useRef } from 'react';
 import HighlightSections from './HighlightSections';
+import { SliderBar, SliderContainer, SliderStyle, ThumbStyle } from './playbackStyle';
+import { getLeft, getPercentage, getValue, type HighlightsProp, throttled } from './playbackUtil';
 
 interface SliderProps {
     value: number;
@@ -26,7 +25,7 @@ const Slider: FC<SliderProps> = ({ value, max, highlights, onChange }) => {
 
     const sliderRef = useRef<HTMLDivElement>(null);
     const thumbRef = useRef<HTMLDivElement>(null);
-    const mouseMoveHandler = useRef(() => { });
+    const mouseMoveHandler = useRef(() => {});
 
     const triggerThumbMove = (xPos: any) => {
         if (sliderRef.current && thumbRef.current) {
@@ -87,15 +86,22 @@ const Slider: FC<SliderProps> = ({ value, max, highlights, onChange }) => {
         <SliderContainer>
             <SliderBar />
 
-            <HighlightSections highlights={highlights} max={max} />
+            <HighlightSections
+                highlights={highlights}
+                max={max}
+            />
 
-            <SliderStyle ref={sliderRef} onClick={handleClick} data-testid="slider" />
+            <SliderStyle
+                ref={sliderRef}
+                onClick={handleClick}
+                data-testid='slider'
+            />
 
             <ThumbStyle
                 ref={thumbRef}
                 onMouseDown={handleMouseDown}
                 left={getLeft(initialPercentage)}
-                data-testid="thumb"
+                data-testid='thumb'
             />
         </SliderContainer>
     );

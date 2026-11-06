@@ -7,13 +7,13 @@ export const formatBytes = (bytes: number | undefined, decimals = 2) => {
 
     let i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    let value = (bytes / Math.pow(k, i)).toFixed(dm);
+    let value = (bytes / k ** i).toFixed(dm);
     let size = sizes[i];
 
     if (value === k.toFixed(dm)) {
         i = i + 1;
 
-        value = (bytes / Math.pow(k, i)).toFixed(dm);
+        value = (bytes / k ** i).toFixed(dm);
         size = sizes[i];
     }
 

@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { MultiSelectFilterOptions, MultiSelectFilterProps } from 'src/components/Filter/types';
+import type { FC } from 'react';
+import type { MultiSelectFilterOptions, MultiSelectFilterProps } from 'src/components/Filter/types';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 
 export interface MultiSelectFilterArgs {
@@ -8,7 +8,7 @@ export interface MultiSelectFilterArgs {
      * the MultiSelectFilter component. If the *optional* `delimiter` prop is provided, input parsing
      * will be enabled to allow typing/pasting multiple values seperated by the chosen delimiter.
      */
-     multiSelectFilterProps: MultiSelectFilterProps;
+    multiSelectFilterProps: MultiSelectFilterProps;
     /**
      * Any valid `FilterModule` property (excluding description and label)
      * which will override default multi select filter behaviour.
@@ -19,7 +19,7 @@ export interface MultiSelectFilterArgs {
 /**
  * Example of multi select filter source code.
  */
- export const MULTI_SELECT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
+export const MULTI_SELECT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
     multiSelectFilter: MultiSelectFilter(
         {
             label: 'Multi Select Filter',
@@ -40,7 +40,7 @@ export interface MultiSelectFilterArgs {
 
 /**
  * MultiSelectFilter Component
- * 
+ *
  * The MultiSelectFilter component is a multi select dropdown filter. While the default
  * behaviour should suffice, any valid `FilterModule` property (excluding description and label) can
  * be supplied via the `multiSelectFilterOptions` parameter to change how the filter looks and acts.

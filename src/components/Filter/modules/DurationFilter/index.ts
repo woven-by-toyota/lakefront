@@ -1,5 +1,5 @@
-import { DurationFilter, DurationFilterProps } from "./DurationFilter";
-import MinMaxInput, { MinMaxInputProps } from './MinMaxInput';
+import { DurationFilter, type DurationFilterProps } from './DurationFilter';
+import MinMaxInput, { type MinMaxInputProps } from './MinMaxInput';
 
-export { DurationFilterProps, MinMaxInput, MinMaxInputProps };
+export { type DurationFilterProps, MinMaxInput, type MinMaxInputProps };
 export default DurationFilter;

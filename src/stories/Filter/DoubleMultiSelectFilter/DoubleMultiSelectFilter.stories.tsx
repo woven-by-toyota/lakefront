@@ -1,9 +1,11 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import FilterPage from '../components/FilterPage';
-import DoubleMultiSelectFilterDocs, { DoubleMultiSelectFilterArgs, DOUBLE_MULTI_SELECT_FILTER_SOURCE_CODE } from './DoubleMultiSelectFilterDocs';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { DoubleMultiSelectFilter as DoubleMultiSelectFilterFunction } from 'src/components/Filter/modules';
+import FilterPage from '../components/FilterPage';
+import DoubleMultiSelectFilterDocs, {
+    DOUBLE_MULTI_SELECT_FILTER_SOURCE_CODE,
+    type DoubleMultiSelectFilterArgs
+} from './DoubleMultiSelectFilterDocs';
 
 export default {
     title: 'Lakefront/Filter/DoubleMultiSelectFilter',
@@ -13,7 +15,8 @@ export default {
             control: {
                 type: 'object'
             },
-            description: 'The props required to be supplied as the first argument of the DoubleMultiSelectFilter component.'
+            description:
+                'The props required to be supplied as the first argument of the DoubleMultiSelectFilter component.'
         },
         doubleMultiSelectFilterOptions: {
             control: false,
@@ -34,7 +37,10 @@ export default {
 // Double Multi Select Filter
 const DoubleMultiSelectFilterTemplate: StoryFn = (args: DoubleMultiSelectFilterArgs) => {
     const pageFilters = {
-        doubleMultiSelectFilter: DoubleMultiSelectFilterFunction(args.doubleMultiSelectFilterProps, args.doubleMultiSelectFilterOptions)
+        doubleMultiSelectFilter: DoubleMultiSelectFilterFunction(
+            args.doubleMultiSelectFilterProps,
+            args.doubleMultiSelectFilterOptions
+        )
     };
 
     return <FilterPage pageFilters={pageFilters} />;

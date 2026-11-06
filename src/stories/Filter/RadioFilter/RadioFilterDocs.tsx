@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { RadioFilterOptions, RadioFilterProps } from 'src/components/Filter/types';
+import type { FC } from 'react';
+import type { RadioFilterOptions, RadioFilterProps } from 'src/components/Filter/types';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 
 export interface RadioFilterArgs {

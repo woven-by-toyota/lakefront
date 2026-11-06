@@ -1,5 +1,5 @@
-import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
+import React from 'react';
 import AdditionalJSONFilter from '../AdditionalJSONFilter';
 import { ADDITIONAL_JSON_FILTER_BAR_LABEL, ADDITIONAL_JSON_FILTER_LABEL } from '../additionalJSONFilterUtil';
 
@@ -80,7 +80,7 @@ describe('AdditionalJSONFilter', () => {
             expect(getFilterBarLabel({})).toBe(ADDITIONAL_JSON_FILTER_BAR_LABEL);
         });
 
-        it(`returns empty string if value is falsy`, () => {
+        it('returns empty string if value is falsy', () => {
             expect(getFilterBarLabel('')).toBe('');
             expect(getFilterBarLabel(0)).toBe('');
             expect(getFilterBarLabel(null)).toBe('');
@@ -97,7 +97,7 @@ describe('AdditionalJSONFilter', () => {
             expect(getFilterSectionLabel({})).toBe(ADDITIONAL_JSON_FILTER_BAR_LABEL);
         });
 
-        it(`returns empty string if value is falsy`, () => {
+        it('returns empty string if value is falsy', () => {
             expect(getFilterSectionLabel('')).toBe('');
             expect(getFilterSectionLabel(0)).toBe('');
             expect(getFilterSectionLabel(null)).toBe('');
@@ -109,15 +109,15 @@ describe('AdditionalJSONFilter', () => {
         const { parseInitialFilterValue } = AdditionalJSONFilter();
 
         it('returns JSON parsed value if value is truthy', () => {
-            expect(parseInitialFilterValue("{\"a\":1}")).toMatchObject({ a: 1 });
-            expect(parseInitialFilterValue("{\"a\":[1, 2]}")).toMatchObject({ a: [1, 2] });
+            expect(parseInitialFilterValue('{"a":1}')).toMatchObject({ a: 1 });
+            expect(parseInitialFilterValue('{"a":[1, 2]}')).toMatchObject({ a: [1, 2] });
         });
 
         it('returns undefined if value is falsy', () => {
             expect(parseInitialFilterValue('')).toBeUndefined();
             expect(parseInitialFilterValue(0)).toBeUndefined();
             expect(parseInitialFilterValue(null)).toBeUndefined();
-            expect(parseInitialFilterValue()).toBeUndefined();;
+            expect(parseInitialFilterValue()).toBeUndefined();
         });
     });
 
@@ -143,7 +143,7 @@ describe('AdditionalJSONFilter', () => {
             'getFilterBarLabel',
             'getFilterSectionLabel',
             'parseInitialFilterValue',
-            'renderComponent',
+            'renderComponent'
         ];
         const OVERRIDE_RENDER = 'overrideRender';
         const {
@@ -157,7 +157,7 @@ describe('AdditionalJSONFilter', () => {
             getFilterBarLabel,
             getFilterSectionLabel,
             parseInitialFilterValue,
-            renderComponent,
+            renderComponent
         } = AdditionalJSONFilter({
             ...filterModuleKeys.reduce((acc, k) => ({ ...acc, [k]: () => null }), {}),
             renderComponent: () => <div>{OVERRIDE_RENDER}</div>
@@ -175,9 +175,7 @@ describe('AdditionalJSONFilter', () => {
             expect(getFilterSectionLabel('a')).toBeNull();
             expect(parseInitialFilterValue('a')).toBeNull();
 
-            const { getByText } = render(
-                <div>{renderComponent()}</div>
-            );
+            const { getByText } = render(<div>{renderComponent()}</div>);
             getByText(OVERRIDE_RENDER);
         });
     });

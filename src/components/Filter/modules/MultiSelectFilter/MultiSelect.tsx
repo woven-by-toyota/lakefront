@@ -1,15 +1,17 @@
-import { useState, useEffect, FC } from 'react';
-
-import Select, { OnChangeValue, components } from 'react-select';
+import { useTheme } from '@emotion/react';
+import { type FC, useEffect, useState } from 'react';
+import Select, { type components, type OnChangeValue } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { SelectOption } from 'src/types/global';
+import ThemeErrorFallback from 'src/components/shared/ThemeErrorFallback';
+import type { SelectOption } from 'src/types/global';
+import MultiValueInput from './MultiValueInput';
 import { getMultiSelectStyles } from './multiSelectStyles';
 import { createUniqueOptions, getUniqueOptions, parseItems } from './multiSelectUtil';
-import { useTheme } from '@emotion/react';
-import MultiValueInput from './MultiValueInput';
-import ThemeErrorFallback from 'src/components/shared/ThemeErrorFallback';
 
 export type MultiSelectOption = SelectOption<string>;
+
+// at module scope so react-select sees one identity rather than a new component every render
+const EmptyMenu = () => <></>;
 
 /**
  * `MultiSelectProps` are the props to be provided to the MultiSelect
@@ -55,8 +57,8 @@ export const MultiSelect: FC<MultiSelectProps> = ({
         const parsedItems = parseItems(item, delimiter);
         const newOptions = createUniqueOptions(parsedItems);
 
-        setItems(prev => [...prev, ...newOptions]);
-        setSelected(prev => {
+        setItems((prev) => [...prev, ...newOptions]);
+        setSelected((prev) => {
             const newSelected = [...prev, ...parsedItems];
             selectItem(newSelected);
             return newSelected;
@@ -76,20 +78,28 @@ export const MultiSelect: FC<MultiSelectProps> = ({
 
     const disabledMenuComponents = disableMenu
         ? {
-            DropdownIndicator: null,
-            Menu: () => <></>
-        }
+              DropdownIndicator: null,
+              Menu: EmptyMenu
+          }
         : {};
 
     const parseMultiValueComponents: Partial<typeof components> | undefined = delimiter
         ? {
-            Input: (props: any) => (
-                <MultiValueInput {...props} handleCreate={handleCreate} />
-            )
-        }
+              /*
+               * biome-ignore lint/correctness/noComponentHookFactories: this closes over handleCreate,
+               * which is rebuilt every render along with the selectItem and setItems calls it makes, so
+               * giving it a stable identity means stabilising that whole chain first.
+               */
+              Input: (props: any) => (
+                  <MultiValueInput
+                      {...props}
+                      handleCreate={handleCreate}
+                  />
+              )
+          }
         : {};
 
-    if (!theme) return <ThemeErrorFallback componentName="MultiSelect" />;
+    if (!theme) return <ThemeErrorFallback componentName='MultiSelect' />;
 
     return creatable ? (
         <CreatableSelect
@@ -113,9 +123,9 @@ export const MultiSelect: FC<MultiSelectProps> = ({
                     primary: theme.backgrounds.primary,
                     primary25: theme.backgrounds.hover,
                     neutral0: theme.backgrounds.primary,
-                    neutral80: theme.foregrounds.primary,    // Main text color
-                    neutral20: theme.foregrounds.secondary,  // Secondary text
-                    neutral10: theme.backgrounds.secondary   // Chip background
+                    neutral80: theme.foregrounds.primary, // Main text color
+                    neutral20: theme.foregrounds.secondary, // Secondary text
+                    neutral10: theme.backgrounds.secondary // Chip background
                 }
             })}
         />
@@ -136,9 +146,9 @@ export const MultiSelect: FC<MultiSelectProps> = ({
                     primary: theme.backgrounds.primary,
                     primary25: theme.backgrounds.hover,
                     neutral0: theme.backgrounds.primary,
-                    neutral80: theme.foregrounds.primary,    // Main text color
-                    neutral20: theme.foregrounds.secondary,  // Secondary text
-                    neutral10: theme.backgrounds.secondary   // Chip background
+                    neutral80: theme.foregrounds.primary, // Main text color
+                    neutral20: theme.foregrounds.secondary, // Secondary text
+                    neutral10: theme.backgrounds.secondary // Chip background
                 }
             })}
         />

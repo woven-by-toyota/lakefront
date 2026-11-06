@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import { SelectStyles, SelectStyledComponent } from './selectStyles';
-import SelectOverlay from './SelectOverlay';
-import { StylesConfig, GroupBase, Props as ReactSelectProps } from 'react-select';
+import type { FC } from 'react';
+import type { GroupBase, Props as ReactSelectProps, StylesConfig } from 'react-select';
 import type { AsyncProps as ReactAsyncSelectProps } from 'react-select/async';
 import { extractNativeSelectProps } from 'src/components/Select/selectUtil';
+import SelectOverlay from './SelectOverlay';
+import { SelectStyledComponent, SelectStyles } from './selectStyles';
 
 export interface SelectOption {
     value: string | number | undefined;
@@ -81,25 +81,31 @@ export interface SelectProps extends Omit<ReactSelectProps, 'styles'> {
     asyncConfig?: Partial<ReactAsyncSelectProps<SelectOption, boolean, GroupBase<SelectOption>>>;
 }
 
-
 /**
  *  The select component is used to render a dropdown with options. The user can set a selected option by default.
  *  The isSearchable property allows user to find the value from the options available.
  */
 const Select: FC<SelectProps> = (props) => {
-    const { options, className, isMulti, ...rest }  = props;
+    const { options, className, isMulti, ...rest } = props;
     const nativeSelectProps = extractNativeSelectProps(props);
 
     return (
         <SelectStyles>
             <SelectStyledComponent {...nativeSelectProps}>
                 {options.map((option) => (
-                    <option key={`${option.label}${option.value ?? ''}`} value={option.value}>
+                    <option
+                        key={`${option.label}${option.value ?? ''}`}
+                        value={option.value}
+                    >
                         {option.label}
                     </option>
                 ))}
             </SelectStyledComponent>
-            <SelectOverlay {...rest} options={options} isMulti={isMulti}/>
+            <SelectOverlay
+                {...rest}
+                options={options}
+                isMulti={isMulti}
+            />
         </SelectStyles>
     );
 };

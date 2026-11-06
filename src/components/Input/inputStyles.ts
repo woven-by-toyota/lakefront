@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { InputProps } from './Input';
+import type { InputProps } from './Input';
 
 export const INPUT_WIDTH = 300;
 
@@ -11,17 +11,17 @@ export const StyledLabel = styled.label<InputProps>(({ error, theme }) => ({
     fontWeight: 600,
     span: {
         marginBottom: 4,
-        '&.required-field':{
+        '&.required-field': {
             color: theme.foregrounds.error,
             marginLeft: 4
         }
     },
     div: {
         marginTop: 4,
-        minHeight: 14,
+        minHeight: 14
     },
     ...(error && {
-        color: theme.foregrounds.error,
+        color: theme.foregrounds.error
     })
 }));
 
@@ -49,6 +49,6 @@ export const StyledInput = styled.input<InputProps>(({ error, theme, disabled })
         border: `1px solid ${theme.foregrounds.error}`,
         ':focus': {
             border: `1px solid ${theme.foregrounds.error}`
-        },
+        }
     })
 }));

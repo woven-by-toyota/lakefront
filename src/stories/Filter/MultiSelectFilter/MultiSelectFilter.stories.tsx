@@ -1,9 +1,11 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import FilterPage, { MULTI_SELECT_FILTER_OPTIONS } from '../components/FilterPage';
-import MultiSelectFilterDocs, { MultiSelectFilterArgs, MULTI_SELECT_FILTER_SOURCE_CODE } from './MultiSelectFilterDocs';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { MultiSelectFilter as MultiSelectFilterFunction } from 'src/components/Filter/modules';
+import FilterPage, { MULTI_SELECT_FILTER_OPTIONS } from '../components/FilterPage';
+import MultiSelectFilterDocs, {
+    MULTI_SELECT_FILTER_SOURCE_CODE,
+    type MultiSelectFilterArgs
+} from './MultiSelectFilterDocs';
 
 export default {
     title: 'Lakefront/Filter/MultiSelectFilter',
@@ -13,7 +15,8 @@ export default {
             control: {
                 type: 'object'
             },
-            description: 'The props required to be supplied as the first argument of the MultiSelectFilter component. If the *optional* `delimiter` prop is provided, input parsing will be enabled to allow typing/pasting multiple values seperated by the chosen delimiter.'
+            description:
+                'The props required to be supplied as the first argument of the MultiSelectFilter component. If the *optional* `delimiter` prop is provided, input parsing will be enabled to allow typing/pasting multiple values seperated by the chosen delimiter.'
         },
         multiSelectFilterOptions: {
             control: false,

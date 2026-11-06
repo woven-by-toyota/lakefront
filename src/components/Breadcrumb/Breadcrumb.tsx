@@ -1,9 +1,8 @@
-import { FC, RefAttributes } from 'react';
-import { LinkProps, Link as ReactRouterDomLink } from 'react-router-dom';
-
-import { BreadCrumbStyle, Current, Divider } from './breadcrumbStyles';
 import { ThemeProvider } from '@emotion/react';
+import type { FC, RefAttributes } from 'react';
+import { type LinkProps, Link as ReactRouterDomLink } from 'react-router-dom';
 import theme from 'src/styles/theme';
+import { BreadCrumbStyle, Current, Divider } from './breadcrumbStyles';
 
 export interface RouteProp {
     /**
@@ -34,29 +33,24 @@ export interface BreadcrumbProps {
  *  The url can be used to link to the appropriate link.
  */
 const Breadcrumb: FC<BreadcrumbProps> = ({ routes, Link = ReactRouterDomLink }) => {
-
     return (
-            <BreadCrumbStyle>
-                <nav>
-                    {routes.map((route, index) => {
-                        // just render text if it's the last item
-                        if (index + 1 === routes.length) {
-                            return (
-                                <Current key={route.url}>
-                                    {route.name}
-                                </Current>
-                            );
-                        }
+        <BreadCrumbStyle>
+            <nav>
+                {routes.map((route, index) => {
+                    // just render text if it's the last item
+                    if (index + 1 === routes.length) {
+                        return <Current key={route.url}>{route.name}</Current>;
+                    }
 
-                        return (
-                            <div key={route.url}>
-                                <Link to={route.url}>{route.name}</Link>
-                                <Divider> / </Divider>
-                            </div>
-                        );
-                    })}
-                </nav>
-            </BreadCrumbStyle>
+                    return (
+                        <div key={route.url}>
+                            <Link to={route.url}>{route.name}</Link>
+                            <Divider> / </Divider>
+                        </div>
+                    );
+                })}
+            </nav>
+        </BreadCrumbStyle>
     );
 };
 

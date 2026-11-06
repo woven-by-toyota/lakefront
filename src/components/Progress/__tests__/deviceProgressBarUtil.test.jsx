@@ -29,7 +29,7 @@ describe('formatBytes', () => {
             expect(available.size).toBe('B');
         });
         it('checks decimal is less than 0', () => {
-            expect(formatBytes(mockDeviceData.space_used, -1)).toEqual({ value: "1", size: 'TB' });
+            expect(formatBytes(mockDeviceData.space_used, -1)).toEqual({ value: '1', size: 'TB' });
         });
     });
 });

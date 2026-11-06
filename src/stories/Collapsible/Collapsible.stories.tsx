@@ -1,8 +1,7 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import CollapsibleComponent, { CollapsibleProps } from 'src/components/Collapsible/Collapsible';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import CollapsibleComponent, { type CollapsibleProps } from 'src/components/Collapsible/Collapsible';
 
 export default {
     title: 'Lakefront/Collapsible',
@@ -37,29 +36,35 @@ export default {
     }
 } as Meta;
 
-const Template: StoryFn<CollapsibleProps & ComponentPropsWithoutRef<'div'>> = (
-  args
-) => (
-  <CollapsibleComponent {...args}>
-    <div>
-      <p>You can have any content here.</p>
-      <p>It could be text, images, graphs, etc.</p>
-      <p>You could also just leave it blank.</p>
-    </div>
-  </CollapsibleComponent>
+const Template: StoryFn<CollapsibleProps & ComponentPropsWithoutRef<'div'>> = (args) => (
+    <CollapsibleComponent {...args}>
+        <div>
+            <p>You can have any content here.</p>
+            <p>It could be text, images, graphs, etc.</p>
+            <p>You could also just leave it blank.</p>
+        </div>
+    </CollapsibleComponent>
 );
 
 export const Collapsible = Template.bind({});
 Collapsible.args = {
-  expanded: true,
-  title: 'Collapsible Component',
-  subtitle: <div>Additional Info | <strong>100</strong> Count | Updated <strong>Today</strong></div>
+    expanded: true,
+    title: 'Collapsible Component',
+    subtitle: (
+        <div>
+            Additional Info | <strong>100</strong> Count | Updated <strong>Today</strong>
+        </div>
+    )
 };
 
 export const NonCollapsible = Template.bind({});
 NonCollapsible.args = {
-  expanded: true,
-  title: 'Non Collapsible Component',
-  subtitle: <div>Additional Info | <strong>100</strong> Count | Updated <strong>Today</strong></div>,
-  collapsible: false
+    expanded: true,
+    title: 'Non Collapsible Component',
+    subtitle: (
+        <div>
+            Additional Info | <strong>100</strong> Count | Updated <strong>Today</strong>
+        </div>
+    ),
+    collapsible: false
 };

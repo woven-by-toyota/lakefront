@@ -3,7 +3,7 @@ import { renderWithTheme as render } from 'src/lib/testing';
 import DoubleMultiSelect from '../DoubleMultiSelect';
 
 describe('DoubleMultiSelect', () => {
-    let onChange = jest.fn();
+    const onChange = jest.fn();
     const defaultValues = {
         firstSelect: [],
         secondSelect: []
@@ -36,7 +36,11 @@ describe('DoubleMultiSelect', () => {
 
     it('should render with no provided values', () => {
         const { container } = render(
-            <DoubleMultiSelect value={defaultValues} onChange={onChange} options={defaultOptions} />
+            <DoubleMultiSelect
+                value={defaultValues}
+                onChange={onChange}
+                options={defaultOptions}
+            />
         );
 
         expect(container.querySelector('input[name="first"]')).toBeInTheDocument();
@@ -50,7 +54,11 @@ describe('DoubleMultiSelect', () => {
         };
 
         const { getByText } = render(
-            <DoubleMultiSelect value={values} onChange={onChange} options={defaultOptions} />
+            <DoubleMultiSelect
+                value={values}
+                onChange={onChange}
+                options={defaultOptions}
+            />
         );
 
         getByText('a');
@@ -61,12 +69,16 @@ describe('DoubleMultiSelect', () => {
 
     it('should add a value to each multi select', () => {
         const { container } = render(
-            <DoubleMultiSelect value={defaultValues} onChange={onChange} options={defaultOptions} />
+            <DoubleMultiSelect
+                value={defaultValues}
+                onChange={onChange}
+                options={defaultOptions}
+            />
         );
 
         const [wrapper] = container.querySelectorAll('div');
         const [firstSelect] = container.querySelectorAll('input');
-        const [,,secondSelect] = container.querySelectorAll('input');
+        const [, , secondSelect] = container.querySelectorAll('input');
 
         fireEvent.mouseDown(wrapper);
 

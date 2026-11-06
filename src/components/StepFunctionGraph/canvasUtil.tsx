@@ -1,5 +1,5 @@
-import { NodeDimensions } from './GraphUtil';
 import { Y_OFFSET } from './GraphRenderer';
+import type { NodeDimensions } from './GraphUtil';
 
 export const NODE_HEIGHT = 38;
 const TEXT_WIDTH_MULTIPLIER = 12;
@@ -32,7 +32,7 @@ interface FunctionalDrawArgs extends BaseDrawArgs {
     theme?: any;
 }
 
-type Point = { x: number, y: number };
+type Point = { x: number; y: number };
 
 export const getErrorEqualsText = (key: string, node: any) => {
     const { ErrorEquals } = node[key];
@@ -41,22 +41,27 @@ export const getErrorEqualsText = (key: string, node: any) => {
     return errorEquals ? `Catch: ErrorEquals: ${errorEquals}` : '';
 };
 
-export const getNodeDimensions = (text: string, ctx?: CanvasRenderingContext2D, node?: any, isCatch = false): { height: number; width: number } => {
+export const getNodeDimensions = (
+    text: string,
+    ctx?: CanvasRenderingContext2D,
+    node?: any,
+    isCatch = false
+): { height: number; width: number } => {
     const textWidth = text.length * TEXT_WIDTH_MULTIPLIER;
-    const catchTextWidth = isCatch ? Math.max(ctx?.measureText(getErrorEqualsText(text, node)).width ?? 0, textWidth) : -1;
+    const catchTextWidth = isCatch
+        ? Math.max(ctx?.measureText(getErrorEqualsText(text, node)).width ?? 0, textWidth)
+        : -1;
     const width = isCatch ? catchTextWidth : textWidth;
 
     return { height: NODE_HEIGHT, width };
 };
 
-export const drawStepNode = (
-    { ctx, x, y, text, highlight = false, theme }: FunctionalDrawArgs
-) => {
+export const drawStepNode = ({ ctx, x, y, text, highlight = false, theme }: FunctionalDrawArgs) => {
     const TEXT_Y_OFFSET = 22;
 
     // set the dimensions of the rectangle
     const rectWidth = text.length * TEXT_WIDTH_MULTIPLIER;
-    const rectXPos = x - (rectWidth / 2);
+    const rectXPos = x - rectWidth / 2;
     const rectYPos = y - TEXT_Y_OFFSET;
 
     // draw the white or blue rectangle
@@ -76,20 +81,26 @@ export const drawStepNode = (
     ctx.fillText(text, x, y);
 };
 
-export const drawCatchNode = (
-    { ctx, x, y, text, highlight = false, node, theme }: FunctionalDrawArgs & { node: any }
-) => {
+export const drawCatchNode = ({
+    ctx,
+    x,
+    y,
+    text,
+    highlight = false,
+    node,
+    theme
+}: FunctionalDrawArgs & { node: any }) => {
     const TEXT_Y_OFFSET = 33;
     const SUBTEXT_Y_OFFSET = 17;
 
     const errorEqualText = getErrorEqualsText(text, node);
 
-    const textWidth = text.length * (TEXT_WIDTH_MULTIPLIER);
+    const textWidth = text.length * TEXT_WIDTH_MULTIPLIER;
     const errorTextWidth = ctx.measureText(errorEqualText).width;
 
     // set the dimensions of the rectangle
     const rectWidth = Math.max(textWidth, errorTextWidth);
-    const rectXPos = x - (rectWidth / 2);
+    const rectXPos = x - rectWidth / 2;
     const rectYPos = y - TEXT_Y_OFFSET;
 
     // draw the white or blue rectangle
@@ -109,16 +120,22 @@ export const drawCatchNode = (
     ctx.fillText(text, x, y);
 
     // draw error text
-    const textXPos = x + (rectWidth / 2) - 10;
+    const textXPos = x + rectWidth / 2 - 10;
 
     ctx.font = '12px sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText(errorEqualText, textXPos, y - SUBTEXT_Y_OFFSET);
 };
 
-export const drawParallel = (
-    { ctx, x, y, width, height, highlight = false, theme }: Omit<FunctionalDrawArgs & DimensionDrawArgs, 'text'>
-) => {
+export const drawParallel = ({
+    ctx,
+    x,
+    y,
+    width,
+    height,
+    highlight = false,
+    theme
+}: Omit<FunctionalDrawArgs & DimensionDrawArgs, 'text'>) => {
     const LINE_WIDTH = 2;
     // set the dimensions of the rectangle
     const rectWidth = width;
@@ -132,16 +149,22 @@ export const drawParallel = (
     ctx.strokeRect(rectXPos, rectYPos, rectWidth, height);
     ctx.globalCompositeOperation = 'destination-over';
     ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : getWhiteColor(theme);
-    ctx.fillRect(rectXPos + LINE_WIDTH, rectYPos, rectWidth - (LINE_WIDTH * 2), height);
+    ctx.fillRect(rectXPos + LINE_WIDTH, rectYPos, rectWidth - LINE_WIDTH * 2, height);
     ctx.globalCompositeOperation = 'source-over';
 };
 
-export const drawMap = (
-    { ctx, x, y, width, height, highlight = false, theme }: Omit<FunctionalDrawArgs & DimensionDrawArgs, 'text'>
-) => {
+export const drawMap = ({
+    ctx,
+    x,
+    y,
+    width,
+    height,
+    highlight = false,
+    theme
+}: Omit<FunctionalDrawArgs & DimensionDrawArgs, 'text'>) => {
     // set the dimensions of the rectangle
     const rectWidth = width;
-    const rectXPos = x - (rectWidth / 2);
+    const rectXPos = x - rectWidth / 2;
     const rectYPos = y;
     const offset = 5;
 
@@ -151,8 +174,8 @@ export const drawMap = (
     ctx.fillStyle = highlight ? HIGHLIGHT_BACKGROUND : getWhiteColor(theme);
     ctx.lineWidth = highlight ? HIGHLIGHTED_WIDTH : NORMAL_WIDTH;
 
-    ctx.strokeRect(rectXPos - (offset * 2), rectYPos - (offset * 2), rectWidth, height);
-    ctx.fillRect(rectXPos - (offset * 2), rectYPos - (offset * 2), rectWidth, height);
+    ctx.strokeRect(rectXPos - offset * 2, rectYPos - offset * 2, rectWidth, height);
+    ctx.fillRect(rectXPos - offset * 2, rectYPos - offset * 2, rectWidth, height);
     ctx.strokeRect(rectXPos - offset, rectYPos - offset, rectWidth, height);
     ctx.fillRect(rectXPos - offset, rectYPos - offset, rectWidth, height);
 
@@ -160,9 +183,7 @@ export const drawMap = (
     ctx.fillRect(rectXPos, rectYPos, rectWidth, height);
 };
 
-export const drawTerminalNode = (
-    { ctx, x, y, text, theme }: FunctionalDrawArgs
-) => {
+export const drawTerminalNode = ({ ctx, x, y, text, theme }: FunctionalDrawArgs) => {
     const RADIUS = 26;
     const TEXT_Y_OFFSET = 4;
 
@@ -192,7 +213,7 @@ export const drawDebug = (
 
     // set the dimensions of the rectangle
     const rectWidth = text.length * TEXT_WIDTH_MULTIPLIER;
-    const rectXPos = x + (rectWidth / 2);
+    const rectXPos = x + rectWidth / 2;
 
     // draw the outline of the white rectangle
     ctx.lineWidth = 1;
@@ -200,7 +221,7 @@ export const drawDebug = (
     ctx.strokeRect(x, y, width, height);
 
     // draw the text
-    const yPos = (y + TEXT_Y_OFFSET) + (height / 2);
+    const yPos = y + TEXT_Y_OFFSET + height / 2;
     ctx.fillStyle = DEBUG_RED_COLOR;
     ctx.font = '14px sans-serif';
     ctx.textAlign = 'center';
@@ -212,7 +233,7 @@ const getLowestBarrierPoint = (from: Point, to: Point, drawn: Map<number, NodeDi
     let lowest: NodeDimensions | null = null;
     const invert = to.x > from.x;
 
-    drawn.forEach(nodeDimensions => {
+    drawn.forEach((nodeDimensions) => {
         const { collisionBox } = nodeDimensions;
         const { top, right, left, bottom } = collisionBox;
 
@@ -237,14 +258,14 @@ const getLowestBarrierPoint = (from: Point, to: Point, drawn: Map<number, NodeDi
 
 // Gives a single number representing the distance from one point to another
 const calculateDistance = (from: Point, to: Point): number => {
-    return Math.sqrt(Math.pow(to.x - from.x, 2) + Math.pow(to.y - from.y, 2));
+    return Math.sqrt((to.x - from.x) ** 2 + (to.y - from.y) ** 2);
 };
 
 export const drawArrow = (
     ctx: CanvasRenderingContext2D,
     drawn: Map<number, NodeDimensions>,
-    from: { x: any; y: any; },
-    to: { y: any; x: any; },
+    from: { x: any; y: any },
+    to: { y: any; x: any },
     radius: number,
     skipArrowHead = false,
     offsetStart = false,
@@ -257,7 +278,7 @@ export const drawArrow = (
     // This moves the control points in the bezier curve
     const bezierCurveControlOffset = 15;
     const xCenter = to.x;
-    const yCenter = to.y - (radius / 2);
+    const yCenter = to.y - radius / 2;
     const fromOffset = offsetStart ? radius : 0;
 
     let angle;
@@ -277,15 +298,13 @@ export const drawArrow = (
 
     const cYTo = from.x === to.x ? to.y : to.y + bezierCurveControlOffset + (to.y - from.y) / 3;
 
-    const controlY1 = endArrow ?
-        cYTo :
-        from.y + (bezierCurveControlOffset * 2);
+    const controlY1 = endArrow ? cYTo : from.y + bezierCurveControlOffset * 2;
     const controlY2 = endArrow ? to.y - bezierCurveControlOffset : from.y + bezierCurveControlOffset;
 
     // Try finding any nodes between where the arrow needs to draw
     const barrierFrom: Point = { x: from.x, y: to.y - (NODE_HEIGHT + Y_OFFSET * 3) };
     const lowestBarrier = getLowestBarrierPoint(barrierFrom, to, drawn);
-    const barrierConditions = (Math.abs(to.y - from.y) > (NODE_HEIGHT + Y_OFFSET) * 5);
+    const barrierConditions = Math.abs(to.y - from.y) > (NODE_HEIGHT + Y_OFFSET) * 5;
     let toX = 0;
 
     // If there are any nodes in the way, the arrow needs to continue to the side of the barrier
@@ -295,10 +314,10 @@ export const drawArrow = (
         const leftDistance = calculateDistance(collisionBox.left, from);
         const rightDistance = calculateDistance(collisionBox.right, from);
         const invert = leftDistance > rightDistance ? 1 : -1;
-        const dX = invert * (to.x - from.x) / 10;
+        const dX = (invert * (to.x - from.x)) / 10;
         const collisionX = leftDistance > rightDistance ? collisionBox.right.x : collisionBox.left.x;
         const collisionY = invert === 1 ? collisionBox.left.y : collisionBox.right.y;
-        toX = invert === 1 && to.x < from.x ? collisionX - (dX / 2) : collisionX + (dX / 2);
+        toX = invert === 1 && to.x < from.x ? collisionX - dX / 2 : collisionX + dX / 2;
 
         ctx.bezierCurveTo(
             from.x,
@@ -306,7 +325,8 @@ export const drawArrow = (
             collisionX + dX,
             from.y + bezierCurveControlOffset,
             toX,
-            collisionY);
+            collisionY
+        );
     }
 
     // Ends the line at the top mounting point of the next node.
@@ -332,23 +352,23 @@ export const drawArrow = (
         angle = 90 * (Math.PI / 180);
 
         // We calculate the points around the center as if it were in a circle
-        x = (radius * Math.cos(angle)) + xCenter;
-        y = (radius * Math.sin(angle)) + yCenter;
+        x = radius * Math.cos(angle) + xCenter;
+        y = radius * Math.sin(angle) + yCenter;
 
         // Move to the first point in the arrow head
         ctx.moveTo(x, y);
 
         // The new angle is tau, or 360 degrees divided by the number of points
         angle += (2 * Math.PI) / 3;
-        x = (radius * Math.cos(angle)) + xCenter;
-        y = (radius * Math.sin(angle)) + yCenter;
+        x = radius * Math.cos(angle) + xCenter;
+        y = radius * Math.sin(angle) + yCenter;
 
         // Connect the first arrow head point to the second arrow head point
         ctx.lineTo(x, y);
 
         angle += (2 * Math.PI) / 3;
-        x = (radius * Math.cos(angle)) + xCenter;
-        y = (radius * Math.sin(angle)) + yCenter;
+        x = radius * Math.cos(angle) + xCenter;
+        y = radius * Math.sin(angle) + yCenter;
 
         // Connect the second arrow head point to the final arrow head point
         ctx.lineTo(x, y);
@@ -382,12 +402,7 @@ export const collides = (rects: NodeDimensions[], x: number, y: number, ctx: Can
             const top = collisionBox.top.y;
             const bottom = collisionBox.bottom.y;
 
-            if (
-                right >= transformedX &&
-                left <= transformedX &&
-                bottom >= transformedY &&
-                top <= transformedY
-            ) {
+            if (right >= transformedX && left <= transformedX && bottom >= transformedY && top <= transformedY) {
                 collisions.push(rects[i]);
             }
         }

@@ -1,6 +1,6 @@
-import { ClipboardEvent, FC } from 'react';
+import type { ClipboardEvent, FC } from 'react';
+import type { InputProps } from 'src/components/Input/Input';
 import { MultiValueInputContainer, StyledMultiValueInput } from './multiSelectStyles';
-import { InputProps } from 'src/components/Input/Input';
 
 interface MultiValueInputProps {
     handleCreate: (item: string) => void;

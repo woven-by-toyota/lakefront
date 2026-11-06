@@ -1,8 +1,7 @@
-import { ComponentPropsWithoutRef, useState, useRef, useEffect } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import PlaybackBarComponent, { PlaybackBarProps } from 'src/components/PlaybackBar';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
+import PlaybackBarComponent, { type PlaybackBarProps } from 'src/components/PlaybackBar';
 import { emerald } from 'src/styles/lakefrontColors';
 
 export default {
@@ -61,20 +60,32 @@ const Template: StoryFn<PlaybackBarProps & ComponentPropsWithoutRef<'div'>> = (a
             >
                 {showBanner && `Playback is set to index ${index}`}
             </div>
-            <PlaybackBarComponent currentDuration={args.currentDuration} currentSlider={args.currentSlider}
-                endDuration={args.endDuration} highlights={args.highlights} maxSlider={args.maxSlider}
-                setSlider={handleSetSlider}>
-            </PlaybackBarComponent>
-            {args.highlights.map(highlight => {
-                return (<div style={{ textAlign: 'center' }}>
-                    <b>Start Index:</b><span> {highlight.start}</span>&nbsp;
-                    <b>End Index:</b><span> {highlight.end}</span>&nbsp;
-                    <b>Playback:</b><span> {highlight.playback ? "True" : "False"}</span>
-                </div>)
+            <PlaybackBarComponent
+                currentDuration={args.currentDuration}
+                currentSlider={args.currentSlider}
+                endDuration={args.endDuration}
+                highlights={args.highlights}
+                maxSlider={args.maxSlider}
+                setSlider={handleSetSlider}
+            ></PlaybackBarComponent>
+            {args.highlights.map((highlight) => {
+                return (
+                    <div
+                        key={`${highlight.start}-${highlight.end}`}
+                        style={{ textAlign: 'center' }}
+                    >
+                        <b>Start Index:</b>
+                        <span> {highlight.start}</span>&nbsp;
+                        <b>End Index:</b>
+                        <span> {highlight.end}</span>&nbsp;
+                        <b>Playback:</b>
+                        <span> {highlight.playback ? 'True' : 'False'}</span>
+                    </div>
+                );
             })}
         </div>
-    )
-}
+    );
+};
 
 export const PlaybackBarSingleHighlight = Template.bind({});
 PlaybackBarSingleHighlight.args = {
@@ -99,6 +110,9 @@ PlaybackBarMultipleHighlights.args = {
     currentDuration: '00:30',
     currentSlider: 100,
     endDuration: '05:15',
-    highlights: [{ start: 50, end: 300, playback: false }, { start: 400, end: 500, playback: false }],
+    highlights: [
+        { start: 50, end: 300, playback: false },
+        { start: 400, end: 500, playback: false }
+    ],
     maxSlider: 720
 };

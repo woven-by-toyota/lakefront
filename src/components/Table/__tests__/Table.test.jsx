@@ -1,7 +1,7 @@
-import { fireEvent, cleanup, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Table from '../Table';
 import { renderWithTheme as render } from 'src/lib/testing';
+import Table from '../Table';
 
 afterAll(cleanup);
 
@@ -37,12 +37,14 @@ const columns = [
         }
     }
 ];
-const customData = [{ title: 'r2204_1_0', value: 24, percentage: 166.992, percentage_change: 6.9579999999, total: 0.14371985 },
-{ title: 'r2012_1_0', value: 3, percentage: 47.442, percentage_change: 15.814, total: 0.063491 },
-{ title: 'r2010_1_0', value: 5, percentage: 25.68, percentage_change: 5.136, total: 0.1947675 },
-{ title: 'r2019_1_0', value: 51, percentage: 291.549, percentage_change: 5.7166473529, total: 0.1949277202 },
-{ title: 'r2020_1_0', value: 31, percentage: 271.549, percentage_change: 5.7166473529, total: 0.1749277202 },
-{ title: 'r2021_1_0', value: 41, percentage: 281.549, percentage_change: 5.7166473529, total: 0.1849277202 }];
+const customData = [
+    { title: 'r2204_1_0', value: 24, percentage: 166.992, percentage_change: 6.9579999999, total: 0.14371985 },
+    { title: 'r2012_1_0', value: 3, percentage: 47.442, percentage_change: 15.814, total: 0.063491 },
+    { title: 'r2010_1_0', value: 5, percentage: 25.68, percentage_change: 5.136, total: 0.1947675 },
+    { title: 'r2019_1_0', value: 51, percentage: 291.549, percentage_change: 5.7166473529, total: 0.1949277202 },
+    { title: 'r2020_1_0', value: 31, percentage: 271.549, percentage_change: 5.7166473529, total: 0.1749277202 },
+    { title: 'r2021_1_0', value: 41, percentage: 281.549, percentage_change: 5.7166473529, total: 0.1849277202 }
+];
 const columnsWithExpander = [
     ...columns,
     {
@@ -51,9 +53,7 @@ const columnsWithExpander = [
         enableSorting: false,
         cell: ({ row }) => {
             return (
-                <div onClick={row.getToggleExpandedHandler()}>
-                    {row.getIsExpanded() ? '- collapse' : '+ expand'}
-                </div>
+                <div onClick={row.getToggleExpandedHandler()}>{row.getIsExpanded() ? '- collapse' : '+ expand'}</div>
             );
         }
     }
@@ -61,7 +61,12 @@ const columnsWithExpander = [
 
 describe('<Table>', () => {
     it('renders properly', () => {
-        const { container } = render(<Table columns={columns} data={customData} />);
+        const { container } = render(
+            <Table
+                columns={columns}
+                data={customData}
+            />
+        );
 
         expect(container.querySelectorAll('tbody tr').length).toBe(6);
         expect(container.querySelector('table')).toHaveStyle('width: 100%;');
@@ -69,8 +74,14 @@ describe('<Table>', () => {
 
     it('sorts columns correctly', () => {
         const mockHandleSort = jest.fn();
-        const { container, getAllByRole } = render(<Table columns={columns} data={customData}
-            initialSortBy={{ id: 'title', desc: false }} onChangeSort={mockHandleSort} />);
+        const { container, getAllByRole } = render(
+            <Table
+                columns={columns}
+                data={customData}
+                initialSortBy={{ id: 'title', desc: false }}
+                onChangeSort={mockHandleSort}
+            />
+        );
 
         // initial sorting applied on release column
         expect(getAllByRole('cell')[0].textContent).toBe('r2010_1_0');
@@ -92,31 +103,44 @@ describe('<Table>', () => {
         expect(getAllByRole('cell')[18].textContent).toBe('5.7166');
         expect(getAllByRole('cell')[23].textContent).toBe('5.7166');
         expect(getAllByRole('cell')[28].textContent).toBe('5.1360');
-
     });
 
     it('displays correct message when data is not present', () => {
-        const { container } = render(<Table columns={columns} data={[]} noDataMessage='No data found' />);
+        const { container } = render(
+            <Table
+                columns={columns}
+                data={[]}
+                noDataMessage='No data found'
+            />
+        );
 
         expect(container.innerHTML).toContain('No data found');
-
     });
 
     it('displays tooltip on the header to indicate that multiple sort criteria is possible by shift-clicking to add to the sort.', () => {
-        const { container } = render(<Table columns={columns} data={customData}
-            initialSortBy={{ id: 'title', desc: false }} />);
+        const { container } = render(
+            <Table
+                columns={columns}
+                data={customData}
+                initialSortBy={{ id: 'title', desc: false }}
+            />
+        );
 
         expect(container.querySelectorAll('th')[0].title).toBe('Hold shift & click the column to add to multi-sort');
         expect(container.querySelectorAll('th')[1].title).toBe('Hold shift & click the column to add to multi-sort');
         expect(container.querySelectorAll('th')[2].title).toBe('Hold shift & click the column to add to multi-sort');
         expect(container.querySelectorAll('th')[3].title).toBe('Hold shift & click the column to add to multi-sort');
         expect(container.querySelectorAll('th')[4].title).toBe('Hold shift & click the column to add to multi-sort');
-
     });
 
     it('renders Title column with a width of 100px & all other columns with 150px', () => {
-        const { getAllByRole } = render(<Table columns={columns} data={customData}
-            initialSortBy={{ id: 'title', desc: false }} />);
+        const { getAllByRole } = render(
+            <Table
+                columns={columns}
+                data={customData}
+                initialSortBy={{ id: 'title', desc: false }}
+            />
+        );
 
         expect(getAllByRole('columnheader')[0]).toHaveStyle({ width: '100px' });
         expect(getAllByRole('columnheader')[1]).toHaveStyle({ width: '150px' });
@@ -127,28 +151,59 @@ describe('<Table>', () => {
 
     it('calls the mockHandleSort function', () => {
         const mockHandleSort = jest.fn();
-        render(<Table columns={columns} data={customData}
-            initialSortBy={{ id: 'title', desc: false }} onChangeSort={mockHandleSort} />);
+        render(
+            <Table
+                columns={columns}
+                data={customData}
+                initialSortBy={{ id: 'title', desc: false }}
+                onChangeSort={mockHandleSort}
+            />
+        );
 
-        expect(mockHandleSort).toHaveBeenCalledWith({ 'desc': false, 'id': 'title' }, [{ 'desc': false, 'id': 'title' }]);
+        expect(mockHandleSort).toHaveBeenCalledWith({ desc: false, id: 'title' }, [{ desc: false, id: 'title' }]);
     });
 
     it('accepts array of initalSortBy data ', () => {
         const mockHandleSort = jest.fn();
-        render(<Table columns={columns} data={customData}
-            initialSortBy={[{ id: 'value', desc: false }, { id: 'title', desc: true }, { id: 'percentage', desc: true }]} onChangeSort={mockHandleSort} />);
+        render(
+            <Table
+                columns={columns}
+                data={customData}
+                initialSortBy={[
+                    { id: 'value', desc: false },
+                    { id: 'title', desc: true },
+                    { id: 'percentage', desc: true }
+                ]}
+                onChangeSort={mockHandleSort}
+            />
+        );
 
-        expect(mockHandleSort).toHaveBeenCalledWith( {'desc': false, 'id': 'value'}, [{'desc': false, 'id': 'value'}, {'desc': true, 'id': 'title'}, {'desc': true, 'id': 'percentage'}]);
+        expect(mockHandleSort).toHaveBeenCalledWith({ desc: false, id: 'value' }, [
+            { desc: false, id: 'value' },
+            { desc: true, id: 'title' },
+            { desc: true, id: 'percentage' }
+        ]);
     });
 
     it('displays header row by default', () => {
-        const { container } = render(<Table columns={columns} data={customData} />);
+        const { container } = render(
+            <Table
+                columns={columns}
+                data={customData}
+            />
+        );
 
         expect(container.querySelector('thead')).toHaveStyle({ visibility: 'visible' });
     });
 
     it('hides header row when hideHeaders is true', () => {
-        const { container } = render(<Table columns={columns} data={customData} hideHeaders />);
+        const { container } = render(
+            <Table
+                columns={columns}
+                data={customData}
+                hideHeaders
+            />
+        );
 
         expect(container.querySelector('thead')).toHaveStyle({ visibility: 'collapse' });
     });
@@ -156,11 +211,7 @@ describe('<Table>', () => {
     describe('table row expansion', () => {
         const renderRowSubComponent = ({ row }) => {
             const { value } = row.original;
-            return (
-                <div style={{ fontSize: '24px' }}>
-                    Value is {value}
-                </div>
-            );
+            return <div style={{ fontSize: '24px' }}>Value is {value}</div>;
         };
 
         it('renders the sub-row when row.expanded is true', async () => {
@@ -241,7 +292,7 @@ describe('<Table>', () => {
                 <Table
                     columns={faultyColumns}
                     data={faultyData}
-                    errorMessage="An error occurred while rendering the table"
+                    errorMessage='An error occurred while rendering the table'
                 />
             );
 

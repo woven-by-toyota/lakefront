@@ -1,22 +1,22 @@
 import AdditionalJSONFilter from './AdditionalJSONFilter';
 import DoubleMultiSelectFilter from './DoubleMultiSelectFilter';
+import DurationFilter, { MinMaxInput } from './DurationFilter';
 import ListFilter from './ListFilter';
+import MinMaxFilter from './MinMaxFilter';
 import MultiSelectFilter from './MultiSelectFilter';
 import RadioFilter from './RadioFilter';
 import SingleSelectFilter from './SingleSelectFilter';
 import TextFilter from './TextFilter';
-import DurationFilter, { MinMaxInput } from './DurationFilter';
-import MinMaxFilter from './MinMaxFilter';
 
 export {
-  AdditionalJSONFilter,
-  DoubleMultiSelectFilter,
-  ListFilter,
-  MultiSelectFilter,
-  RadioFilter,
-  SingleSelectFilter,
-  TextFilter,
-  DurationFilter,
-  MinMaxFilter,
-  MinMaxInput
+    AdditionalJSONFilter,
+    DoubleMultiSelectFilter,
+    DurationFilter,
+    ListFilter,
+    MinMaxFilter,
+    MinMaxInput,
+    MultiSelectFilter,
+    RadioFilter,
+    SingleSelectFilter,
+    TextFilter
 };

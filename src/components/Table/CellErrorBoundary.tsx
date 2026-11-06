@@ -1,12 +1,12 @@
-import { Component, ReactNode } from 'react';
+import { Component, type ReactNode } from 'react';
 
 interface CellErrorBoundaryProps {
-  children: ReactNode;
-  onError?: () => void;
+    children: ReactNode;
+    onError?: () => void;
 }
 
 interface CellErrorBoundaryState {
-  hasError: boolean;
+    hasError: boolean;
 }
 
 /**
@@ -17,26 +17,26 @@ interface CellErrorBoundaryState {
  * @see https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
  */
 class CellErrorBoundary extends Component<CellErrorBoundaryProps, CellErrorBoundaryState> {
-  state: CellErrorBoundaryState = { hasError: false };
+    state: CellErrorBoundaryState = { hasError: false };
 
-  static getDerivedStateFromError(): CellErrorBoundaryState {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    // Log error details for debugging
-    console.error('Cell rendering error:', error, errorInfo);
-    // Notify parent component
-    this.props.onError?.();
-  }
-
-  render(): ReactNode {
-    if (this.state.hasError) {
-      return null;
+    static getDerivedStateFromError(): CellErrorBoundaryState {
+        return { hasError: true };
     }
 
-    return this.props.children;
-  }
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+        // Log error details for debugging
+        console.error('Cell rendering error:', error, errorInfo);
+        // Notify parent component
+        this.props.onError?.();
+    }
+
+    render(): ReactNode {
+        if (this.state.hasError) {
+            return null;
+        }
+
+        return this.props.children;
+    }
 }
 
 export default CellErrorBoundary;

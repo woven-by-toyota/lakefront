@@ -1,9 +1,8 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import Button from 'src/components/Button/Button';
-import { ButtonComponentProps, COLORS } from 'src/components/Button/buttonUtil';
-import ButtonsPage from './ButtonsPage';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import Button from 'src/components/Button/Button';
+import { type ButtonComponentProps, COLORS } from 'src/components/Button/buttonUtil';
+import ButtonsPage from './ButtonsPage';
 
 export default {
     title: 'Lakefront/Button',
@@ -22,8 +21,8 @@ export default {
         color: {
             control: {
                 type: 'select',
-                options: [COLORS.PRIMARY, COLORS.SECONDARY, COLORS.DESTRUCTIVE],
-            },
+                options: [COLORS.PRIMARY, COLORS.SECONDARY, COLORS.DESTRUCTIVE]
+            }
         },
         disabled: {
             control: 'boolean',
@@ -79,9 +78,9 @@ Destructive.args = {
 
 export const Link = Template.bind({});
 Link.args = {
-  children: 'Button',
-  color: 'link',
-  iconPosition: undefined
+    children: 'Button',
+    color: 'link',
+    iconPosition: undefined
 };
 
 // Individual Buttons (With Icon)
@@ -106,8 +105,8 @@ DestructiveDefaultIcon.args = {
 
 export const LinkDefaultIcon = Template.bind({});
 LinkDefaultIcon.args = {
-  ...Link.args,
-  icon: true
+    ...Link.args,
+    icon: true
 };
 
 // Icon Only Buttons
@@ -138,8 +137,8 @@ DestructiveIconButton.args = {
 
 export const LinkIconButton = Template.bind({});
 LinkIconButton.args = {
-  children: undefined,
-  color: 'link',
-  icon: true,
-  iconPosition: undefined
+    children: undefined,
+    color: 'link',
+    icon: true,
+    iconPosition: undefined
 };

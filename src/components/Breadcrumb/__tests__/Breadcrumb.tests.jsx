@@ -1,7 +1,7 @@
 import React from 'react';
-import Breadcrumb from '../Breadcrumb';
 import { BrowserRouter } from 'react-router-dom';
 import { renderWithTheme } from '../../../lib/testing';
+import Breadcrumb from '../Breadcrumb';
 
 describe('<Breadcrumb />', () => {
     it('renders a single route just fine', () => {
@@ -12,7 +12,11 @@ describe('<Breadcrumb />', () => {
             }
         ];
 
-        const { container } = renderWithTheme(<BrowserRouter><Breadcrumb routes={routes} /></BrowserRouter>);
+        const { container } = renderWithTheme(
+            <BrowserRouter>
+                <Breadcrumb routes={routes} />
+            </BrowserRouter>
+        );
         expect(container.querySelectorAll('nav')[0]).toHaveTextContent('Page');
     });
 
@@ -28,7 +32,11 @@ describe('<Breadcrumb />', () => {
             }
         ];
 
-        const { container } = renderWithTheme(<BrowserRouter><Breadcrumb routes={routes} /></BrowserRouter>);
+        const { container } = renderWithTheme(
+            <BrowserRouter>
+                <Breadcrumb routes={routes} />
+            </BrowserRouter>
+        );
         expect(container.querySelectorAll('nav')[0]).toHaveTextContent('Sub Page');
     });
 });

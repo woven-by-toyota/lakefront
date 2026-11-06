@@ -1,7 +1,7 @@
-import { FC, ReactNode, useMemo, useState } from 'react';
-import StatusTracker, { StatusItem } from '../StatusTracker';
-import { StyledStatusTrackerPopoverWrapper, StyledStatusTrackerPopover } from './statusTrackerPopoverStyles';
-import usePopover, { PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
+import { type FC, type ReactNode, useMemo, useState } from 'react';
+import usePopover, { PopoverContent, type PortalStyles } from 'src/lib/hooks/usePopover';
+import StatusTracker, { type StatusItem } from '../StatusTracker';
+import { StyledStatusTrackerPopover, StyledStatusTrackerPopoverWrapper } from './statusTrackerPopoverStyles';
 
 export interface StatusTrackerPopoverProps {
     /**
@@ -66,7 +66,7 @@ const StatusTrackerPopover: FC<StatusTrackerPopoverProps> = ({
                 className,
                 styles: {
                     position: 'absolute',
-                    left: `${left + (width / 2)}px`,
+                    left: `${left + width / 2}px`,
                     top: `${bottom + window.scrollY}px`
                 }
             };
@@ -89,11 +89,20 @@ const StatusTrackerPopover: FC<StatusTrackerPopoverProps> = ({
     };
 
     return (
-        <StyledStatusTrackerPopoverWrapper ref={popoverNodeMounted} className={className}>
+        <StyledStatusTrackerPopoverWrapper
+            ref={popoverNodeMounted}
+            className={className}
+        >
             {children}
-            <PopoverContent portal={portal} deps={[children, statuses]}>
+            <PopoverContent
+                portal={portal}
+                deps={[children, statuses]}
+            >
                 {visible && statuses.length > 0 && (
-                    <StyledStatusTrackerPopover className='status-tracker-popover' width={width}>
+                    <StyledStatusTrackerPopover
+                        className='status-tracker-popover'
+                        width={width}
+                    >
                         <StatusTracker statuses={statuses} />
                     </StyledStatusTrackerPopover>
                 )}

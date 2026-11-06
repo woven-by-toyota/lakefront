@@ -1,8 +1,8 @@
 import React from 'react';
-import { renderWithTheme } from 'src/lib/testing';
-import StatusTrackerPopover from '../StatusTrackerPopover';
-import { green, saturatedBlue } from 'src/styles/lakefrontColors';
 import * as usePopoverUtil from 'src/lib/hooks/usePopover/usePopoverUtil';
+import { renderWithTheme } from 'src/lib/testing';
+import { green, saturatedBlue } from 'src/styles/lakefrontColors';
+import StatusTrackerPopover from '../StatusTrackerPopover';
 
 let createObserverSpy: jest.SpyInstance;
 let mockIntersectionObserver: IntersectionObserver;
@@ -26,15 +26,14 @@ beforeEach(() => {
 });
 
 describe('StatusTrackerPopover Component', () => {
-    const basicStatuses = [
-        { label: 'Started' },
-        { label: 'In Progress' },
-        { label: 'Complete' }
-    ];
+    const basicStatuses = [{ label: 'Started' }, { label: 'In Progress' }, { label: 'Complete' }];
 
     it('renders children', () => {
         const { getByText } = renderWithTheme(
-            <StatusTrackerPopover statuses={basicStatuses} visible={true}>
+            <StatusTrackerPopover
+                statuses={basicStatuses}
+                visible={true}
+            >
                 <button>Click Me</button>
             </StatusTrackerPopover>
         );
@@ -44,7 +43,10 @@ describe('StatusTrackerPopover Component', () => {
 
     it('renders StatusTracker when visible is true', () => {
         const { getByText } = renderWithTheme(
-            <StatusTrackerPopover statuses={basicStatuses} visible={true}>
+            <StatusTrackerPopover
+                statuses={basicStatuses}
+                visible={true}
+            >
                 <button>Trigger</button>
             </StatusTrackerPopover>
         );
@@ -56,7 +58,10 @@ describe('StatusTrackerPopover Component', () => {
 
     it('does not render StatusTracker when visible is false', () => {
         const { queryByText } = renderWithTheme(
-            <StatusTrackerPopover statuses={basicStatuses} visible={false}>
+            <StatusTrackerPopover
+                statuses={basicStatuses}
+                visible={false}
+            >
                 <button>Trigger</button>
             </StatusTrackerPopover>
         );
@@ -68,7 +73,10 @@ describe('StatusTrackerPopover Component', () => {
 
     it('does not render popover when statuses array is empty', () => {
         const { container } = renderWithTheme(
-            <StatusTrackerPopover statuses={[]} visible={true}>
+            <StatusTrackerPopover
+                statuses={[]}
+                visible={true}
+            >
                 <button>Trigger</button>
             </StatusTrackerPopover>
         );
@@ -94,7 +102,10 @@ describe('StatusTrackerPopover Component', () => {
         ];
 
         const { getByText } = renderWithTheme(
-            <StatusTrackerPopover statuses={statusesWithDetails} visible={true}>
+            <StatusTrackerPopover
+                statuses={statusesWithDetails}
+                visible={true}
+            >
                 <button>Trigger</button>
             </StatusTrackerPopover>
         );
@@ -112,7 +123,7 @@ describe('StatusTrackerPopover Component', () => {
             <StatusTrackerPopover
                 statuses={basicStatuses}
                 visible={true}
-                className="custom-popover-class"
+                className='custom-popover-class'
             >
                 <button>Trigger</button>
             </StatusTrackerPopover>
@@ -153,7 +164,10 @@ describe('StatusTrackerPopover Component', () => {
 
     it('toggles visibility correctly', () => {
         const { queryByText, rerender } = renderWithTheme(
-            <StatusTrackerPopover statuses={basicStatuses} visible={false}>
+            <StatusTrackerPopover
+                statuses={basicStatuses}
+                visible={false}
+            >
                 <button>Trigger</button>
             </StatusTrackerPopover>
         );
@@ -161,7 +175,10 @@ describe('StatusTrackerPopover Component', () => {
         expect(queryByText('Started')).not.toBeInTheDocument();
 
         rerender(
-            <StatusTrackerPopover statuses={basicStatuses} visible={true}>
+            <StatusTrackerPopover
+                statuses={basicStatuses}
+                visible={true}
+            >
                 <button>Trigger</button>
             </StatusTrackerPopover>
         );

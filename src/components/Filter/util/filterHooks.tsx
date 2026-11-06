@@ -1,16 +1,16 @@
-import { useState, useEffect, useMemo } from 'react';
 import queryString from 'query-string';
+import { useEffect, useMemo, useState } from 'react';
 
 import { AdditionalJSONFilter } from '../modules';
-import { FilterHooks, FilterPostBody, FilterSet, FilterValues, Location, UpdateHistory } from '../types';
-import { USER_JSON_QUERY_PARAM } from './filterUtil';
+import type { FilterHooks, FilterPostBody, FilterSet, FilterValues, Location, UpdateHistory } from '../types';
 import {
-    getApiQueryUrl,
     getApiPostBody,
+    getApiQueryUrl,
     getCurrentBrowserQueryParams,
     getFilterBrowserQueryParams,
     parseInitialFilterValues
 } from './filterHooksUtil';
+import { USER_JSON_QUERY_PARAM } from './filterUtil';
 
 /**
  * The useFilter hook is primarily designed to use with the Filter
@@ -47,11 +47,9 @@ export const useFilter = <T extends FilterPostBody>(
     const updateFilterValues = (values: FilterValues) => {
         setFilterValues(values);
         // capture splitQueryParams if exists to clear those as well
-        const splitFilters = Object
-          .values(filters)
-          .filter(filter => filter.splitQueryParams)
-          .map(filter => filter.splitQueryParams)
-          .flat() as string[];
+        const splitFilters = Object.values(filters)
+            .filter((filter) => filter.splitQueryParams)
+            .flatMap((filter) => filter.splitQueryParams) as string[];
         const nonFilterQueryParams = getCurrentBrowserQueryParams(location, [...Object.keys(filters), ...splitFilters]);
         const filterQueryParams = getFilterBrowserQueryParams(filters, values);
         const newQueryParams = { ...nonFilterQueryParams, ...filterQueryParams };
@@ -64,7 +62,6 @@ export const useFilter = <T extends FilterPostBody>(
             [name]: value
         });
     };
-
 
     const resetFilter = (name: string, value?: any) => {
         const clearPartial = filters[name].clearPartialSingleFilter;
@@ -90,7 +87,7 @@ export const useFilter = <T extends FilterPostBody>(
         }
     };
 
-    const initializePresetValues = (presetValues: { [key: string]: any; }) => {
+    const initializePresetValues = (presetValues: { [key: string]: any }) => {
         setInitialPresetValues(presetValues);
     };
 

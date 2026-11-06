@@ -62,6 +62,30 @@ Review it **once per sprint**, at planning:
 3. Check the repository's security alerts as well. The report shows versions, not vulnerabilities, so it will not
    surface a CVE on a package that is otherwise current.
 
+### The one major still outstanding
+`@tanstack/react-table` 9 is the only one left, and it is a rewrite rather than an upgrade, so it has its own
+ticket. Version 9 replaces the imperative table instance with a store and atoms model: `getRowModel`,
+`getHeaderGroups`, `getAllLeafColumns` and `getState` are all gone, and those are what `Table.tsx` renders from.
+It also makes features opt-in, so `TableFeatures` becomes the first type argument on nearly every type and
+`ColumnDef` turns into a union of per-feature shapes. `ColumnDef` is re-exported from here as `TableColumn`, so
+the public surface is involved too, so it is a breaking change for anyone typing their columns with it. It
+needs a visual pass in Storybook and a `build-copy` check against a consuming application before release.
+
+### Toolchain notes worth keeping
+Two constraints are easy to trip over when touching the build:
+
+- **Linting and formatting are Biome, not ESLint**, configured in `biome.jsonc`. `npm run lint` runs
+  `biome check`, which covers lint, format and import order together; `npm run lint:fix` writes the fixes.
+  Biome parses TypeScript itself, so linting is not tied to the compiler version the way ESLint was:
+  typescript-eslint refuses TypeScript 7 outright, from a runtime guard, with no release or canary that
+  allows it. Each non-default choice in the config carries a comment explaining itself.
+- **`isolatedModules` is required, not optional.** swc transpiles one file at a time and cannot tell an interface
+  from a value, so every type re-export needs the inline `type` modifier. Removing the flag would let the build
+  break at bundle time rather than at type-check time.
+
+Three high findings also have no published fix: `@storybook/builder-webpack5`, `@storybook/react-webpack5` and
+`webpack-dev-middleware`, all reached only through the Storybook dev server.
+
 ---
 ## Storybook Components
 We've added Storybook pages to show how each component can be used.

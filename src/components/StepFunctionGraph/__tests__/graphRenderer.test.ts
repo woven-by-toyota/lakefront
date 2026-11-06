@@ -1,10 +1,10 @@
 import 'jest-canvas-mock';
-import { CANVAS_DEFAULTS, graphContext } from './util/graphTestUtils.util';
-import { JSONBuilderUtil } from '../util/JSONBuilder.util';
-import { getX, getY, renderVertex, X_OFFSET } from '../GraphRenderer';
-import { WorkFlowType } from '../StepFunctionUtil';
-import { NodeDimensions } from '../GraphUtil';
 import * as CanvasUtilModule from '../canvasUtil';
+import { getX, getY, renderVertex, X_OFFSET } from '../GraphRenderer';
+import type { NodeDimensions } from '../GraphUtil';
+import { WorkFlowType } from '../StepFunctionUtil';
+import { JSONBuilderUtil } from '../util/JSONBuilder.util';
+import { CANVAS_DEFAULTS, graphContext } from './util/graphTestUtils.util';
 
 describe('graphRenderer', () => {
     const CENTER = CANVAS_DEFAULTS.width / 4;
@@ -26,54 +26,15 @@ describe('graphRenderer', () => {
 
             const { drawn, graph, groups: x1Groups } = graphContext(json, 1);
 
-            const x1 = getX(
-                x1Groups,
-                1,
-                50,
-                CANVAS_DEFAULTS.width,
-                0,
-                -1,
-                0,
-                graph,
-                drawn,
-                3,
-                [],
-                {}
-            );
+            const x1 = getX(x1Groups, 1, 50, CANVAS_DEFAULTS.width, 0, -1, 0, graph, drawn, 3, [], {});
 
             const { groups: x2Groups } = graphContext(json, 2);
 
-            const x2 = getX(
-                x2Groups,
-                2,
-                50,
-                CANVAS_DEFAULTS.width,
-                0,
-                -1,
-                1,
-                graph,
-                drawn,
-                3,
-                [],
-                {}
-            );
+            const x2 = getX(x2Groups, 2, 50, CANVAS_DEFAULTS.width, 0, -1, 1, graph, drawn, 3, [], {});
 
             const { groups: x3Groups } = graphContext(json, 3);
 
-            const x3 = getX(
-                x3Groups,
-                3,
-                50,
-                CANVAS_DEFAULTS.width,
-                0,
-                -1,
-                2,
-                graph,
-                drawn,
-                3,
-                [],
-                {}
-            );
+            const x3 = getX(x3Groups, 3, 50, CANVAS_DEFAULTS.width, 0, -1, 2, graph, drawn, 3, [], {});
 
             expect(x1).toBe(CENTER);
             expect(x2).toBe(CENTER);
@@ -82,29 +43,14 @@ describe('graphRenderer', () => {
 
         it('should position a single Parallel in the center', () => {
             const json = new JSONBuilderUtil()
-                .addParallel('ParallelNode', [
-                    new JSONBuilderUtil().addTask('P1').getJson()
-                ], undefined, true)
+                .addParallel('ParallelNode', [new JSONBuilderUtil().addTask('P1').getJson()], undefined, true)
                 .getJson();
 
             const { drawn, graph, groups } = graphContext(json, 1);
 
-            drawn.set(1, {nodeType: WorkFlowType.PARALLEL} as NodeDimensions);
+            drawn.set(1, { nodeType: WorkFlowType.PARALLEL } as NodeDimensions);
 
-            const x = getX(
-                groups,
-                2,
-                50,
-                CANVAS_DEFAULTS.width,
-                0,
-                -1,
-                2,
-                graph,
-                drawn,
-                4,
-                [],
-                {}
-            );
+            const x = getX(groups, 2, 50, CANVAS_DEFAULTS.width, 0, -1, 2, graph, drawn, 4, [], {});
 
             expect(x).toBe(CENTER);
         });
@@ -122,43 +68,17 @@ describe('graphRenderer', () => {
 
             const { drawn, graph, groups } = graphContext(json, 2);
 
-            drawn.set(1, {nodeType: WorkFlowType.CHOICE, x: CENTER} as NodeDimensions);
+            drawn.set(1, { nodeType: WorkFlowType.CHOICE, x: CENTER } as NodeDimensions);
 
-            const x1 = getX(
-                groups,
-                2,
-                50,
-                CANVAS_DEFAULTS.width,
-                0,
-                -1,
-                2,
-                graph,
-                drawn,
-                4,
-                [],
-                {}
-            );
+            const x1 = getX(groups, 2, 50, CANVAS_DEFAULTS.width, 0, -1, 2, graph, drawn, 4, [], {});
 
-            drawn.set(2, {nodeType: WorkFlowType.TASK, x: x1} as NodeDimensions);
+            drawn.set(2, { nodeType: WorkFlowType.TASK, x: x1 } as NodeDimensions);
 
-            const previousEnd = x1 as number + 50;
+            const previousEnd = (x1 as number) + 50;
 
-            const x2 = getX(
-                groups,
-                3,
-                50,
-                CANVAS_DEFAULTS.width,
-                0,
-                previousEnd,
-                2,
-                graph,
-                drawn,
-                4,
-                [],
-                {}
-            );
+            const x2 = getX(groups, 3, 50, CANVAS_DEFAULTS.width, 0, previousEnd, 2, graph, drawn, 4, [], {});
 
-            const expectedX2 = previousEnd + (NODE_WIDTH / 2) + X_OFFSET;
+            const expectedX2 = previousEnd + NODE_WIDTH / 2 + X_OFFSET;
 
             expect(x1).toBe(275); // calculated as the range position
             expect(x2).toBe(expectedX2); // calculated as the newPositionByPrevious
@@ -166,35 +86,24 @@ describe('graphRenderer', () => {
 
         it('should offset the node if the previous parent is a Map node to account for the Map width', () => {
             const json = new JSONBuilderUtil()
-                .addParallel('ParallelNode', [
-                    new JSONBuilderUtil()
-                        .addMap('MapNode', new JSONBuilderUtil().addTask('M1').getJson())
-                        .getJson(),
-                    new JSONBuilderUtil()
-                        .addTask('AfterMap', 'EndNode')
-                        .getJson()
-                ], 'EndNode')
+                .addParallel(
+                    'ParallelNode',
+                    [
+                        new JSONBuilderUtil()
+                            .addMap('MapNode', new JSONBuilderUtil().addTask('M1').getJson())
+                            .getJson(),
+                        new JSONBuilderUtil().addTask('AfterMap', 'EndNode').getJson()
+                    ],
+                    'EndNode'
+                )
                 .addTask('EndNode', undefined, true)
                 .getJson();
 
             const { drawn, graph, groups } = graphContext(json, 1);
 
-            const x = getX(
-                groups,
-                4,
-                50,
-                CANVAS_DEFAULTS.width,
-                0,
-                100,
-                3,
-                graph,
-                drawn,
-                6,
-                [],
-                {}
-            );
+            const x = getX(groups, 4, 50, CANVAS_DEFAULTS.width, 0, 100, 3, graph, drawn, 6, [], {});
 
-            const expected = 100 + (NODE_WIDTH / 2) + X_OFFSET + (X_OFFSET / 2);
+            const expected = 100 + NODE_WIDTH / 2 + X_OFFSET + X_OFFSET / 2;
 
             expect(x).toBe(expected);
         });
@@ -228,14 +137,13 @@ describe('graphRenderer', () => {
     describe('renderVertex', () => {
         const json = new JSONBuilderUtil()
             .addTask('StartNode', 'ParallelNode')
-            .addParallel('ParallelNode', [
-                new JSONBuilderUtil().addTask('P1').getJson(),
-                new JSONBuilderUtil().addTask('P2').getJson()
-            ], 'MapNode')
+            .addParallel(
+                'ParallelNode',
+                [new JSONBuilderUtil().addTask('P1').getJson(), new JSONBuilderUtil().addTask('P2').getJson()],
+                'MapNode'
+            )
             .addMap('MapNode', new JSONBuilderUtil().addTask('M1').getJson(), 'ChoiceNode')
-            .addChoice('ChoiceNode', [
-                JSONBuilderUtil.getChoiceForAdd('EndNode')
-            ])
+            .addChoice('ChoiceNode', [JSONBuilderUtil.getChoiceForAdd('EndNode')])
             .addSuccess('EndNode', undefined, true)
             .getJson();
 
@@ -336,7 +244,11 @@ describe('graphRenderer', () => {
                 .editNode('UnknownNode', { Type: 'Unknown' })
                 .getJson();
 
-            const { drawn: unknownDrawn, graph: unknownGraph, groups: unknownGroups } = graphContext(unknownNodeJson, 1);
+            const {
+                drawn: unknownDrawn,
+                graph: unknownGraph,
+                groups: unknownGroups
+            } = graphContext(unknownNodeJson, 1);
 
             renderVertex(
                 verticesAtDepth[1],

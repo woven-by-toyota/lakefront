@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import Button from 'src/components/Button/Button';
-import { FilterJSONInputProps } from 'src/components/Filter/types';
+import type { FilterJSONInputProps } from 'src/components/Filter/types';
 import { ButtonWrapper, JSONEditor } from './filterJSONInputStyles';
 
 const JSON_INDENT_SPACES = 4;
@@ -30,7 +30,7 @@ const FilterJSONInput: FC<FilterJSONInputProps> = ({ filterHooks, onInputModifie
 
         try {
             const body = JSON.parse(escaped);
-            console.log(body)
+            console.log(body);
             applyApiPostBody(body);
             setIsInputModified(false);
         } catch (error) {
@@ -51,9 +51,18 @@ const FilterJSONInput: FC<FilterJSONInputProps> = ({ filterHooks, onInputModifie
 
     return (
         <>
-            <JSONEditor value={jsonInput} onChange={handleInputChange} error={error} />
+            <JSONEditor
+                value={jsonInput}
+                onChange={handleInputChange}
+                error={error}
+            />
             <ButtonWrapper>
-                <Button color="secondary" onClick={resetInput}>Cancel</Button>
+                <Button
+                    color='secondary'
+                    onClick={resetInput}
+                >
+                    Cancel
+                </Button>
                 <Button onClick={handleApply}>Apply JSON</Button>
             </ButtonWrapper>
         </>

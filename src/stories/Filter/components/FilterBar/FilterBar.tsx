@@ -1,6 +1,6 @@
-import { FC, useRef, useState, useEffect } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
+import type { FilterBarProps, FilterModule } from 'src/components/Filter/types';
 import { getFilterAppliedCount } from 'src/components/Filter/util';
-import { FilterBarProps, FilterModule } from 'src/components/Filter/types';
 import { FilterBarContainer } from './filterBarStyles';
 
 interface FilterItemProps {
@@ -24,9 +24,16 @@ export const FilterItem: FC<FilterItemProps> = (props) => {
     const itemLabel = item.getFilterBarLabel(value);
 
     return (
-        <div className="filterItem">
-            <span className="filterItemLabel">{itemLabel}</span>
-            {!item.required && <div className="filterItemClose" onClick={handleCloseIcon}>x</div>}
+        <div className='filterItem'>
+            <span className='filterItemLabel'>{itemLabel}</span>
+            {!item.required && (
+                <div
+                    className='filterItemClose'
+                    onClick={handleCloseIcon}
+                >
+                    x
+                </div>
+            )}
         </div>
     );
 };
@@ -50,9 +57,12 @@ const FilterBar: FC<FilterBarProps> = (props) => {
     const filterCount = getFilterAppliedCount(filters, filterValues);
 
     return (
-        <FilterBarContainer className="filterBar" ref={filterBarRef}>
+        <FilterBarContainer
+            className='filterBar'
+            ref={filterBarRef}
+        >
             {isMinimized ? (
-                <div className="filterItem">{filterCount} Filters Applied</div>
+                <div className='filterItem'>{filterCount} Filters Applied</div>
             ) : (
                 <>
                     {filterKeys.map((key) => (
@@ -68,7 +78,10 @@ const FilterBar: FC<FilterBarProps> = (props) => {
             )}
 
             {filterCount > 0 && (
-                <span onClick={resetAllFilters} className="resetAll">
+                <span
+                    onClick={resetAllFilters}
+                    className='resetAll'
+                >
                     Reset All
                 </span>
             )}

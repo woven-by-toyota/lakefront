@@ -1,47 +1,49 @@
-import { FC } from 'react';
-import MultiSelect from 'src/components/Filter/modules/MultiSelectFilter/MultiSelect';
 import styled from '@emotion/styled';
-import { DoubleMultiSelectOptions, DoubleMultiSelectValues } from 'src/components/Filter/types';
+import type { FC } from 'react';
+import MultiSelect from 'src/components/Filter/modules/MultiSelectFilter/MultiSelect';
+import type { DoubleMultiSelectOptions, DoubleMultiSelectValues } from 'src/components/Filter/types';
 
 const FilterTitle = styled.div(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  marginBottom: 5,
-  marginTop: 16,
-  color: theme.foregrounds.primary,
-  label: {
-    color: theme.foregrounds.primary
-  }
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+    marginTop: 16,
+    color: theme.foregrounds.primary,
+    label: {
+        color: theme.foregrounds.primary
+    }
 }));
 
 const FilterLabel = styled.label(({ theme }) => ({
     color: theme.foregrounds.secondary,
-    fontSize: 16,
+    fontSize: 16
 }));
 
 const FilterClear = styled.div(({ theme }) => ({
     color: theme.foregrounds.secondary,
     cursor: 'pointer',
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: 600
 }));
 
 interface DoubleMultiSelectProps {
     value: DoubleMultiSelectValues;
     onChange(value: DoubleMultiSelectValues | null): void;
-    options: DoubleMultiSelectOptions
+    options: DoubleMultiSelectOptions;
 }
 
 const DoubleMultiSelect: FC<DoubleMultiSelectProps> = ({ value, onChange, options }) => {
-    const selectedFirst = value?.firstSelect?.map(item => ({
-        label: item,
-        value: item
-    })) ?? [];
+    const selectedFirst =
+        value?.firstSelect?.map((item) => ({
+            label: item,
+            value: item
+        })) ?? [];
 
-    const selectedSecond = value?.secondSelect?.map(item => ({
-        label: item,
-        value: item
-    })) ?? [];
+    const selectedSecond =
+        value?.secondSelect?.map((item) => ({
+            label: item,
+            value: item
+        })) ?? [];
 
     const handleChange = (values: string[], key: keyof DoubleMultiSelectValues) => {
         const newValues = {

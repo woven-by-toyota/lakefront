@@ -1,4 +1,10 @@
-import { generateAnchorOrigin, SnackbarOrigin, MESSAGE_TYPES, getIcon, createDefaultAction } from '../Snackbar.util';
+import {
+    createDefaultAction,
+    generateAnchorOrigin,
+    getIcon,
+    MESSAGE_TYPES,
+    type SnackbarOrigin
+} from '../Snackbar.util';
 
 const anchorOriginMock: SnackbarOrigin = {
     vertical: 'bottom',
@@ -6,7 +12,7 @@ const anchorOriginMock: SnackbarOrigin = {
 };
 
 const portalMock = {
-    style: {left: '', bottom: '', right: '', top: ''}
+    style: { left: '', bottom: '', right: '', top: '' }
 };
 
 beforeEach(() => {
@@ -107,7 +113,7 @@ describe('getIcon', () => {
     describe('createDefaultAction', () => {
         it('calls createDefaultAction with timeout value', () => {
             const onClose = () => 'timeout';
-            
+
             expect(createDefaultAction(onClose)).toBeDefined();
         });
     });

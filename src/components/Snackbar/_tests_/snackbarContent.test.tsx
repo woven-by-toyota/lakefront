@@ -1,6 +1,6 @@
-import SnackbarContent from '../SnackbarContent';
-import { MESSAGE_TYPES } from '../Snackbar.util';
 import { renderWithTheme } from '../../../lib/testing';
+import { MESSAGE_TYPES } from '../Snackbar.util';
+import SnackbarContent from '../SnackbarContent';
 
 const SnackbarContentPropsMock = {
     action: <button />,

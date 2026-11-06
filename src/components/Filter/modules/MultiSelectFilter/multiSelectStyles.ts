@@ -1,11 +1,13 @@
+import type { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { MultiSelectOption } from './MultiSelect';
+import type { GroupBase, StylesConfig } from 'react-select';
 import TextArea from 'src/components/TextArea/TextArea';
-import { StylesConfig, GroupBase } from 'react-select';
-import { Theme } from '@emotion/react';
+import type { MultiSelectOption } from './MultiSelect';
 
-export const getMultiSelectStyles = (theme: Theme): Partial<StylesConfig<MultiSelectOption, true, GroupBase<MultiSelectOption>>> => ({
-    control: (styles: any, state: { isFocused: any; }) => ({
+export const getMultiSelectStyles = (
+    theme: Theme
+): Partial<StylesConfig<MultiSelectOption, true, GroupBase<MultiSelectOption>>> => ({
+    control: (styles: any, state: { isFocused: any }) => ({
         ...styles,
         backgroundColor: theme.backgrounds.primary,
         borderRadius: 4,
@@ -41,7 +43,7 @@ export const getMultiSelectStyles = (theme: Theme): Partial<StylesConfig<MultiSe
             color: theme.foregrounds.primary
         }
     }),
-    option: (styles: any, state: { isFocused: any; }) => ({
+    option: (styles: any, state: { isFocused: any }) => ({
         ...styles,
         backgroundColor: state.isFocused ? theme.backgrounds.hover : theme.backgrounds.primary
     })

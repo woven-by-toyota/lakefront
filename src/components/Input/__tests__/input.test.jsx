@@ -8,9 +8,7 @@ const ERROR = 'Error';
 describe('Input', () => {
     describe('general rendering', () => {
         it('renders the label and its text', () => {
-            const { container } = render(
-                <Input label={LABEL} />
-            );
+            const { container } = render(<Input label={LABEL} />);
 
             const [label] = container.querySelectorAll('label');
 
@@ -18,9 +16,7 @@ describe('Input', () => {
         });
 
         it('should not render the label when no label prop present', () => {
-            const { container } = render(
-                <Input />
-            );
+            const { container } = render(<Input />);
 
             const spans = container.querySelectorAll('span');
 
@@ -28,9 +24,7 @@ describe('Input', () => {
         });
 
         it('should render the error message when error message present', () => {
-            const { getByText } = render(
-                <Input error={ERROR} />
-            );
+            const { getByText } = render(<Input error={ERROR} />);
 
             const error = getByText('Error');
 
@@ -39,16 +33,17 @@ describe('Input', () => {
 
         it('should render an asterisk when the prop "required" is passed along with the label', () => {
             const { container } = render(
-                <Input label="test label" required />
+                <Input
+                    label='test label'
+                    required
+                />
             );
 
             expect(container.querySelector('span.required-field')).toBeInTheDocument();
         });
 
         it('should not render an asterisk when the prop "required" is not passed', () => {
-            const { container } = render(
-                <Input label="test label" />
-            );
+            const { container } = render(<Input label='test label' />);
 
             expect(container.querySelector('span.required-field')).not.toBeInTheDocument();
         });

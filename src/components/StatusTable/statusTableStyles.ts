@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { ReactComponent as UnfoldMoreIcon } from './__assets__/UnfoldMoreIcon.svg';
+
 interface StatusTableStyleProps {
     cards?: boolean;
 }
@@ -11,13 +12,13 @@ interface StatusProps {
 }
 
 export const StatusTableStyle = styled.div<StatusTableStyleProps>(({ cards, theme }) => ({
-    'table': {
+    table: {
         borderCollapse: 'separate',
         borderSpacing: 0,
         width: '100%'
     },
 
-    'th': {
+    th: {
         color: theme.foregrounds.tableHeading,
         ...theme.lettering.secondary,
         padding: '12px 12px 8px 12px',
@@ -31,28 +32,27 @@ export const StatusTableStyle = styled.div<StatusTableStyleProps>(({ cards, them
             paddingLeft: '20px'
         },
 
-        'svg': {
+        svg: {
             fontSize: '18px'
         },
 
-        'div': {
+        div: {
             cursor: 'pointer',
             display: 'flex'
         }
     },
     ...(cards && {
-
         borderSpacing: 0,
 
         '&:first-of-type': {
-            'tr': {
+            tr: {
                 '&:hover': {
                     backgroundColor: theme.backgrounds.primary
                 }
             }
         },
 
-        'td': {
+        td: {
             borderBottom: '1px solid',
             borderBottomColor: theme.borderColors.primary,
 
@@ -67,14 +67,13 @@ export const StatusTableStyle = styled.div<StatusTableStyleProps>(({ cards, them
             }
         },
 
-        'h5': {
+        h5: {
             marginBlockStart: '0px',
             marginBlockEnd: '5px',
             color: theme.foregrounds.primary,
             ...theme.lettering.secondary,
             fontWeight: 600
         }
-
     })
 }));
 
@@ -96,19 +95,19 @@ export const StatusCellBadgeStyle = styled.div<StatusProps>(({ status, theme }) 
         width: '16px'
     },
 
-    ...((status === 'Running') && {
+    ...(status === 'Running' && {
         '&:before': {
             backgroundColor: theme.foregrounds.success
         }
     }),
 
-    ...((status === 'Enqueued') && {
+    ...(status === 'Enqueued' && {
         '&:before': {
             backgroundColor: theme.backgrounds.disabled
         }
     }),
 
-    ...(((status === 'Failed') || (status === 'Error')) && {
+    ...((status === 'Failed' || status === 'Error') && {
         '&:before': {
             backgroundColor: theme.foregrounds.error
         }
@@ -119,17 +118,17 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
     backgroundColor: theme.backgrounds.primary,
 
     '&:hover': {
-        backgroundColor: theme.backgrounds.hover,
+        backgroundColor: theme.backgrounds.hover
     },
 
     '&:last-of-type': {
-        'td': {
+        td: {
             borderBottom: '1px solid',
             borderBottomColor: theme.borderColors.primary
         }
     },
 
-    'td': {
+    td: {
         borderTop: '1px solid',
         borderTopColor: theme.borderColors.primary,
 
@@ -158,7 +157,7 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
         position: 'relative'
     },
 
-    ...((status === 'Running') && {
+    ...(status === 'Running' && {
         'td:first-of-type': {
             '&:before': {
                 backgroundColor: theme.foregrounds.success
@@ -166,7 +165,7 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
         }
     }),
 
-    ...((status === 'Enqueued') && {
+    ...(status === 'Enqueued' && {
         'td:first-of-type': {
             '&:before': {
                 backgroundColor: theme.backgrounds.disabled
@@ -174,7 +173,7 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
         }
     }),
 
-    ...(((status === 'Failed') || (status === 'Error')) && {
+    ...((status === 'Failed' || status === 'Error') && {
         'td:first-of-type': {
             '&:before': {
                 backgroundColor: theme.foregrounds.error
@@ -184,9 +183,7 @@ export const StatusRowStyle = styled.tr<StatusProps>(({ status, onRowClick, rowC
 
     ...(rowClick && {
         cursor: 'pointer'
-    }
-    )
-
+    })
 }));
 
 export const SortIcon = styled(UnfoldMoreIcon)(({ theme }) => ({

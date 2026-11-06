@@ -1,5 +1,5 @@
-import Breadcrumb, { BreadcrumbProps, RouteProp } from "./Breadcrumb";
-import BreadcrumbHeader, { BreadcrumbHeaderProps } from "./BreadcrumbHeader";
+import Breadcrumb, { type BreadcrumbProps, type RouteProp } from './Breadcrumb';
+import BreadcrumbHeader, { type BreadcrumbHeaderProps } from './BreadcrumbHeader';
 
-export { BreadcrumbProps, RouteProp, Breadcrumb, BreadcrumbHeaderProps };
+export { Breadcrumb, type BreadcrumbHeaderProps, type BreadcrumbProps, type RouteProp };
 export default BreadcrumbHeader;

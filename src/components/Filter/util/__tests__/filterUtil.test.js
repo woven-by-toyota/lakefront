@@ -1,12 +1,12 @@
-import {
-    getDefaultValue,
-    getDefaultJsonViewValue,
-    getFilterAppliedCount,
-    getUrlFromList,
-    areSetsEqual,
-    convertToFilterDropdownOptions
-} from '../filterUtil';
 import { FILTERS } from 'src/components/Filter/__tests__/filter.data';
+import {
+    areSetsEqual,
+    convertToFilterDropdownOptions,
+    getDefaultJsonViewValue,
+    getDefaultValue,
+    getFilterAppliedCount,
+    getUrlFromList
+} from '../filterUtil';
 
 describe('getDefaultValue', () => {
     describe('when url parameter key exists', () => {
@@ -98,7 +98,9 @@ describe('getUrlFromList', () => {
 
     describe('when initialValue is passed', () => {
         it('returns the full url when initial value is true', () => {
-            expect(getUrlFromList('item', new Set(['good', 'better', 'best']), 3, true)).toBe('&item=good&item=better&item=best');
+            expect(getUrlFromList('item', new Set(['good', 'better', 'best']), 3, true)).toBe(
+                '&item=good&item=better&item=best'
+            );
         });
 
         it('returns "" when initial value is false with all options selected', () => {
@@ -142,8 +144,8 @@ describe('preset filter dropdown options', () => {
         };
 
         expect(convertToFilterDropdownOptions(filterMapping)).toStrictEqual([
-            {label: 'Dev Mode', value: 'devMode'},
-            {label: 'Prod Mode', value: 'prodMode'}
+            { label: 'Dev Mode', value: 'devMode' },
+            { label: 'Prod Mode', value: 'prodMode' }
         ]);
     });
 });

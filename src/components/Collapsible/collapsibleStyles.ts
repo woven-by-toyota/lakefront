@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CollapsibleProps } from './Collapsible';
+import type { CollapsibleProps } from './Collapsible';
 
 export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
     color: theme.foregrounds.primary,
@@ -16,7 +16,7 @@ export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
             },
             display: 'inline-flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'space-between'
         },
         '.title': {
             fontWeight: 600,
@@ -30,9 +30,9 @@ export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
                 marginLeft: 16,
                 marginBottom: 8
             },
-          svg: {
-              fill: theme.foregrounds.primary
-          }
+            svg: {
+                fill: theme.foregrounds.primary
+            }
         }
     },
     '.divider': {
@@ -42,7 +42,7 @@ export const StyledCollapsible = styled.div<CollapsibleProps>(({ theme }) => ({
     '.expanded': {
         height: 'auto',
         opacity: 1,
-        transition: 'height 100ms ease, opacity 500ms ease',
+        transition: 'height 100ms ease, opacity 500ms ease'
     },
     '.collapsed': {
         height: 0,

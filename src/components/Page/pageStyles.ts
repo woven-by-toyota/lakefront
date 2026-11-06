@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { PageProps } from './Page';
+import type { PageProps } from './Page';
 
 export const StyledPage = styled.div<PageProps>(({ theme }) => ({
     color: theme.foregrounds.primary,

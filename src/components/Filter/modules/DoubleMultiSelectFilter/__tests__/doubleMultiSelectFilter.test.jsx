@@ -1,5 +1,5 @@
-import React from 'react';
 import { within } from '@testing-library/react';
+import React from 'react';
 import { renderWithTheme as render } from 'src/lib/testing';
 import DoubleMultiSelectFilter from '../DoubleMultiSelectFilter';
 
@@ -49,10 +49,12 @@ describe('DoubleMultiSelectFilter', () => {
         it('returns the proper url', () => {
             const firstValue = { firstSelect: ['first name'] };
             const secondValue = { firstSelect: ['first name'], secondSelect: ['second name'] };
-            expect(getApiQueryUrl(DEFAULT_PROPS.selectOptions.firstSelect.apiField, firstValue))
-                .toBe('&first=first name');
-            expect(getApiQueryUrl(DEFAULT_PROPS.selectOptions.secondSelect.apiField, secondValue))
-                .toBe('&first=first name&second=second name');
+            expect(getApiQueryUrl(DEFAULT_PROPS.selectOptions.firstSelect.apiField, firstValue)).toBe(
+                '&first=first name'
+            );
+            expect(getApiQueryUrl(DEFAULT_PROPS.selectOptions.secondSelect.apiField, secondValue)).toBe(
+                '&first=first name&second=second name'
+            );
         });
 
         it('returns an empty string when value has no length', () => {
@@ -60,7 +62,7 @@ describe('DoubleMultiSelectFilter', () => {
         });
 
         it('returns an empty string when value length matches options length', () => {
-            expect(getApiQueryUrl('a', ['1','2','3'])).toBe('');
+            expect(getApiQueryUrl('a', ['1', '2', '3'])).toBe('');
         });
     });
 
@@ -70,10 +72,13 @@ describe('DoubleMultiSelectFilter', () => {
         it('returns the proper object when there is a value', () => {
             const firstValue = { firstSelect: ['first name'] };
             const secondValue = { firstSelect: ['first name'], secondSelect: ['second name'] };
-            expect(getApiPostBody(DEFAULT_PROPS.selectOptions.firstSelect.apiField, firstValue))
-                .toMatchObject({ first: ['first name'] });
-            expect(getApiPostBody(DEFAULT_PROPS.selectOptions.firstSelect.apiField, secondValue))
-                .toMatchObject({ first: ['first name'], second: ['second name'] });
+            expect(getApiPostBody(DEFAULT_PROPS.selectOptions.firstSelect.apiField, firstValue)).toMatchObject({
+                first: ['first name']
+            });
+            expect(getApiPostBody(DEFAULT_PROPS.selectOptions.firstSelect.apiField, secondValue)).toMatchObject({
+                first: ['first name'],
+                second: ['second name']
+            });
         });
 
         it('returns undefined when value is falsy', () => {
@@ -296,7 +301,9 @@ describe('DoubleMultiSelectFilter', () => {
             expect(parseInitialFilterValue('a')).toBeNull();
 
             const update = () => null;
-            const { queryByRole, queryByText } = render(<div>{renderComponent({ name: 'name', value: ['colors'], update })}</div>);
+            const { queryByRole, queryByText } = render(
+                <div>{renderComponent({ name: 'name', value: ['colors'], update })}</div>
+            );
 
             expect(queryByRole('textbox')).not.toBeInTheDocument();
             expect(queryByText('colors')).not.toBeInTheDocument();

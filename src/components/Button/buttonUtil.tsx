@@ -1,10 +1,11 @@
-import React, { ComponentPropsWithoutRef, ElementType, ReactElement, ReactNode } from 'react';
-import { SerializedStyles, Theme } from '@emotion/react';
+import type { SerializedStyles, Theme } from '@emotion/react';
+import type React from 'react';
+import type { ComponentPropsWithoutRef, ElementType, ReactElement, ReactNode } from 'react';
 import { ReactComponent as Add } from './assets/add.svg';
 import { ReactComponent as Delete } from './assets/delete.svg';
 
 export interface ComponentStyles {
-    [key: string]: SerializedStyles
+    [key: string]: SerializedStyles;
 }
 
 export const COLORS = {
@@ -18,7 +19,7 @@ export const ICON_BUTTON_COLOR: { [key: string]: 'secondary' | 'destructive' | '
     primary: 'secondary',
     secondary: 'secondary',
     destructive: 'destructive',
-    link: 'link',
+    link: 'link'
 };
 
 export const ICON_SVGS = {
@@ -89,7 +90,7 @@ export const shouldUseMappedIcon = (icon: Icon): boolean => {
 export const TINTED_BUTTON_OPACITY = '1A';
 
 export const getTintedBackgroundColor = (theme: Theme, alternate?: boolean) => {
-  const color = alternate ? theme.backgrounds.primary : theme.backgrounds.inverted;
+    const color = alternate ? theme.backgrounds.primary : theme.backgrounds.inverted;
 
-  return `${color}${TINTED_BUTTON_OPACITY}`
-}
+    return `${color}${TINTED_BUTTON_OPACITY}`;
+};

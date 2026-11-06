@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import lakefrontColors from 'src/styles/lakefrontColors';
 
-export interface PreviewProps { sortBy?: 'color' | 'name' }
+export interface PreviewProps {
+    sortBy?: 'color' | 'name';
+}
 
 /**
  * Lakefront Colors
@@ -28,13 +30,23 @@ const Preview: FC<PreviewProps> = ({ sortBy = 'name' }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%', rowGap: 4, fontSize: 20 }}>
             {colorEntries.map(([key, hexValue]) => (
-                <div style={{ display: 'flex', flex: 1, justifyContent: 'space-between', border: `1px solid ${lakefrontColors.mercury}` }}>
-                    <div style={{ padding: 4, borderRight: `1px solid ${lakefrontColors.mercury}`, flex: 2 }}>{key}</div>
+                <div
+                    key={key}
+                    style={{
+                        display: 'flex',
+                        flex: 1,
+                        justifyContent: 'space-between',
+                        border: `1px solid ${lakefrontColors.mercury}`
+                    }}
+                >
+                    <div style={{ padding: 4, borderRight: `1px solid ${lakefrontColors.mercury}`, flex: 2 }}>
+                        {key}
+                    </div>
                     <div style={{ flex: 8, backgroundColor: hexValue as string }} />
                 </div>
             ))}
         </div>
-    )
-}
+    );
+};
 
 export default Preview;

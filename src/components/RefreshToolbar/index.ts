@@ -1,4 +1,4 @@
-import RefreshToolbar, { RefreshToolbarProps } from './RefreshToolbar';
+import RefreshToolbar, { type RefreshToolbarProps } from './RefreshToolbar';
 
 export default RefreshToolbar;
-export { RefreshToolbarProps };
+export type { RefreshToolbarProps };

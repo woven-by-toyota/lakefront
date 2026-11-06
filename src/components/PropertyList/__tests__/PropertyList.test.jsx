@@ -3,9 +3,9 @@ import { renderWithTheme as render } from 'src/lib/testing';
 import PropertyList, { PropertyListVariable } from '../PropertyList';
 
 const attributes = [
-    { caption: 'P1', content: d => d.p1 },
-    { caption: 'P2', content: d => d.p2 }
-]
+    { caption: 'P1', content: (d) => d.p1 },
+    { caption: 'P2', content: (d) => d.p2 }
+];
 
 const data = {
     p1: 'content 1',
@@ -14,7 +14,12 @@ const data = {
 
 describe('<PropertiesPanel />', () => {
     it('renders a title and attributes', () => {
-        const { container } = render(<PropertyList attributes={attributes} data={data} />);
+        const { container } = render(
+            <PropertyList
+                attributes={attributes}
+                data={data}
+            />
+        );
 
         expect(container.querySelectorAll('span').length).toBe(4);
         expect(container.querySelectorAll('span')[0].textContent).toBe('P1');
@@ -24,7 +29,12 @@ describe('<PropertiesPanel />', () => {
 
 describe('<PropertyListLeftAligned />', () => {
     it('renders a title and attributes', () => {
-        const { container } = render(<PropertyListVariable attributes={attributes} data={data} />);
+        const { container } = render(
+            <PropertyListVariable
+                attributes={attributes}
+                data={data}
+            />
+        );
 
         expect(container.querySelectorAll('div div').length).toBe(2);
 

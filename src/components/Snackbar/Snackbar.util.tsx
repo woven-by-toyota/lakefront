@@ -1,10 +1,10 @@
 import colors from 'src/styles/lakefrontColors';
+import type { LakefrontTheme } from 'src/types/global';
 import { ReactComponent as CheckCircle } from './assets/check_circle.svg';
-import { ReactComponent as Error } from './assets/error.svg';
+import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
+import { ReactComponent as ErrorIcon } from './assets/error.svg';
 import { ReactComponent as Info } from './assets/info.svg';
 import { StyledSnackbarCloseButton } from './snackbarStyles';
-import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
-import { LakefrontTheme } from 'src/types/global';
 
 export enum MESSAGE_TYPES {
     INFO = 'info',
@@ -26,8 +26,8 @@ export const createDefaultAction = (onClose: (reason: SnackbarCloseReason) => vo
             className='closeIcon'
             key='close'
             aria-label='Close'
-            onClick={() => onClose ? onClose('timeout') : undefined}
-            icon={<CloseIcon/>}
+            onClick={() => (onClose ? onClose('timeout') : undefined)}
+            icon={<CloseIcon />}
         />
     );
 };
@@ -68,7 +68,7 @@ export const getIcon = (type: MESSAGE_TYPES, theme?: LakefrontTheme) => {
 
     switch (type) {
         case MESSAGE_TYPES.ERROR:
-            return <Error style={{ fill: iconColors.error }} />;
+            return <ErrorIcon style={{ fill: iconColors.error }} />;
         case MESSAGE_TYPES.SUCCESS:
             return <CheckCircle style={{ fill: iconColors.success }} />;
         case MESSAGE_TYPES.INFO:

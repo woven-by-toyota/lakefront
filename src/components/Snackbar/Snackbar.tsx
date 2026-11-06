@@ -1,8 +1,14 @@
-import { FC, ReactNode, useEffect, useRef, useState } from 'react';
-import { createDefaultAction, generateAnchorOrigin, MESSAGE_TYPES, SnackbarCloseReason, SnackbarOrigin } from './Snackbar.util';
+import { type FC, type ReactNode, useEffect, useRef, useState } from 'react';
+import usePopover, { PopoverContent } from 'src/lib/hooks/usePopover';
+import {
+    createDefaultAction,
+    generateAnchorOrigin,
+    MESSAGE_TYPES,
+    type SnackbarCloseReason,
+    type SnackbarOrigin
+} from './Snackbar.util';
 import SnackbarContent from './SnackbarContent';
 import { SnackbarWrapper, TRANSITION_CLOSE_TIME } from './snackbarStyles';
-import usePopover, { PopoverContent } from 'src/lib/hooks/usePopover';
 
 export interface SnackbarProps {
     /**
@@ -54,8 +60,8 @@ export interface SnackbarProps {
      */
     renderInPortal?: boolean;
     /**
-    * The classes to pass to the snackbar.
-    */
+     * The classes to pass to the snackbar.
+     */
     className?: string;
 }
 
@@ -78,7 +84,7 @@ const Snackbar: FC<SnackbarProps> = ({
     type = MESSAGE_TYPES.INFO,
     portalId,
     renderInPortal = false,
-    action = createDefaultAction(() => onClose ? onClose('timeout') : undefined),
+    action = createDefaultAction(() => (onClose ? onClose('timeout') : undefined))
 }) => {
     const [snackbarWrapperElement, setSnackbarWrapperElement] = useState<HTMLElement | null>(null);
     const snackbarContentRef = useRef<HTMLDivElement | null>(null);
@@ -146,21 +152,28 @@ const Snackbar: FC<SnackbarProps> = ({
     };
 
     return (
-            <SnackbarWrapper className={className} ref={popoverNodeMounted} anchorOrigin={anchorOrigin}>
-                <PopoverContent portal={portal} deps={[open]}>
-                    {open && (
-                        <div className="content-snackbar-wrapper">
-                            <SnackbarContent
-                                id="snackbar-content"
-                                ref={snackbarContentRef}
-                                action={action}
-                                message={message}
-                                type={type}
-                            />
-                        </div>
-                    )}
-                </PopoverContent>
-            </SnackbarWrapper>
+        <SnackbarWrapper
+            className={className}
+            ref={popoverNodeMounted}
+            anchorOrigin={anchorOrigin}
+        >
+            <PopoverContent
+                portal={portal}
+                deps={[open]}
+            >
+                {open && (
+                    <div className='content-snackbar-wrapper'>
+                        <SnackbarContent
+                            id='snackbar-content'
+                            ref={snackbarContentRef}
+                            action={action}
+                            message={message}
+                            type={type}
+                        />
+                    </div>
+                )}
+            </PopoverContent>
+        </SnackbarWrapper>
     );
 };
 

@@ -1,7 +1,7 @@
-import { FC, useEffect, useRef, useMemo } from 'react';
+import { type FC, useEffect, useMemo, useRef } from 'react';
 
 import { BoundingBoxesContainer } from './boundingBoxesStyles';
-import { BoundingBoxItemProp, drawSingleBox, getImageOffsetRatio } from './boundingBoxesUtil';
+import { type BoundingBoxItemProp, drawSingleBox, getImageOffsetRatio } from './boundingBoxesUtil';
 
 export interface BoundingBoxesProps {
     /**
@@ -89,12 +89,10 @@ const BoundingBoxes: FC<BoundingBoxesProps> = ({
         drawBoundingBoxes();
     }, [activeBBox, boundingBoxItems]);
 
-    const offsetRatio = useMemo(() => getImageOffsetRatio(imageWidth, imageHeight, outputWidth, outputHeight), [
-        imageWidth,
-        imageHeight,
-        outputWidth,
-        outputHeight
-    ]);
+    const offsetRatio = useMemo(
+        () => getImageOffsetRatio(imageWidth, imageHeight, outputWidth, outputHeight),
+        [imageWidth, imageHeight, outputWidth, outputHeight]
+    );
 
     return (
         <BoundingBoxesContainer

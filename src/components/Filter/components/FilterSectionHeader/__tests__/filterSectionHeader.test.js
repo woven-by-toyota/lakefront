@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
+import { BASE_FILTER } from 'src/components/Filter/__tests__/filter.data';
 import { renderWithTheme as render } from 'src/lib/testing';
 import FilterSectionHeader from '../FilterSectionHeader';
-import { BASE_FILTER } from 'src/components/Filter/__tests__/filter.data';
 
 const FILTER_SECTION_PROPS = {
     activeSection: 'a',
@@ -20,12 +20,8 @@ const FILTER_SECTION_PROPS = {
 
 describe('FilterSectionHeader', () => {
     it('renders properly with no filters applied', () => {
-        const { getByText, container } = render(
-            <FilterSectionHeader
-                {...FILTER_SECTION_PROPS}
-            />
-        );
-        
+        const { getByText, container } = render(<FilterSectionHeader {...FILTER_SECTION_PROPS} />);
+
         expect(container.querySelector('svg[aria-label="clear"]')).not.toBeInTheDocument();
         getByText(FILTER_SECTION_PROPS.filter.label);
     });

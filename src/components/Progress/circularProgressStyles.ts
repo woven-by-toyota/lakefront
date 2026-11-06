@@ -8,12 +8,12 @@ export const CircularProgressStyle = styled.div<any>(({ width, theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     color: theme.foregrounds.primary,
-    'svg': {
+    svg: {
         position: 'absolute',
         top: 0,
         left: 0
     },
-    'div': {
+    div: {
         position: 'fixed',
         textAlign: 'center',
         padding: '4px 8px',

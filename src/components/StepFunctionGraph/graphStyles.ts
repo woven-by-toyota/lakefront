@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import { ReactComponent as RemoveIcon } from './assets/minus.svg';
 import { ReactComponent as GpsFixedIcon } from './assets/navigation.svg';
 import { ReactComponent as AddIcon } from './assets/plus.svg';
-import { ReactComponent as RemoveIcon } from './assets/minus.svg';
 
 export const GraphContainer = styled.div(({ theme }) => ({
     height: '100%',
@@ -17,7 +17,7 @@ export const StyledCanvas = styled.canvas(({ theme }) => ({
     color: theme.foregrounds.primary
 }));
 
-export const GraphControls = styled.div(({theme}) => ({
+export const GraphControls = styled.div(({ theme }) => ({
     bottom: 16,
     display: 'flex',
     flexDirection: 'column',
@@ -56,13 +56,13 @@ export const GraphControls = styled.div(({theme}) => ({
 }));
 
 export const StyledGpsFixedIcon = styled(GpsFixedIcon)(() => ({
-    height: 17,
+    height: 17
 }));
 
 export const StyledAddIcon = styled(AddIcon)(() => ({
-    height: 17,
+    height: 17
 }));
 
 export const StyledRemoveIcon = styled(RemoveIcon)(() => ({
-    height: 17,
+    height: 17
 }));

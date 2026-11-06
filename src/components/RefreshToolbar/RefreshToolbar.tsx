@@ -1,52 +1,56 @@
-import { ComponentProps, FC, ReactNode } from 'react';
-import {
-  ToolbarContainer, LogoLoadingSpinner, RefreshProgressContainer,
-  ToolbarAdditionalContent, ButtonContainer, RightSideContainer
-} from './refreshToolbarStyles';
-import { ReactComponent as RefreshIcon } from './assets/refreshIcon.svg';
+import type { ComponentProps, FC, ReactNode } from 'react';
 import Button from 'src/components/Button/Button';
+import { ReactComponent as RefreshIcon } from './assets/refreshIcon.svg';
+import {
+    ButtonContainer,
+    LogoLoadingSpinner,
+    RefreshProgressContainer,
+    RightSideContainer,
+    ToolbarAdditionalContent,
+    ToolbarContainer
+} from './refreshToolbarStyles';
 
 export interface RefreshToolbarProps {
-  /**
-   * This is called when the refresh button is clicked.
-   */
-  handleRefresh(): void;
-  /**
-   * This is to set the Refresh toolbar class.
-   */
-  className?: string;
-  /**
-   * The additional content to display if desired.
-   */
-  children?: ReactNode;
-  /**
-   * This is to set to false if you want to apply your own container styling (with className prop or a wrapper)
-   */
-  standalone?: boolean;
-  /**
-   * Set this to true if you want to display the loading image.
-   */
-  isRefreshing?: boolean;
-  /**
-   * This is to set the last updated text.
-   */
-  lastUpdated?: string | null;
-  /**
-   * This is to display the loading image label.
-   */
-  refreshProgressLabel?: string;
-  /**
-   * This is to render right side components.
-   */
-  rightComp?: ReactNode;
-  /**
-   * This is to set right side text.
-   */
-  rightSideText?: string;
-  /**
-   * This is to render a custom refresh button.
-   */
-  refreshButton?: ReactNode;
+    /**
+     * This is called when the refresh button is clicked.
+     */
+    handleRefresh(): void;
+    /**
+     * This is to set the Refresh toolbar class.
+     */
+    className?: string;
+    /**
+     * The additional content to display if desired.
+     */
+    children?: ReactNode;
+    /**
+     * This is to set to false if you want to apply your own container styling (with className prop or a wrapper)
+     */
+    standalone?: boolean;
+    /**
+     * Set this to true if you want to display the loading image.
+     */
+    isRefreshing?: boolean;
+    /**
+     * This is to set the last updated text.
+     */
+    lastUpdated?: string | null;
+    /**
+     * This is to display the loading image label.
+     */
+    refreshProgressLabel?: string;
+    /**
+     * This is to render right side components.
+     */
+    rightComp?: ReactNode;
+    /**
+     * This is to set right side text.
+     */
+    rightSideText?: string;
+    /**
+     * This is to render a custom refresh button.
+     */
+    refreshButton?: ReactNode;
 }
 
 /**
@@ -56,48 +60,57 @@ export interface RefreshToolbarProps {
  * prop or a wrapper). Set [standalone] to true to add full-width behavior with margins and
  * a bottom border (to function as a standalone header). Defaults to true.
  */
-const RefreshToolbar: FC<RefreshToolbarProps & ComponentProps<'div'>> = props => {
-  const {
-    handleRefresh,
-    className,
-    children,
-    standalone = true,
-    lastUpdated = '',
-    isRefreshing = false,
-    refreshProgressLabel = 'Updating...',
-    rightComp,
-    rightSideText,
-    refreshButton,
-    ...rest
-  } = props;
-  return (
-    <ToolbarContainer className={className} standalone={standalone} {...rest}>
-      <div>
-        {isRefreshing && (
-          <RefreshProgressContainer>
-            <LogoLoadingSpinner
-              animated
-              height={24}
-              label={refreshProgressLabel}
-              labelPosition="RIGHT"
-              width={24}
-            />
-          </RefreshProgressContainer>
-        )}
-        {!isRefreshing && (
-          refreshButton ? refreshButton :
-            <Button icon={<RefreshIcon />} onClick={handleRefresh} />
-        )}
-      </div>
-      <ToolbarAdditionalContent>
-        <ButtonContainer>{!isRefreshing && children}</ButtonContainer>
-        <RightSideContainer>
-          {rightComp}
-          {lastUpdated && rightSideText}
-        </RightSideContainer>
-      </ToolbarAdditionalContent>
-    </ToolbarContainer>
-  );
+const RefreshToolbar: FC<RefreshToolbarProps & ComponentProps<'div'>> = (props) => {
+    const {
+        handleRefresh,
+        className,
+        children,
+        standalone = true,
+        lastUpdated = '',
+        isRefreshing = false,
+        refreshProgressLabel = 'Updating...',
+        rightComp,
+        rightSideText,
+        refreshButton,
+        ...rest
+    } = props;
+    return (
+        <ToolbarContainer
+            className={className}
+            standalone={standalone}
+            {...rest}
+        >
+            <div>
+                {isRefreshing && (
+                    <RefreshProgressContainer>
+                        <LogoLoadingSpinner
+                            animated
+                            height={24}
+                            label={refreshProgressLabel}
+                            labelPosition='RIGHT'
+                            width={24}
+                        />
+                    </RefreshProgressContainer>
+                )}
+                {!isRefreshing &&
+                    (refreshButton ? (
+                        refreshButton
+                    ) : (
+                        <Button
+                            icon={<RefreshIcon />}
+                            onClick={handleRefresh}
+                        />
+                    ))}
+            </div>
+            <ToolbarAdditionalContent>
+                <ButtonContainer>{!isRefreshing && children}</ButtonContainer>
+                <RightSideContainer>
+                    {rightComp}
+                    {lastUpdated && rightSideText}
+                </RightSideContainer>
+            </ToolbarAdditionalContent>
+        </ToolbarContainer>
+    );
 };
 
 export default RefreshToolbar;

@@ -1,6 +1,7 @@
 import 'jest-canvas-mock';
-import { graphContext } from './util/graphTestUtils.util';
-import { JSONBuilderUtil } from '../util/JSONBuilder.util';
+import * as CanvasUtilModule from '../canvasUtil';
+import { getNodeDimensions } from '../canvasUtil';
+import { X_OFFSET } from '../GraphRenderer';
 import {
     adjustDepthMatrix,
     adjustMatrixForArrows,
@@ -16,14 +17,13 @@ import {
     getRange,
     isInParallel,
     isSameLevelType,
-    MountingPoints,
-    NodeDimensions,
+    type MountingPoints,
+    type NodeDimensions,
     redrawNode
 } from '../GraphUtil';
-import * as CanvasUtilModule from '../canvasUtil';
-import { getNodeDimensions } from '../canvasUtil';
 import { WorkFlowType } from '../StepFunctionUtil';
-import { X_OFFSET } from '../GraphRenderer';
+import { JSONBuilderUtil } from '../util/JSONBuilder.util';
+import { graphContext } from './util/graphTestUtils.util';
 
 describe('graphUtil', () => {
     let ctx: CanvasRenderingContext2D | null;
@@ -36,10 +36,11 @@ describe('graphUtil', () => {
         it('should shift a Parallel node up one depth level', () => {
             const json = new JSONBuilderUtil()
                 .addTask('StartNode', 'ParallelNode')
-                .addParallel('ParallelNode', [
-                    new JSONBuilderUtil().addTask('P1').getJson(),
-                    new JSONBuilderUtil().addTask('P2').getJson()
-                ], 'EndNode')
+                .addParallel(
+                    'ParallelNode',
+                    [new JSONBuilderUtil().addTask('P1').getJson(), new JSONBuilderUtil().addTask('P2').getJson()],
+                    'EndNode'
+                )
                 .addTask('EndNode', undefined, true)
                 .getJson();
 
@@ -77,17 +78,20 @@ describe('graphUtil', () => {
         });
 
         it('should adjust Catch vertices after a Parallel', () => {
-            const catchArray = [{
-                ErrorEquals: ['States.ALL'],
-                Next: 'EndNode'
-            }];
+            const catchArray = [
+                {
+                    ErrorEquals: ['States.ALL'],
+                    Next: 'EndNode'
+                }
+            ];
 
             const json = new JSONBuilderUtil()
                 .addTask('StartNode', 'ParallelNode')
-                .addParallel('ParallelNode', [
-                    new JSONBuilderUtil().addTask('P1').getJson(),
-                    new JSONBuilderUtil().addTask('P2').getJson()
-                ], 'EndNode')
+                .addParallel(
+                    'ParallelNode',
+                    [new JSONBuilderUtil().addTask('P1').getJson(), new JSONBuilderUtil().addTask('P2').getJson()],
+                    'EndNode'
+                )
                 .editNode('ParallelNode', { Catch: catchArray })
                 .addTask('EndNode', undefined, true)
                 .getJson();
@@ -130,14 +134,13 @@ describe('graphUtil', () => {
     describe('adjustMatrixForArrows', () => {
         const json = new JSONBuilderUtil()
             .addTask('StartNode', 'ParallelNode')
-            .addParallel('ParallelNode', [
-                new JSONBuilderUtil().addTask('P1').getJson(),
-                new JSONBuilderUtil().addTask('P2').getJson()
-            ], 'MapNode')
+            .addParallel(
+                'ParallelNode',
+                [new JSONBuilderUtil().addTask('P1').getJson(), new JSONBuilderUtil().addTask('P2').getJson()],
+                'MapNode'
+            )
             .addMap('MapNode', new JSONBuilderUtil().addTask('M1').getJson(), 'ChoiceNode')
-            .addChoice('ChoiceNode', [
-                JSONBuilderUtil.getChoiceForAdd('EndNode')
-            ])
+            .addChoice('ChoiceNode', [JSONBuilderUtil.getChoiceForAdd('EndNode')])
             .addSuccess('EndNode', undefined, true)
             .getJson();
 
@@ -183,10 +186,11 @@ describe('graphUtil', () => {
         // Traversals: [[0,1,2,3],[0,1,2,4],[0,1,2,5,6],[0,1,2,5,7,8]]
         const json = new JSONBuilderUtil()
             .addTask('StartNode', 'ParallelNode')
-            .addParallel('ParallelNode', [
-                new JSONBuilderUtil().addTask('P1').getJson(),
-                new JSONBuilderUtil().addTask('P2').getJson()
-            ], 'MapNode')
+            .addParallel(
+                'ParallelNode',
+                [new JSONBuilderUtil().addTask('P1').getJson(), new JSONBuilderUtil().addTask('P2').getJson()],
+                'MapNode'
+            )
             .addMap('MapNode', new JSONBuilderUtil().addTask('M1').getJson(), undefined, true)
             .getJson();
 
@@ -247,11 +251,15 @@ describe('graphUtil', () => {
         it('should return node and next node data for Map nodes when the next node is a Map', () => {
             // Traversals: [[0,1,2,3],[0,1,4]]
             const json = new JSONBuilderUtil()
-                .addMap('MapNode',
-                    new JSONBuilderUtil().addMap('InnerMap',
-                        new JSONBuilderUtil().addTask('M1').getJson()
-                    , 'T1').addTask('T1').getJson()
-                , undefined, true)
+                .addMap(
+                    'MapNode',
+                    new JSONBuilderUtil()
+                        .addMap('InnerMap', new JSONBuilderUtil().addTask('M1').getJson(), 'T1')
+                        .addTask('T1')
+                        .getJson(),
+                    undefined,
+                    true
+                )
                 .getJson();
 
             const { drawn, traversals } = graphContext(json);
@@ -271,7 +279,7 @@ describe('graphUtil', () => {
 
         it('should return node and next node data for Map nodes when the next node is not a Map', () => {
             const { drawn, traversals } = graphContext(json);
-            const [,, thirdPath] = traversals;
+            const [, , thirdPath] = traversals;
 
             const nodeStart = { nodeType: WorkFlowType.MAP } as NodeDimensions;
             const nodeTask = { nodeType: WorkFlowType.TASK } as NodeDimensions;
@@ -288,7 +296,7 @@ describe('graphUtil', () => {
 
         it('should return node and next node data for Map nodes when the next node is an End node', () => {
             const { drawn, traversals } = graphContext(json);
-            const [,,, fourthPath] = traversals;
+            const [, , , fourthPath] = traversals;
 
             const nodeStart = { nodeType: WorkFlowType.MAP } as NodeDimensions;
             const nodeEnd = { nodeType: WorkFlowType.END } as NodeDimensions;
@@ -428,15 +436,19 @@ describe('graphUtil', () => {
     });
 
     describe('getCatchVertices', () => {
-        const catchArray = [{
-            ErrorEquals: ['States.ALL'],
-            Next: 'FailNode'
-        }];
+        const catchArray = [
+            {
+                ErrorEquals: ['States.ALL'],
+                Next: 'FailNode'
+            }
+        ];
 
-        const invalidNextCatchArray = [{
-            ErrorEquals: ['States.ALL'],
-            Next: 'NonExistingNode'
-        }];
+        const invalidNextCatchArray = [
+            {
+                ErrorEquals: ['States.ALL'],
+                Next: 'NonExistingNode'
+            }
+        ];
 
         const json = new JSONBuilderUtil()
             .addTask('StartNode', 'FailNode')
@@ -448,14 +460,14 @@ describe('graphUtil', () => {
         it('should return an array of vertices given a valid Catch array', () => {
             const { graph } = graphContext(json);
 
-            const catchVertices = getCatchVertices(catchArray,  graph);
+            const catchVertices = getCatchVertices(catchArray, graph);
             expect(catchVertices).toStrictEqual([2]);
         });
 
         it('should return an empty array given a Catch array that points to an Next node that does not exist', () => {
             const { graph } = graphContext(json);
 
-            const catchVertices = getCatchVertices(invalidNextCatchArray,  graph);
+            const catchVertices = getCatchVertices(invalidNextCatchArray, graph);
             expect(catchVertices).toStrictEqual([]);
         });
     });
@@ -463,11 +475,15 @@ describe('graphUtil', () => {
     describe('getDrawnRange', () => {
         const json = new JSONBuilderUtil()
             .addTask('StartNode', 'ParallelNode')
-            .addParallel('ParallelNode', [
-                new JSONBuilderUtil().addTask('P1').getJson(),
-                new JSONBuilderUtil().addTask('P2').getJson(),
-                new JSONBuilderUtil().addTask('P3').getJson()
-            ], 'EndNode')
+            .addParallel(
+                'ParallelNode',
+                [
+                    new JSONBuilderUtil().addTask('P1').getJson(),
+                    new JSONBuilderUtil().addTask('P2').getJson(),
+                    new JSONBuilderUtil().addTask('P3').getJson()
+                ],
+                'EndNode'
+            )
             .addTask('EndNode', undefined, true)
             .getJson();
 
@@ -479,7 +495,7 @@ describe('graphUtil', () => {
 
         it('should calculate using the leftMostX when a first is not drawn', () => {
             const { drawn, graph } = graphContext(json);
-            const nodeDimensions = { mountingPoints: { right: { x: 0 }}} as NodeDimensions;
+            const nodeDimensions = { mountingPoints: { right: { x: 0 } } } as NodeDimensions;
             drawn.set(1, nodeDimensions);
 
             expect(getDrawnRange([0, 1], graph, drawn, -100)).toBe(100);
@@ -487,8 +503,8 @@ describe('graphUtil', () => {
 
         it('should return the drawn range between two nodes', () => {
             const { drawn, graph } = graphContext(json);
-            const nodeDimensionsLeft = { mountingPoints: { left: { x: 100 }}} as NodeDimensions;
-            const nodeDimensionsRight = { mountingPoints: { right: { x: 250 }}} as NodeDimensions;
+            const nodeDimensionsLeft = { mountingPoints: { left: { x: 100 } } } as NodeDimensions;
+            const nodeDimensionsRight = { mountingPoints: { right: { x: 250 } } } as NodeDimensions;
 
             drawn.set(3, nodeDimensionsLeft);
             drawn.set(4, nodeDimensionsRight);
@@ -498,9 +514,9 @@ describe('graphUtil', () => {
 
         it('should return the drawn range between leftMostX and another node even when the first node is drawn', () => {
             const { drawn, graph } = graphContext(json);
-            const nodeDimensionsLeft = { mountingPoints: { left: { x: -100 }}} as NodeDimensions;
-            const nodeDimensionsMiddle = { mountingPoints: { left: { x: 125 }, right: { x: 175 }}} as NodeDimensions;
-            const nodeDimensionsRight = { mountingPoints: { right: { x: 250 }}} as NodeDimensions;
+            const nodeDimensionsLeft = { mountingPoints: { left: { x: -100 } } } as NodeDimensions;
+            const nodeDimensionsMiddle = { mountingPoints: { left: { x: 125 }, right: { x: 175 } } } as NodeDimensions;
+            const nodeDimensionsRight = { mountingPoints: { right: { x: 250 } } } as NodeDimensions;
 
             drawn.set(3, nodeDimensionsLeft);
             drawn.set(4, nodeDimensionsMiddle);
@@ -511,8 +527,8 @@ describe('graphUtil', () => {
 
         it('should return the drawn range between three nodes', () => {
             const { drawn, graph } = graphContext(json);
-            const nodeDimensionsLeft = { mountingPoints: { left: { x: 100 }}} as NodeDimensions;
-            const nodeDimensionsRight = { mountingPoints: { right: { x: 250 }}} as NodeDimensions;
+            const nodeDimensionsLeft = { mountingPoints: { left: { x: 100 } } } as NodeDimensions;
+            const nodeDimensionsRight = { mountingPoints: { right: { x: 250 } } } as NodeDimensions;
 
             drawn.set(3, nodeDimensionsLeft);
             drawn.set(4, nodeDimensionsRight);
@@ -521,14 +537,18 @@ describe('graphUtil', () => {
         });
     });
 
-    describe('getDrawnRangeMiddleX', function () {
+    describe('getDrawnRangeMiddleX', () => {
         const json = new JSONBuilderUtil()
             .addTask('StartNode', 'ParallelNode')
-            .addParallel('ParallelNode', [
-                new JSONBuilderUtil().addTask('P1').getJson(),
-                new JSONBuilderUtil().addTask('P2').getJson(),
-                new JSONBuilderUtil().addTask('P3').getJson()
-            ], 'EndNode')
+            .addParallel(
+                'ParallelNode',
+                [
+                    new JSONBuilderUtil().addTask('P1').getJson(),
+                    new JSONBuilderUtil().addTask('P2').getJson(),
+                    new JSONBuilderUtil().addTask('P3').getJson()
+                ],
+                'EndNode'
+            )
             .addTask('EndNode', undefined, true)
             .getJson();
 
@@ -564,14 +584,14 @@ describe('graphUtil', () => {
 
     describe('getNextVertex', () => {
         it('should return the next vertex by Next field given a valid vertex', () => {
-           const json = new JSONBuilderUtil()
-               .addTask('StartNode', 'EndNode')
-               .addTask('EndNode', undefined, true)
-               .getJson();
+            const json = new JSONBuilderUtil()
+                .addTask('StartNode', 'EndNode')
+                .addTask('EndNode', undefined, true)
+                .getJson();
 
-           const { graph } = graphContext(json);
+            const { graph } = graphContext(json);
 
-           expect(getNextVertex(1, graph)).toBe(2);
+            expect(getNextVertex(1, graph)).toBe(2);
         });
 
         it('should return -1 for the start, and a non-existent vertex', () => {
@@ -598,8 +618,7 @@ describe('graphUtil', () => {
         });
 
         it('should return -1 when vertex is not provided', () => {
-            const json = new JSONBuilderUtil()
-                .getJson();
+            const json = new JSONBuilderUtil().getJson();
 
             const { graph } = graphContext(json);
             expect(getNextVertex(undefined, graph)).toBe(-1);
@@ -684,9 +703,7 @@ describe('graphUtil', () => {
         it('should return a matrix with one group when given a Parallel node and a task', () => {
             const json = new JSONBuilderUtil()
                 .addTask('StartNode', 'ParallelNode')
-                .addParallel('ParallelNode', [
-                    new JSONBuilderUtil().addTask('P1').getJson()
-                ], 'EndNode')
+                .addParallel('ParallelNode', [new JSONBuilderUtil().addTask('P1').getJson()], 'EndNode')
                 .addTask('EndNode', undefined, true)
                 .getJson();
 
@@ -704,15 +721,8 @@ describe('graphUtil', () => {
     describe('getRange', () => {
         const json = new JSONBuilderUtil()
             .addTask('StartNode', 'ChoiceNode')
-            .addChoice('ChoiceNode', [
-                JSONBuilderUtil.getChoiceForAdd('ParallelNode')
-            ])
-            .addParallel('ParallelNode', [
-                new JSONBuilderUtil()
-                    .addTask('P1')
-                    .addTask('P2')
-                    .getJson()
-            ], 'MapNode')
+            .addChoice('ChoiceNode', [JSONBuilderUtil.getChoiceForAdd('ParallelNode')])
+            .addParallel('ParallelNode', [new JSONBuilderUtil().addTask('P1').addTask('P2').getJson()], 'MapNode')
             .addMap('MapNode', new JSONBuilderUtil().addTask('M1').getJson(), 'EndNode')
             .addSuccess('EndNode', undefined, true)
             .getJson();
@@ -726,10 +736,7 @@ describe('graphUtil', () => {
         });
 
         it('should add two nodes that are next to each other with two X_OFFSETs', () => {
-            const expected = getNodeDimensions('P1').width +
-                getNodeDimensions('P2').width +
-                X_OFFSET +
-                X_OFFSET;
+            const expected = getNodeDimensions('P1').width + getNodeDimensions('P2').width + X_OFFSET + X_OFFSET;
             expect(getRange([4, 5], X_OFFSET, graph, ctx as CanvasRenderingContext2D)).toBe(expected);
         });
 
@@ -743,18 +750,18 @@ describe('graphUtil', () => {
     });
 
     describe('isSameLevelType', () => {
-       it('should return true if the workflow is a PARALLEL or MAP', () => {
-           expect(isSameLevelType(WorkFlowType.PARALLEL)).toBe(true);
-           expect(isSameLevelType(WorkFlowType.MAP)).toBe(true);
-       });
+        it('should return true if the workflow is a PARALLEL or MAP', () => {
+            expect(isSameLevelType(WorkFlowType.PARALLEL)).toBe(true);
+            expect(isSameLevelType(WorkFlowType.MAP)).toBe(true);
+        });
 
-       it('should return false if the workflow is not a PARALLEL or MAP', () => {
-           expect(isSameLevelType(WorkFlowType.START)).toBe(false);
-           expect(isSameLevelType(WorkFlowType.CHOICE)).toBe(false);
-           expect(isSameLevelType(WorkFlowType.SUCCEED)).toBe(false);
-           expect(isSameLevelType(WorkFlowType.TASK)).toBe(false);
-           expect(isSameLevelType(WorkFlowType.END)).toBe(false);
-       });
+        it('should return false if the workflow is not a PARALLEL or MAP', () => {
+            expect(isSameLevelType(WorkFlowType.START)).toBe(false);
+            expect(isSameLevelType(WorkFlowType.CHOICE)).toBe(false);
+            expect(isSameLevelType(WorkFlowType.SUCCEED)).toBe(false);
+            expect(isSameLevelType(WorkFlowType.TASK)).toBe(false);
+            expect(isSameLevelType(WorkFlowType.END)).toBe(false);
+        });
     });
 
     describe('redrawNode', () => {
@@ -762,9 +769,7 @@ describe('graphUtil', () => {
             const drawStepNodeSpy = jest.spyOn(CanvasUtilModule, 'drawStepNode');
             const json = new JSONBuilderUtil()
                 .addTask('StartNode', 'Choice')
-                .addChoice('ChoiceNode', [
-                    JSONBuilderUtil.getChoiceForAdd('EndNode')
-                ])
+                .addChoice('ChoiceNode', [JSONBuilderUtil.getChoiceForAdd('EndNode')])
                 .addSuccess('EndNode', undefined, true)
                 .getJson();
 
@@ -784,10 +789,12 @@ describe('graphUtil', () => {
         });
 
         it('should draw a Catch node', () => {
-            const catchArray = [{
-                ErrorEquals: ['States.ALL'],
-                Next: 'FailNode'
-            }];
+            const catchArray = [
+                {
+                    ErrorEquals: ['States.ALL'],
+                    Next: 'FailNode'
+                }
+            ];
 
             const drawCatchNodeSpy = jest.spyOn(CanvasUtilModule, 'drawCatchNode');
 
@@ -809,10 +816,11 @@ describe('graphUtil', () => {
             const drawStepNodeSpy = jest.spyOn(CanvasUtilModule, 'drawStepNode');
             const json = new JSONBuilderUtil()
                 .addTask('StartNode', 'ParallelNode')
-                .addParallel('ParallelNode', [
-                    new JSONBuilderUtil().addTask('P1').getJson(),
-                    new JSONBuilderUtil().addTask('P2').getJson()
-                ], 'MapNode')
+                .addParallel(
+                    'ParallelNode',
+                    [new JSONBuilderUtil().addTask('P1').getJson(), new JSONBuilderUtil().addTask('P2').getJson()],
+                    'MapNode'
+                )
                 .addMap('MapNode', new JSONBuilderUtil().addTask('M1').getJson(), 'EndNode')
                 .addSuccess('EndNode', undefined, true)
                 .getJson();
@@ -840,9 +848,7 @@ describe('graphUtil', () => {
             const drawStepNodeSpy = jest.spyOn(CanvasUtilModule, 'drawStepNode');
             const json = new JSONBuilderUtil()
                 .addTask('StartNode', 'Choice')
-                .addChoice('ChoiceNode', [
-                    JSONBuilderUtil.getChoiceForAdd('EndNode')
-                ])
+                .addChoice('ChoiceNode', [JSONBuilderUtil.getChoiceForAdd('EndNode')])
                 .addSuccess('EndNode', undefined, true)
                 .getJson();
 
@@ -859,12 +865,7 @@ describe('graphUtil', () => {
         it('should return true if a vertex is inside a Parallel node (direct parent)', () => {
             const json = new JSONBuilderUtil()
                 .addTask('StartNode', 'ParallelNode')
-                .addParallel('ParallelNode', [
-                    new JSONBuilderUtil()
-                        .addTask('P1')
-                        .addTask('P2')
-                        .getJson()
-                ], 'MapNode')
+                .addParallel('ParallelNode', [new JSONBuilderUtil().addTask('P1').addTask('P2').getJson()], 'MapNode')
                 .getJson();
 
             const { graph } = graphContext(json);
@@ -878,15 +879,8 @@ describe('graphUtil', () => {
         it('should return false if a vertex is not inside a Parallel node (direct parent)', () => {
             const json = new JSONBuilderUtil()
                 .addTask('StartNode', 'ChoiceNode')
-                .addChoice('ChoiceNode', [
-                    JSONBuilderUtil.getChoiceForAdd('ParallelNode')
-                ])
-                .addParallel('ParallelNode', [
-                    new JSONBuilderUtil()
-                        .addTask('P1')
-                        .addTask('P2')
-                        .getJson()
-                ], 'MapNode')
+                .addChoice('ChoiceNode', [JSONBuilderUtil.getChoiceForAdd('ParallelNode')])
+                .addParallel('ParallelNode', [new JSONBuilderUtil().addTask('P1').addTask('P2').getJson()], 'MapNode')
                 .addMap('MapNode', new JSONBuilderUtil().addTask('M1').getJson(), 'EndNode')
                 .addSuccess('EndNode', undefined, true)
                 .getJson();

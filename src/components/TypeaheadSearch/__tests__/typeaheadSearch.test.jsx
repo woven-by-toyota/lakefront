@@ -67,7 +67,7 @@ describe('TypeaheadSearch', () => {
     it('renders with the provided initialSearchText', () => {
         const INIT_TEXT = 'init';
         const { container } = render(<TypeaheadSearch initialSearchText={INIT_TEXT} />);
-        
+
         expect(container.querySelector('input')).toHaveValue(INIT_TEXT);
     });
 
@@ -92,7 +92,7 @@ describe('TypeaheadSearch', () => {
     it('renders with the proper placeholder', () => {
         const PLACE_HOLDER = 'placeholder';
         const { container } = render(<TypeaheadSearch placeholder={PLACE_HOLDER} />);
-        
+
         expect(container.querySelector('input')).toHaveAttribute('placeholder', PLACE_HOLDER);
     });
 
@@ -101,7 +101,7 @@ describe('TypeaheadSearch', () => {
             const { container } = render(<TypeaheadSearch submitSearch={() => null} />);
 
             fireEvent.change(container.querySelector('input'), { target: { value: 'l' } });
-    
+
             act(() => {
                 jest.advanceTimersByTime(250);
             });
@@ -112,13 +112,13 @@ describe('TypeaheadSearch', () => {
 
             expect(container.querySelector('div.searchResultsPopoverBackground')).not.toBeInTheDocument();
         });
-        
+
         it('calls submitSearch', () => {
             const submitSearch = jest.fn();
             const { container } = render(<TypeaheadSearch submitSearch={submitSearch} />);
 
             fireEvent.submit(container.querySelector('input'), { target: { value: 'l' } });
-    
+
             act(() => {
                 jest.advanceTimersByTime(250);
             });
@@ -129,10 +129,15 @@ describe('TypeaheadSearch', () => {
 
     describe('result selection', () => {
         it('closes the result popover', async () => {
-            const { container, queryByText } = render(<TypeaheadSearch fetchResults={fetchResults} onResultSelect={() => null} />);
+            const { container, queryByText } = render(
+                <TypeaheadSearch
+                    fetchResults={fetchResults}
+                    onResultSelect={() => null}
+                />
+            );
 
             fireEvent.change(container.querySelector('input'), { target: { value: 'L' } });
-    
+
             act(() => {
                 jest.advanceTimersByTime(250);
             });
@@ -140,27 +145,32 @@ describe('TypeaheadSearch', () => {
             expect(container.querySelector('div.searchResultsPopoverBackground')).toBeInTheDocument();
 
             await waitFor(() => {
-                expect(queryByText('Lak')).toBeInTheDocument()
-            }); 
+                expect(queryByText('Lak')).toBeInTheDocument();
+            });
 
             fireEvent.click(queryByText('Lak'));
 
             expect(container.querySelector('div.searchResultsPopoverBackground')).not.toBeInTheDocument();
         });
-        
+
         it('calls onResultSelect', async () => {
             const onResultSelect = jest.fn();
-            const { container, queryByText } = render(<TypeaheadSearch fetchResults={fetchResults} onResultSelect={onResultSelect} />);
+            const { container, queryByText } = render(
+                <TypeaheadSearch
+                    fetchResults={fetchResults}
+                    onResultSelect={onResultSelect}
+                />
+            );
 
             fireEvent.change(container.querySelector('input'), { target: { value: 'L' } });
-    
+
             act(() => {
                 jest.advanceTimersByTime(250);
             });
 
             await waitFor(() => {
-                expect(queryByText('Lak')).toBeInTheDocument()
-            }); 
+                expect(queryByText('Lak')).toBeInTheDocument();
+            });
 
             fireEvent.click(queryByText('Lak'));
 

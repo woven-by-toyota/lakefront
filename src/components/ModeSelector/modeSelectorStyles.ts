@@ -19,7 +19,7 @@ export const ModeSelectorContainer = styled.div(({ theme }) => ({
     '.mode-selector-legend': {
         maxHeight: '60%',
         overflowY: 'auto',
-        marginTop: 8,
+        marginTop: 8
     }
 }));
 

@@ -1,8 +1,15 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import StatusTracker, { StatusTrackerProps } from 'src/components/StatusTracker/StatusTracker';
 import DocBlock from '.storybook/DocBlock';
-import { dolphin, green, saturatedBlue, saturatedGreen, saturatedOrange, saturatedRed } from 'src/styles/lakefrontColors';
 import styled from '@emotion/styled';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import StatusTracker, { type StatusTrackerProps } from 'src/components/StatusTracker/StatusTracker';
+import {
+    dolphin,
+    green,
+    saturatedBlue,
+    saturatedGreen,
+    saturatedOrange,
+    saturatedRed
+} from 'src/styles/lakefrontColors';
 
 export default {
     title: 'Lakefront/StatusTracker',
@@ -15,17 +22,16 @@ export default {
 } as Meta;
 
 const TemplateWrapper = styled.div({
-  '.mixed-example': {
-      '.above-details': {
-          color: saturatedRed,
-          fontWeight: 600,
-      }
-  }
+    '.mixed-example': {
+        '.above-details': {
+            color: saturatedRed,
+            fontWeight: 600
+        }
+    }
 });
 
-
 const Template: StoryFn<StatusTrackerProps> = (args) => (
-    <TemplateWrapper style={{ padding: '40px', width: '100%', boxSizing: 'border-box'}}>
+    <TemplateWrapper style={{ padding: '40px', width: '100%', boxSizing: 'border-box' }}>
         <StatusTracker {...args} />
     </TemplateWrapper>
 );
@@ -63,12 +69,7 @@ ActiveWithDetails.args = {
 
 export const BasicStatusTracker = Template.bind({});
 BasicStatusTracker.args = {
-    statuses: [
-        { label: 'Started' },
-        { label: 'In Progress' },
-        { label: 'Review' },
-        { label: 'Complete' }
-    ]
+    statuses: [{ label: 'Started' }, { label: 'In Progress' }, { label: 'Review' }, { label: 'Complete' }]
 };
 
 export const CustomColors = Template.bind({});
@@ -112,14 +113,15 @@ MixedExample.args = {
         {
             label: 'Reviewer Selected',
             description: '2024-01-15 04:30 PM',
-            aboveDetails: 'An error occurred: the number of reviewers available is under the minimum threshold for this process to continue',
+            aboveDetails:
+                'An error occurred: the number of reviewers available is under the minimum threshold for this process to continue',
             color: saturatedRed,
             active: true
         },
         {
             label: 'Under Review',
-            description: '',
-        },
+            description: ''
+        }
     ],
     className: 'mixed-example'
 };

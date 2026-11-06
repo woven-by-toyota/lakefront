@@ -1,5 +1,5 @@
-import StackBanner, { StackBannerProps } from './StackBanner';
-import StackBannerRow, { StackBannerRowProps } from './StackBannerRow';
+import StackBanner, { type StackBannerProps } from './StackBanner';
+import StackBannerRow, { type StackBannerRowProps } from './StackBannerRow';
 
-export { StackBannerProps, StackBannerRow, StackBannerRowProps };
+export { type StackBannerProps, StackBannerRow, type StackBannerRowProps };
 export default StackBanner;

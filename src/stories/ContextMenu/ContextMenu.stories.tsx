@@ -1,6 +1,6 @@
-import ContextMenu, { ContextMenuProps, MenuItem } from 'src/components/ContextMenu/ContextMenu';
 import DocBlock from '.storybook/DocBlock';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import ContextMenu, { type ContextMenuProps, type MenuItem } from 'src/components/ContextMenu/ContextMenu';
 
 export default {
     title: 'Lakefront/ContextMenu',
@@ -8,10 +8,10 @@ export default {
     argTypes: {
         children: {
             control: false,
-            table: { disable: true },
+            table: { disable: true }
         },
         menuItems: {
-            control: 'object',
+            control: 'object'
         }
     },
     parameters: {
@@ -35,34 +35,34 @@ const MENU_ITEMS: MenuItem[] = [
     { isSeparator: true },
     { key: 'paste-item', label: 'Paste', onClick: () => alert('Paste clicked'), disabled: true },
     { isSeparator: true },
-    { key: 'delete-item', label: 'Delete', onClick: () => alert('Delete clicked') },
+    { key: 'delete-item', label: 'Delete', onClick: () => alert('Delete clicked') }
 ];
 
 const Template: StoryFn<ContextMenuProps> = (args) => {
     return (
-            <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-                <p>Right-click on the area below to trigger the context menu.</p>
-                <ContextMenu {...args}>
-                    <div
-                        style={{
-                            width: '10%',
-                            border: `2px dashed`,
-                            borderRadius: '8px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            userSelect: 'none',
-                        }}
-                    >
-                        Right-Click Here
-                    </div>
-                </ContextMenu>
-            </div>
+        <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+            <p>Right-click on the area below to trigger the context menu.</p>
+            <ContextMenu {...args}>
+                <div
+                    style={{
+                        width: '10%',
+                        border: '2px dashed',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        userSelect: 'none'
+                    }}
+                >
+                    Right-Click Here
+                </div>
+            </ContextMenu>
+        </div>
     );
 };
 
 export const Default = Template.bind({});
 Default.args = {
     menuItems: MENU_ITEMS,
-    renderInPortal: true,
+    renderInPortal: true
 };

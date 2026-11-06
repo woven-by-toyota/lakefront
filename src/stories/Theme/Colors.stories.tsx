@@ -1,8 +1,6 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-
 import DocBlock from '.storybook/DocBlock';
-import Preview, { PreviewProps } from './Preview';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import Preview, { type PreviewProps } from './Preview';
 
 export default {
     title: 'Lakefront/Theme/Colors',
@@ -31,4 +29,4 @@ SortedByColor.args = {
 export const SortedByName = Template.bind({});
 SortedByName.args = {
     sortBy: 'name'
-}
+};

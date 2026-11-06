@@ -1,7 +1,7 @@
-import { Dispatch, FC, MouseEventHandler, ReactElement, ReactNode, SetStateAction } from 'react';
-import { MultiSelectOption } from 'src/components/Filter/modules/MultiSelectFilter/MultiSelect';
-import { JSONObject } from 'src/types/global';
-import { SelectOption } from 'src/components/Select/Select';
+import type { Dispatch, FC, MouseEventHandler, ReactElement, ReactNode, SetStateAction } from 'react';
+import type { MultiSelectOption } from 'src/components/Filter/modules/MultiSelectFilter/MultiSelect';
+import type { SelectOption } from 'src/components/Select/Select';
+import type { JSONObject } from 'src/types/global';
 
 /**
  * FilterRenderProps are the required props of the renderComponent
@@ -101,7 +101,10 @@ export interface FilterModule<T> {
      * Note: should also delete this filter's key & value from the provided API post body, so that
      * unparsed JSON can be identified and separated into its own pseudo-filter.
      */
-    getFilterValueFromApiPostBody?(key: string, mutableApiPostBody: FilterPostBody | null | undefined): T | null | undefined;
+    getFilterValueFromApiPostBody?(
+        key: string,
+        mutableApiPostBody: FilterPostBody | null | undefined
+    ): T | null | undefined;
     /**
      * Partially clear a filter when a filter has multiple selected options.
      */
@@ -167,7 +170,7 @@ export interface FilterHooks<T = FilterPostBody> {
     /**
      * The function sets initial filter preset values.
      */
-    initializePresetValues(presetValues: { [key: string]: any; }): void;
+    initializePresetValues(presetValues: { [key: string]: any }): void;
     /**
      * The ordered array of filter keys (defines display order).
      */
@@ -325,7 +328,7 @@ export interface FilterComponentProps {
     /**
      * The children to display at the bottom of the filter container.
      */
-    children?: ReactNode
+    children?: ReactNode;
     /**
      * Additional query params that can be provided separate from
      * the current filters.
@@ -430,8 +433,8 @@ export interface DoubleMultiSelectData {
  * `DoubleMultiSelectOptions` defines both multi selects in the DoubleMultiSelect component.
  */
 export interface DoubleMultiSelectOptions {
-    firstSelect: DoubleMultiSelectData,
-    secondSelect: DoubleMultiSelectData
+    firstSelect: DoubleMultiSelectData;
+    secondSelect: DoubleMultiSelectData;
 }
 
 /**
@@ -456,7 +459,8 @@ export interface DoubleMultiSelectFilterProps {
  * `MultiSelectFilterOptions` is any valid `FilterModule` property (excluding description and label)
  * meant to override default multi select filter behaviour.
  */
-export interface DoubleMultiSelectFilterOptions extends Omit<Partial<FilterModule<DoubleMultiSelectValues>>, 'label' | 'description' | 'selectOptions'> {}
+export interface DoubleMultiSelectFilterOptions
+    extends Omit<Partial<FilterModule<DoubleMultiSelectValues>>, 'label' | 'description' | 'selectOptions'> {}
 
 /**
  * `ListFilterOverrides` is any valid `FilterModule` property (excluding description and label)
@@ -483,7 +487,7 @@ export interface MultiSelectFilterProps {
  * `MultiSelectFilterOptions` is any valid `FilterModule` property (excluding description and label)
  * meant to override default multi select filter behaviour.
  */
- export interface MultiSelectFilterOptions extends Omit<Partial<FilterModule<string[]>>, 'description' | 'label'> {}
+export interface MultiSelectFilterOptions extends Omit<Partial<FilterModule<string[]>>, 'description' | 'label'> {}
 
 /**
  * `RadioFilterProps` are the props required to be supplied as the first argument of
@@ -504,13 +508,13 @@ export interface RadioFilterProps {
  * `RadioFilterOptions` is any valid `FilterModule` property (excluding description and label)
  * meant to override default text filter behaviour.
  */
- export interface RadioFilterOptions extends Omit<Partial<FilterModule<string>>, 'description' | 'label'> {}
+export interface RadioFilterOptions extends Omit<Partial<FilterModule<string>>, 'description' | 'label'> {}
 
 /**
  * `SingleSelectFilterProps` are the props required to be supplied as the
  * first argument of the SingleSelectFilter component.
  */
- export interface SingleSelectFilterProps {
+export interface SingleSelectFilterProps {
     options: SelectOption[];
     label: string;
     description?: string;
@@ -524,10 +528,11 @@ export interface RadioFilterProps {
  * `SingleSelectFilterOptions` is any valid `FilterModule` property (excluding description, label, and required)
  * meant to override default single select filter behaviour.
  */
- export interface SingleSelectFilterOptions extends Omit<Partial<FilterModule<string>>, 'description' | 'label' | 'required'> {}
+export interface SingleSelectFilterOptions
+    extends Omit<Partial<FilterModule<string>>, 'description' | 'label' | 'required'> {}
 
 /**
  * `TextFilterOverrides` is any valid `FilterModule` property (excluding description and label)
  * meant to override default text filter behaviour.
  */
- export interface TextFilterOverrides extends Omit<Partial<FilterModule<string>>, 'description' | 'label'> {}
+export interface TextFilterOverrides extends Omit<Partial<FilterModule<string>>, 'description' | 'label'> {}

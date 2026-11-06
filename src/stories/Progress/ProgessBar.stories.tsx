@@ -1,9 +1,9 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import ProgressBarComponent, { ProgressBarProps } from 'src/components/Progress/ProgressBar';
 import DocBlock from '.storybook/DocBlock';
-import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';
 import styled from '@emotion/styled';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import type { ComponentPropsWithoutRef } from 'react';
+import ProgressBarComponent, { type ProgressBarProps } from 'src/components/Progress/ProgressBar';
+import { PROGRESS_COLOR_SCHEME } from 'src/stories/Progress/progressColors';
 
 const Chips = styled.div(() => ({
     minWidth: 22,
@@ -40,20 +40,28 @@ export default {
 const Template: StoryFn<ProgressBarProps & ComponentPropsWithoutRef<'div'>> = (args) => {
     return (
         <section style={{ display: 'inline-flex' }}>
-            <ProgressBarComponent width={args.width} data={args.data} theme={args.theme} total={args.total}>
-            </ProgressBarComponent>
+            <ProgressBarComponent
+                width={args.width}
+                data={args.data}
+                theme={args.theme}
+                total={args.total}
+            ></ProgressBarComponent>
             <section style={{ marginLeft: 20 }}>
                 <ul style={{ margin: 0 }}>
                     {args.data.map((res) => {
                         return (
-                            <Row>
+                            <Row key={res.label}>
                                 <span>{res.label}:</span>
-                                <Chips style={{ backgroundColor: args.theme[res.label].bgColor, color: args.theme[res.label].fgColor }}>
+                                <Chips
+                                    style={{
+                                        backgroundColor: args.theme[res.label].bgColor,
+                                        color: args.theme[res.label].fgColor
+                                    }}
+                                >
                                     {res.value}
                                 </Chips>
                             </Row>
-                        )
-
+                        );
                     })}
                 </ul>
             </section>

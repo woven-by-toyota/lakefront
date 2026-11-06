@@ -1,8 +1,7 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import LoadingComponent, { LoadingProps } from 'src/components/Loading/Loading';
 import DocBlock from '.storybook/DocBlock';
-import {ReactComponent as CycleDemo} from './assets/cycle-demo.svg';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import LoadingComponent, { type LoadingProps } from 'src/components/Loading/Loading';
+import { ReactComponent as CycleDemo } from './assets/cycle-demo.svg';
 
 export default {
     title: 'Lakefront/Loading',
@@ -17,7 +16,7 @@ export default {
     },
     parameters: {
         docs: {
-            page: DocBlock,
+            page: DocBlock
         }
     }
 } as Meta;
@@ -34,12 +33,12 @@ LoadingWithDefaultWovenIcon.args = {
 };
 
 export const LoadingWithTRIIcon = Template.bind({});
-LoadingWithTRIIcon.args ={
+LoadingWithTRIIcon.args = {
     iconVariant: 'secondary'
 };
 
 export const LoadingWithSvgAsIcon = Template.bind({});
-LoadingWithSvgAsIcon.args ={
+LoadingWithSvgAsIcon.args = {
     svg: CycleDemo
 };
 

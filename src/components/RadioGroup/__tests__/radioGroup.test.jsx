@@ -4,16 +4,19 @@ import RadioGroup from '../RadioGroup';
 
 const name = 'Alphabet';
 const options = [
-    {label: 'A', value: 'A'},
-    {label: 'B', value: 'B'},
-    {label: 'C', value: 'C'}
+    { label: 'A', value: 'A' },
+    { label: 'B', value: 'B' },
+    { label: 'C', value: 'C' }
 ];
 
 describe('RadioGroup', () => {
     describe('general rendering', () => {
         it('renders the radio buttons', () => {
             const { container } = render(
-                <RadioGroup name={name} options={options} />
+                <RadioGroup
+                    name={name}
+                    options={options}
+                />
             );
 
             const radioButtons = container.querySelectorAll('input');
@@ -23,7 +26,11 @@ describe('RadioGroup', () => {
 
         it('should render the buttons disabled when disabled is true', () => {
             const { container } = render(
-                <RadioGroup name={name} options={options} disabled={true} />
+                <RadioGroup
+                    name={name}
+                    options={options}
+                    disabled={true}
+                />
             );
 
             const radioButtons = container.querySelectorAll('input');
@@ -35,10 +42,10 @@ describe('RadioGroup', () => {
 
         it('should disable a single button disabled when disabled is true for that option', () => {
             const { container } = render(
-              <RadioGroup
-                name={name}
-                options={[...options, { label: 'D', value: 'D', disabled: true }]}
-              />
+                <RadioGroup
+                    name={name}
+                    options={[...options, { label: 'D', value: 'D', disabled: true }]}
+                />
             );
 
             const radioButtons = container.querySelectorAll('input');

@@ -1,6 +1,6 @@
-import { FC, ReactElement, ReactNode, useMemo, useState } from 'react';
+import { type FC, type ReactElement, type ReactNode, useMemo, useState } from 'react';
+import usePopover, { PopoverContent, type PortalStyles } from 'src/lib/hooks/usePopover';
 import { SelectPopoverItem, StyledSelectPopover, StyledSelectPopoverWrapper } from './selectPopoverStyles';
-import usePopover, { PortalStyles, PopoverContent } from 'src/lib/hooks/usePopover';
 
 export interface SelectPopoverOption {
     name: ReactElement | string;
@@ -52,16 +52,15 @@ export interface SelectPopoverProps {
  * use the "renderInPortal" prop which appends a div to the body and positions the component to the correct coordinates.
  *
  */
-const SelectPopover: FC<SelectPopoverProps> = (
-    {
-        children,
-        options,
-        handleClick,
-        portalId,
-        renderInPortal = false,
-        visible = false,
-        className
-    }) => {
+const SelectPopover: FC<SelectPopoverProps> = ({
+    children,
+    options,
+    handleClick,
+    portalId,
+    renderInPortal = false,
+    visible = false,
+    className
+}) => {
     const [popoverElement, setPopoverElement] = useState<HTMLElement | null>(null);
     const portalStyles: PortalStyles = useMemo(() => {
         const className = 'select-popover-portal';
@@ -73,7 +72,7 @@ const SelectPopover: FC<SelectPopoverProps> = (
                 className,
                 styles: {
                     position: 'absolute',
-                    left: `${left + (width / 2)}px`,
+                    left: `${left + width / 2}px`,
                     top: `${bottom + window.scrollY}px`
                 }
             };
@@ -95,18 +94,28 @@ const SelectPopover: FC<SelectPopoverProps> = (
     };
 
     return (
-        <StyledSelectPopoverWrapper ref={popoverNodeMounted} className={className}>
+        <StyledSelectPopoverWrapper
+            ref={popoverNodeMounted}
+            className={className}
+        >
             {children}
-            <PopoverContent portal={portal} deps={[children, options]}>
-                {visible && options.length > 0 && (<StyledSelectPopover>
-                        {options.map(({ name, value, key, disabled }) => (<SelectPopoverItem
+            <PopoverContent
+                portal={portal}
+                deps={[children, options]}
+            >
+                {visible && options.length > 0 && (
+                    <StyledSelectPopover>
+                        {options.map(({ name, value, key, disabled }) => (
+                            <SelectPopoverItem
                                 key={key ?? name.toString()}
                                 onClick={() => !disabled && handleClick(value)}
                                 disabled={disabled}
                             >
                                 {name}
-                            </SelectPopoverItem>))}
-                    </StyledSelectPopover>)}
+                            </SelectPopoverItem>
+                        ))}
+                    </StyledSelectPopover>
+                )}
             </PopoverContent>
         </StyledSelectPopoverWrapper>
     );

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 
 interface ActionsMenuContainer {
-    top: number,
-    left: number
+    top: number;
+    left: number;
 }
 
-export const ActionsMenuContainer = styled.div<ActionsMenuContainer>(({theme, top, left}) => ({
+export const ActionsMenuContainer = styled.div<ActionsMenuContainer>(({ theme, top, left }) => ({
     position: 'fixed',
     backgroundColor: theme.backgrounds.primary,
     border: `1px solid ${theme.borderColors.primary}`,

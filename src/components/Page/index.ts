@@ -1,4 +1,4 @@
-import Page, { PageProps } from './Page';
+import Page, { type PageProps } from './Page';
 
-export { PageProps };
+export type { PageProps };
 export default Page;

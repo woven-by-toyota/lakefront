@@ -1,4 +1,4 @@
-import { TableColumnPreferences, TableColumnPreferencesStorage } from './useTableColumnPresets';
+import type { TableColumnPreferences, TableColumnPreferencesStorage } from './useTableColumnPresets';
 
 /**
  * A reference `TableColumnPreferencesStorage` implementation backed by `localStorage`.
@@ -10,23 +10,23 @@ import { TableColumnPreferences, TableColumnPreferencesStorage } from './useTabl
  * @param key the localStorage key to read and write
  */
 const createLocalStorageColumnPreferences = (key: string): TableColumnPreferencesStorage => ({
-  load: () => {
-    try {
-      const stored = window.localStorage.getItem(key);
+    load: () => {
+        try {
+            const stored = window.localStorage.getItem(key);
 
-      return stored ? (JSON.parse(stored) as TableColumnPreferences) : null;
-    } catch {
-      // Unavailable or unparseable storage should fall back to the provided defaults
-      return null;
+            return stored ? (JSON.parse(stored) as TableColumnPreferences) : null;
+        } catch {
+            // Unavailable or unparseable storage should fall back to the provided defaults
+            return null;
+        }
+    },
+    save: (preferences: TableColumnPreferences) => {
+        try {
+            window.localStorage.setItem(key, JSON.stringify(preferences));
+        } catch {
+            // Saving preferences is best effort
+        }
     }
-  },
-  save: (preferences: TableColumnPreferences) => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(preferences));
-    } catch {
-      // Saving preferences is best effort
-    }
-  }
 });
 
 export default createLocalStorageColumnPreferences;

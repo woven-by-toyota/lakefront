@@ -8,9 +8,7 @@ const ERROR = 'Error';
 describe('TextArea', () => {
     describe('general rendering', () => {
         it('renders the label and its text', () => {
-            const { container } = render(
-                <TextArea label={LABEL} />
-            );
+            const { container } = render(<TextArea label={LABEL} />);
 
             const [label] = container.querySelectorAll('label');
 
@@ -18,9 +16,7 @@ describe('TextArea', () => {
         });
 
         it('should not render the label when no label prop present', () => {
-            const { container } = render(
-                <TextArea />
-            );
+            const { container } = render(<TextArea />);
 
             const spans = container.querySelectorAll('span');
 
@@ -28,9 +24,7 @@ describe('TextArea', () => {
         });
 
         it('should render the error message when error message present', () => {
-            const { getByText } = render(
-                <TextArea error={ERROR} />
-            );
+            const { getByText } = render(<TextArea error={ERROR} />);
 
             const error = getByText('Error');
 

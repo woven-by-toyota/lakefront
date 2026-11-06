@@ -1,4 +1,4 @@
-import TransferList, { ListItem, TransferListProps } from './TransferList';
+import TransferList, { type ListItem, type TransferListProps } from './TransferList';
 
-export { ListItem, TransferListProps };
+export type { ListItem, TransferListProps };
 export default TransferList;

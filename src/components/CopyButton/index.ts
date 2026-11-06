@@ -1,4 +1,4 @@
-import CopyButton, { CopyButtonProps } from './CopyButton';
+import CopyButton, { type CopyButtonProps } from './CopyButton';
 
-export { CopyButtonProps };
+export type { CopyButtonProps };
 export default CopyButton;

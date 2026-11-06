@@ -1,8 +1,7 @@
-import { ChangeEvent, ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import CheckboxComponent, { CheckboxProps } from 'src/components/Checkbox/Checkbox';
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ChangeEvent, type ComponentPropsWithoutRef, useState } from 'react';
+import CheckboxComponent, { type CheckboxProps } from 'src/components/Checkbox/Checkbox';
 import { action } from 'storybook/actions';
 
 export default {
@@ -40,7 +39,7 @@ const Template: StoryFn<CheckboxProps & ComponentPropsWithoutRef<'input'>> = (ar
     const [isChecked, setIsChecked] = useState(false);
 
     const handleClick = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsChecked(prevState => !prevState);
+        setIsChecked((prevState) => !prevState);
         action(`Checked changed to ${!isChecked}`)(event);
     };
 

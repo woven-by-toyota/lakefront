@@ -1,18 +1,18 @@
-import useTableColumnPresets, {
-  TableColumnPreferences,
-  TableColumnPreferencesOperation,
-  TableColumnPreferencesStorage,
-  UseTableColumnPresetsProps,
-  UseTableColumnPresetsResult
-} from './useTableColumnPresets';
 import createLocalStorageColumnPreferences from './localStorageColumnPreferences';
+import useTableColumnPresets, {
+    type TableColumnPreferences,
+    type TableColumnPreferencesOperation,
+    type TableColumnPreferencesStorage,
+    type UseTableColumnPresetsProps,
+    type UseTableColumnPresetsResult
+} from './useTableColumnPresets';
 
 export {
-  TableColumnPreferences,
-  TableColumnPreferencesOperation,
-  TableColumnPreferencesStorage,
-  UseTableColumnPresetsProps,
-  UseTableColumnPresetsResult,
-  createLocalStorageColumnPreferences
+    createLocalStorageColumnPreferences,
+    type TableColumnPreferences,
+    type TableColumnPreferencesOperation,
+    type TableColumnPreferencesStorage,
+    type UseTableColumnPresetsProps,
+    type UseTableColumnPresetsResult
 };
 export default useTableColumnPresets;

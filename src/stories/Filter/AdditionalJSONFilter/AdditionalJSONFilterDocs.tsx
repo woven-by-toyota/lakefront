@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { AdditionalJSONFilterOptions } from 'src/components/Filter/types';
+import type { FC } from 'react';
+import type { AdditionalJSONFilterOptions } from 'src/components/Filter/types';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 
 export interface AdditionalJSONFilterArgs {
@@ -13,7 +13,7 @@ export interface AdditionalJSONFilterArgs {
 /**
  * Example of additional JSON filter source code.
  */
- export const ADDITIONAL_JSON_SELECT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
+export const ADDITIONAL_JSON_SELECT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
     additionalJSONFilter: AdditionalJSONFilter(
         {
             label: 'Additional JSON Filter',
@@ -32,13 +32,13 @@ export interface AdditionalJSONFilterArgs {
 
 /**
  * AdditionalJSONFilter Component
- * 
+ *
  * The AdditionalJSONFilter component is a "pseudo" filter used in Filter JSON input to track additional,
  * user-supplied JSON values which have no equivalent UI filter to represent them.
  * It acts like any other filter, in that is is able to parse its own value from a query string,
  * serialize to a query string, and show a filter chip label in the Filter Bar,
  * but it has (by default) `inputHidden` set to true which causes it to not render any UI in the filter drawer.
- * 
+ *
  * This filter (by default) intentionally does not implement getFilterValueFromApiPostBody, because the useFilter hook
  * sets this filter's value based on the JSON "leftover" after all the other filters parse their values from JSON.
  */

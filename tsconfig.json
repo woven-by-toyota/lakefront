@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
-    "ignoreDeprecations": "6.0",
 
     /* Basic Options */
     "target": "ES2022",                             /* Specify ECMAScript target version */
@@ -15,10 +14,11 @@
 
     /* Strict Type-Checking Options */
     "strict": true,                                 /* Enable all strict type-checking options. */
+    "isolatedModules": true,                        /* swc transpiles a file at a time and cannot infer what is a type */
 
     /* Module Resolution Options */
     "moduleResolution": "bundler",                  /* Specify module resolution strategy */
-    "baseUrl": "./",                                /* Base directory to resolve non-absolute module names. */
+    "paths": { "src/*": ["./src/*"] },              /* TypeScript 7 removed baseUrl; paths resolve from this file */
     "esModuleInterop": true,                        /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
 
     /* Advanced Options */

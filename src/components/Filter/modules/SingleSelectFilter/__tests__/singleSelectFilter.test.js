@@ -34,7 +34,7 @@ describe('SingleSelectFilter', () => {
         it('returns the proper url', () => {
             expect(getApiQueryUrl('a', 'first name')).toBe('&a=first%20name');
         });
-        
+
         it('returns an empty string when value is falsy', () => {
             expect(getApiQueryUrl('a', '')).toBe('');
             expect(getApiQueryUrl('a', null)).toBe('');
@@ -90,21 +90,33 @@ describe('SingleSelectFilter', () => {
 
     describe('getFilterBarLabel', () => {
         it('returns filterLabelPrefix and value when filterLabelPrefix is provided', () => {
-            const { getFilterBarLabel } = SingleSelectFilter({ options: SINGLE_SELECT_FILTER_OPTIONS, filterLabelPrefix: 'value' }, {});
-            expect(getFilterBarLabel(SINGLE_SELECT_FILTER_OPTIONS[0].value)).toBe(`value: ${SINGLE_SELECT_FILTER_OPTIONS[0].value}`);
+            const { getFilterBarLabel } = SingleSelectFilter(
+                { options: SINGLE_SELECT_FILTER_OPTIONS, filterLabelPrefix: 'value' },
+                {}
+            );
+            expect(getFilterBarLabel(SINGLE_SELECT_FILTER_OPTIONS[0].value)).toBe(
+                `value: ${SINGLE_SELECT_FILTER_OPTIONS[0].value}`
+            );
         });
-        
+
         it('returns stringified value when filterLabelPrefix is falsy', () => {
             const { getFilterBarLabel } = SingleSelectFilter({ options: SINGLE_SELECT_FILTER_OPTIONS }, {});
-            expect(getFilterBarLabel(SINGLE_SELECT_FILTER_OPTIONS[0].value)).toBe(SINGLE_SELECT_FILTER_OPTIONS[0].value);
+            expect(getFilterBarLabel(SINGLE_SELECT_FILTER_OPTIONS[0].value)).toBe(
+                SINGLE_SELECT_FILTER_OPTIONS[0].value
+            );
             expect(getFilterBarLabel(1)).toBe('1');
         });
     });
 
     describe('getFilterSectionLabel', () => {
         it('returns stringified value provided', () => {
-            const { getFilterSectionLabel } = SingleSelectFilter({ options: SINGLE_SELECT_FILTER_OPTIONS, filterLabelPrefix: 'value' }, {});
-            expect(getFilterSectionLabel(SINGLE_SELECT_FILTER_OPTIONS[0].value)).toBe(SINGLE_SELECT_FILTER_OPTIONS[0].value);
+            const { getFilterSectionLabel } = SingleSelectFilter(
+                { options: SINGLE_SELECT_FILTER_OPTIONS, filterLabelPrefix: 'value' },
+                {}
+            );
+            expect(getFilterSectionLabel(SINGLE_SELECT_FILTER_OPTIONS[0].value)).toBe(
+                SINGLE_SELECT_FILTER_OPTIONS[0].value
+            );
             expect(getFilterSectionLabel(1)).toBe('1');
         });
     });

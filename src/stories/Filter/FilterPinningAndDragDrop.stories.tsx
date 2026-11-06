@@ -1,14 +1,13 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import { FC, useState } from 'react';
-
-import FilterComponent from 'src/components/Filter/Filter';
-import { useFilter } from 'src/components/Filter/util';
-import { ContextSwitchMenu, FilterBar, FilterJSONConfirmationModal, FilterJSONInput, UrlPreview } from './components';
-import { FilterComponentProps } from 'src/components/Filter/types';
-import { DefaultWrapper, PageBody } from './components/FilterPage/filterPageStyles';
-import { FILTERS, LOCATION } from './components/FilterPage/filterPageUtil';
 import DocBlock from '.storybook/DocBlock';
 import { useTheme } from '@emotion/react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type FC, useState } from 'react';
+import FilterComponent from 'src/components/Filter/Filter';
+import type { FilterComponentProps } from 'src/components/Filter/types';
+import { useFilter } from 'src/components/Filter/util';
+import { ContextSwitchMenu, FilterBar, FilterJSONConfirmationModal, FilterJSONInput, UrlPreview } from './components';
+import { DefaultWrapper, PageBody } from './components/FilterPage/filterPageStyles';
+import { FILTERS, LOCATION } from './components/FilterPage/filterPageUtil';
 
 export default {
     title: 'Lakefront/Filter/Pinning and Drag & Drop',
@@ -17,16 +16,20 @@ export default {
         docs: {
             page: DocBlock,
             description: {
-                component: 'Demonstrates filter pinning and drag-and-drop reordering capabilities. Pinned filters appear at the top and can be reordered. Unpinned filters appear below and can also be reordered independently.'
+                component:
+                    'Demonstrates filter pinning and drag-and-drop reordering capabilities. Pinned filters appear at the top and can be reordered. Unpinned filters appear below and can also be reordered independently.'
             }
         }
     }
 } as Meta;
 
 // Filter page with pinning and drag-drop
-const FilterPageWithPinning: FC<Pick<FilterComponentProps, 'isJSONInputAllowed' | 'hideFilterBar' | 'initialActiveSection' | 'enableFilterPinning' | 'enableFilterDragDrop'>> = (
-    props
-) => {
+const FilterPageWithPinning: FC<
+    Pick<
+        FilterComponentProps,
+        'isJSONInputAllowed' | 'hideFilterBar' | 'initialActiveSection' | 'enableFilterPinning' | 'enableFilterDragDrop'
+    >
+> = (props) => {
     const theme = useTheme();
     const location = { ...LOCATION };
     const updateHistory = () => null;
@@ -70,22 +73,33 @@ const FilterPageWithPinning: FC<Pick<FilterComponentProps, 'isJSONInputAllowed' 
             >
                 <PageBody>
                     <UrlPreview queryParams={filterHooks.filterUrl.substring(1)} />
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        rowGap: 8,
-                        margin: 18,
-                        padding: 16,
-                        backgroundColor: theme.backgrounds.primary,
-                        border: `1px solid ${theme.borderColors.primary}`,
-                        borderRadius: 4
-                     }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            rowGap: 8,
+                            margin: 18,
+                            padding: 16,
+                            backgroundColor: theme.backgrounds.primary,
+                            border: `1px solid ${theme.borderColors.primary}`,
+                            borderRadius: 4
+                        }}
+                    >
                         <div>
                             <div>Instructions:</div>
                             <ul>
-                                <li><strong>Pin filters:</strong> Click the pin icon next to any filter to pin it to the top.</li>
-                                <li><strong>Reorder filters:</strong> Use the drag handle (⋮⋮) to drag and reorder filters.</li>
-                                <li><strong>Sections:</strong> Pinned and unpinned filters are kept in separate sections during reordering.</li>
+                                <li>
+                                    <strong>Pin filters:</strong> Click the pin icon next to any filter to pin it to the
+                                    top.
+                                </li>
+                                <li>
+                                    <strong>Reorder filters:</strong> Use the drag handle (⋮⋮) to drag and reorder
+                                    filters.
+                                </li>
+                                <li>
+                                    <strong>Sections:</strong> Pinned and unpinned filters are kept in separate sections
+                                    during reordering.
+                                </li>
                             </ul>
                         </div>
                     </div>

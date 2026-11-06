@@ -12,27 +12,23 @@ const TestComponent = ({ value }) => {
 describe('useDebounce', () => {
     it('should initialize with the provided value', () => {
         const { result } = renderHook(() => useDebounce('a', 150));
-    
+
         expect(result.current).toBe('a');
     });
 
     it('should return first provided value if delay has not been exceeded', () => {
-        const { queryByText, rerender } = render(
-            <TestComponent value='a' />
-        );
+        const { queryByText, rerender } = render(<TestComponent value='a' />);
 
         // renders with initial value correctly.
         expect(queryByText('a')).toBeInTheDocument();
         expect(queryByText('b')).not.toBeInTheDocument();
-        
+
         act(() => {
             jest.advanceTimersByTime(100);
         });
 
-        rerender(
-            <TestComponent value='b' />
-        );
-    
+        rerender(<TestComponent value='b' />);
+
         //  still renders with initial value since
         // delay has not been exceeded
         expect(queryByText('a')).toBeInTheDocument();
@@ -40,22 +36,18 @@ describe('useDebounce', () => {
     });
 
     it('should return new provided value once delay is exceeded', () => {
-        const { queryByText, rerender } = render(
-            <TestComponent value='a' />
-        );
+        const { queryByText, rerender } = render(<TestComponent value='a' />);
 
         // renders with initial value correctly.
         expect(queryByText('a')).toBeInTheDocument();
         expect(queryByText('b')).not.toBeInTheDocument();
 
-        rerender(
-            <TestComponent value='b' />
-        );
+        rerender(<TestComponent value='b' />);
 
         // still renders with initial value due to debounce delay
         expect(queryByText('a')).toBeInTheDocument();
         expect(queryByText('b')).not.toBeInTheDocument();
-        
+
         act(() => {
             jest.advanceTimersByTime(150);
         });

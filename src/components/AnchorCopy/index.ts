@@ -1,4 +1,4 @@
-import AnchorCopy, { AnchorCopyProps } from './AnchorCopy';
+import AnchorCopy, { type AnchorCopyProps } from './AnchorCopy';
 
-export { AnchorCopyProps };
+export type { AnchorCopyProps };
 export default AnchorCopy;

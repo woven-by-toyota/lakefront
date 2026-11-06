@@ -1,8 +1,8 @@
-import { ComponentPropsWithoutRef, FC } from 'react';
 import { ThemeProvider } from '@emotion/react';
-import { StackBannerListDiv } from './stackBannerStyles';
-import StackBannerRow, { StackBannerRowProps } from './StackBannerRow';
+import type { ComponentPropsWithoutRef, FC } from 'react';
 import theme from 'src/styles/theme';
+import StackBannerRow, { type StackBannerRowProps } from './StackBannerRow';
+import { StackBannerListDiv } from './stackBannerStyles';
 
 export interface StackBannerProps {
     /**
@@ -23,15 +23,21 @@ export interface StackBannerProps {
  *
  */
 const StackBanner: FC<StackBannerProps & ComponentPropsWithoutRef<'div'>> = ({ rows = [], ...props }) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <StackBannerListDiv {...props}>
-        {rows.map((stackBannerRowProps: StackBannerRowProps) => {
-          return <StackBannerRow {...stackBannerRowProps} />;
-        })}
-      </StackBannerListDiv>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider theme={theme}>
+            <StackBannerListDiv {...props}>
+                {/* key is set after the spread: React 19 does not take a key arriving through one */}
+                {rows.map((stackBannerRowProps: StackBannerRowProps) => {
+                    return (
+                        <StackBannerRow
+                            {...stackBannerRowProps}
+                            key={stackBannerRowProps.key}
+                        />
+                    );
+                })}
+            </StackBannerListDiv>
+        </ThemeProvider>
+    );
 };
 
 export default StackBanner;

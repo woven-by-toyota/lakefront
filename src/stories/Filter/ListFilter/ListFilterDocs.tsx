@@ -1,14 +1,14 @@
-import { FC } from 'react';
-import { ListFilterOverrides } from 'src/components/Filter/types';
+import type { FC } from 'react';
+import type { CheckboxGroupOption } from 'src/components/CheckboxGroup/CheckboxGroup';
+import type { ListFilterOptions } from 'src/components/Filter/modules/ListFilter/ListFilter';
+import type { ListFilterOverrides } from 'src/components/Filter/types';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
-import { ListFilterOptions } from 'src/components/Filter/modules/ListFilter/ListFilter';
-import { CheckboxGroupOption } from 'src/components/CheckboxGroup/CheckboxGroup';
 
 export interface ListFilterArgs {
     /**
      * Array of objects for the checkboxes to show for the filter.
      */
-    options: CheckboxGroupOption[],
+    options: CheckboxGroupOption[];
     /**
      * The label to display for the text filter component.
      */
@@ -30,7 +30,7 @@ export interface ListFilterArgs {
 /**
  * Example of list filter source code.
  */
- export const LIST_FILTER_SOURCE_CODE = createFilterSourceCode(`{
+export const LIST_FILTER_SOURCE_CODE = createFilterSourceCode(`{
     listFilter: ListFilter(
         [{ label: 'First', value: 'first' }, { label: 'Second', value: 'second' }],
         'List Filter',

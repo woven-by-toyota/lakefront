@@ -1,43 +1,46 @@
-import { FC, useState } from 'react';
-import SelectPopover, { SelectPopoverOption } from 'src/components/SelectPopover/SelectPopover';
-import { ContextSwitchMenuProps } from 'src/components/Filter/types';
-import { ButtonLabel, ContextSwitchContainer, DropdownButton } from './contextSwitchMenuStyles';
+import { type FC, useState } from 'react';
+import type { ContextSwitchMenuProps } from 'src/components/Filter/types';
+import SelectPopover, { type SelectPopoverOption } from 'src/components/SelectPopover/SelectPopover';
 import { ReactComponent as DownArrow } from '../assets/downArrow.svg';
+import { ButtonLabel, ContextSwitchContainer, DropdownButton } from './contextSwitchMenuStyles';
 
 const ContextSwitchMenu: FC<ContextSwitchMenuProps> = ({ options, value, onChange }) => {
-  const [actionsVisible, setActionsVisible] = useState<boolean>(false);
+    const [actionsVisible, setActionsVisible] = useState<boolean>(false);
 
-  const handleDropdown = () => {
-    setActionsVisible((prevState) => !prevState);
-  };
+    const handleDropdown = () => {
+        setActionsVisible((prevState) => !prevState);
+    };
 
-  const handleClick = (value: any) => {
-    onChange(value);
-    setActionsVisible(false);
-  };
+    const handleClick = (value: any) => {
+        onChange(value);
+        setActionsVisible(false);
+    };
 
-  return (
-    <ContextSwitchContainer>
-      <SelectPopover
-        handleClick={handleClick}
-        visible={actionsVisible}
-        options={Array.from(options.entries()).map(
-          ([key, value]): SelectPopoverOption => ({
-            name: value,
-            value: key,
-            key
-          })
-        )}
-      >
-        <DropdownButton alternate onClick={handleDropdown}>
-          <ButtonLabel>
-            {options.get(value)}
-            <DownArrow />
-          </ButtonLabel>
-        </DropdownButton>
-      </SelectPopover>
-    </ContextSwitchContainer>
-  );
+    return (
+        <ContextSwitchContainer>
+            <SelectPopover
+                handleClick={handleClick}
+                visible={actionsVisible}
+                options={Array.from(options.entries()).map(
+                    ([key, value]): SelectPopoverOption => ({
+                        name: value,
+                        value: key,
+                        key
+                    })
+                )}
+            >
+                <DropdownButton
+                    alternate
+                    onClick={handleDropdown}
+                >
+                    <ButtonLabel>
+                        {options.get(value)}
+                        <DownArrow />
+                    </ButtonLabel>
+                </DropdownButton>
+            </SelectPopover>
+        </ContextSwitchContainer>
+    );
 };
 
 export default ContextSwitchMenu;

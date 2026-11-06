@@ -1,7 +1,7 @@
 import 'jest-canvas-mock';
 import { renderWithTheme as render } from 'src/lib/testing';
-import { boundingBoxesData } from './boundingBoxes.data';
 import BoundingBoxes from '../BoundingBoxes';
+import { boundingBoxesData } from './boundingBoxes.data';
 
 const BOUNDING_BOXES_PROPS = {
     activeBBox: '',
@@ -25,7 +25,10 @@ describe('BoundingBoxes', () => {
 
     it('draws a single box when valid activeBBox is specified', () => {
         const { container } = render(
-            <BoundingBoxes {...BOUNDING_BOXES_PROPS} activeBBox={boundingBoxesData[0].name} />
+            <BoundingBoxes
+                {...BOUNDING_BOXES_PROPS}
+                activeBBox={boundingBoxesData[0].name}
+            />
         );
 
         const ctx = container.querySelector('canvas').getContext('2d');

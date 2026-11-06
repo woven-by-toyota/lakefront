@@ -1,12 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
-import BoundingBoxesComponent, { BoundingBoxesProps } from 'src/components/BoundingBoxes';
 import DocBlock from '.storybook/DocBlock';
-import { emerald, mediumPurple, saturatedOrange } from 'src/styles/lakefrontColors';
 import styled from '@emotion/styled';
-import imageFile from './__assets__/ducks.jpg';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import BoundingBoxesComponent, { type BoundingBoxesProps } from 'src/components/BoundingBoxes';
 import resizeObserver from 'src/lib/hooks/resizeObserver';
+import { emerald, mediumPurple, saturatedOrange } from 'src/styles/lakefrontColors';
+import imageFile from './__assets__/ducks.jpg';
 import BOUNDING_BOXES_CODE from './boundingBoxesSourceCode';
 
 const BOUNDING_BOXES: {
@@ -125,7 +124,7 @@ const Template: StoryFn<BoundingBoxesProps> = (args) => {
                 setBoundingBoxDimensions({ height, width });
             }
         },
-        [imageLoaded, observedElement]  
+        [imageLoaded, observedElement]
     );
 
     useEffect(() => {
@@ -156,7 +155,11 @@ const Template: StoryFn<BoundingBoxesProps> = (args) => {
                     outputWidth={boundingBoxDimensions.width}
                 />
             )}
-            <img onLoad={handleImageLoaded} src={imageFile} ref={imageRef} />
+            <img
+                onLoad={handleImageLoaded}
+                src={imageFile}
+                ref={imageRef}
+            />
         </StoryContainer>
     );
 };

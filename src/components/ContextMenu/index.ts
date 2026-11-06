@@ -1,4 +1,4 @@
-import ContextMenu, {MenuItem} from './ContextMenu';
+import ContextMenu, { type MenuItem } from './ContextMenu';
 
-export {MenuItem};
+export type { MenuItem };
 export default ContextMenu;

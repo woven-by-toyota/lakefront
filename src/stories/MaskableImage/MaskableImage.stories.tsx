@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import MaskableImageComponent, { MaskableImageProps } from 'src/components/MaskableImage'
 import DocBlock from '.storybook/DocBlock';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { type ComponentPropsWithoutRef, useState } from 'react';
+import MaskableImageComponent, { type MaskableImageProps } from 'src/components/MaskableImage';
 import { emerald } from 'src/styles/lakefrontColors';
 import imageFile from './__assets__/Nature.jpg';
 
@@ -18,8 +18,8 @@ export default {
 const Template: StoryFn<MaskableImageProps & ComponentPropsWithoutRef<'div'>> = (args) => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const onHandleImageClick = () => {
-        setShowMessage(showMessage => !showMessage);
-    }
+        setShowMessage((showMessage) => !showMessage);
+    };
     return (
         <>
             <div
@@ -33,10 +33,17 @@ const Template: StoryFn<MaskableImageProps & ComponentPropsWithoutRef<'div'>> = 
             >
                 {showMessage && 'This image is selected.'}
             </div>
-            <MaskableImageComponent url={args.url}
-                fullSizeDimensions={args.fullSizeDimensions} selectable={args.selectable} selected={args.selected}
-                highlighted={args.highlighted} showSpinner={args.showSpinner} showSpinnerOnLoad={args.howSpinnerOnLoad}
-                heightToWidthRatio={args.heightToWidthRatio} onSelect={onHandleImageClick} />
+            <MaskableImageComponent
+                url={args.url}
+                fullSizeDimensions={args.fullSizeDimensions}
+                selectable={args.selectable}
+                selected={args.selected}
+                highlighted={args.highlighted}
+                showSpinner={args.showSpinner}
+                showSpinnerOnLoad={args.howSpinnerOnLoad}
+                heightToWidthRatio={args.heightToWidthRatio}
+                onSelect={onHandleImageClick}
+            />
         </>
     );
 };
@@ -51,4 +58,4 @@ MaskableImage.args = {
     showSpinner: false,
     showSpinnerOnLoad: true,
     heightToWidthRatio: 10 / 18
-}
+};

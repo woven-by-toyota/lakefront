@@ -1,4 +1,4 @@
-import { FC, FocusEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { type FC, type FocusEvent, type KeyboardEvent, useEffect, useState } from 'react';
 import { StyledInput } from './textSearchStyles';
 
 interface TextSearchProps {
@@ -35,7 +35,7 @@ const TextSearch: FC<TextSearchProps> = ({ onChange, type = 'text', value, trimW
 
     return (
         <StyledInput
-            id="keyword"
+            id='keyword'
             type={type}
             onBlur={handleOnBlur}
             onKeyPress={handleKeyPress}

@@ -1,4 +1,4 @@
-import { MinMax } from 'src/components/Filter/modules/DurationFilter/MinMaxInput';
+import type { MinMax } from 'src/components/Filter/modules/DurationFilter/MinMaxInput';
 
 export const getMinMaxFromKey = (key: any): MinMax | undefined => {
     const [min, max] = key.split('~');

@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { SingleSelectFilterOptions, SingleSelectFilterProps } from 'src/components/Filter/types';
+import type { FC } from 'react';
+import type { SingleSelectFilterOptions, SingleSelectFilterProps } from 'src/components/Filter/types';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 
 export interface SingleSelectFilterArgs {
@@ -7,7 +7,7 @@ export interface SingleSelectFilterArgs {
      * The props required to be supplied as the first argument of
      * the SingleSelectFilter component.
      */
-     singleSelectFilterProps: SingleSelectFilterProps;
+    singleSelectFilterProps: SingleSelectFilterProps;
     /**
      * Any valid `FilterModule` property (excluding description, label, and required)
      * which will override default single select filter behaviour.
@@ -18,7 +18,7 @@ export interface SingleSelectFilterArgs {
 /**
  * Example of single select filter source code.
  */
- export const SINGLE_SELECT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
+export const SINGLE_SELECT_FILTER_SOURCE_CODE = createFilterSourceCode(`{
     singleSelectFilter: SingleSelectFilter(
         {
             label: 'Single Select Filter',
@@ -38,7 +38,7 @@ export interface SingleSelectFilterArgs {
 
 /**
  * SingleSelectFilter Component
- * 
+ *
  * The SingleSelectFilter component is a single select dropdown filter. While the default
  * behaviour should suffice, any valid `FilterModule` property (excluding description, label, and required) can
  * be supplied via the `singleSelectFilterOptions` parameter to change how the filter looks and acts.

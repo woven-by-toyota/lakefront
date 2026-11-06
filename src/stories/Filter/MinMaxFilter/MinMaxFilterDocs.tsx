@@ -1,19 +1,19 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { createFilterSourceCode } from 'src/stories/Filter/filterStoriesUtil';
 export interface MinMaxFilterArgs {
-  /**
-   * The label to display for the duration filter component.
-   */
-  label: string;
-  /**
-   * The description/help text to display above the duration filter component.
-   */
-  description?: string;
+    /**
+     * The label to display for the duration filter component.
+     */
+    label: string;
+    /**
+     * The description/help text to display above the duration filter component.
+     */
+    description?: string;
 
-  /**
-   * The units of measurement to display within the filter label.
-   */
-  unitsOfMeasurement?: string;
+    /**
+     * The units of measurement to display within the filter label.
+     */
+    unitsOfMeasurement?: string;
 }
 
 /**

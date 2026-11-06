@@ -1,17 +1,17 @@
-import { FC } from 'react';
-import {
-    ProgressBarContainer,
-    TopText,
-    CenterText,
-    RightText,
-    ProgressBar,
-    Filler,
-    BottomText,
-    Threshold as ThresholdDiv
-} from './deviceProgressBarStyles';
 import { ThemeProvider } from '@emotion/react';
-import { formatBytes } from './deviceProgressBarUtil';
+import type { FC } from 'react';
 import customTheme from 'src/styles/theme';
+import {
+    BottomText,
+    CenterText,
+    Filler,
+    ProgressBar,
+    ProgressBarContainer,
+    RightText,
+    Threshold as ThresholdDiv,
+    TopText
+} from './deviceProgressBarStyles';
+import { formatBytes } from './deviceProgressBarUtil';
 
 export interface DeviceProgressBarThreshold {
     /**
@@ -72,7 +72,6 @@ export interface DeviceProgressProps {
     thresholds?: DeviceProgressBarThreshold[];
 }
 
-
 /**
  * Device Progress Component
  *
@@ -81,16 +80,16 @@ export interface DeviceProgressProps {
  *
  */
 const DeviceProgressBar: FC<DeviceProgressProps> = ({
-                                                        used,
-                                                        available,
-                                                        total,
-                                                        capacity,
-                                                        backgroundColor = customTheme?.colors.saturatedTeal,
-                                                        capacitySubText = '',
-                                                        capacityLocation = 'inside',
-                                                        className,
-                                                        thresholds = []
-                                                    }) => {
+    used,
+    available,
+    total,
+    capacity,
+    backgroundColor = customTheme?.colors.saturatedTeal,
+    capacitySubText = '',
+    capacityLocation = 'inside',
+    className,
+    thresholds = []
+}) => {
     const formattedUsed = formatBytes(used);
     const formattedAvailable = formatBytes(available);
     const formattedTotal = formatBytes(total);
@@ -103,34 +102,38 @@ const DeviceProgressBar: FC<DeviceProgressProps> = ({
     const capacityText = `${capacity}${subTextWithSpace}`;
 
     return (
-            <ProgressBarContainer className={className}>
-                <>
-                    <TopText className='progress-bar-top-text'>
-                        <span>Used: {usedResult}</span>
-                        <CenterText>Available: {availableResult}</CenterText>
-                        <RightText>Total: {totalResult}</RightText>
-                    </TopText>
-                    <ProgressBar className='progress-bar'>
-                        {thresholds.map(({ id, percentage, color }) => (
-                            <ThresholdDiv
-                                key={id}
-                                id={`threshold-${id}`}
-                                className='progress-bar-threshold'
-                                percentage={percentage}
-                                color={color}
-                            />
-                        ))}
-                        <Filler width={capacity} backgroundColor={backgroundColor} className='progress-bar-fill'>
-                            {capacityLocation === 'inside' && <span>{capacityText}</span>}
-                        </Filler>
-                    </ProgressBar>
-                    {capacityLocation === 'below' && (
-                        <BottomText className='progress-bar-bottom-text'>
-                            <span>{capacityText}</span>
-                        </BottomText>
-                    )}
-                </>
-            </ProgressBarContainer>
+        <ProgressBarContainer className={className}>
+            <>
+                <TopText className='progress-bar-top-text'>
+                    <span>Used: {usedResult}</span>
+                    <CenterText>Available: {availableResult}</CenterText>
+                    <RightText>Total: {totalResult}</RightText>
+                </TopText>
+                <ProgressBar className='progress-bar'>
+                    {thresholds.map(({ id, percentage, color }) => (
+                        <ThresholdDiv
+                            key={id}
+                            id={`threshold-${id}`}
+                            className='progress-bar-threshold'
+                            percentage={percentage}
+                            color={color}
+                        />
+                    ))}
+                    <Filler
+                        width={capacity}
+                        backgroundColor={backgroundColor}
+                        className='progress-bar-fill'
+                    >
+                        {capacityLocation === 'inside' && <span>{capacityText}</span>}
+                    </Filler>
+                </ProgressBar>
+                {capacityLocation === 'below' && (
+                    <BottomText className='progress-bar-bottom-text'>
+                        <span>{capacityText}</span>
+                    </BottomText>
+                )}
+            </>
+        </ProgressBarContainer>
     );
 };
 

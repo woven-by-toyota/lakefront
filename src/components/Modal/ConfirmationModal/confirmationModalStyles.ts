@@ -24,25 +24,25 @@ export const ConfirmationDiv = styled.div(({ theme }) => ({
 }));
 
 export const ConfirmationTitle = styled.div(({ theme }) => ({
-  ...theme.lettering.h5,
-  marginLeft: '0.5em',
-  color: theme.foregrounds.primary
+    ...theme.lettering.h5,
+    marginLeft: '0.5em',
+    color: theme.foregrounds.primary
 }));
 
 export const ConfirmationTitleDiv = styled.div(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginTop: '0.5em',
-  color: theme.foregrounds.primary,
-  svg: {
-    height: '2.5em',
-    width: '2.5em',
-    fill: theme.foregrounds.primary
-  },
-  'svg.error-icon': {
-    fill: theme.foregrounds.alert
-  }
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '0.5em',
+    color: theme.foregrounds.primary,
+    svg: {
+        height: '2.5em',
+        width: '2.5em',
+        fill: theme.foregrounds.primary
+    },
+    'svg.error-icon': {
+        fill: theme.foregrounds.alert
+    }
 }));
 
 export const ConfirmationContentSpan = styled.span(({ theme }) => ({

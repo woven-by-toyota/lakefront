@@ -1,10 +1,10 @@
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-import SnackbarComponent, { SnackbarProps } from 'src/components/Snackbar/index';
 import DocBlock from '.storybook/DocBlock';
+import { ThemeProvider } from '@emotion/react';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { useState } from 'react';
+import SnackbarComponent, { type SnackbarProps } from 'src/components/Snackbar/index';
 import { MESSAGE_TYPES } from 'src/components/Snackbar/Snackbar.util';
 import { StyledSnackbarButton } from 'src/components/Snackbar/snackbarStyles';
-import { useState } from 'react';
-import { ThemeProvider } from '@emotion/react';
 import { theme } from '../../index';
 
 export default {
@@ -43,7 +43,11 @@ const Template: StoryFn<SnackbarProps> = (args) => {
                 <p>Click to view snackbar </p>
             </StyledSnackbarButton>
 
-            <SnackbarComponent {...args} open={showMsg} onClose={handleClose} />
+            <SnackbarComponent
+                {...args}
+                open={showMsg}
+                onClose={handleClose}
+            />
         </>
     );
 };

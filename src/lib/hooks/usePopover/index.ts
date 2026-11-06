@@ -1,5 +1,5 @@
-import usePopover, { UsePopoverProps, PortalStyles } from './usePopover';
 import PopoverContent from './PopoverContent/PopoverContent';
+import usePopover, { type PortalStyles, type UsePopoverProps } from './usePopover';
 
-export { UsePopoverProps, PortalStyles, PopoverContent };
+export { PopoverContent, type PortalStyles, type UsePopoverProps };
 export default usePopover;

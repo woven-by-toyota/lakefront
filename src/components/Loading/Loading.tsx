@@ -1,4 +1,4 @@
-import { ElementType, FC, ReactElement } from 'react';
+import type { ElementType, FC, ReactElement } from 'react';
 import { StyledLoadingContainer } from './loadingStyles';
 import { displayIcon, iconOptions } from './loadingUtil';
 
@@ -41,21 +41,21 @@ export interface LoadingProps {
     className?: string;
 }
 
-const Loading: FC<LoadingProps> = (
-    {
-        animated = true,
-        spinDirection = 'RIGHT',
-        label,
-        labelPosition = 'BOTTOM',
-        height = 24,
-        width = 24,
-        svg,
-        iconVariant = 'primary',
-        className,
-        ...logoProps
-    }) => {
+const Loading: FC<LoadingProps> = ({
+    animated = true,
+    spinDirection = 'RIGHT',
+    label,
+    labelPosition = 'BOTTOM',
+    height = 24,
+    width = 24,
+    svg,
+    iconVariant = 'primary',
+    className,
+    ...logoProps
+}) => {
     const Svg = svg ? svg : displayIcon(iconVariant);
-    const ariaDetails = iconVariant === 'secondary' ? iconOptions.secondary['aria-details'] : iconOptions.primary['aria-details'];
+    const ariaDetails =
+        iconVariant === 'secondary' ? iconOptions.secondary['aria-details'] : iconOptions.primary['aria-details'];
 
     return (
         <StyledLoadingContainer
@@ -64,11 +64,14 @@ const Loading: FC<LoadingProps> = (
             spinDirection={spinDirection}
             labelPosition={labelPosition}
         >
-            <Svg height={height} aria-label='loading' aria-details={svg ? undefined : ariaDetails}
-                 width={width} {...logoProps} />
-            {
-                label && <div>{label}</div>
-            }
+            <Svg
+                height={height}
+                aria-label='loading'
+                aria-details={svg ? undefined : ariaDetails}
+                width={width}
+                {...logoProps}
+            />
+            {label && <div>{label}</div>}
         </StyledLoadingContainer>
     );
 };

@@ -1,4 +1,4 @@
-import Drawer, { DrawerProps } from './Drawer';
+import Drawer, { type DrawerProps } from './Drawer';
 
-export { DrawerProps };
+export type { DrawerProps };
 export default Drawer;

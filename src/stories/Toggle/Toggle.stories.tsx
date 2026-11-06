@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { Meta, StoryFn } from '@storybook/react-webpack5';
-
 import DocBlock from '.storybook/DocBlock';
-import ToggleComponent, { ToggleProps } from 'src/components/Toggle/Toggle';
-import { SelectOption } from 'src/types/global';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
+import { useState } from 'react';
+import ToggleComponent, { type ToggleProps } from 'src/components/Toggle/Toggle';
+import type { SelectOption } from 'src/types/global';
 
 export default {
     title: 'Lakefront/Toggle',
@@ -33,8 +32,6 @@ const toggleOptions: SelectOption<string>[] = [
         value: 'second'
     }
 ];
-
-
 
 const Template: StoryFn<ToggleProps<string>> = (args) => {
     const [selected, setSelected] = useState(toggleOptions[0].value);

@@ -16,6 +16,6 @@ export const isActualValue = (value: any) => {
     if (!value) {
         return false;
     }
-    
+
     return Object.keys(value).length > 0;
 };

@@ -10,12 +10,11 @@ export const ToolbarContainer = styled.div<any>(({ standalone, theme }) => ({
     zIndex: 1,
     padding: '0 16px',
     color: theme.foregrounds.primary,
-    ...(standalone) && {
+    ...(standalone && {
         borderBottom: '1px solid',
         borderColor: theme.borderColors.primary
-    }
+    })
 }));
-
 
 export const LogoLoadingSpinner = styled(Loading)(({ width, height }) => ({
     'svg path': {
@@ -35,14 +34,14 @@ export const RefreshProgressContainer = styled.div<any>(({ theme }) => ({
         '0%': { transform: 'rotate(0deg)' },
         '100%': { transform: 'rotate(360deg)' }
     },
-    'img': {
+    img: {
         animation: 'spin 2s linear infinite',
         height: '24px',
         width: '24px',
         marginLeft: '5px',
         marginRight: '10px'
     },
-    'span': {
+    span: {
         paddingTop: '4px'
     }
 }));
@@ -67,7 +66,7 @@ export const ButtonContainer = styled.div<any>(({ theme }) => ({
         minWidth: '40px',
         padding: 0,
         margin: '0 8px',
-        'svg': {
+        svg: {
             color: theme.foregrounds.primary
         },
         '&:hover': {
@@ -78,7 +77,7 @@ export const ButtonContainer = styled.div<any>(({ theme }) => ({
             }
         },
         '&:disabled': {
-            'svg': {
+            svg: {
                 fill: theme.foregrounds.disabled
             }
         }

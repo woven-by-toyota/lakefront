@@ -66,27 +66,19 @@ describe('getCompareFormat', () => {
 
 describe('filterData', () => {
     it('Returns two results when single filter matches multiple records.', () => {
-        expect(
-            filterData({ log_id: '10.tlog' })(DATA)
-        ).toHaveLength(3);
+        expect(filterData({ log_id: '10.tlog' })(DATA)).toHaveLength(3);
     });
 
     it('Returns one result when multiple filters match single record.', () => {
-        expect(
-            filterData({ log_id: '10.tlog', data_modified: DATA[1].data_modified })(DATA)
-        ).toHaveLength(2);
+        expect(filterData({ log_id: '10.tlog', data_modified: DATA[1].data_modified })(DATA)).toHaveLength(2);
     });
 
     it('Returns no results when no records match filter criteria.', () => {
-        expect(
-            filterData({ log_id: '.txt' })(DATA)
-        ).toHaveLength(0);
+        expect(filterData({ log_id: '.txt' })(DATA)).toHaveLength(0);
     });
 
     it('Returns all results when filter is empty.', () => {
-        expect(
-            filterData({})(DATA)
-        ).toHaveLength(4);
+        expect(filterData({})(DATA)).toHaveLength(4);
     });
 });
 

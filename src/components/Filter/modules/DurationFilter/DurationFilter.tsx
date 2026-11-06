@@ -1,12 +1,11 @@
-import { FilterModule } from 'src/components/Filter/types';
-import MinMaxInput, { MinMax } from './MinMaxInput';
+import type { FilterModule } from 'src/components/Filter/types';
 import { getMinMaxFromKey } from '../../util/durationFilterUtil';
+import MinMaxInput, { type MinMax } from './MinMaxInput';
 
 export interface DurationFilterProps {
     label: string;
     description?: string;
 }
-
 
 export const DurationFilter = ({ label, description }: DurationFilterProps): FilterModule<MinMax> => ({
     label,
@@ -35,12 +34,12 @@ export const DurationFilter = ({ label, description }: DurationFilterProps): Fil
 
         return undefined;
     },
-    getBrowserQueryUrlValue: value => {
+    getBrowserQueryUrlValue: (value) => {
         return value ? `${value.min ?? ''}~${value.max ?? ''}` : '';
     },
     getDefaultFilterValue: () => null,
-    isDefaultFilterValue: value => value === null,
-    getFilterBarLabel: value => {
+    isDefaultFilterValue: (value) => value === null,
+    getFilterBarLabel: (value) => {
         if (value) {
             const minStr = value?.min ? `${value.min}` : '0';
             const maxStr = value?.max ? `${value.max}` : '';
@@ -48,7 +47,7 @@ export const DurationFilter = ({ label, description }: DurationFilterProps): Fil
         }
         return '';
     },
-    getFilterSectionLabel: value => {
+    getFilterSectionLabel: (value) => {
         if (value) {
             const minStr = value?.min ? `${value.min}` : '0';
             const maxStr = value?.max ? `${value.max}` : '';
@@ -59,5 +58,11 @@ export const DurationFilter = ({ label, description }: DurationFilterProps): Fil
     parseInitialFilterValue: (browserQueryUrlValue: string) => {
         return browserQueryUrlValue ? getMinMaxFromKey(browserQueryUrlValue) : null;
     },
-    renderComponent: ({ value, update }) => <MinMaxInput onChange={update} value={value} allowNegativeInput={false} />
+    renderComponent: ({ value, update }) => (
+        <MinMaxInput
+            onChange={update}
+            value={value}
+            allowNegativeInput={false}
+        />
+    )
 });
