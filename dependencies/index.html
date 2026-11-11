@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outdated Dependencies Report (lakefront)</title>
+    <style>
+        :root {
+            --background-color: #0d1117;
+            --foreground-color: #151b23f2;
+        }
+        body {
+            font-family: Arial;
+            sans-serif;
+            padding: 1em;
+            background-color: var(--background-color);
+            color: #fff;
+            font-size: 1em;
+            display: flex;
+            flex-direction: column;
+            row-gap: 1em;
+        }
+        h1, h3 { margin: 0 }
+        pre {
+            font-size: 1.2em;
+        }
+        .section-title { font-weight: bold; font-size: 1.5em; }
+        .section {
+            background-color: var(--foreground-color);
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .manifest {
+            display: flex;
+            flex-direction: column;
+            row-gap: 0.5em;
+        }
+        .note { color: #8b949e; margin: 0 }
+        .patch { color: #45d686; }
+        .minor { color: #36c7c4; }
+        .major { color: #ef5042; }
+        .major-zero { color: #8f8de4; }
+    </style>
+
+</head>
+<body>
+    <div>
+        <h1>Outdated Dependencies Report (lakefront)</h1>
+        <h4>November 11 @ 2026 at 12:29 AM</h4>
+    </div>
+    <div class="manifest"><h3>package.json</h3><div class="section patch"><div class="section-title">Patch   Backwards-compatible bug fixes</div><pre> @biomejs/biome                ^2.6.5  →   ^2.6.6<br> @storybook/addon-docs        ^10.6.5  →  ^10.6.7<br> @storybook/addon-links       ^10.6.6  →  ^10.6.7<br> @storybook/react-webpack5    ^10.6.6  →  ^10.6.7<br> @testing-library/user-event  ^14.6.8  →  ^14.6.9<br> storybook                    ^10.6.6  →  ^10.6.7<br><br></pre></div>
+<div class="section minor"><div class="section-title">Minor   Backwards-compatible features</div><pre> rollup  ^4.67.5  →  ^4.68.2<br><br></pre></div>
+<div class="section major"><div class="section-title">Major   Potentially breaking API changes</div><pre> @tanstack/react-table  ^8.21.3  →  ^9.3.1<br></pre></div></div>
+</body>
+</html>
