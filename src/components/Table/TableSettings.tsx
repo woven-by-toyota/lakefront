@@ -1,9 +1,9 @@
-import type { Column } from '@tanstack/react-table';
 import type React from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Button from 'src/components/Button';
 import type { Icon } from 'src/components/Button/buttonUtil';
 import type { TableSettingsConfig } from 'src/components/Table/Table';
+import type { RowData, TableColumnInstance } from 'src/components/Table/tableTypes';
 import { ReactComponent as DeleteIcon } from '../Button/assets/delete.svg';
 import CheckboxGroup, { type CheckboxGroupOption } from '../CheckboxGroup/CheckboxGroup';
 import { ReactComponent as CloseIcon } from './assets/closeIcon.svg';
@@ -31,8 +31,8 @@ import {
     UnsavedChangesCallout
 } from './tableSettingsStyles';
 
-export interface TableSettingsProps<T = any> extends TableSettingsConfig {
-    columns: Column<T, any>[];
+export interface TableSettingsProps<T extends RowData = any> extends TableSettingsConfig {
+    columns: TableColumnInstance<T, any>[];
     onColumnVisibilityChange: (columnId: string, visible: boolean) => void;
     getColumnVisibility: (columnId: string) => boolean;
     stickyHeaders?: boolean;

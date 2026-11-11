@@ -1,6 +1,6 @@
-import type { VisibilityState } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { TableColumnPreset, TableColumnPresetState } from 'src/components/Table/tableColumnPresetUtil';
+import type { VisibilityState } from 'src/components/Table/tableTypes';
 import useDebounce from 'src/lib/hooks/useDebounce';
 
 /**

@@ -50,9 +50,10 @@ const addEmotionReference = () => ({
 });
 
 /*
- * These are ESM only and publish no require condition, so leaving them external makes the cjs
- * bundle emit a require() that bundler-based consumers cannot resolve. Bundling them keeps
- * pkg.main usable.
+ * Bundled rather than left external because they are ESM only and publish no require condition.
+ * That mattered while this package also emitted a cjs bundle, which would have emitted a require()
+ * for them that bundler-based consumers could not resolve. The cjs output is gone, so this list is
+ * now only about keeping the dependency surface of the published package small.
  */
 const BUNDLED_DEPS = ['query-string', 'uuid'];
 
@@ -72,8 +73,12 @@ const EXTERNAL_DEPS = [
 export default [
     {
         input: 'src/index.ts',
+        /*
+         * esm only. package.json has carried "type": "module" since the React 19 upgrade, which
+         * makes node read every .js file here as esm, so the old dist/index.cjs.js could not be
+         * required at all and nothing consumed it. react-table 9 is esm only, which forced the issue.
+         */
         output: [
-            { file: pkg.main, format: 'cjs' },
             { file: pkg.module, format: 'esm' }
         ],
         plugins: [

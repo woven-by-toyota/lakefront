@@ -96,12 +96,7 @@ Table.args = {
     columns: COLUMNS,
     data: CUSTOM_DATA,
     initialSortBy: { id: 'title', desc: false },
-    noDataMessage: 'No data found',
-    options: {
-        disableSortRemove: true,
-        autoResetSortBy: true,
-        disableMultiSort: false
-    }
+    noDataMessage: 'No data found'
 };
 
 // initialSortBy array of which columns to sort in order
@@ -114,12 +109,7 @@ TableWithInitialSortByArray.args = {
         { id: 'title', desc: true },
         { id: 'percentage', desc: true }
     ],
-    noDataMessage: 'No data found',
-    options: {
-        disableSortRemove: true,
-        autoResetSortBy: true,
-        disableMultiSort: false
-    }
+    noDataMessage: 'No data found'
 };
 
 export const TableWithMultiSortDisabled = Template.bind({});
@@ -129,7 +119,7 @@ TableWithMultiSortDisabled.args = {
     initialSortBy: { id: 'title', desc: false },
     noDataMessage: 'No data found',
     options: {
-        disableMultiSort: true
+        enableMultiSort: false
     }
 };
 
@@ -138,10 +128,7 @@ TableWithCustomWidth.args = {
     columns: COLUMNS_WITH_WIDTH,
     data: CUSTOM_DATA,
     initialSortBy: { id: 'title', desc: false },
-    noDataMessage: 'No data found',
-    options: {
-        disableMultiSort: false
-    }
+    noDataMessage: 'No data found'
 };
 
 export const TableWithExpandableRows = Template.bind({});

@@ -187,9 +187,11 @@ export default {
     '^.+\\.(m?js|jsx|ts|tsx)$': 'babel-jest'
   },
 
-  // query-string and uuid are ESM only, as are filter-obj and split-on-first, query-string's deps
+  // query-string and uuid are ESM only, as are filter-obj and split-on-first, query-string's deps.
+  // The whole @tanstack scope is named because react-table 9 and table-core are ESM only, and a
+  // scope keeps the store packages covered whichever format they ship next.
   transformIgnorePatterns: [
-    '/node_modules/(?!(?:d3|query-string|filter-obj|split-on-first|uuid))',
+    '/node_modules/(?!(?:@tanstack|d3|query-string|filter-obj|split-on-first|uuid))',
   ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them

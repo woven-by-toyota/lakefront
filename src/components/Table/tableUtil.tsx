@@ -1,7 +1,8 @@
-import { type Cell, flexRender } from '@tanstack/react-table';
+import { flexRender } from '@tanstack/react-table';
 import React from 'react';
 import CellErrorBoundary from './CellErrorBoundary';
 import { StyledArrowDown, StyledArrowUp, StyledUnsorted } from './tableStyles';
+import type { TableCellInstance } from './tableTypes';
 
 export interface Column {
     disableSortBy: boolean;
@@ -59,7 +60,7 @@ export const isLastHeader = (header: any, idx: number, totalHeaders: number, has
     return idx === totalHeaders - 1;
 };
 
-export const getCellContent = (cell: Cell<unknown, unknown>, onRenderError?: () => void) => (
+export const getCellContent = (cell: TableCellInstance<any, any>, onRenderError?: () => void) => (
     <CellErrorBoundary onError={onRenderError}>
         {flexRender(cell.column.columnDef.cell, cell.getContext())}
     </CellErrorBoundary>

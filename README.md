@@ -62,14 +62,31 @@ Review it **once per sprint**, at planning:
 3. Check the repository's security alerts as well. The report shows versions, not vulnerabilities, so it will not
    surface a CVE on a package that is otherwise current.
 
-### The one major still outstanding
-`@tanstack/react-table` 9 is the only one left, and it is a rewrite rather than an upgrade, so it has its own
-ticket. Version 9 replaces the imperative table instance with a store and atoms model: `getRowModel`,
-`getHeaderGroups`, `getAllLeafColumns` and `getState` are all gone, and those are what `Table.tsx` renders from.
-It also makes features opt-in, so `TableFeatures` becomes the first type argument on nearly every type and
-`ColumnDef` turns into a union of per-feature shapes. `ColumnDef` is re-exported from here as `TableColumn`, so
-the public surface is involved too, so it is a breaking change for anyone typing their columns with it. It
-needs a visual pass in Storybook and a `build-copy` check against a consuming application before release.
+### The react-table 9 migration, and what it actually involved
+`@tanstack/react-table` 9 was the last outstanding major, and it was far less of a rewrite than it looked. An
+earlier reading of the release notes here claimed `getRowModel`, `getHeaderGroups`, `getAllLeafColumns` and
+`getState` were all gone. Only `getState` is, replaced by `table.state`, and this library never called it. The
+other three are declared on core features that the table composes unconditionally, so they survive unrenamed and
+the render path in `Table.tsx` was re-typed rather than rewritten.
+
+What did change, and is worth knowing before touching the table again:
+
+- **Features are opt-in.** `tableFeatures()` in `src/components/Table/tableFeatures.ts` is the contract: calling an
+  instance method whose feature is not registered there is a type error. Only sorting, row expanding, column
+  visibility, column sizing, column resizing and cell spanning are registered, so nothing else reaches the bundle.
+- **`TableFeatures` is the first type argument on nearly every type.** `src/components/Table/tableTypes.ts` binds it
+  once and exports aliases, so a consumer's column definitions need no feature argument and did not have to change.
+  `TableColumn` is still the public name for a column definition.
+- **`VisibilityState` was renamed `ColumnVisibilityState`.** The old name is kept as an alias in `tableTypes.ts`, so
+  the prop names here and in consuming applications stayed put.
+- **The core row model is automatic**, so there is no `getCoreRowModel()` any more; the other row models register
+  inside `tableFeatures()` rather than as table options.
+- **`columnDef.meta` is typed per-table** through the `columnMeta` slot rather than by declaration merging on
+  `ColumnMeta`. Merging would impose this library's meta shape on every unrelated table in a consuming application.
+
+Two gates mattered and are worth keeping for any future change to this component: a visual pass over all 18 Table
+stories, since `src/stories` sits outside `type-check` and most of its column fixtures are untyped object literals,
+and a `build-copy` check against a consuming application.
 
 ### Toolchain notes worth keeping
 Two constraints are easy to trip over when touching the build:

@@ -1,19 +1,4 @@
-import {
-    type Column,
-    type ColumnDef,
-    type ColumnSizingState,
-    type ColumnSort,
-    type ExpandedState,
-    flexRender,
-    getCoreRowModel,
-    getExpandedRowModel,
-    getSortedRowModel,
-    type Row,
-    type SortingState,
-    type TableOptions,
-    useReactTable,
-    type VisibilityState
-} from '@tanstack/react-table';
+import { flexRender, useTable } from '@tanstack/react-table';
 import React, { type ComponentPropsWithoutRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MoreActionsButton } from '../../index';
 import type { MenuItem } from '../ContextMenu';
@@ -31,6 +16,7 @@ import {
     type TableColumnPresetState
 } from './tableColumnPresetUtil';
 import { convertToCSV, downloadFile } from './tableDownloadUtils';
+import { type LakefrontTableFeatures, lakefrontTableFeatures } from './tableFeatures';
 import { DEFAULT_SETTINGS_ROW_HEIGHT, MIN_SETTINGS_ROW_HEIGHT, TableWrapper } from './tableSettingsStyles';
 import {
     ColumnResizeHandle,
@@ -42,6 +28,18 @@ import {
     StyledHeaderContent,
     TableStyle
 } from './tableStyles';
+import type {
+    ColumnSizingState,
+    ColumnSort,
+    ExpandedState,
+    RowData,
+    SortingState,
+    TableColumn,
+    TableColumnInstance,
+    TableInstanceOptions,
+    TableRowInstance,
+    VisibilityState
+} from './tableTypes';
 import { getSortBySVG, getTitleForMultiSort, isLastHeader } from './tableUtil';
 
 export interface TableSortByOptions {
@@ -233,10 +231,12 @@ export interface TableSettingsConfig {
      * per-cell values `convertToCSV` would, so a custom flow can match its output.
      * @param context the visible rows and leaf columns backing the built-in CSV export
      */
-    onDownloadPress?: (context: { rows: Row<any>[]; columns: Column<any, any>[] }) => void;
+    onDownloadPress?: (context: { rows: TableRowInstance<any>[]; columns: TableColumnInstance<any, any>[] }) => void;
 }
 
-export interface TableProps<T = any> {
+// T is constrained because react-table 9 narrowed its own row-data constraint from any to an object
+// or array; any row shape a consumer already passes satisfies it.
+export interface TableProps<T extends RowData = any> {
     /**
      * This is to set the data for the table.
      */
@@ -244,12 +244,12 @@ export interface TableProps<T = any> {
     /**
      * This is to set the columns of the table.
      */
-    columns: Array<ColumnDef<T, any>>;
+    columns: Array<TableColumn<T, any>>;
     /**
      * This is to set the additional properties on the table like disableSortRemove,
      * autoResetSortBy, disableMultiSort, etc.
      */
-    options?: Partial<TableOptions<any>>;
+    options?: Partial<TableInstanceOptions<any>>;
     /**
      * This is to set the row properties.
      */
@@ -477,15 +477,15 @@ const Table: React.FC<TableProps> = ({
                         );
                     },
                     size: moreActionsConfig?.width
-                } as ColumnDef<any, any>
+                } as TableColumn<any, any>
             ];
         }
         return processedColumns;
     }, [columns, moreActionsConfig, groupedRows]);
 
-    // Use the state and functions returned from useReactTable to build your UI
+    // Use the state and functions returned from useTable to build your UI
     const enableMultiSort = options.enableMultiSort ?? true;
-    const table = useReactTable({
+    const table = useTable<LakefrontTableFeatures, any>({
         data: data ?? [],
         columns: memoizedColumns,
         state: {
@@ -498,15 +498,19 @@ const Table: React.FC<TableProps> = ({
         onExpandedChange: setExpanded,
         onColumnVisibilityChange: setColumnVisibility,
         onColumnSizingChange: setColumnSizing,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getExpandedRowModel: getExpandedRowModel(),
         enableExpanding: true,
         getRowCanExpand: () => true,
         autoResetExpanded: true,
         enableMultiSort,
         columnResizeMode: 'onChange',
-        ...options
+        ...options,
+        /*
+         * After the spread deliberately. options is a Partial of the whole option type, so it now
+         * admits features, and a consumer overriding it would strip the modules the render path
+         * below calls into. The sorted and expanded row models live in there too, which is why
+         * there are no getSortedRowModel or getExpandedRowModel options any more.
+         */
+        features: lakefrontTableFeatures
     });
 
     useEffect(() => {
