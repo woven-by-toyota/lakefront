@@ -1,4 +1,4 @@
-import type { Row } from '@tanstack/react-table';
+import type { TableColumnInstance, TableRowInstance } from './tableTypes';
 
 /**
  * Safely converts a value to string, using custom toString() if available
@@ -23,7 +23,7 @@ function safeToString(value: any): string {
  * Exported so a consumer replacing the built-in download (e.g. `tableSettings.onDownloadPress`)
  * can reproduce the same per-cell values instead of re-deriving this precedence itself.
  */
-export function resolveCsvCellValue(row: Row<any>, col: any): string {
+export function resolveCsvCellValue(row: TableRowInstance<any>, col: TableColumnInstance<any, any>): string {
     // 1. Check if column has a custom csvValue accessor for CSV export
     if (col.columnDef.meta?.csvValue && typeof col.columnDef.meta.csvValue === 'function') {
         try {
@@ -71,7 +71,7 @@ export function resolveCsvCellValue(row: Row<any>, col: any): string {
  * }
  * ```
  */
-export function convertToCSV(rows: Row<any>[], columns: any[]): string {
+export function convertToCSV(rows: TableRowInstance<any>[], columns: TableColumnInstance<any, any>[]): string {
     // Header row
     const headers = columns.map((col) => {
         const header = col.columnDef.header;

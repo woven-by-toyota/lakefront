@@ -1,4 +1,3 @@
-import type { Column, ColumnDef } from '@tanstack/react-table';
 import {
     getConfigurableColumnIds,
     getConfigurableColumnIdsFromDefs,
@@ -9,6 +8,7 @@ import {
     presetToVisibility,
     type TableColumnPreset
 } from '../tableColumnPresetUtil';
+import type { TableColumn, TableColumnInstance } from '../tableTypes';
 
 interface TestRow {
     title: string;
@@ -17,9 +17,9 @@ interface TestRow {
 const asColumn = (
     id: string,
     columnDef: { header?: unknown; enableHiding?: boolean } = { header: id.toUpperCase() }
-): Column<TestRow, any> => ({ id, columnDef }) as Column<TestRow, any>;
+): TableColumnInstance<TestRow, any> => ({ id, columnDef }) as unknown as TableColumnInstance<TestRow, any>;
 
-const columns: Column<TestRow, any>[] = [
+const columns: TableColumnInstance<TestRow, any>[] = [
     asColumn('title'),
     asColumn('value'),
     asColumn('percentage'),
@@ -63,7 +63,7 @@ describe('getConfigurableColumnIdsFromDefs', () => {
         { header: 'ACTIONS', id: MORE_ACTIONS_COLUMN_ID },
         { header: 'CUSTOM', id: 'custom' },
         { header: 'BASE', accessorKey: 'base.name' }
-    ] as ColumnDef<TestRow, any>[];
+    ] as TableColumn<TestRow, any>[];
 
     it('resolves ids from either id or accessorKey and applies the same filtering', () => {
         // A dotted accessorKey resolves to the underscored id tanstack actually assigns the column
@@ -71,7 +71,7 @@ describe('getConfigurableColumnIdsFromDefs', () => {
     });
 
     it('prefers an explicit id over a dotted accessorKey', () => {
-        const columns = [{ header: 'BASE', id: 'base', accessorKey: 'base.name' }] as ColumnDef<TestRow, any>[];
+        const columns = [{ header: 'BASE', id: 'base', accessorKey: 'base.name' }] as TableColumn<TestRow, any>[];
 
         expect(getConfigurableColumnIdsFromDefs(columns)).toEqual(['base']);
     });

@@ -1,4 +1,4 @@
-import type { Column, ColumnDef, VisibilityState } from '@tanstack/react-table';
+import type { RowData, TableColumn, TableColumnInstance, VisibilityState } from './tableTypes';
 
 /**
  * A named set of columns that can be applied to the table in one click.
@@ -58,7 +58,9 @@ export const MORE_ACTIONS_COLUMN_ID = 'more-actions';
  * an id or a header, the generated more actions column, and columns that opt out with
  * `enableHiding: false` are all excluded.
  */
-export const getConfigurableColumns = <T>(columns: Column<T, any>[]): Column<T, any>[] =>
+export const getConfigurableColumns = <T extends RowData>(
+    columns: TableColumnInstance<T, any>[]
+): TableColumnInstance<T, any>[] =>
     columns.filter((column) => {
         if (!column.id || !column.columnDef.header) {
             return false;
@@ -68,31 +70,39 @@ export const getConfigurableColumns = <T>(columns: Column<T, any>[]): Column<T, 
             return false;
         }
 
-        return column.columnDef.enableHiding !== false;
+        // enableHiding sits only on the union members carrying the column visibility feature, so it is
+        // read off a narrowed shape rather than the union, the same way accessorKey is below
+        const { enableHiding } = column.columnDef as { enableHiding?: boolean };
+
+        return enableHiding !== false;
     });
 
 /**
  * Returns the ids of the columns a user is allowed to show and hide.
  */
-export const getConfigurableColumnIds = <T>(columns: Column<T, any>[]): string[] =>
+export const getConfigurableColumnIds = <T extends RowData>(columns: TableColumnInstance<T, any>[]): string[] =>
     getConfigurableColumns(columns).map((column) => column.id);
 
 /**
  * Derives configurable column ids straight from column definitions. Needed to seed the
  * initial visibility state, which happens before a table instance exists.
  */
-export const getConfigurableColumnIdsFromDefs = <T>(columns: ColumnDef<T, any>[]): string[] =>
+export const getConfigurableColumnIdsFromDefs = <T extends RowData>(columns: TableColumn<T, any>[]): string[] =>
     columns
         .map((columnDef) => {
-            const { accessorKey } = columnDef as { accessorKey?: string };
-            // A dotted accessorKey becomes an underscored column id, so normalize it the way tanstack does
+            const { accessorKey, enableHiding } = columnDef as { accessorKey?: string; enableHiding?: boolean };
+            /*
+             * A dotted accessorKey becomes an underscored column id, so normalize it the way tanstack
+             * does. Verified against react-table 9's constructColumn, which still derives the id as
+             * `columnDef.id ?? accessorKey?.replaceAll('.', '_') ?? header-when-a-string`.
+             */
             const id = columnDef.id ?? (typeof accessorKey === 'string' ? accessorKey.replaceAll('.', '_') : undefined);
 
             if (!id || !columnDef.header || id === MORE_ACTIONS_COLUMN_ID) {
                 return undefined;
             }
 
-            return columnDef.enableHiding === false ? undefined : id;
+            return enableHiding === false ? undefined : id;
         })
         .filter((id): id is string => Boolean(id));
 

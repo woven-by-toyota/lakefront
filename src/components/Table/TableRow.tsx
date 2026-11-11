@@ -1,9 +1,9 @@
-import type { Cell } from '@tanstack/react-table';
 import React, { type FC, Fragment, type ReactElement, type ReactNode, useState } from 'react';
 import ContextMenu from '../ContextMenu';
 import { RowHoverContext } from './RowHoverContext';
 import type { ContextMenuConfig, GroupedRowsConfig, MoreActionsConfig } from './Table';
 import { GroupedCell, GroupedRowCell } from './tableStyles';
+import type { TableCellInstance } from './tableTypes';
 import { getCellContent, getGroupValue, getRowIndex } from './tableUtil';
 
 export interface TableRowProps {
@@ -43,7 +43,7 @@ const TableRow: FC<TableRowProps> = ({
 
     const cells = row
         .getVisibleCells()
-        .map((cell: Cell<unknown, unknown>): ReactElement | null => {
+        .map((cell: TableCellInstance<any, any>): ReactElement | null => {
             const isGroupingEnabled = groupedRows?.enabled;
             const isGroupByColumn = cell.column.id === groupedRows?.groupBy;
 
